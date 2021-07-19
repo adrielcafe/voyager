@@ -1,0 +1,17 @@
+apply plugin: "com.android.application"
+apply from: "../android-module.gradle"
+
+android {
+    defaultConfig {
+        applicationId "cafe.adriel.voyager.sample"
+    }
+}
+
+dependencies {
+    implementation(project(':voyager'))
+
+    implementation libs.appCompat
+    implementation libs.compose.activity
+    implementation libs.compose.material
+    implementation libs.compose.materialIcons
+}
