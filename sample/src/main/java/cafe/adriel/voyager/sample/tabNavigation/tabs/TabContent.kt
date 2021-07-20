@@ -11,11 +11,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.CurrentScreen
-import cafe.adriel.voyager.LifecycleEffect
-import cafe.adriel.voyager.LocalTabNavigator
-import cafe.adriel.voyager.Navigator
-import cafe.adriel.voyager.Tab
+import cafe.adriel.voyager.core.screen.LifecycleEffect
+import cafe.adriel.voyager.navigator.CurrentScreen
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationScreen
 
 @Composable

@@ -8,7 +8,9 @@ dependencyResolutionManagement {
 
 include(
     ':sample',
-    ':voyager'
+        ':voyager-core',
+    ':voyager-navigator',
+    ':voyager-tab-navigator'
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

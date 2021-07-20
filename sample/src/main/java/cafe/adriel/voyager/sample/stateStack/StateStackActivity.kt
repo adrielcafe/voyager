@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.stack.rememberStateStack
+import cafe.adriel.voyager.core.stack.rememberStateStack
 import java.util.UUID
 
 class StateStackActivity : ComponentActivity() {

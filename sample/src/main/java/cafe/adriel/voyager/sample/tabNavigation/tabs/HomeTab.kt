@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import cafe.adriel.voyager.Tab
+import cafe.adriel.voyager.navigator.tab.Tab
 
 object HomeTab : Tab {
 

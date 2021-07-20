@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.CurrentScreen
-import cafe.adriel.voyager.Navigator
-import cafe.adriel.voyager.NavigatorContent
+import cafe.adriel.voyager.navigator.CurrentScreen
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.NavigatorContent
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationScreen
 
 class NestedNavigationActivity : ComponentActivity() {

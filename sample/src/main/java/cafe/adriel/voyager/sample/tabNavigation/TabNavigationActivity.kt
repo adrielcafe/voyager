@@ -11,10 +11,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.CurrentTab
-import cafe.adriel.voyager.LocalTabNavigator
-import cafe.adriel.voyager.Tab
-import cafe.adriel.voyager.TabNavigator
+import cafe.adriel.voyager.navigator.tab.CurrentTab
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.sample.tabNavigation.tabs.FavoritesTab
 import cafe.adriel.voyager.sample.tabNavigation.tabs.HomeTab
 import cafe.adriel.voyager.sample.tabNavigation.tabs.ProfileTab
