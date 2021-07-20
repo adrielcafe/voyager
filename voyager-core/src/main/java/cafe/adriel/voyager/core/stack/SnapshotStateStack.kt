@@ -22,14 +22,14 @@ public fun <Item> mutableStateStackOf(
     SnapshotStateStack(*items, minSize = minSize)
 
 @Composable
-public fun <Item : Serializable> rememberStateStack(
+public fun <Item : Any> rememberStateStack(
     vararg items: Item,
     minSize: Int = 0
 ): SnapshotStateStack<Item> =
     rememberStateStack(items.toList(), minSize)
 
 @Composable
-public fun <Item : Serializable> rememberStateStack(
+public fun <Item : Any> rememberStateStack(
     items: List<Item>,
     minSize: Int = 0
 ): SnapshotStateStack<Item> =
@@ -37,7 +37,7 @@ public fun <Item : Serializable> rememberStateStack(
         SnapshotStateStack(items, minSize)
     }
 
-private fun <Item : Serializable> stackSaver(
+private fun <Item : Any> stackSaver(
     minSize: Int
 ): Saver<SnapshotStateStack<Item>, Any> =
     listSaver(
