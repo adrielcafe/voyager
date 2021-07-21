@@ -23,8 +23,8 @@ fun Tab.TabContent() {
     val tabTitle = title
 
     LifecycleEffect(
-        onStart = { Log.d("Navigator", "Start tab $tabTitle") },
-        onStop = { Log.d("Navigator", "Stop tab $tabTitle") },
+        onStarted = { Log.d("Navigator", "Start tab $tabTitle") },
+        onDisposed = { Log.d("Navigator", "Dispose tab $tabTitle") },
     )
 
     Navigator(

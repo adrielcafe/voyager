@@ -6,12 +6,12 @@ import java.io.Serializable
 
 @Composable
 public fun Screen.LifecycleEffect(
-    onStart: () -> Unit = {},
-    onStop: () -> Unit = {}
+    onStarted: () -> Unit = {},
+    onDisposed: () -> Unit = {}
 ) {
     DisposableEffect(this) {
-        onStart()
-        onDispose(onStop)
+        onStarted()
+        onDispose(onDisposed)
     }
 }
 

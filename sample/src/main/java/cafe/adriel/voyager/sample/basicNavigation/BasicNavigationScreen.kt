@@ -29,8 +29,8 @@ data class BasicNavigationScreen(
     @Composable
     override fun Content() {
         LifecycleEffect(
-            onStart = { Log.d("Navigator", "Start screen #$index") },
-            onStop = { Log.d("Navigator", "Stop screen #$index") },
+            onStarted = { Log.d("Navigator", "Start screen #$index") },
+            onDisposed = { Log.d("Navigator", "Dispose screen #$index") },
         )
 
         val navigator = LocalNavigator.currentOrThrow

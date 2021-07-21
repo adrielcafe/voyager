@@ -8,7 +8,6 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
-import java.io.Serializable
 
 public fun <Item> List<Item>.toMutableStateStack(
     minSize: Int = 0
