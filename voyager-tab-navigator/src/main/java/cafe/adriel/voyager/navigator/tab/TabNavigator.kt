@@ -5,7 +5,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.OnBackPressed
 
 public typealias TabNavigatorContent = @Composable (tabNavigator: TabNavigator) -> Unit
 
@@ -15,10 +14,9 @@ public val LocalTabNavigator: ProvidableCompositionLocal<TabNavigator> =
 @Composable
 public fun TabNavigator(
     defaultTab: Tab,
-    onBackPressed: OnBackPressed = { true },
     content: TabNavigatorContent = { CurrentTab() }
 ) {
-    Navigator(defaultTab, onBackPressed) { navigator ->
+    Navigator(defaultTab, onBackPressed = null) { navigator ->
         val tabNavigator = TabNavigator(navigator)
 
         CompositionLocalProvider(

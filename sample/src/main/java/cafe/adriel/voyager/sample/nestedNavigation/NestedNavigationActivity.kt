@@ -58,7 +58,7 @@ class NestedNavigationActivity : ComponentActivity() {
         content: NavigatorContent = { CurrentScreen() }
     ) {
         Navigator(
-            screen = BasicNavigationScreen(index = 0, wrapContent = true)
+            initialScreen = BasicNavigationScreen(index = 0, wrapContent = true)
         ) { navigator ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

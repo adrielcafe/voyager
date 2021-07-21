@@ -34,12 +34,12 @@ public fun CurrentScreen() {
 
 @Composable
 public fun Navigator(
-    screen: Screen,
+    initialScreen: Screen,
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
     Navigator(
-        screens = listOf(screen),
+        initialScreens = listOf(initialScreen),
         onBackPressed = onBackPressed,
         content = content
     )
@@ -47,16 +47,16 @@ public fun Navigator(
 
 @Composable
 public fun Navigator(
-    screens: List<Screen>,
+    initialScreens: List<Screen>,
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
-    require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
+    require(initialScreens.isNotEmpty()) { "Navigator must have at least one screen" }
 
     NavigatorCache {
         val keyHash = currentCompositeKeyHash
         val navigatorCache = LocalNavigatorCache.current
-        val currentScreens = navigatorCache[keyHash] ?: screens
+        val currentScreens = navigatorCache[keyHash] ?: initialScreens
         val navigator = rememberNavigator(
             screens = currentScreens,
             parent = LocalNavigator.current

@@ -28,7 +28,7 @@ fun Tab.TabContent() {
     )
 
     Navigator(
-        screen = BasicNavigationScreen(index = 0)
+        initialScreen = BasicNavigationScreen(index = 0)
     ) {
         Column {
             InnerTabNavigation()
