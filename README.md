@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/cafe.adriel.voyager/voyager?style=for-the-badge&color=blue)](https://repo.maven.apache.org/maven2/cafe/adriel/voyager/)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepo_groups%2Fpublic%2Fcontent%2Fcafe%2Fadriel%2Fvoyager%2Fvoyager-core%2Fmaven-metadata.xml&style=for-the-badge)](https://repo.maven.apache.org/maven2/cafe/adriel/voyager/)
 [![Android API](https://img.shields.io/badge/api-21%2B-brightgreen.svg?style=for-the-badge)](https://android-arsenal.com/api?level=21)
 [![kotlin](https://img.shields.io/github/languages/top/adrielcafe/voyager.svg?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg?style=for-the-badge)](https://ktlint.github.io/)
@@ -34,7 +34,7 @@ dependencies {
 }
 ```
 
-Current version: ![Maven Central](https://img.shields.io/maven-central/v/cafe.adriel.voyager/voyager?color=blue)
+Current version: ![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepo_groups%2Fpublic%2Fcontent%2Fcafe%2Fadriel%2Fvoyager%2Fvoyager-core%2Fmaven-metadata.xml)
 
 ## Samples
 | [SnapshotStateStack](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Basic navigation](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) | [Tab navigation](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Nested navigation](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |

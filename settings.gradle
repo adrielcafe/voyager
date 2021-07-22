@@ -8,7 +8,7 @@ dependencyResolutionManagement {
 
 include(
     ':sample',
-        ':voyager-core',
+    ':voyager-core',
     ':voyager-navigator',
     ':voyager-tab-navigator'
 )
