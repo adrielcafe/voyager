@@ -1,7 +1,7 @@
 [versions]
 plugin-android = "7.1.0-alpha03"
-plugin-ktlint = "10.0.0"
-plugin-maven = "0.15.1"
+plugin-ktlint = "10.1.0"
+plugin-maven = "0.17.0"
 
 kotlin = "1.5.10"
 
@@ -13,9 +13,9 @@ junit = "5.7.2"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "plugin-ktlint" }
 plugin-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "plugin-maven" }
-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
