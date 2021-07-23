@@ -1,4 +1,4 @@
-[![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepo_groups%2Fpublic%2Fcontent%2Fcafe%2Fadriel%2Fvoyager%2Fvoyager-core%2Fmaven-metadata.xml&style=for-the-badge)](https://repo.maven.apache.org/maven2/cafe/adriel/voyager/)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&metadataUrl=https://s01.oss.sonatype.org/service/local/repo_groups/public/content/cafe/adriel/voyager/voyager-core/maven-metadata.xml&style=for-the-badge)](https://repo.maven.apache.org/maven2/cafe/adriel/voyager/)
 [![Android API](https://img.shields.io/badge/api-21%2B-brightgreen.svg?style=for-the-badge)](https://android-arsenal.com/api?level=21)
 [![kotlin](https://img.shields.io/github/languages/top/adrielcafe/voyager.svg?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg?style=for-the-badge)](https://ktlint.github.io/)
@@ -23,7 +23,7 @@ Turn on the Warp Drive and enjoy the trek 🖖
 - [x] [Lifecycle](#lifecycle) callbacks
 - [x] [Back press](#back-press) handling
 - [x] [Deep linking](#deep-links) support
-- [ ] [Compose for Desktop](https://github.com/JetBrains/compose-jb) support
+- [ ] [Compose for Desktop](https://github.com/JetBrains/compose-jb) support (soon™)
 
 ## Setup
 Add the desired dependencies to your module's build.gradle:
@@ -37,7 +37,7 @@ dependencies {
 Current version: ![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepo_groups%2Fpublic%2Fcontent%2Fcafe%2Fadriel%2Fvoyager%2Fvoyager-core%2Fmaven-metadata.xml)
 
 ## Samples
-| [SnapshotStateStack](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Basic navigation](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) | [Tab navigation](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Nested navigation](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |
+| [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) | [Tab nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Nested nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |
 |-------|------------|----------|-------------|
 | ![navigation-stack](https://user-images.githubusercontent.com/2512298/126323192-9b6349fe-7b96-4acf-b62e-c75165d909e1.gif) | ![navigation-basic](https://user-images.githubusercontent.com/2512298/126323165-47760eec-2ba2-48ee-8e3a-841d50098d33.gif) | ![navigation-tab](https://user-images.githubusercontent.com/2512298/126323588-2f970953-0adb-47f8-b2fb-91c5854656bd.gif) | ![navigation-nested](https://user-images.githubusercontent.com/2512298/126323027-a2633aef-9402-4df8-9384-45935d7986cf.gif) |
 
