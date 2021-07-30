@@ -10,7 +10,7 @@
     <a href="https://en.wikipedia.org/wiki/USS_Voyager_(Star_Trek)">Voyager</a>: Compose on Warp Speed
 </h1>
 
-**Voyager** is a pragmatic navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose). 
+**Voyager** is a lightweight and pragmatic navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose). 
 
 Turn on the Warp Drive and enjoy the trek 🖖
 
@@ -23,7 +23,9 @@ Turn on the Warp Drive and enjoy the trek 🖖
 - [x] [Lifecycle](#lifecycle) callbacks
 - [x] [Back press](#back-press) handling
 - [x] [Deep linking](#deep-links) support
-- [ ] [Compose for Desktop](https://github.com/JetBrains/compose-jb) support (soon™)
+- [x] Built-in [transitions](#transitions)
+- [ ] Multi-module support
+- [ ] [Compose for Desktop](https://github.com/JetBrains/compose-jb) support
 
 ## Setup
 Add the desired dependencies to your module's build.gradle:
@@ -31,6 +33,7 @@ Add the desired dependencies to your module's build.gradle:
 dependencies {
     implementation "cafe.adriel.voyager:voyager-navigator:$currentVersion"
     implementation "cafe.adriel.voyager:voyager-tab-navigator:$currentVersion"
+    implementation "cafe.adriel.voyager:voyager-transitions:$currentVersion"
 }
 ```
 
@@ -121,7 +124,7 @@ You will use it to navigate forward (`push`, `replace`, `replaceAll`) and backwa
 val stack = mutableStateStackOf("🍇", "🍉", "🍌", "🍐", "🥝", "🍋")
 // 🍇, 🍉, 🍌, 🍐, 🥝, 🍋
 
-stack.lastOrNull
+stack.lastItemOrNull
 // 🍋
 
 stack.push("🍍")
@@ -141,6 +144,17 @@ stack.replaceAll("🍒")
 ```
 
 You can also create a `SnapshotStateStack` through `rememberStateStack()`, it will restore the values after [Activity recreation](#state-restoration).
+
+#### StackEvent
+Whenever the content changes, the `SnapshotStateStack` will emit a `StackEvent`, use the `stack.lastEvent` to get the most recent one.
+
+The available events are:
+* `Push`: whenever `push` is called
+* `Replace`: whenever `replace` and `replaceAll` are called
+* `Pop`: whenever `pop` and `popAll` are called
+* `Idle`: default event
+
+This is very useful for deciding which [transition](#transitions) to make.
 
 ### State restoration
 
@@ -265,28 +279,60 @@ setContent {
 ```
 
 ### Transitions
-
-It's simple to add transition between screens: when initializing the `Navigator` you can override the default content. You can use, for example, the built-in [Crossfade](https://developer.android.com/reference/kotlin/androidx/compose/animation/package-summary#Crossfade(kotlin.Any,androidx.compose.ui.Modifier,androidx.compose.animation.core.FiniteAnimationSpec,kotlin.Function1)) animation.
+Voyager has built-in transitions! When initializing the `Navigator` you can override the default content and use, for example, the `SlideTransition`.
 ```kotlin
 setContent {
     Navigator(HomeScreen) { navigator ->
-        Crossfade(navigator.last) { screen ->
+        SlideTransition(navigator) { screen ->
             screen.Content()
         }
     }
 }
 ```
 
-Want to use a custom animation? No problem, just follow the same principle.
+It's simple to add your own transitions: call `ScreenTransition` with a custom `transitionModifier`.
 ```kotlin
+@Composable
+fun MyCustomTransition(
+    navigator: Navigator,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent
+) {
+    ScreenTransition(
+        navigator = navigator,
+        modifier = modifier,
+        content = content,
+        transitionModifier = { screen, transition, event ->
+            // Animate values
+            val offset by transition.animateOffset {
+                when (event) {
+                    StackEvent.Pop -> { /*...*/ }
+                    else -> { /*...*/ }
+                }
+            }
+            
+            // Use any modifiers you need 
+            modifier.offset(offset.x, offset.y)
+        }
+    )
+}
+
 setContent {
     Navigator(HomeScreen) { navigator ->
-        MyCustomTransition {
-            CurrentScreen()
+        MyCustomTransition(navigator) { screen ->
+            screen.Content()
         }
     }
 }
 ```
+
+Take a look at the [source of the available transitions](https://github.com/adrielcafe/voyager/blob/main/voyager-transitions/src/main/java/cafe/adriel/voyager/transitions/) for working examples.
+
+#### Available transitions
+| `FadeTransition()` | `ScaleTransition()` | `SlideTransition()` |
+|-------|------------|----------|
+| ![fade](https://user-images.githubusercontent.com/2512298/127704132-baeb8567-7a5a-4004-b445-770df0efab60.gif) | ![scale](https://user-images.githubusercontent.com/2512298/127704106-9c804ff9-e23a-4d13-85b2-9db2ae258556.gif) | ![slide](https://user-images.githubusercontent.com/2512298/127704049-f50e04eb-75fb-4687-88a3-21cce19ff12a.gif) |
+
 
 ### Tab navigation
 Voyager provides a handy abstraction over the `Navigator` and `Screen`: the `TabNavigator` and `Tab`.
