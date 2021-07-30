@@ -32,6 +32,6 @@ public class TabNavigator internal constructor(
 ) {
 
     public var current: Tab
-        get() = navigator.last as Tab
+        get() = navigator.lastItem as Tab
         set(tab) = navigator.replaceAll(tab)
 }

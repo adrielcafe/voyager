@@ -73,7 +73,7 @@ internal class SnapshotStateStackTest {
             dynamicTest("when items size is ${items.size} then return ${if (success) "last" else "null"}") {
                 val stack = SnapshotStateStack(items)
 
-                assert(stack.lastOrNull == expected)
+                assert(stack.lastItemOrNull == expected)
             }
         }
 
@@ -133,7 +133,7 @@ internal class SnapshotStateStackTest {
 
                 stack.push(newItem)
 
-                assert(stack.lastOrNull == newItem)
+                assert(stack.lastItemOrNull == newItem)
             }
         }
 
@@ -152,7 +152,7 @@ internal class SnapshotStateStackTest {
 
                 stack.push(newItems)
 
-                assert(stack.lastOrNull == newItems.lastOrNull())
+                assert(stack.lastItemOrNull == newItems.lastOrNull())
             }
         }
 
@@ -168,7 +168,7 @@ internal class SnapshotStateStackTest {
 
                 stack.replace(newItem)
 
-                assert(stack.lastOrNull == newItem)
+                assert(stack.lastItemOrNull == newItem)
             }
         }
 
@@ -185,7 +185,7 @@ internal class SnapshotStateStackTest {
                 stack.replaceAll(newItem)
 
                 assert(stack.size == 1)
-                assert(stack.lastOrNull == newItem)
+                assert(stack.lastItemOrNull == newItem)
             }
         }
 
@@ -205,7 +205,7 @@ internal class SnapshotStateStackTest {
                 val stack = SnapshotStateStack(items, minSize)
 
                 assert(stack.pop() == expected)
-                assert(stack.lastOrNull == lastItem)
+                assert(stack.lastItemOrNull == lastItem)
             }
         }
 
@@ -227,7 +227,7 @@ internal class SnapshotStateStackTest {
                 stack.popAll()
 
                 assert(stack.size == expected)
-                assert(stack.lastOrNull == lastItem)
+                assert(stack.lastItemOrNull == lastItem)
             }
         }
 
@@ -250,7 +250,7 @@ internal class SnapshotStateStackTest {
 
                 stack.popUntil { it == popItem }
 
-                assert(stack.lastOrNull == lastItem)
+                assert(stack.lastItemOrNull == lastItem)
             }
         }
 }

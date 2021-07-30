@@ -29,7 +29,7 @@ public val <T> ProvidableCompositionLocal<T?>.currentOrThrow: T
 
 @Composable
 public fun CurrentScreen() {
-    LocalNavigator.currentOrThrow.last.Content()
+    LocalNavigator.currentOrThrow.lastItem.Content()
 }
 
 @Composable
@@ -84,8 +84,16 @@ public class Navigator internal constructor(
     public val level: Int =
         parent?.level?.inc() ?: 0
 
+    public val lastItem: Screen by derivedStateOf {
+        lastItemOrNull ?: error("Navigator has no screen")
+    }
+
+    @Deprecated(
+        message = "Use 'lastItem' instead. Will be removed in 1.0.0.",
+        replaceWith = ReplaceWith("lastItem")
+    )
     public val last: Screen by derivedStateOf {
-        lastOrNull ?: error("Navigator has no screen")
+        lastItem
     }
 
     public fun popUntilRoot() {

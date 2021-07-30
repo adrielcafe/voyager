@@ -3,9 +3,12 @@ package cafe.adriel.voyager.core.stack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 
@@ -65,12 +68,19 @@ public class SnapshotStateStack<Item>(
     @PublishedApi
     internal val stateStack: SnapshotStateList<Item> = items.toMutableStateList()
 
+    public override var lastEvent: StackEvent by mutableStateOf(StackEvent.Idle, neverEqualPolicy())
+        private set
+
     public override val items: List<Item> by derivedStateOf {
         stateStack.toList()
     }
 
-    public override val lastOrNull: Item? by derivedStateOf {
+    public override val lastItemOrNull: Item? by derivedStateOf {
         stateStack.lastOrNull()
+    }
+
+    public override val lastOrNull: Item? by derivedStateOf {
+        lastItemOrNull
     }
 
     public override val size: Int by derivedStateOf {
@@ -87,25 +97,30 @@ public class SnapshotStateStack<Item>(
 
     public override infix fun push(item: Item) {
         stateStack += item
+        lastEvent = StackEvent.Push
     }
 
     public override infix fun push(items: List<Item>) {
         stateStack += items
+        lastEvent = StackEvent.Push
     }
 
     public override infix fun replace(item: Item) {
         if (stateStack.isEmpty()) push(item)
         else stateStack[stateStack.lastIndex] = item
+        lastEvent = StackEvent.Replace
     }
 
     public override infix fun replaceAll(item: Item) {
         stateStack.clear()
-        push(item)
+        stateStack += item
+        lastEvent = StackEvent.Replace
     }
 
     public override fun pop(): Boolean =
         if (canPop) {
             stateStack.removeLast()
+            lastEvent = StackEvent.Pop
             true
         } else {
             false
@@ -118,7 +133,7 @@ public class SnapshotStateStack<Item>(
     public override infix fun popUntil(predicate: (Item) -> Boolean): Boolean {
         var success = false
         val shouldPop = {
-            lastOrNull
+            lastItemOrNull
                 ?.let(predicate)
                 ?.also { success = it }
                 ?.not()
@@ -128,6 +143,8 @@ public class SnapshotStateStack<Item>(
         while (canPop && shouldPop()) {
             stateStack.removeLast()
         }
+
+        lastEvent = StackEvent.Pop
 
         return success
     }

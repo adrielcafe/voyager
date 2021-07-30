@@ -15,7 +15,7 @@ public fun Screen.LifecycleEffect(
     }
 }
 
-public interface Screen : Serializable {
+public fun interface Screen : Serializable {
 
     @Composable
     public fun Content()

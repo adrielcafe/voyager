@@ -3,10 +3,25 @@ package cafe.adriel.voyager.core.stack
 public inline fun <reified I : Item, Item> Stack<Item>.popUntil(): Boolean =
     popUntil { item -> item is I }
 
+public enum class StackEvent {
+    Push,
+    Replace,
+    Pop,
+    Idle
+}
+
 public interface Stack<Item> {
 
     public val items: List<Item>
 
+    public val lastEvent: StackEvent
+
+    public val lastItemOrNull: Item?
+
+    @Deprecated(
+        message = "Use 'lastItemOrNull' instead. Will be removed in 1.0.0.",
+        replaceWith = ReplaceWith("lastItemOrNull")
+    )
     public val lastOrNull: Item?
 
     public val size: Int

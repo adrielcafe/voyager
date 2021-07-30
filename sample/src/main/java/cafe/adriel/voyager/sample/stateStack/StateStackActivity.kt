@@ -58,7 +58,7 @@ class StateStackActivity : ComponentActivity() {
                     ListItem(
                         index = index,
                         item = item,
-                        isLast = stateStack.lastOrNull == item,
+                        isLast = stateStack.lastItemOrNull == item,
                         isSelected = selectedItem == item,
                         onSelected = selectItem
                     )
@@ -80,7 +80,7 @@ class StateStackActivity : ComponentActivity() {
                 modifier = Modifier.weight(.1f)
             ) {
                 ActionButton(text = "Pop", enabled = stateStack.canPop) {
-                    if (stateStack.lastOrNull == selectedItem) {
+                    if (stateStack.lastItemOrNull == selectedItem) {
                         selectItem("")
                     }
                     stateStack.pop()
