@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    api(project(':voyager-core'))
+    api projects.voyagerCore
 
     implementation libs.compose.activity
     implementation libs.compose.runtimeSaveable

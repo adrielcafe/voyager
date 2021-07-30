@@ -8,8 +8,9 @@ android {
 }
 
 dependencies {
-    implementation(project(':voyager-navigator'))
-    implementation(project(':voyager-tab-navigator'))
+    implementation projects.voyagerNavigator
+    implementation projects.voyagerTabNavigator
+    implementation projects.voyagerTransitions
 
     implementation libs.appCompat
     implementation libs.compose.activity
