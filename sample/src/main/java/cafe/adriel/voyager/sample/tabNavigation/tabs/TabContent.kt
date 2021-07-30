@@ -12,11 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.LifecycleEffect
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationScreen
+import cafe.adriel.voyager.transitions.SlideTransition
 
 @Composable
 fun Tab.TabContent() {
@@ -28,11 +28,14 @@ fun Tab.TabContent() {
     )
 
     Navigator(
-        initialScreen = BasicNavigationScreen(index = 0)
-    ) {
-        Column {
-            InnerTabNavigation()
-            CurrentScreen()
+        initialScreen = BasicNavigationScreen(index = 0),
+    ) { navigator ->
+        SlideTransition(navigator) { screen ->
+            Column {
+                InnerTabNavigation()
+                screen.Content()
+                Log.d("Navigator", "Last Event: ${navigator.lastEvent}")
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat"
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 compose-runtimeSaveable = { module = "androidx.compose.runtime:runtime-saveable", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-materialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
 
