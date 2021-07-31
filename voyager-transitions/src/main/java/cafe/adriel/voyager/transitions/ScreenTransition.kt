@@ -22,7 +22,7 @@ public fun ScreenTransition(
     navigator: Navigator,
     transitionModifier: ScreenTransitionModifier,
     modifier: Modifier = Modifier,
-    content: ScreenTransitionContent
+    content: ScreenTransitionContent = { it.Content() }
 ) {
     val currentScreen = navigator.lastItem
     val currentEvent = navigator.lastEvent

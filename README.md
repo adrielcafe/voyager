@@ -5,7 +5,7 @@
 [![License MIT](https://img.shields.io/github/license/adrielcafe/voyager.svg?style=for-the-badge&color=orange)](https://opensource.org/licenses/MIT)
 
 <h1 align="center">
-    <img src="https://user-images.githubusercontent.com/2512298/126322645-7bd31c6c-2001-4a5a-a9c5-3cfabbb19726.png"/>
+    <img height="150" src="https://user-images.githubusercontent.com/2512298/127723355-f56b3040-47cb-44fd-8504-a1868721c1a3.png"/>
     <br>
     <a href="https://en.wikipedia.org/wiki/USS_Voyager_(Star_Trek)">Voyager</a>: Compose on Warp Speed
 </h1>
@@ -283,9 +283,7 @@ Voyager has built-in transitions! When initializing the `Navigator` you can over
 ```kotlin
 setContent {
     Navigator(HomeScreen) { navigator ->
-        SlideTransition(navigator) { screen ->
-            screen.Content()
-        }
+        SlideTransition(navigator)
     }
 }
 ```

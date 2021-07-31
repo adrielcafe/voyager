@@ -18,7 +18,7 @@ public fun SlideTransition(
     modifier: Modifier = Modifier,
     orientation: SlideOrientation = SlideOrientation.Horizontal,
     animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessLow),
-    content: ScreenTransitionContent
+    content: ScreenTransitionContent = { it.Content() }
 ) {
     BoxWithConstraints {
         ScreenTransition(
