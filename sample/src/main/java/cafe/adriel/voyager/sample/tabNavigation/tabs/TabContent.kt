@@ -20,7 +20,7 @@ import cafe.adriel.voyager.transitions.SlideTransition
 
 @Composable
 fun Tab.TabContent() {
-    val tabTitle = title
+    val tabTitle = options.title
 
     LifecycleEffect(
         onStarted = { Log.d("Navigator", "Start tab $tabTitle") },
@@ -68,6 +68,6 @@ private fun RowScope.TabNavigationButton(
         onClick = { tabNavigator.current = tab },
         modifier = Modifier.weight(1f)
     ) {
-        Text(text = tab.title)
+        Text(text = tab.options.title)
     }
 }

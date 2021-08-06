@@ -35,7 +35,7 @@ class TabNavigationActivity : ComponentActivity() {
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = tabNavigator.current.title) }
+                        title = { Text(text = tabNavigator.current.options.title) }
                     )
                 },
                 content = {
@@ -59,7 +59,7 @@ class TabNavigationActivity : ComponentActivity() {
         BottomNavigationItem(
             selected = tabNavigator.current == tab,
             onClick = { tabNavigator.current = tab },
-            icon = { Icon(painter = tab.icon!!, contentDescription = tab.title) }
+            icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
         )
     }
 }
