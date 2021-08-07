@@ -2,17 +2,15 @@ package cafe.adriel.voyager.navigator.internal
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.OnBackPressed
-import cafe.adriel.voyager.navigator.currentOrThrow
 
 @Composable
 internal fun NavigatorBackHandler(
+    navigator: Navigator,
     onBackPressed: OnBackPressed,
 ) {
     if (onBackPressed != null) {
-        val navigator = LocalNavigator.currentOrThrow
-
         BackHandler(
             enabled = navigator.canPop || navigator.parent?.canPop ?: false,
             onBack = {

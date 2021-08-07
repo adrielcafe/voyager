@@ -28,7 +28,7 @@ fun Tab.TabContent() {
     )
 
     Navigator(
-        initialScreen = BasicNavigationScreen(index = 0),
+        screen = BasicNavigationScreen(index = 0),
     ) { navigator ->
         SlideTransition(navigator) { screen ->
             Column {

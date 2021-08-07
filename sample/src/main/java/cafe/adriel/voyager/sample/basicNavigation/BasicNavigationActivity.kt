@@ -13,7 +13,7 @@ class BasicNavigationActivity : ComponentActivity() {
 
         setContent {
             Navigator(
-                initialScreen = BasicNavigationScreen(index = 0),
+                screen = BasicNavigationScreen(index = 0),
                 onBackPressed = { currentScreen ->
                     Log.d("Navigator", "Pop screen #${(currentScreen as BasicNavigationScreen).index}")
                     true

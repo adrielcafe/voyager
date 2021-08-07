@@ -40,8 +40,8 @@ public fun ScreenTransition(
         val keys = items
             .map { it.screen }
             .run {
-                if (contains(currentScreen).not()) toMutableList().also { it.add(currentScreen) }
-                else this
+                if (contains(currentScreen)) this
+                else toMutableList().also { it.add(currentScreen) }
             }
         items.clear()
         keys.mapTo(items) { key ->
@@ -58,7 +58,9 @@ public fun ScreenTransition(
     Box(modifier) {
         items.forEach {
             key(it.screen) {
-                it.content()
+                navigator.stateHolder.SaveableStateProvider(it.screen) {
+                    it.content()
+                }
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -58,7 +59,7 @@ data class BasicNavigationScreen(
                     onClick = navigator::pop,
                     modifier = Modifier.weight(.5f)
                 ) {
-                    Text(text = "Previous")
+                    Text(text = "Pop")
                 }
 
                 Spacer(modifier = Modifier.weight(.1f))
@@ -67,7 +68,24 @@ data class BasicNavigationScreen(
                     onClick = { navigator.push(BasicNavigationScreen(index.inc(), wrapContent)) },
                     modifier = Modifier.weight(.5f)
                 ) {
-                    Text(text = "Next")
+                    Text(text = "Push")
+                }
+
+                Spacer(modifier = Modifier.weight(.1f))
+
+                Button(
+                    onClick = { navigator.replace(BasicNavigationScreen(index.inc(), wrapContent)) },
+                    modifier = Modifier.weight(.5f)
+                ) {
+                    Text(text = "Replace")
+                }
+            }
+
+            LazyColumn(
+                modifier = Modifier.height(100.dp)
+            ) {
+                items(100) {
+                    Text("Item #$it")
                 }
             }
         }
