@@ -3,8 +3,12 @@ package cafe.adriel.voyager.navigator.tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.SaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.internal.rememberTabNavigator
 
 public typealias TabNavigatorContent = @Composable (tabNavigator: TabNavigator) -> Unit
 
@@ -13,25 +17,22 @@ public val LocalTabNavigator: ProvidableCompositionLocal<TabNavigator> =
 
 @Composable
 public fun TabNavigator(
-    defaultTab: Tab,
+    tab: Tab,
     content: TabNavigatorContent = { CurrentTab() }
 ) {
-    Navigator(defaultTab, onBackPressed = null) { navigator ->
-        val tabNavigator = TabNavigator(navigator)
+    val tabNavigator = rememberTabNavigator(tab)
 
-        CompositionLocalProvider(
-            LocalTabNavigator provides tabNavigator
-        ) {
-            content(tabNavigator)
-        }
+    CompositionLocalProvider(
+        LocalTabNavigator provides tabNavigator
+    ) {
+        content(tabNavigator)
     }
 }
 
 public class TabNavigator internal constructor(
-    private val navigator: Navigator
+    tab: Tab,
+    public val stateHolder: SaveableStateHolder
 ) {
 
-    public var current: Tab
-        get() = navigator.lastItem as Tab
-        set(tab) = navigator.replaceAll(tab)
+    public var current: Tab by mutableStateOf(tab)
 }

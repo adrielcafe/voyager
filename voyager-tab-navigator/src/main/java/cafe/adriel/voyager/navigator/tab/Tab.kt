@@ -6,7 +6,12 @@ import cafe.adriel.voyager.core.screen.Screen
 
 @Composable
 public fun CurrentTab() {
-    LocalTabNavigator.current.current.Content()
+    val tabNavigator = LocalTabNavigator.current
+    val currentTab = tabNavigator.current
+
+    tabNavigator.stateHolder.SaveableStateProvider(currentTab) {
+        currentTab.Content()
+    }
 }
 
 public data class TabOptions(

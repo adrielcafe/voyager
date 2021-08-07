@@ -12,7 +12,6 @@ android {
 
 dependencies {
     api projects.voyagerCore
-    implementation projects.voyagerNavigator
 
     implementation libs.compose.runtimeSaveable
     implementation libs.compose.ui
