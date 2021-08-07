@@ -1,9 +1,8 @@
 package cafe.adriel.voyager.transitions
 
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +16,7 @@ public fun SlideTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     orientation: SlideOrientation = SlideOrientation.Horizontal,
-    animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessLow),
+    animationSpec: FiniteAnimationSpec<Float> = tween(),
     content: ScreenTransitionContent = { it.Content() }
 ) {
     BoxWithConstraints {
