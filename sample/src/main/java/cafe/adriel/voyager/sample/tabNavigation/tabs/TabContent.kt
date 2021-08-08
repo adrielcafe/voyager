@@ -64,7 +64,7 @@ private fun RowScope.TabNavigationButton(
     val tabNavigator = LocalTabNavigator.current
 
     Button(
-        enabled = tabNavigator.current != tab,
+        enabled = tabNavigator.current.key != tab.key,
         onClick = { tabNavigator.current = tab },
         modifier = Modifier.weight(1f)
     ) {

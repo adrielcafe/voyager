@@ -15,7 +15,10 @@ public fun Screen.LifecycleEffect(
     }
 }
 
-public fun interface Screen : Serializable {
+public interface Screen : Serializable {
+
+    public val key: String
+        get() = this::class.qualifiedName ?: error("Default key not found, please override it and set your own key")
 
     @Composable
     public fun Content()

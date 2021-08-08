@@ -27,6 +27,8 @@ data class BasicNavigationScreen(
     val wrapContent: Boolean = false
 ) : Screen {
 
+    override val key = "BasicNavigationScreen #$index"
+
     @Composable
     override fun Content() {
         LifecycleEffect(

@@ -57,7 +57,7 @@ class TabNavigationActivity : ComponentActivity() {
         val tabNavigator = LocalTabNavigator.current
 
         BottomNavigationItem(
-            selected = tabNavigator.current == tab,
+            selected = tabNavigator.current.key == tab.key,
             onClick = { tabNavigator.current = tab },
             icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
         )

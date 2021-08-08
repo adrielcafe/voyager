@@ -34,7 +34,7 @@ public fun CurrentScreen() {
     val navigator = LocalNavigator.currentOrThrow
     val currentScreen = navigator.lastItem
 
-    navigator.stateHolder.SaveableStateProvider(currentScreen) {
+    navigator.stateHolder.SaveableStateProvider(currentScreen.key) {
         currentScreen.Content()
     }
 }
@@ -74,10 +74,10 @@ public fun Navigator(
 
         NavigatorBackHandler(navigator, onBackPressed)
 
-        DisposableEffect(currentScreen) {
+        DisposableEffect(currentScreen.key) {
             onDispose {
                 if (navigator.lastEvent in disposableEvents) {
-                    navigator.stateHolder.removeState(currentScreen)
+                    navigator.stateHolder.removeState(currentScreen.key)
                 }
             }
         }

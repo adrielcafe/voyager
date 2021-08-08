@@ -58,7 +58,7 @@ public fun ScreenTransition(
     Box(modifier) {
         items.forEach {
             key(it.screen) {
-                navigator.stateHolder.SaveableStateProvider(it.screen) {
+                navigator.stateHolder.SaveableStateProvider(it.screen.key) {
                     it.content()
                 }
             }
