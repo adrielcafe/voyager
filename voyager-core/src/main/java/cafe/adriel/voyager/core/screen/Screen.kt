@@ -9,7 +9,7 @@ public fun Screen.LifecycleEffect(
     onStarted: () -> Unit = {},
     onDisposed: () -> Unit = {}
 ) {
-    DisposableEffect(this) {
+    DisposableEffect(key) {
         onStarted()
         onDispose(onDisposed)
     }
