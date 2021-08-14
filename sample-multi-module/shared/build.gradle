@@ -1,0 +1,9 @@
+apply plugin: "com.android.library"
+apply from: "../../android-module.gradle"
+
+dependencies {
+    implementation projects.voyagerCore
+
+    implementation libs.compose.compiler
+    implementation libs.compose.runtime
+}

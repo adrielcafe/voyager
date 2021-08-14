@@ -7,6 +7,12 @@ dependencyResolutionManagement {
 
 include(
     ':sample',
+
+    ':sample-multi-module:app',
+    ':sample-multi-module:shared',
+    ':sample-multi-module:feature-a',
+    ':sample-multi-module:feature-b',
+
     ':voyager-core',
     ':voyager-navigator',
     ':voyager-tab-navigator',
