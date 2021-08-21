@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import cafe.adriel.voyager.sample.multimodule.shared.SharedFeatureBWithParamScreen
-import cafe.adriel.voyager.sample.multimodule.shared.SharedFeatureBWithoutParamScreen
+import cafe.adriel.voyager.sample.multimodule.shared.SharedFeatureBParamScreen
+import cafe.adriel.voyager.sample.multimodule.shared.SharedFeatureBScreen
 import org.kodein.di.compose.rememberInstance
 import java.util.UUID
 
@@ -25,9 +25,9 @@ class FeatureAScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val sharedFeatureBWithoutParamScreen: SharedFeatureBWithoutParamScreen by rememberInstance()
-        val sharedFeatureBWithParamScreen: SharedFeatureBWithParamScreen by rememberInstance(
-            arg = SharedFeatureBWithParamScreen.Params(message = UUID.randomUUID().toString())
+        val sharedFeatureBScreen: SharedFeatureBScreen by rememberInstance()
+        val sharedFeatureBParamScreen: SharedFeatureBParamScreen by rememberInstance(
+            arg = SharedFeatureBParamScreen.Params(message = UUID.randomUUID().toString())
         )
 
         Column(
@@ -43,7 +43,7 @@ class FeatureAScreen : Screen {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.push(sharedFeatureBWithoutParamScreen) }
+                onClick = { navigator.push(sharedFeatureBScreen) }
             ) {
                 Text(
                     text = "To Feature B without param",
@@ -54,7 +54,7 @@ class FeatureAScreen : Screen {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.push(sharedFeatureBWithParamScreen) }
+                onClick = { navigator.push(sharedFeatureBParamScreen) }
             ) {
                 Text(
                     text = "To Feature B with param",

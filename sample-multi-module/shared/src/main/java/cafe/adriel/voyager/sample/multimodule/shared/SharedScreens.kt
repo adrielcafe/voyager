@@ -2,9 +2,9 @@ package cafe.adriel.voyager.sample.multimodule.shared
 
 import cafe.adriel.voyager.core.screen.Screen
 
-interface SharedFeatureBWithoutParamScreen : Screen
+interface SharedFeatureBScreen : Screen
 
-interface SharedFeatureBWithParamScreen : Screen {
+interface SharedFeatureBParamScreen : Screen {
 
     val params: Params
 

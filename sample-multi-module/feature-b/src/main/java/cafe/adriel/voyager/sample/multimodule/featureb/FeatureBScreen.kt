@@ -15,11 +15,9 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import cafe.adriel.voyager.sample.multimodule.shared.SharedFeatureBWithParamScreen
+import cafe.adriel.voyager.sample.multimodule.shared.SharedFeatureBScreen
 
-data class FeatureBWithParamScreen(
-    override val params: SharedFeatureBWithParamScreen.Params
-) : SharedFeatureBWithParamScreen, Screen {
+class FeatureBScreen : SharedFeatureBScreen, Screen {
 
     @Composable
     override fun Content() {
@@ -31,15 +29,8 @@ data class FeatureBWithParamScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = "Feature B with param",
+                text = "Feature B without param",
                 style = MaterialTheme.typography.h5
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = params.message,
-                style = MaterialTheme.typography.body1
             )
 
             Spacer(modifier = Modifier.height(16.dp))
