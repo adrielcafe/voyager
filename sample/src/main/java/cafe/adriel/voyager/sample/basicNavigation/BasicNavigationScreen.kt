@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 
@@ -27,7 +28,7 @@ data class BasicNavigationScreen(
     val wrapContent: Boolean = false
 ) : Screen {
 
-    override val key = "BasicNavigationScreen #$index"
+    override val key = uniqueScreenKey
 
     @Composable
     override fun Content() {

@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenHook
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.core.stack.toMutableStateStack
@@ -65,8 +66,13 @@ public fun Navigator(
         parent = LocalNavigator.current
     )
 
+    val (onProvideHooks, onDisposeHooks) =
+        navigator.lastItem.hooks
+            .run { filterIsInstance<ScreenHook.OnProvide<*>>() to filterIsInstance<ScreenHook.OnDispose>() }
+
     CompositionLocalProvider(
-        LocalNavigator provides navigator
+        LocalNavigator provides navigator,
+        *onProvideHooks.map { it.provide() }.toTypedArray()
     ) {
         val currentScreen = navigator.lastItem
 
@@ -78,6 +84,7 @@ public fun Navigator(
             onDispose {
                 if (navigator.lastEvent in disposableEvents) {
                     navigator.stateHolder.removeState(currentScreen.key)
+                    onDisposeHooks.forEach { it.dispose() }
                 }
             }
         }

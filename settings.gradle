@@ -16,7 +16,8 @@ include(
     ':voyager-core',
     ':voyager-navigator',
     ':voyager-tab-navigator',
-    ':voyager-transitions'
+    ':voyager-transitions',
+    ':voyager-androidx'
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

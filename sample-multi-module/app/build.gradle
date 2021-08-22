@@ -13,7 +13,7 @@ dependencies {
     implementation projects.sampleMultiModule.featureA
     implementation projects.sampleMultiModule.featureB
 
-    implementation libs.kodein.compose
+    implementation libs.kodein
     implementation libs.appCompat
     implementation libs.compose.compiler
     implementation libs.compose.runtime

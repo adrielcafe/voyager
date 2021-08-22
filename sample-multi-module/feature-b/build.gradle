@@ -8,7 +8,7 @@ dependencies {
 
     implementation projects.sampleMultiModule.shared
 
-    implementation libs.kodein.compose
+    implementation libs.kodein
     implementation libs.appCompat
     implementation libs.compose.compiler
     implementation libs.compose.runtime

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.sample.androidNavigation.AndroidNavigationActivity
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationActivity
 import cafe.adriel.voyager.sample.nestedNavigation.NestedNavigationActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
@@ -50,6 +51,8 @@ class SampleActivity : ComponentActivity() {
             StartSampleButton<TabNavigationActivity>("Tab Navigation")
             Spacer(modifier = Modifier.height(24.dp))
             StartSampleButton<NestedNavigationActivity>("Nested Navigation")
+            Spacer(modifier = Modifier.height(24.dp))
+            StartSampleButton<AndroidNavigationActivity>("Android Navigation")
         }
     }
 
