@@ -8,8 +8,9 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.hook.clearHooks
+import cafe.adriel.voyager.core.hook.hooks
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenHook
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.core.stack.toMutableStateStack
@@ -61,21 +62,14 @@ public fun Navigator(
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
 
-    val navigator = rememberNavigator(
-        screens = screens,
-        parent = LocalNavigator.current
-    )
-
-    val (onProvideHooks, onDisposeHooks) =
-        navigator.lastItem.hooks
-            .run { filterIsInstance<ScreenHook.OnProvide<*>>() to filterIsInstance<ScreenHook.OnDispose>() }
+    val navigator = rememberNavigator(screens, LocalNavigator.current)
+    val currentScreen = navigator.lastItem
+    val hooks = currentScreen.hooks
 
     CompositionLocalProvider(
         LocalNavigator provides navigator,
-        *onProvideHooks.map { it.provide() }.toTypedArray()
+        *hooks.providers.map { it.provide() }.toTypedArray()
     ) {
-        val currentScreen = navigator.lastItem
-
         content(navigator)
 
         NavigatorBackHandler(navigator, onBackPressed)
@@ -84,7 +78,8 @@ public fun Navigator(
             onDispose {
                 if (navigator.lastEvent in disposableEvents) {
                     navigator.stateHolder.removeState(currentScreen.key)
-                    onDisposeHooks.forEach { it.dispose() }
+                    hooks.disposers.forEach { it.dispose() }
+                    currentScreen.clearHooks()
                 }
             }
         }
