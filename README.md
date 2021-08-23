@@ -23,7 +23,6 @@ class HomeScreen : Screen {
     }
 }
 
-
 class SingleActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,17 +43,21 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
 - [Nested navigation](https://voyager.adriel.cafe/navigation/nested-navigation) if you need to manage multiple stacks
 - [State restoration](https://voyager.adriel.cafe/state-restoration) after Activity recreation
+- [Multi-module navigation](https://voyager.adriel.cafe/navigation/multi-module-navigation) based on Dependency Injection
 - State-aware [Stack API](https://voyager.adriel.cafe/stack-api)
 - Built-in [transitions](https://voyager.adriel.cafe/transitions)
+- Pluggable [hooks](https://voyager.adriel.cafe/hooks)
 - [Lifecycle](https://voyager.adriel.cafe/lifecycle) callbacks
 - [Back press](https://voyager.adriel.cafe/back-press) handling
 - [Deep linking](https://voyager.adriel.cafe/deep-links) support
 
 ### Roadmap
-- [Multi-module navigation](https://voyager.adriel.cafe/navigation/multi-module-navigation)
 - [Compose for Desktop](https://github.com/JetBrains/compose-jb) support
 
 ### Samples
-| [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) | [Tab nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Nested nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |
-|-------|------------|----------|-------------|
-| ![navigation-stack](https://user-images.githubusercontent.com/2512298/126323192-9b6349fe-7b96-4acf-b62e-c75165d909e1.gif) | ![navigation-basic](https://user-images.githubusercontent.com/2512298/126323165-47760eec-2ba2-48ee-8e3a-841d50098d33.gif) | ![navigation-tab](https://user-images.githubusercontent.com/2512298/126323588-2f970953-0adb-47f8-b2fb-91c5854656bd.gif) | ![navigation-nested](https://user-images.githubusercontent.com/2512298/126323027-a2633aef-9402-4df8-9384-45935d7986cf.gif) |
+| [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [AndroidX ViewModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/androidNavigation) | [Multi-module nav.](https://github.com/adrielcafe/voyager/tree/main/sample-multi-module) |
+|------------|----------|-------------|
+| ![navigation-stack](https://user-images.githubusercontent.com/2512298/126323192-9b6349fe-7b96-4acf-b62e-c75165d909e1.gif) | ![navigation-androidx](https://user-images.githubusercontent.com/2512298/130377801-c350b4f5-bcca-4d28-9403-0d9d4c1e99f7.gif) | ![navigation-multi-module](https://user-images.githubusercontent.com/2512298/130377815-fca83cf6-c90b-49fc-81ea-1ea9081f1086.gif) |
+| [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) | [Tab nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Nested nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |
+|------------|----------|-------------|
+| ![navigation-basic](https://user-images.githubusercontent.com/2512298/126323165-47760eec-2ba2-48ee-8e3a-841d50098d33.gif) | ![navigation-tab](https://user-images.githubusercontent.com/2512298/126323588-2f970953-0adb-47f8-b2fb-91c5854656bd.gif) | ![navigation-nested](https://user-images.githubusercontent.com/2512298/126323027-a2633aef-9402-4df8-9384-45935d7986cf.gif) |
