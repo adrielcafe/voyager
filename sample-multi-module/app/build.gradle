@@ -10,10 +10,9 @@ android {
 dependencies {
     implementation projects.voyagerNavigator
 
-    implementation projects.sampleMultiModule.featureA
-    implementation projects.sampleMultiModule.featureB
+    implementation projects.sampleMultiModule.featureHome
+    implementation projects.sampleMultiModule.featurePosts
 
-    implementation libs.kodein
     implementation libs.appCompat
     implementation libs.compose.compiler
     implementation libs.compose.runtime

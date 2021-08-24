@@ -1,13 +1,16 @@
 package cafe.adriel.voyager.sample.multimodule
 
 import android.app.Application
-import cafe.adriel.voyager.sample.multimodule.featureb.featureBModule
-import org.kodein.di.DI
-import org.kodein.di.DIAware
+import cafe.adriel.voyager.core.registry.ScreenRegistry
+import cafe.adriel.voyager.sample.multimodule.posts.featurePostsScreenModule
 
-class SampleApp : Application(), DIAware {
+class SampleApp : Application() {
 
-    override val di by DI.lazy {
-        importAll(featureBModule)
+    override fun onCreate() {
+        super.onCreate()
+
+        ScreenRegistry {
+            featurePostsScreenModule()
+        }
     }
 }

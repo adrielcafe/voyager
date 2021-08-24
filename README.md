@@ -7,7 +7,7 @@
 <h1 align="center">
     <img height="150" src="https://user-images.githubusercontent.com/2512298/127723355-f56b3040-47cb-44fd-8504-a1868721c1a3.png"/>
     <br>
-    <a href="https://en.wikipedia.org/wiki/USS_Voyager_(Star_Trek)">Voyager</a>: Compose on Warp Speed
+    <a href="https://voyager.adriel.cafe">Voyager</a>: Compose on Warp Speed
 </h1>
 
 A lightweight and pragmatic navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose). 
@@ -19,7 +19,7 @@ class HomeScreen : Screen {
 
     @Composable
     override fun Content() {
-        // ...
+        // Your awesome UI goes here
     }
 }
 
@@ -43,7 +43,7 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
 - [Nested navigation](https://voyager.adriel.cafe/navigation/nested-navigation) if you need to manage multiple stacks
 - [State restoration](https://voyager.adriel.cafe/state-restoration) after Activity recreation
-- [Multi-module navigation](https://voyager.adriel.cafe/navigation/multi-module-navigation) based on Dependency Injection
+- Type-safe [multi-module navigation](https://voyager.adriel.cafe/navigation/multi-module-navigation)
 - State-aware [Stack API](https://voyager.adriel.cafe/stack-api)
 - Built-in [transitions](https://voyager.adriel.cafe/transitions)
 - Pluggable [hooks](https://voyager.adriel.cafe/hooks)
@@ -55,10 +55,10 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 - [Compose for Desktop](https://github.com/JetBrains/compose-jb) support
 
 ### Samples
-| [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [AndroidX ViewModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/androidNavigation) | [Multi-module nav.](https://github.com/adrielcafe/voyager/tree/main/sample-multi-module) |
+| [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [AndroidX ViewModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/androidNavigation) | [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) |
 |------------|----------|-------------|
-| ![navigation-stack](https://user-images.githubusercontent.com/2512298/126323192-9b6349fe-7b96-4acf-b62e-c75165d909e1.gif) | ![navigation-androidx](https://user-images.githubusercontent.com/2512298/130377801-c350b4f5-bcca-4d28-9403-0d9d4c1e99f7.gif) | ![navigation-multi-module](https://user-images.githubusercontent.com/2512298/130377815-fca83cf6-c90b-49fc-81ea-1ea9081f1086.gif) |
+| ![navigation-stack](https://user-images.githubusercontent.com/2512298/126323192-9b6349fe-7b96-4acf-b62e-c75165d909e1.gif) | ![navigation-androidx](https://user-images.githubusercontent.com/2512298/130377801-c350b4f5-bcca-4d28-9403-0d9d4c1e99f7.gif) | ![navigation-basic](https://user-images.githubusercontent.com/2512298/126323165-47760eec-2ba2-48ee-8e3a-841d50098d33.gif) |
 
-| [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) | [Tab nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Nested nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |
+| [Tab nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/tabNavigation) | [Multi-module nav.](https://github.com/adrielcafe/voyager/tree/main/sample-multi-module) | [Nested nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/nestedNavigation) |
 |------------|----------|-------------|
-| ![navigation-basic](https://user-images.githubusercontent.com/2512298/126323165-47760eec-2ba2-48ee-8e3a-841d50098d33.gif) | ![navigation-tab](https://user-images.githubusercontent.com/2512298/126323588-2f970953-0adb-47f8-b2fb-91c5854656bd.gif) | ![navigation-nested](https://user-images.githubusercontent.com/2512298/126323027-a2633aef-9402-4df8-9384-45935d7986cf.gif) |
+| ![navigation-tab](https://user-images.githubusercontent.com/2512298/126323588-2f970953-0adb-47f8-b2fb-91c5854656bd.gif) | ![navigation-multi-module](https://user-images.githubusercontent.com/2512298/130662717-c15caf88-350e-42a0-837c-3453805b68f2.gif) | ![navigation-nested](https://user-images.githubusercontent.com/2512298/126323027-a2633aef-9402-4df8-9384-45935d7986cf.gif) |

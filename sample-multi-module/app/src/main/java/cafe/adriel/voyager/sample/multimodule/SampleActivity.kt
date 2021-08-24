@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.sample.multimodule.featurea.FeatureAScreen
+import cafe.adriel.voyager.sample.multimodule.home.HomeScreen
 
 class SampleActivity : ComponentActivity() {
 
@@ -12,7 +12,7 @@ class SampleActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Navigator(FeatureAScreen())
+            Navigator(HomeScreen())
         }
     }
 }
