@@ -1,59 +1,54 @@
 package cafe.adriel.voyager.transitions
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.IntOffset
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
+@ExperimentalAnimationApi
 @Composable
 public fun SlideTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     orientation: SlideOrientation = SlideOrientation.Horizontal,
-    animationSpec: FiniteAnimationSpec<Float> = tween(),
+    animationSpec: FiniteAnimationSpec<IntOffset> = spring(
+        stiffness = Spring.StiffnessMediumLow,
+        visibilityThreshold = IntOffset.VisibilityThreshold
+    ),
     content: ScreenTransitionContent = { it.Content() }
 ) {
-    BoxWithConstraints {
-        ScreenTransition(
-            navigator = navigator,
-            modifier = modifier,
-            content = content,
-            transitionModifier = { screen, transition, event ->
-                val offset = when (event) {
-                    StackEvent.Pop -> -1
-                    else -> 1
-                }
-                val size = when (orientation) {
-                    SlideOrientation.Horizontal -> constraints.maxWidth
-                    SlideOrientation.Vertical -> constraints.maxHeight
-                }
-                val translation by transition.animateFloat(
-                    transitionSpec = { animationSpec },
-                    label = "SlideTransition"
-                ) { transitionScreen ->
-                    if (transitionScreen == screen) 0f
-                    else size.toFloat()
-                }
-
-                modifier.graphicsLayer {
-                    val updatedTranslation =
-                        if (transition.targetState == screen) offset * translation
-                        else offset * -translation
-
-                    when (orientation) {
-                        SlideOrientation.Horizontal -> translationX = updatedTranslation
-                        SlideOrientation.Vertical -> translationY = updatedTranslation
-                    }
-                }
+    ScreenTransition(
+        navigator = navigator,
+        modifier = modifier,
+        content = content,
+        transition = {
+            val (initialOffset, targetOffset) = when (navigator.lastEvent) {
+                StackEvent.Pop -> ({ size: Int -> -size }) to ({ size: Int -> size })
+                else -> ({ size: Int -> size }) to ({ size: Int -> -size })
             }
-        )
-    }
+
+            when (orientation) {
+                SlideOrientation.Horizontal ->
+                    slideInHorizontally(initialOffset, animationSpec) with
+                        slideOutHorizontally(targetOffset, animationSpec)
+                SlideOrientation.Vertical ->
+                    slideInVertically(initialOffset, animationSpec) with
+                        slideOutVertically(targetOffset, animationSpec)
+            }
+        }
+    )
 }
 
 public enum class SlideOrientation {

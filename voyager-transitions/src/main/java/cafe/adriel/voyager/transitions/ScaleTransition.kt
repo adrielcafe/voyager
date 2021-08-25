@@ -1,39 +1,40 @@
 package cafe.adriel.voyager.transitions
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
+private val EnterScales = 1.1f to 0.95f
+private val ExitScales = EnterScales.second to EnterScales.first
+
+@ExperimentalAnimationApi
 @Composable
 public fun ScaleTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
-    animationSpec: FiniteAnimationSpec<Float> = tween(),
+    animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
         content = content,
-        transitionModifier = { screen, transition, event ->
-            val scale by transition.animateFloat(
-                transitionSpec = { animationSpec },
-                label = "ScaleTransition"
-            ) { transitionScreen ->
-                if (transitionScreen == screen) 1f
-                else 0f
+        transition = {
+            val (initialScale, targetScale) = when (navigator.lastEvent) {
+                StackEvent.Pop -> ExitScales
+                else -> EnterScales
             }
 
-            modifier.scale(
-                if (transition.targetState == screen && event == StackEvent.Pop) 0.95f + (1f - 0.95f) * scale
-                else 1.10f - (1.10f - 1f) * scale
-            )
+            scaleIn(initialScale = initialScale, animationSpec = animationSpec) with
+                scaleOut(targetScale = targetScale, animationSpec = animationSpec)
         }
     )
 }

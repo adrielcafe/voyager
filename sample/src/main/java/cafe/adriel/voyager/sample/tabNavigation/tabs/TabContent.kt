@@ -1,6 +1,7 @@
 package cafe.adriel.voyager.sample.tabNavigation.tabs
 
 import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -18,6 +19,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationScreen
 import cafe.adriel.voyager.transitions.SlideTransition
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Tab.TabContent() {
     val tabTitle = options.title

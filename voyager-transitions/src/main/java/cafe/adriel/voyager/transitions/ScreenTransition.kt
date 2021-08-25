@@ -1,72 +1,57 @@
 package cafe.adriel.voyager.transitions
 
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.Transition
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
-public typealias ScreenTransitionContent = @Composable (Screen) -> Unit
+@OptIn(ExperimentalAnimationApi::class)
+public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
 
-public typealias ScreenTransitionModifier = @Composable (Screen, Transition<Screen>, StackEvent) -> Modifier
-
+@ExperimentalAnimationApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
-    transitionModifier: ScreenTransitionModifier,
+    enterTransition: AnimatedContentScope<Screen>.() -> ContentTransform,
+    exitTransition: AnimatedContentScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
     content: ScreenTransitionContent = { it.Content() }
 ) {
-    val currentScreen = navigator.lastItem
-    val currentEvent = navigator.lastEvent
-
-    val items = remember { mutableStateListOf<ScreenTransitionItem>() }
-    val transitionState = remember { MutableTransitionState(currentScreen) }
-    val targetChanged = (currentScreen != transitionState.targetState)
-    transitionState.targetState = currentScreen
-    val transition = updateTransition(
-        transitionState = transitionState,
-        label = "ScreenTransition"
-    )
-
-    if (targetChanged || items.isEmpty()) {
-        val keys = items
-            .map { it.screen }
-            .run {
-                if (contains(currentScreen)) this
-                else toMutableList().also { it.add(currentScreen) }
-            }
-        items.clear()
-        keys.mapTo(items) { key ->
-            ScreenTransitionItem(key) {
-                Box(transitionModifier(key, transition, currentEvent)) {
-                    content(key)
-                }
+    ScreenTransition(
+        navigator = navigator,
+        modifier = modifier,
+        content = content,
+        transition = {
+            when (navigator.lastEvent) {
+                StackEvent.Pop -> exitTransition()
+                else -> enterTransition()
             }
         }
-    } else if (transitionState.currentState == transitionState.targetState) {
-        items.removeAll { it.screen != transitionState.targetState }
-    }
+    )
+}
 
-    Box(modifier) {
-        items.forEach {
-            key(it.screen.key) {
-                navigator.stateHolder.SaveableStateProvider(it.screen.key) {
-                    it.content()
-                }
-            }
+@ExperimentalAnimationApi
+@Composable
+public fun ScreenTransition(
+    navigator: Navigator,
+    transition: AnimatedContentScope<Screen>.() -> ContentTransform,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent = { it.Content() }
+) {
+    AnimatedContent(
+        targetState = navigator.lastItem,
+        transitionSpec = transition,
+        modifier = modifier
+    ) { screen ->
+        navigator.stateHolder.SaveableStateProvider(screen.key) {
+            content(screen)
         }
     }
 }
-
-private data class ScreenTransitionItem(
-    val screen: Screen,
-    val content: @Composable () -> Unit
-)
