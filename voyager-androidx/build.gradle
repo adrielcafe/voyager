@@ -13,6 +13,8 @@ android {
 dependencies {
     api projects.voyagerCore
 
+    implementation libs.lifecycle.runtime
+    implementation libs.lifecycle.savedState
     implementation libs.compose.viewModel
     implementation libs.compose.runtimeSaveable
 

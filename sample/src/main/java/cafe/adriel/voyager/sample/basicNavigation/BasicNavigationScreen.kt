@@ -1,7 +1,6 @@
 package cafe.adriel.voyager.sample.basicNavigation
 
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
@@ -31,8 +29,6 @@ data class BasicNavigationScreen(
 ) : Screen {
 
     override val key = uniqueScreenKey
-
-    private val colors = listOf(Color.LightGray, Color.Gray, Color.DarkGray)
 
     @Composable
     override fun Content() {
@@ -49,7 +45,7 @@ data class BasicNavigationScreen(
             modifier = Modifier.run {
                 if (wrapContent) wrapContentHeight()
                 else fillMaxSize()
-            }.background(colors[index])
+            }
         ) {
             Text(
                 text = "Screen #$index",
