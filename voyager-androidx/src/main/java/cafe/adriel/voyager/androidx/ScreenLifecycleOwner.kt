@@ -10,7 +10,9 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
+import cafe.adriel.voyager.core.hook.HookableScreen
 import cafe.adriel.voyager.core.hook.ScreenHook
+import cafe.adriel.voyager.core.hook.ScreenHookHandler
 
 public val ScreenLifecycleOwner.screenLifecycleHooks: List<ScreenHook>
     get() = listOf(
@@ -19,9 +21,9 @@ public val ScreenLifecycleOwner.screenLifecycleHooks: List<ScreenHook>
         ScreenHook.OnDispose { viewModelStore.clear() }
     )
 
-public interface ScreenLifecycleOwner : LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner
+public interface ScreenLifecycleOwner : HookableScreen, LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner
 
-public class ScreenLifecycleHolder : ScreenLifecycleOwner {
+public class ScreenLifecycleHolder : ScreenLifecycleOwner, HookableScreen by ScreenHookHandler() {
 
     private val store = ViewModelStore()
 
@@ -31,6 +33,7 @@ public class ScreenLifecycleHolder : ScreenLifecycleOwner {
 
     init {
         controller.performRestore(null)
+        addHooks(screenLifecycleHooks)
     }
 
     override fun getViewModelStore(): ViewModelStore = store
