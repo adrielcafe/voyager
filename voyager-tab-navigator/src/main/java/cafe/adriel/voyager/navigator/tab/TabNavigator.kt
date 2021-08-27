@@ -9,8 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.hook.clearHooks
-import cafe.adriel.voyager.core.hook.hooks
+import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.navigator.tab.internal.rememberTabNavigator
 
 public typealias TabNavigatorContent = @Composable (tabNavigator: TabNavigator) -> Unit
@@ -25,19 +24,19 @@ public fun TabNavigator(
 ) {
     val tabNavigator = rememberTabNavigator(tab)
     val currentTab = tabNavigator.current
-    val hooks = currentTab.hooks
+    val lifecycleOwner = rememberScreenLifecycleOwner(currentTab)
+    val hooks = lifecycleOwner.getHooks()
 
     CompositionLocalProvider(
         LocalTabNavigator provides tabNavigator,
-        *hooks.providers.map { it.provide() }.toTypedArray()
+        *hooks.providers.toTypedArray()
     ) {
         content(tabNavigator)
     }
 
     DisposableEffect(tabNavigator) {
         onDispose {
-            hooks.disposers.forEach { it.dispose() }
-            currentTab.clearHooks()
+            hooks.disposer()
         }
     }
 }

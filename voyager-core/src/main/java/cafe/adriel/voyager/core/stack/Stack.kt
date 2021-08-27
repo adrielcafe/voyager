@@ -47,4 +47,6 @@ public interface Stack<Item> {
     public operator fun plusAssign(item: Item)
 
     public operator fun plusAssign(items: List<Item>)
+
+    public fun clearEvent()
 }

@@ -7,9 +7,9 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.hook.clearHooks
-import cafe.adriel.voyager.core.hook.hooks
+import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.StackEvent
@@ -64,11 +64,12 @@ public fun Navigator(
 
     val navigator = rememberNavigator(screens, LocalNavigator.current)
     val currentScreen = navigator.lastItem
-    val hooks = currentScreen.hooks
+    val lifecycleOwner = rememberScreenLifecycleOwner(currentScreen)
+    val hooks = lifecycleOwner.getHooks()
 
     CompositionLocalProvider(
         LocalNavigator provides navigator,
-        *hooks.providers.map { it.provide() }.toTypedArray()
+        *hooks.providers.toTypedArray()
     ) {
         content(navigator)
 
@@ -77,9 +78,9 @@ public fun Navigator(
         DisposableEffect(currentScreen.key) {
             onDispose {
                 if (navigator.lastEvent in disposableEvents) {
+                    hooks.disposer()
                     navigator.stateHolder.removeState(currentScreen.key)
-                    hooks.disposers.forEach { it.dispose() }
-                    currentScreen.clearHooks()
+                    navigator.clearEvent()
                 }
             }
         }

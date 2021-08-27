@@ -156,4 +156,8 @@ public class SnapshotStateStack<Item>(
     public override operator fun plusAssign(items: List<Item>) {
         push(items)
     }
+
+    override fun clearEvent() {
+        lastEvent = StackEvent.Idle
+    }
 }
