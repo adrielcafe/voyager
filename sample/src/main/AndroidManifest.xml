@@ -23,6 +23,7 @@
         <activity android:name=".tabNavigation.TabNavigationActivity"/>
         <activity android:name=".nestedNavigation.NestedNavigationActivity"/>
         <activity android:name=".androidNavigation.AndroidNavigationActivity"/>
+        <activity android:name=".bottomSheetNavigation.BottomSheetNavigationActivity"/>
     </application>
 
 </manifest>

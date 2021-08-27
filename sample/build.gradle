@@ -10,6 +10,7 @@ android {
 dependencies {
     implementation projects.voyagerNavigator
     implementation projects.voyagerTabNavigator
+    implementation projects.voyagerBottomSheetNavigator
     implementation projects.voyagerTransitions
     implementation projects.voyagerAndroidx
 

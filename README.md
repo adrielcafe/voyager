@@ -40,6 +40,7 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 
 ### Features
 - Create scalable Single-Activity apps powered by a [pragmatic API](https://voyager.adriel.cafe/navigation/fundamentals)
+- [BottomSheet navigation](https://voyager.adriel.cafe/navigation/bottomsheet-navigation)
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
 - [Nested navigation](https://voyager.adriel.cafe/navigation/nested-navigation) if you need to manage multiple stacks
 - [State restoration](https://voyager.adriel.cafe/state-restoration) after Activity recreation

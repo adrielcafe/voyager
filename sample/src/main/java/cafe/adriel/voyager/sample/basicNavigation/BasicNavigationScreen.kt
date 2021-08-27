@@ -43,7 +43,7 @@ data class BasicNavigationScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.run {
-                if (wrapContent) wrapContentHeight()
+                if (wrapContent) padding(vertical = 16.dp).wrapContentHeight()
                 else fillMaxSize()
             }
         ) {

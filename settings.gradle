@@ -16,6 +16,7 @@ include(
     ':voyager-core',
     ':voyager-navigator',
     ':voyager-tab-navigator',
+    ':voyager-bottom-sheet-navigator',
     ':voyager-transitions',
     ':voyager-androidx'
 )
