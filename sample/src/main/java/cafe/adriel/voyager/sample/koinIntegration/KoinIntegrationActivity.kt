@@ -1,17 +1,17 @@
-package cafe.adriel.voyager.sample.androidNavigation
+package cafe.adriel.voyager.sample.koinIntegration
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import cafe.adriel.voyager.navigator.Navigator
 
-class AndroidNavigationActivity : ComponentActivity() {
+class KoinIntegrationActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Navigator(ListScreen())
+            Navigator(KoinScreen())
         }
     }
 }

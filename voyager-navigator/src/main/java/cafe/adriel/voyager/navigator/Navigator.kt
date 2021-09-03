@@ -2,19 +2,17 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
-import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.core.stack.toMutableStateStack
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
+import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
 
 public typealias NavigatorContent = @Composable (navigator: Navigator) -> Unit
@@ -27,9 +25,6 @@ public val LocalNavigator: ProvidableCompositionLocal<Navigator?> =
 public val <T> ProvidableCompositionLocal<T?>.currentOrThrow: T
     @Composable
     get() = current ?: error("CompositionLocal is null")
-
-private val disposableEvents: Set<StackEvent> =
-    setOf(StackEvent.Pop, StackEvent.Replace)
 
 @Composable
 public fun CurrentScreen() {
@@ -44,11 +39,13 @@ public fun CurrentScreen() {
 @Composable
 public fun Navigator(
     screen: Screen,
+    autoDispose: Boolean = true,
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
     Navigator(
         screens = listOf(screen),
+        autoDispose = autoDispose,
         onBackPressed = onBackPressed,
         content = content
     )
@@ -57,33 +54,25 @@ public fun Navigator(
 @Composable
 public fun Navigator(
     screens: List<Screen>,
+    autoDispose: Boolean = true,
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
 
     val navigator = rememberNavigator(screens, LocalNavigator.current)
-    val currentScreen = navigator.lastItem
-    val lifecycleOwner = rememberScreenLifecycleOwner(currentScreen)
+    val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
     val hooks = lifecycleOwner.getHooks()
 
     CompositionLocalProvider(
         LocalNavigator provides navigator,
         *hooks.providers.toTypedArray()
     ) {
-        content(navigator)
+        if (autoDispose) NavigatorDisposableEffect(navigator, hooks.onDispose)
 
         NavigatorBackHandler(navigator, onBackPressed)
 
-        DisposableEffect(currentScreen.key) {
-            onDispose {
-                if (navigator.lastEvent in disposableEvents) {
-                    hooks.disposer()
-                    navigator.stateHolder.removeState(currentScreen.key)
-                    navigator.clearEvent()
-                }
-            }
-        }
+        content(navigator)
     }
 }
 

@@ -2,12 +2,12 @@ package cafe.adriel.voyager.core.lifecycle
 
 import androidx.compose.runtime.ProvidedValue
 
-public data class ScreenHooks(
+public data class ScreenLifecycleHooks(
     val providers: List<ProvidedValue<*>> = emptyList(),
-    val disposer: () -> Unit = {}
+    val onDispose: () -> Unit = {}
 ) {
 
     internal companion object {
-        val Empty = ScreenHooks()
+        val Empty = ScreenLifecycleHooks()
     }
 }

@@ -2,15 +2,10 @@ package cafe.adriel.voyager.navigator.tab
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.SaveableStateHolder
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
-import cafe.adriel.voyager.navigator.tab.internal.rememberTabNavigator
+import cafe.adriel.voyager.navigator.Navigator
 
 public typealias TabNavigatorContent = @Composable (tabNavigator: TabNavigator) -> Unit
 
@@ -22,29 +17,22 @@ public fun TabNavigator(
     tab: Tab,
     content: TabNavigatorContent = { CurrentTab() }
 ) {
-    val tabNavigator = rememberTabNavigator(tab)
-    val currentTab = tabNavigator.current
-    val lifecycleOwner = rememberScreenLifecycleOwner(currentTab)
-    val hooks = lifecycleOwner.getHooks()
+    Navigator(tab, autoDispose = false, onBackPressed = null) { navigator ->
+        val tabNavigator = remember(navigator) {
+            TabNavigator(navigator)
+        }
 
-    CompositionLocalProvider(
-        LocalTabNavigator provides tabNavigator,
-        *hooks.providers.toTypedArray()
-    ) {
-        content(tabNavigator)
-    }
-
-    DisposableEffect(tabNavigator) {
-        onDispose {
-            hooks.disposer()
+        CompositionLocalProvider(LocalTabNavigator provides tabNavigator) {
+            content(tabNavigator)
         }
     }
 }
 
 public class TabNavigator internal constructor(
-    tab: Tab,
-    public val stateHolder: SaveableStateHolder
+    private val navigator: Navigator
 ) {
 
-    public var current: Tab by mutableStateOf(tab)
+    public var current: Tab
+        get() = navigator.lastItem as Tab
+        set(tab) = navigator.replaceAll(tab)
 }

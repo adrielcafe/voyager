@@ -3,6 +3,7 @@ package cafe.adriel.voyager.androidx
 import android.app.Activity
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.lifecycle.Lifecycle
@@ -14,14 +15,13 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
-import cafe.adriel.voyager.core.lifecycle.ScreenHooks
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleHooks
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
-import cafe.adriel.voyager.core.screen.ScreenKey
-import java.util.concurrent.ConcurrentHashMap
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
+import cafe.adriel.voyager.core.screen.Screen
 
-public class ScreenLifecycleHolder private constructor(
-    private val key: ScreenKey
-) : ScreenLifecycleOwner,
+public class AndroidScreenLifecycleOwner private constructor() :
+    ScreenLifecycleOwner,
     LifecycleOwner,
     ViewModelStoreOwner,
     SavedStateRegistryOwner {
@@ -32,29 +32,32 @@ public class ScreenLifecycleHolder private constructor(
 
     private val controller = SavedStateRegistryController.create(this)
 
-    private val Context.canDispose: Boolean
-        get() = (this as? Activity)?.isChangingConfigurations?.not() ?: true
+    private val Context.isChangingConfigurations: Boolean
+        get() = (this as? Activity)?.isChangingConfigurations ?: false
 
     init {
-        controller.performRestore(null)
+        if (controller.savedStateRegistry.isRestored.not()) {
+            controller.performRestore(null)
+        }
     }
 
     @Composable
-    override fun getHooks(): ScreenHooks {
+    override fun getHooks(): ScreenLifecycleHooks {
         val context = LocalContext.current
 
-        return ScreenHooks(
-            providers = listOf(
-                LocalViewModelStoreOwner provides this,
-                LocalSavedStateRegistryOwner provides this,
-            ),
-            disposer = {
-                if (context.canDispose) {
-                    viewModelStore.clear()
-                    remove(key)
+        return remember(this) {
+            ScreenLifecycleHooks(
+                providers = listOf(
+                    LocalViewModelStoreOwner provides this,
+                    LocalSavedStateRegistryOwner provides this,
+                ),
+                onDispose = {
+                    if (context.isChangingConfigurations.not()) {
+                        viewModelStore.clear()
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
     override fun getLifecycle(): Lifecycle = registry
@@ -63,15 +66,9 @@ public class ScreenLifecycleHolder private constructor(
 
     override fun getSavedStateRegistry(): SavedStateRegistry = controller.savedStateRegistry
 
-    internal companion object {
+    public companion object {
 
-        private val holders = ConcurrentHashMap<ScreenKey, ScreenLifecycleHolder>()
-
-        internal fun get(key: ScreenKey) =
-            holders.getOrPut(key) { ScreenLifecycleHolder(key) }
-
-        private fun remove(key: ScreenKey) {
-            holders -= key
-        }
+        public fun get(screen: Screen): ScreenLifecycleOwner =
+            ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }
     }
 }

@@ -8,7 +8,7 @@ import cafe.adriel.voyager.navigator.OnBackPressed
 @Composable
 internal fun NavigatorBackHandler(
     navigator: Navigator,
-    onBackPressed: OnBackPressed,
+    onBackPressed: OnBackPressed
 ) {
     if (onBackPressed != null) {
         BackHandler(

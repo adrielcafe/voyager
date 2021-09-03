@@ -18,7 +18,10 @@ include(
     ':voyager-tab-navigator',
     ':voyager-bottom-sheet-navigator',
     ':voyager-transitions',
-    ':voyager-androidx'
+    ':voyager-androidx',
+    ':voyager-kodein',
+    ':voyager-koin',
+    ':voyager-rxjava'
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

@@ -55,9 +55,7 @@ public fun BottomSheetNavigator(
             BottomSheetNavigator(navigator, sheetState, coroutineScope)
         }
 
-        CompositionLocalProvider(
-            LocalBottomSheetNavigator provides bottomSheetNavigator
-        ) {
+        CompositionLocalProvider(LocalBottomSheetNavigator provides bottomSheetNavigator) {
             ModalBottomSheetLayout(
                 modifier = modifier,
                 scrimColor = scrimColor,

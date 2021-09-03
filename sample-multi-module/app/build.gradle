@@ -18,4 +18,6 @@ dependencies {
     implementation libs.compose.runtime
     implementation libs.compose.activity
     implementation libs.compose.material
+
+    debugImplementation libs.leakCanary
 }

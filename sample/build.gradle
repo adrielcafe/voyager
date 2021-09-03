@@ -13,13 +13,20 @@ dependencies {
     implementation projects.voyagerBottomSheetNavigator
     implementation projects.voyagerTransitions
     implementation projects.voyagerAndroidx
+    implementation projects.voyagerKodein
+    implementation projects.voyagerKoin
+    implementation projects.voyagerRxjava
 
+    implementation libs.kodein
     implementation libs.koin
     implementation libs.appCompat
+    implementation libs.compose.rxjava
     implementation libs.compose.viewModel
     implementation libs.compose.compiler
     implementation libs.compose.runtime
     implementation libs.compose.activity
     implementation libs.compose.material
     implementation libs.compose.materialIcons
+
+    debugImplementation libs.leakCanary
 }

@@ -10,5 +10,5 @@ public abstract class AndroidScreen : Screen, ScreenLifecycleProvider {
 
     override val key: ScreenKey = uniqueScreenKey
 
-    override fun getLifecycleOwner(): ScreenLifecycleOwner = ScreenLifecycleHolder.get(key)
+    override fun getLifecycleOwner(): ScreenLifecycleOwner = AndroidScreenLifecycleOwner.get(this)
 }

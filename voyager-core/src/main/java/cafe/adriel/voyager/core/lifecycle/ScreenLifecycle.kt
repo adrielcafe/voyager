@@ -31,11 +31,3 @@ public interface ScreenLifecycleProvider {
 
     public fun getLifecycleOwner(): ScreenLifecycleOwner
 }
-
-public interface ScreenLifecycleOwner {
-
-    @Composable
-    public fun getHooks(): ScreenHooks = ScreenHooks.Empty
-}
-
-private object DefaultScreenLifecycleOwner : ScreenLifecycleOwner

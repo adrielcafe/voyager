@@ -6,12 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,10 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.sample.androidNavigation.AndroidNavigationActivity
+import cafe.adriel.voyager.sample.androidViewModel.AndroidViewModelActivity
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationActivity
 import cafe.adriel.voyager.sample.bottomSheetNavigation.BottomSheetNavigationActivity
+import cafe.adriel.voyager.sample.kodeinIntegration.KodeinIntegrationActivity
+import cafe.adriel.voyager.sample.koinIntegration.KoinIntegrationActivity
 import cafe.adriel.voyager.sample.nestedNavigation.NestedNavigationActivity
+import cafe.adriel.voyager.sample.rxjavaIntegration.RxJavaIntegrationActivity
+import cafe.adriel.voyager.sample.screenModel.ScreenModelActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
 import cafe.adriel.voyager.sample.tabNavigation.TabNavigationActivity
 
@@ -38,24 +40,23 @@ class SampleActivity : ComponentActivity() {
 
     @Composable
     fun Content() {
-        Column(
+        LazyColumn(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
+            modifier = Modifier.fillMaxSize().padding(24.dp)
         ) {
-            StartSampleButton<StateStackActivity>("SnapshotStateStack")
-            Spacer(modifier = Modifier.height(24.dp))
-            StartSampleButton<BasicNavigationActivity>("Basic Navigation")
-            Spacer(modifier = Modifier.height(24.dp))
-            StartSampleButton<TabNavigationActivity>("Tab Navigation")
-            Spacer(modifier = Modifier.height(24.dp))
-            StartSampleButton<BottomSheetNavigationActivity>("BottomSheet Navigation")
-            Spacer(modifier = Modifier.height(24.dp))
-            StartSampleButton<AndroidNavigationActivity>("Android Navigation")
-            Spacer(modifier = Modifier.height(24.dp))
-            StartSampleButton<NestedNavigationActivity>("Nested Navigation")
+            item {
+                StartSampleButton<StateStackActivity>("SnapshotStateStack")
+                StartSampleButton<BasicNavigationActivity>("Basic Navigation")
+                StartSampleButton<TabNavigationActivity>("Tab Navigation")
+                StartSampleButton<BottomSheetNavigationActivity>("BottomSheet Navigation")
+                StartSampleButton<NestedNavigationActivity>("Nested Navigation")
+                StartSampleButton<AndroidViewModelActivity>("Android ViewModel")
+                StartSampleButton<ScreenModelActivity>("ScreenModel")
+                StartSampleButton<KoinIntegrationActivity>("Koin Integration")
+                StartSampleButton<KodeinIntegrationActivity>("Kodein Integration")
+                StartSampleButton<RxJavaIntegrationActivity>("RxJava Integration")
+            }
         }
     }
 
@@ -65,7 +66,7 @@ class SampleActivity : ComponentActivity() {
 
         Button(
             onClick = { context.startActivity(Intent(this, T::class.java)) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         ) {
             Text(text = text)
         }

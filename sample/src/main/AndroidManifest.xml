@@ -22,8 +22,12 @@
         <activity android:name=".basicNavigation.BasicNavigationActivity"/>
         <activity android:name=".tabNavigation.TabNavigationActivity"/>
         <activity android:name=".nestedNavigation.NestedNavigationActivity"/>
-        <activity android:name=".androidNavigation.AndroidNavigationActivity"/>
+        <activity android:name=".screenModel.ScreenModelActivity"/>
+        <activity android:name=".androidViewModel.AndroidViewModelActivity"/>
         <activity android:name=".bottomSheetNavigation.BottomSheetNavigationActivity"/>
+        <activity android:name=".rxjavaIntegration.RxJavaIntegrationActivity"/>
+        <activity android:name=".kodeinIntegration.KodeinIntegrationActivity"/>
+        <activity android:name=".koinIntegration.KoinIntegrationActivity"/>
     </application>
 
 </manifest>
