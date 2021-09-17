@@ -13,11 +13,7 @@ android {
 dependencies {
     api projects.voyagerCore
 
-    implementation libs.lifecycle.runtime
-    implementation libs.lifecycle.savedState
-    implementation libs.lifecycle.viewModelKtx
-    implementation libs.lifecycle.viewModelCompose
-    implementation libs.compose.runtimeSaveable
+    implementation libs.compose.runtimeLiveData
 
     testRuntimeOnly libs.junit.engine
     testImplementation libs.junit.api

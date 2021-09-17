@@ -21,7 +21,8 @@ include(
     ':voyager-androidx',
     ':voyager-kodein',
     ':voyager-koin',
-    ':voyager-rxjava'
+    ':voyager-rxjava',
+    ':voyager-livedata'
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

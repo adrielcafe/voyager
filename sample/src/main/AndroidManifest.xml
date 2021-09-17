@@ -25,7 +25,8 @@
         <activity android:name=".screenModel.ScreenModelActivity"/>
         <activity android:name=".androidViewModel.AndroidViewModelActivity"/>
         <activity android:name=".bottomSheetNavigation.BottomSheetNavigationActivity"/>
-        <activity android:name=".rxjavaIntegration.RxJavaIntegrationActivity"/>
+        <activity android:name=".rxJavaIntegration.RxJavaIntegrationActivity"/>
+        <activity android:name=".liveDataIntegration.LiveDataIntegrationActivity"/>
         <activity android:name=".kodeinIntegration.KodeinIntegrationActivity"/>
         <activity android:name=".koinIntegration.KoinIntegrationActivity"/>
     </application>

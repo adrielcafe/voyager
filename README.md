@@ -50,7 +50,7 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 - [BottomSheet navigation](https://voyager.adriel.cafe/navigation/bottomsheet-navigation)
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
 - [Nested navigation](https://voyager.adriel.cafe/navigation/nested-navigation) (multiple stacks, parent navigation)
-- [ScreenModel](https://voyager.adriel.cafe/screenmodel/fundamentals) (a.k.a ViewModel) integrated with [Koin](https://voyager.adriel.cafe/screenmodel/koin-integration), [Kodein](https://voyager.adriel.cafe/screenmodel/kodein-integration), [Coroutines](https://voyager.adriel.cafe/screenmodel/coroutines-integration), [RxJava](https://voyager.adriel.cafe/screenmodel/rxjava-integration)
+- [ScreenModel](https://voyager.adriel.cafe/screenmodel/fundamentals) (a.k.a ViewModel) integrated with [Koin](https://voyager.adriel.cafe/screenmodel/koin-integration), [Kodein](https://voyager.adriel.cafe/screenmodel/kodein-integration), [Coroutines](https://voyager.adriel.cafe/screenmodel/coroutines-integration), [RxJava](https://voyager.adriel.cafe/screenmodel/rxjava-integration), [LiveData](https://voyager.adriel.cafe/screenmodel/livedata-integration)
 - [Android ViewModel](https://voyager.adriel.cafe/android-viewmodel) integration
 - Type-safe [multi-module navigation](https://voyager.adriel.cafe/navigation/multi-module-navigation)
 - State-aware [Stack API](https://voyager.adriel.cafe/stack-api)

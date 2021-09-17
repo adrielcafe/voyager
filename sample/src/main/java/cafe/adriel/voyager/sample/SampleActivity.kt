@@ -22,8 +22,9 @@ import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationActivity
 import cafe.adriel.voyager.sample.bottomSheetNavigation.BottomSheetNavigationActivity
 import cafe.adriel.voyager.sample.kodeinIntegration.KodeinIntegrationActivity
 import cafe.adriel.voyager.sample.koinIntegration.KoinIntegrationActivity
+import cafe.adriel.voyager.sample.liveDataIntegration.LiveDataIntegrationActivity
 import cafe.adriel.voyager.sample.nestedNavigation.NestedNavigationActivity
-import cafe.adriel.voyager.sample.rxjavaIntegration.RxJavaIntegrationActivity
+import cafe.adriel.voyager.sample.rxJavaIntegration.RxJavaIntegrationActivity
 import cafe.adriel.voyager.sample.screenModel.ScreenModelActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
 import cafe.adriel.voyager.sample.tabNavigation.TabNavigationActivity
@@ -56,6 +57,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<KoinIntegrationActivity>("Koin Integration")
                 StartSampleButton<KodeinIntegrationActivity>("Kodein Integration")
                 StartSampleButton<RxJavaIntegrationActivity>("RxJava Integration")
+                StartSampleButton<LiveDataIntegrationActivity>("LiveData Integration")
             }
         }
     }

@@ -14,8 +14,8 @@ public val ScreenModel.disposables: CompositeDisposable
         onDispose = { disposables -> disposables.clear() }
     )
 
-public abstract class RxScreenModel<T : Any> : ScreenModel {
+public abstract class RxScreenModel<S : Any> : ScreenModel {
 
-    protected val mutableState: BehaviorSubject<T> = BehaviorSubject.create()
-    public val state: Observable<T> = mutableState
+    protected val mutableState: BehaviorSubject<S> = BehaviorSubject.create()
+    public val state: Observable<S> = mutableState
 }

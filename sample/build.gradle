@@ -16,14 +16,17 @@ dependencies {
     implementation projects.voyagerKodein
     implementation projects.voyagerKoin
     implementation projects.voyagerRxjava
+    implementation projects.voyagerLivedata
 
     implementation libs.kodein
     implementation libs.koin
     implementation libs.appCompat
+    implementation libs.lifecycle.viewModelKtx
+    implementation libs.lifecycle.viewModelCompose
     implementation libs.compose.rxjava
-    implementation libs.compose.viewModel
     implementation libs.compose.compiler
     implementation libs.compose.runtime
+    implementation libs.compose.runtimeLiveData
     implementation libs.compose.activity
     implementation libs.compose.material
     implementation libs.compose.materialIcons

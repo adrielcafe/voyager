@@ -35,8 +35,8 @@ public interface ScreenModel {
     public fun onDispose() {}
 }
 
-public abstract class StateScreenModel<S>(initial: S) : ScreenModel {
+public abstract class StateScreenModel<S>(initialState: S) : ScreenModel {
 
-    protected val mutableState: MutableStateFlow<S> = MutableStateFlow(initial)
+    protected val mutableState: MutableStateFlow<S> = MutableStateFlow(initialState)
     public val state: StateFlow<S> = mutableState.asStateFlow()
 }

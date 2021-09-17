@@ -1,4 +1,4 @@
-package cafe.adriel.voyager.sample.rxjavaIntegration
+package cafe.adriel.voyager.sample.rxJavaIntegration
 
 import cafe.adriel.voyager.rxjava.RxScreenModel
 import cafe.adriel.voyager.rxjava.disposables
