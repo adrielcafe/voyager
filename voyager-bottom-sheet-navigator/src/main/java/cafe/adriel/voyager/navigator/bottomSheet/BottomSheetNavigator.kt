@@ -80,9 +80,9 @@ public fun BottomSheetNavigator(
 @OptIn(ExperimentalMaterialApi::class)
 public class BottomSheetNavigator internal constructor(
     navigator: Navigator,
-    public val stateHolder: SaveableStateHolder = navigator.stateHolder,
     private val sheetState: ModalBottomSheetState,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    public val stateHolder: SaveableStateHolder = navigator.stateHolder
 ) : Stack<Screen> by navigator {
 
     public val isVisible: Boolean
