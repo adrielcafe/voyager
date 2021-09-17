@@ -3,11 +3,15 @@ package cafe.adriel.voyager.navigator.tab
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.CurrentScreen
 
 @Composable
 public fun CurrentTab() {
-    CurrentScreen()
+    val tabNavigator = LocalTabNavigator.current
+    val currentTab = tabNavigator.current
+
+    tabNavigator.stateHolder.SaveableStateProvider(currentTab.key) {
+        currentTab.Content()
+    }
 }
 
 public data class TabOptions(

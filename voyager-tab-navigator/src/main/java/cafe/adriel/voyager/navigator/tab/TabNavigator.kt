@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -29,7 +30,8 @@ public fun TabNavigator(
 }
 
 public class TabNavigator internal constructor(
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    public val stateHolder: SaveableStateHolder = navigator.stateHolder
 ) {
 
     public var current: Tab

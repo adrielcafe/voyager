@@ -6,11 +6,13 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
+import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
@@ -60,19 +62,23 @@ public fun Navigator(
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
 
-    val navigator = rememberNavigator(screens, LocalNavigator.current)
-    val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
-    val hooks = lifecycleOwner.getHooks()
-
     CompositionLocalProvider(
-        LocalNavigator provides navigator,
-        *hooks.providers.toTypedArray()
+        LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
     ) {
-        if (autoDispose) NavigatorDisposableEffect(navigator, hooks.onDispose)
+        val navigator = rememberNavigator(screens, LocalNavigator.current)
+        val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
+        val hooks = lifecycleOwner.getHooks()
 
-        NavigatorBackHandler(navigator, onBackPressed)
+        CompositionLocalProvider(
+            LocalNavigator provides navigator,
+            *hooks.providers.toTypedArray()
+        ) {
+            if (autoDispose) NavigatorDisposableEffect(navigator, hooks.onDispose)
 
-        content(navigator)
+            NavigatorBackHandler(navigator, onBackPressed)
+
+            content(navigator)
+        }
     }
 }
 
