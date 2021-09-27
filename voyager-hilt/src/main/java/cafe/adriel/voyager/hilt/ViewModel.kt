@@ -8,17 +8,20 @@ import androidx.lifecycle.ViewModelProvider
 import cafe.adriel.voyager.androidx.AndroidScreen
 import cafe.adriel.voyager.androidx.AndroidScreenLifecycleOwner
 
+/**
+ * A function to provide HiltViewModel managed by voyager ViewModelStore instead of using Activity ViewModelStore.
+ */
 @Composable
 public inline fun <reified T : ViewModel> AndroidScreen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null
 ): T {
     val context = LocalContext.current
+    val componentActivity = context as? ComponentActivity
+        ?: throw IllegalStateException("Invalid local context on AndroidScreen. It must be a ComponentActivity")
     val androidScreenLifecycleOwner = getLifecycleOwner() as? AndroidScreenLifecycleOwner
         ?: throw IllegalStateException(
             "Invalid LifecycleOwner on AndroidScreen. It must be an AndroidScreenLifecycleOwner"
         )
-    val componentActivity = context as? ComponentActivity
-        ?: throw IllegalStateException("Invalid local context on AndroidScreen. It must be a ComponentActivity")
     val provider = ViewModelProvider(
         androidScreenLifecycleOwner.viewModelStore,
         viewModelProviderFactory ?: componentActivity.defaultViewModelProviderFactory
