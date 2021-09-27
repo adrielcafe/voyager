@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.sample.androidViewModel.AndroidViewModelActivity
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationActivity
 import cafe.adriel.voyager.sample.bottomSheetNavigation.BottomSheetNavigationActivity
+import cafe.adriel.voyager.sample.hiltIntegration.HiltMainActivity
 import cafe.adriel.voyager.sample.kodeinIntegration.KodeinIntegrationActivity
 import cafe.adriel.voyager.sample.koinIntegration.KoinIntegrationActivity
 import cafe.adriel.voyager.sample.liveDataIntegration.LiveDataIntegrationActivity
@@ -58,6 +59,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<KodeinIntegrationActivity>("Kodein Integration")
                 StartSampleButton<RxJavaIntegrationActivity>("RxJava Integration")
                 StartSampleButton<LiveDataIntegrationActivity>("LiveData Integration")
+                StartSampleButton<HiltMainActivity>("Hilt Integration")
             }
         }
     }

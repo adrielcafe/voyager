@@ -1,10 +1,16 @@
 apply plugin: "com.android.application"
 apply from: "../android-module.gradle"
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     defaultConfig {
         applicationId "cafe.adriel.voyager.sample"
     }
+}
+
+kapt {
+    correctErrorTypes true
 }
 
 dependencies {
@@ -13,6 +19,7 @@ dependencies {
     implementation projects.voyagerBottomSheetNavigator
     implementation projects.voyagerTransitions
     implementation projects.voyagerAndroidx
+    implementation projects.voyagerHilt
     implementation projects.voyagerKodein
     implementation projects.voyagerKoin
     implementation projects.voyagerRxjava
@@ -30,6 +37,8 @@ dependencies {
     implementation libs.compose.activity
     implementation libs.compose.material
     implementation libs.compose.materialIcons
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
     debugImplementation libs.leakCanary
 }

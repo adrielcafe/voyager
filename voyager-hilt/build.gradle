@@ -1,0 +1,26 @@
+apply plugin: "com.android.library"
+apply from: "../android-module.gradle"
+
+android {
+    defaultConfig {
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    kotlinOptions {
+        freeCompilerArgs += '-Xexplicit-api=strict'
+    }
+}
+
+dependencies {
+    api projects.voyagerAndroidx
+
+    implementation libs.appCompat
+    implementation libs.compose.runtime
+    implementation libs.compose.ui
+    implementation libs.lifecycle.savedState
+    implementation libs.lifecycle.viewModelKtx
+
+    testRuntimeOnly libs.junit.engine
+    testImplementation libs.junit.api
+}
+
+apply plugin: "com.vanniktech.maven.publish"

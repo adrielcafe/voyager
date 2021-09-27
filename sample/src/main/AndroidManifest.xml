@@ -29,6 +29,7 @@
         <activity android:name=".liveDataIntegration.LiveDataIntegrationActivity"/>
         <activity android:name=".kodeinIntegration.KodeinIntegrationActivity"/>
         <activity android:name=".koinIntegration.KoinIntegrationActivity"/>
+        <activity android:name=".hiltIntegration.HiltMainActivity"/>
     </application>
 
 </manifest>
