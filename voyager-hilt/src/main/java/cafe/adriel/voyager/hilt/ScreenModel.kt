@@ -1,6 +1,5 @@
 package cafe.adriel.voyager.hilt
 
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.androidx.AndroidScreen
@@ -9,41 +8,40 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import dagger.hilt.android.EntryPointAccessors
 
 /**
- * Provide a screen model getting from Hilt graph.
+ * Provide a [ScreenModel] getting from Hilt graph.
+ *
+ * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
 public inline fun <reified T : ScreenModel> AndroidScreen.getScreenModel(): T {
     val context = LocalContext.current
     return rememberScreenModel(tag = T::class.qualifiedName) {
-        val componentActivity = context as? ComponentActivity
-            ?: throw IllegalStateException("Invalid local context on AndroidScreen. It must be a ComponentActivity")
         val screenModels = EntryPointAccessors
-            .fromActivity(componentActivity, ScreenModelEntryPoint::class.java)
+            .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModels()
         val model = screenModels[T::class.java]?.get()
-            ?: throw IllegalStateException("${T::class} screen model not found in hilt graph")
-        return@rememberScreenModel model as T
+            ?: error("${T::class} screen model not found in hilt graph")
+        model as T
     }
 }
 
 /**
- * Provide a screen model getting from Hilt graph using a custom factory to create an instance
+ * Provide a [ScreenModel] using a custom [ScreenModelFactory]. The [ScreenModelFactory] is provided by Hilt graph.
  *
- * @param factory A function that receives a screen factory and returns a screen model created using the custom factory
+ * @param factory A function that receives a [ScreenModelFactory] and returns a [ScreenModel] created by the custom factory
+ * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
-public inline fun <reified T : ScreenModel, reified F> AndroidScreen.getScreenModel(
+public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> AndroidScreen.getScreenModel(
     noinline factory: (F) -> T
-): T where F : ScreenFactory {
+): T {
     val context = LocalContext.current
     return rememberScreenModel(tag = T::class.qualifiedName) {
-        val componentActivity = context as? ComponentActivity
-            ?: throw IllegalStateException("Invalid local context on AndroidScreen. It must be a ComponentActivity")
         val screenFactories = EntryPointAccessors
-            .fromActivity(componentActivity, ScreenModelEntryPoint::class.java)
-            .screenFactories()
+            .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
+            .screenModelFactories()
         val screenFactory = screenFactories[F::class.java]?.get()
-            ?: throw IllegalStateException("${F::class} screen model factory not found in hilt graph")
-        return@rememberScreenModel factory.invoke(screenFactory as F)
+            ?: error("${F::class} screen model factory not found in hilt graph")
+        factory.invoke(screenFactory as F)
     }
 }

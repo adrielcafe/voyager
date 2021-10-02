@@ -1,7 +1,7 @@
 package cafe.adriel.voyager.sample.hiltIntegration
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.hilt.ScreenFactory
+import cafe.adriel.voyager.hilt.ScreenModelFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -12,7 +12,7 @@ class HiltDetailsScreenModel @AssistedInject constructor(
 ) : ScreenModel {
 
     @AssistedFactory
-    interface Factory : ScreenFactory {
+    interface Factory : ScreenModelFactory {
         fun create(index: Int): HiltDetailsScreenModel
     }
 }

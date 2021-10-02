@@ -7,7 +7,8 @@ import dagger.hilt.android.components.ActivityComponent
 import javax.inject.Provider
 
 /**
- * A hilt entry point that have factories and models provided by hilt graph
+ * A Hilt entry point that provide all [ScreenModelFactory] and [ScreenModel] in the graph.
+ * To have all [ScreenModelFactory] and [ScreenModel] in the graph they must be declared using Multibinding
  */
 @EntryPoint
 @InstallIn(ActivityComponent::class)
@@ -15,7 +16,8 @@ public interface ScreenModelEntryPoint {
     /**
      * Provide all custom factories declared using multibinding
      */
-    public fun screenFactories(): Map<Class<out ScreenFactory>, @JvmSuppressWildcards Provider<ScreenFactory>>
+    public fun screenModelFactories():
+        Map<Class<out ScreenModelFactory>, @JvmSuppressWildcards Provider<ScreenModelFactory>>
 
     /**
      * Provide all screen models declared using multibinding

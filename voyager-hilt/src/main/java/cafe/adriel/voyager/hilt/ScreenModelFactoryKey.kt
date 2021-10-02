@@ -4,7 +4,7 @@ import dagger.MapKey
 import kotlin.reflect.KClass
 
 /**
- * A Dagger multibinding key used to identify a [ScreenFactory]
+ * A Dagger multibinding key used to identify a [ScreenModelFactory]
  */
 @MustBeDocumented
 @Target(
@@ -14,4 +14,4 @@ import kotlin.reflect.KClass
 )
 @Retention(AnnotationRetention.RUNTIME)
 @MapKey
-public annotation class ScreenFactoryKey(val value: KClass<out ScreenFactory>)
+public annotation class ScreenModelFactoryKey(val value: KClass<out ScreenModelFactory>)

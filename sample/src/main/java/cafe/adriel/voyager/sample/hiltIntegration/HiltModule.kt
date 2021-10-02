@@ -1,8 +1,8 @@
 package cafe.adriel.voyager.sample.hiltIntegration
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.hilt.ScreenFactory
-import cafe.adriel.voyager.hilt.ScreenFactoryKey
+import cafe.adriel.voyager.hilt.ScreenModelFactory
+import cafe.adriel.voyager.hilt.ScreenModelFactoryKey
 import cafe.adriel.voyager.hilt.ScreenModelKey
 import dagger.Binds
 import dagger.Module
@@ -20,8 +20,8 @@ abstract class HiltModule {
 
     @Binds
     @IntoMap
-    @ScreenFactoryKey(HiltDetailsScreenModel.Factory::class)
+    @ScreenModelFactoryKey(HiltDetailsScreenModel.Factory::class)
     abstract fun bindHiltDetailsScreenModelFactory(
         hiltDetailsScreenModelFactory: HiltDetailsScreenModel.Factory
-    ): ScreenFactory
+    ): ScreenModelFactory
 }
