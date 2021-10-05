@@ -2,6 +2,7 @@ package cafe.adriel.voyager.core.model
 
 import androidx.compose.runtime.DisallowComposableCalls
 import cafe.adriel.voyager.core.screen.Screen
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.ConcurrentHashMap
 
 private typealias ScreenModelKey = String
@@ -14,10 +15,13 @@ private typealias Dependency = Pair<DependencyInstance, DependencyOnDispose>
 public object ScreenModelStore {
 
     @PublishedApi
-    internal val screenModels: ConcurrentHashMap<ScreenModelKey, ScreenModel> = ConcurrentHashMap()
+    internal val screenModels: MutableMap<ScreenModelKey, ScreenModel> = ConcurrentHashMap()
 
     @PublishedApi
-    internal val dependencies: ConcurrentHashMap<DependencyKey, Dependency> = ConcurrentHashMap()
+    internal val dependencies: MutableMap<DependencyKey, Dependency> = ConcurrentHashMap()
+
+    @PublishedApi
+    internal val lastScreenModelKey: MutableStateFlow<ScreenModelKey?> = MutableStateFlow(null)
 
     @PublishedApi
     internal inline fun <reified T : ScreenModel> getKey(screen: Screen, tag: String?): ScreenModelKey =
@@ -30,7 +34,8 @@ public object ScreenModelStore {
                 if (it.value == screenModel) it.key
                 else null
             }
-            ?.let { "$it:$name" }
+            ?: lastScreenModelKey.value
+                ?.let { "$it:$name" }
             ?: error("ScreenModel not found: ${screenModel::class.qualifiedName}")
 
     @PublishedApi
@@ -38,8 +43,11 @@ public object ScreenModelStore {
         screen: Screen,
         tag: String?,
         factory: @DisallowComposableCalls () -> T
-    ): T =
-        screenModels.getOrPut(getKey<T>(screen, tag), factory) as T
+    ): T {
+        val key = getKey<T>(screen, tag)
+        lastScreenModelKey.value = key
+        return screenModels.getOrPut(key, factory) as T
+    }
 
     public inline fun <reified T : Any> getOrPutDependency(
         screenModel: ScreenModel,
