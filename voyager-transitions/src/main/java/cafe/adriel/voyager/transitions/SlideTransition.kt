@@ -41,11 +41,11 @@ public fun SlideTransition(
 
             when (orientation) {
                 SlideOrientation.Horizontal ->
-                    slideInHorizontally(initialOffset, animationSpec) with
-                        slideOutHorizontally(targetOffset, animationSpec)
+                    slideInHorizontally(animationSpec, initialOffset) with
+                        slideOutHorizontally(animationSpec, targetOffset)
                 SlideOrientation.Vertical ->
-                    slideInVertically(initialOffset, animationSpec) with
-                        slideOutVertically(targetOffset, animationSpec)
+                    slideInVertically(animationSpec, initialOffset) with
+                        slideOutVertically(animationSpec, targetOffset)
             }
         }
     )
