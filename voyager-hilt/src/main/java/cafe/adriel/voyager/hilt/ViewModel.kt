@@ -5,8 +5,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import cafe.adriel.voyager.androidx.AndroidScreen
-import cafe.adriel.voyager.androidx.AndroidScreenLifecycleOwner
+import cafe.adriel.voyager.hilt.internal.defaultViewModelProviderFactory
 
 /**
  * A function to provide a [dagger.hilt.android.lifecycle.HiltViewModel] managed by voyager ViewModelStore
@@ -19,11 +20,11 @@ import cafe.adriel.voyager.androidx.AndroidScreenLifecycleOwner
 public inline fun <reified T : ViewModel> AndroidScreen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null
 ): T {
-    val androidScreenLifecycleOwner = getLifecycleOwner() as? AndroidScreenLifecycleOwner
-        ?: error("Invalid LifecycleOwner on AndroidScreen. It must be an AndroidScreenLifecycleOwner")
+    val viewModelStoreOwner = getLifecycleOwner() as? ViewModelStoreOwner
+        ?: error("LifecycleOwner should implement ViewModelStoreOwner")
     val provider = ViewModelProvider(
-        androidScreenLifecycleOwner.viewModelStore,
-        viewModelProviderFactory ?: LocalContext.current.defaultViewModelProviderFactory
+        store = viewModelStoreOwner.viewModelStore,
+        factory = viewModelProviderFactory ?: LocalContext.current.defaultViewModelProviderFactory
     )
     return provider[T::class.java]
 }

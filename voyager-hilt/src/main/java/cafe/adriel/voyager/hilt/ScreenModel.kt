@@ -5,6 +5,7 @@ import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.androidx.AndroidScreen
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.hilt.internal.componentActivity
 import dagger.hilt.android.EntryPointAccessors
 
 /**
@@ -15,7 +16,7 @@ import dagger.hilt.android.EntryPointAccessors
 @Composable
 public inline fun <reified T : ScreenModel> AndroidScreen.getScreenModel(): T {
     val context = LocalContext.current
-    return rememberScreenModel(tag = T::class.qualifiedName) {
+    return rememberScreenModel {
         val screenModels = EntryPointAccessors
             .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModels()
@@ -36,7 +37,7 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Andr
     noinline factory: (F) -> T
 ): T {
     val context = LocalContext.current
-    return rememberScreenModel(tag = T::class.qualifiedName) {
+    return rememberScreenModel {
         val screenFactories = EntryPointAccessors
             .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModelFactories()
