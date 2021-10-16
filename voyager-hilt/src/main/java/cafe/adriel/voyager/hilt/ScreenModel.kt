@@ -2,9 +2,9 @@ package cafe.adriel.voyager.hilt
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import cafe.adriel.voyager.androidx.AndroidScreen
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.internal.componentActivity
 import dagger.hilt.android.EntryPointAccessors
 
@@ -14,7 +14,7 @@ import dagger.hilt.android.EntryPointAccessors
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
-public inline fun <reified T : ScreenModel> AndroidScreen.getScreenModel(): T {
+public inline fun <reified T : ScreenModel> Screen.getScreenModel(): T {
     val context = LocalContext.current
     return rememberScreenModel {
         val screenModels = EntryPointAccessors
@@ -33,7 +33,7 @@ public inline fun <reified T : ScreenModel> AndroidScreen.getScreenModel(): T {
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
-public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> AndroidScreen.getScreenModel(
+public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Screen.getScreenModel(
     noinline factory: (F) -> T
 ): T {
     val context = LocalContext.current

@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
-import cafe.adriel.voyager.androidx.AndroidScreen
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleProvider
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.hilt.internal.componentActivity
 import cafe.adriel.voyager.hilt.internal.defaultViewModelProviderFactory
 
 /**
@@ -17,14 +19,20 @@ import cafe.adriel.voyager.hilt.internal.defaultViewModelProviderFactory
  * @return A new instance of [ViewModel] or the existent instance in the [ViewModelStore]
  */
 @Composable
-public inline fun <reified T : ViewModel> AndroidScreen.getViewModel(
+public inline fun <reified T : ViewModel> Screen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null
 ): T {
-    val viewModelStoreOwner = getLifecycleOwner() as? ViewModelStoreOwner
-        ?: error("LifecycleOwner should implement ViewModelStoreOwner")
-    val provider = ViewModelProvider(
-        store = viewModelStoreOwner.viewModelStore,
-        factory = viewModelProviderFactory ?: LocalContext.current.defaultViewModelProviderFactory
-    )
-    return provider[T::class.java]
+    val context = LocalContext.current
+    val factoryPromise = viewModelProviderFactory ?: context.defaultViewModelProviderFactory
+    if (this is ScreenLifecycleProvider) {
+        val viewModelStoreOwner = getLifecycleOwner() as? ViewModelStoreOwner
+            ?: error("LifecycleOwner provided by your Screen must be an androidx.lifecycle.ViewModelStoreOwner")
+        val provider = ViewModelProvider(
+            store = viewModelStoreOwner.viewModelStore,
+            factory = factoryPromise
+        )
+        return provider[T::class.java]
+    }
+    val viewModelStore = context.componentActivity.viewModelStore
+    return ViewModelProvider(viewModelStore, factoryPromise)[T::class.java]
 }
