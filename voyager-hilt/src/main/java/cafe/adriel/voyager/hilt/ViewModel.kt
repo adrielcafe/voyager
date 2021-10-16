@@ -14,6 +14,8 @@ import cafe.adriel.voyager.hilt.internal.defaultViewModelProviderFactory
 /**
  * A function to provide a [dagger.hilt.android.lifecycle.HiltViewModel] managed by voyager ViewModelStore
  * instead of using Activity ViewModelStore.
+ * There is compatibility with Activity ViewModelStore too but it must be avoided because your ViewModels
+ * will be cleared when activity is totally destroyed only.
  *
  * @param viewModelProviderFactory A custom factory commonly used with Assisted Injection
  * @return A new instance of [ViewModel] or the existent instance in the [ViewModelStore]
