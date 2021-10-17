@@ -1,6 +1,7 @@
 package cafe.adriel.voyager.hilt
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,16 +26,15 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null
 ): T {
     val context = LocalContext.current
-    val factoryPromise = viewModelProviderFactory ?: context.defaultViewModelProviderFactory
-    if (this is ScreenLifecycleProvider) {
-        val viewModelStoreOwner = getLifecycleOwner() as? ViewModelStoreOwner
-            ?: error("LifecycleOwner provided by your Screen must be an androidx.lifecycle.ViewModelStoreOwner")
-        val provider = ViewModelProvider(
-            store = viewModelStoreOwner.viewModelStore,
-            factory = factoryPromise
-        )
-        return provider[T::class.java]
+    val factory = viewModelProviderFactory ?: context.defaultViewModelProviderFactory
+    return remember(key1 = T::class) {
+        val viewModelStore = when (this) {
+            is ScreenLifecycleProvider ->
+                (this.getLifecycleOwner() as? ViewModelStoreOwner)?.viewModelStore
+                    ?: error("LifecycleOwner provided by your Screen must be an androidx.lifecycle.ViewModelStoreOwner")
+            else -> context.componentActivity.viewModelStore
+        }
+        val provider = ViewModelProvider(store = viewModelStore, factory = factory)
+        provider[T::class.java]
     }
-    val viewModelStore = context.componentActivity.viewModelStore
-    return ViewModelProvider(viewModelStore, factoryPromise)[T::class.java]
 }
