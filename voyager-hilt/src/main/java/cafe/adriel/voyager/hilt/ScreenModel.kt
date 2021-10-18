@@ -21,7 +21,11 @@ public inline fun <reified T : ScreenModel> Screen.getScreenModel(): T {
             .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModels()
         val model = screenModels[T::class.java]?.get()
-            ?: error("${T::class} screen model not found in hilt graph")
+            ?: error(
+                "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
+                    "declaration to your ScreenModel using @IntoMap and " +
+                    "@ScreenModelKey(${T::class.qualifiedName}::class)"
+            )
         model as T
     }
 }
@@ -42,7 +46,11 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Scre
             .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModelFactories()
         val screenFactory = screenFactories[F::class.java]?.get()
-            ?: error("${F::class} screen model factory not found in hilt graph")
+            ?: error(
+                "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
+                    "declaration to your ScreenModelFactory using @IntoMap and " +
+                    "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
+            )
         factory.invoke(screenFactory as F)
     }
 }
