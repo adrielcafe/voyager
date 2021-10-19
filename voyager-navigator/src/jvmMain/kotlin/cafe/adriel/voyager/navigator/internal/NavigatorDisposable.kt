@@ -19,7 +19,9 @@ internal fun NavigatorDisposableEffect(
 
     DisposableEffect(currentScreen.key) {
         onDispose {
-            if (navigator.lastEvent in disposableEvents) {
+            val disposePreviousScreen = navigator.lastEvent in disposableEvents
+            val disposeInitialScreen = navigator.lastEvent == StackEvent.Idle && navigator.canPop.not()
+            if (disposePreviousScreen || disposeInitialScreen) {
                 onDispose()
                 ScreenModelStore.remove(currentScreen)
                 ScreenLifecycleStore.remove(currentScreen)
