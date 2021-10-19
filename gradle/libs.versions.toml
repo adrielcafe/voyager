@@ -1,5 +1,5 @@
 [versions]
-plugin-android = "7.0.2"
+plugin-android = "7.0.3"
 plugin-ktlint = "10.2.0"
 plugin-maven = "0.18.0"
 
@@ -10,10 +10,10 @@ hilt = "2.39.1"
 leakCanary = "2.7"
 appCompat = "1.4.0-beta01"
 lifecycle = "2.4.0-rc01"
-compose = "1.1.0-alpha05"
-composeActivity = "1.4.0-beta01"
+compose = "1.1.0-alpha06"
+composeActivity = "1.4.0-rc01"
 
-junit = "5.7.2"
+junit = "5.8.1"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
