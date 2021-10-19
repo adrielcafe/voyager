@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.sample.androidLegacy.LegacyActivity
 import cafe.adriel.voyager.sample.androidViewModel.AndroidViewModelActivity
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationActivity
 import cafe.adriel.voyager.sample.bottomSheetNavigation.BottomSheetNavigationActivity
@@ -60,6 +61,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<RxJavaIntegrationActivity>("RxJava Integration")
                 StartSampleButton<LiveDataIntegrationActivity>("LiveData Integration")
                 StartSampleButton<HiltMainActivity>("Hilt Integration")
+                StartSampleButton<LegacyActivity>("Legacy Integration")
             }
         }
     }

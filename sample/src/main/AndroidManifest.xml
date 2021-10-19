@@ -30,6 +30,7 @@
         <activity android:name=".kodeinIntegration.KodeinIntegrationActivity"/>
         <activity android:name=".koinIntegration.KoinIntegrationActivity"/>
         <activity android:name=".hiltIntegration.HiltMainActivity"/>
+        <activity android:name=".androidLegacy.LegacyActivity"/>
     </application>
 
 </manifest>

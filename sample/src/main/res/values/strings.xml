@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Voyager</string>
+    <string name="compose_view_title">This is a legacy content</string>
 </resources>
