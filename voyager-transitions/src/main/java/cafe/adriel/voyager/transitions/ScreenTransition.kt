@@ -5,8 +5,9 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
@@ -22,12 +23,14 @@ public fun ScreenTransition(
     enterTransition: AnimatedContentScope<Screen>.() -> ContentTransform,
     exitTransition: AnimatedContentScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    onTransitionEnd: () -> Unit = {},
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
         content = content,
+        onTransitionEnd = onTransitionEnd,
         transition = {
             when (navigator.lastEvent) {
                 StackEvent.Pop -> exitTransition()
@@ -43,10 +46,21 @@ public fun ScreenTransition(
     navigator: Navigator,
     transition: AnimatedContentScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    onTransitionEnd: () -> Unit = {},
     content: ScreenTransitionContent = { it.Content() }
 ) {
-    AnimatedContent(
-        targetState = navigator.lastItem,
+    val updateTransition = updateTransition(targetState = navigator.lastItem, label = "ScreenTransition")
+    val currentScreen = updateTransition.currentState
+
+    DisposableEffect(currentScreen) {
+        navigator.registerToDisposeAfterTransitionEnd(currentScreen)
+        onDispose {
+            navigator.notifyTransitionEnd(previous = currentScreen)
+            onTransitionEnd.invoke()
+        }
+    }
+
+    updateTransition.AnimatedContent(
         transitionSpec = transition,
         modifier = modifier
     ) { screen ->

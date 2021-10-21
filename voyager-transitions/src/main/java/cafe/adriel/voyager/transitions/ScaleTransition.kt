@@ -21,12 +21,14 @@ public fun ScaleTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
+    onTransitionEnd: () -> Unit = {},
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
         content = content,
+        onTransitionEnd = onTransitionEnd,
         transition = {
             val (initialScale, targetScale) = when (navigator.lastEvent) {
                 StackEvent.Pop -> ExitScales

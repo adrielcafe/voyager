@@ -11,7 +11,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import cafe.adriel.voyager.core.stack.StackEvent
@@ -27,12 +26,14 @@ public fun SlideTransition(
         stiffness = Spring.StiffnessMediumLow,
         visibilityThreshold = IntOffset.VisibilityThreshold
     ),
+    onTransitionEnd: () -> Unit = {},
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
         content = content,
+        onTransitionEnd = onTransitionEnd,
         transition = {
             val (initialOffset, targetOffset) = when (navigator.lastEvent) {
                 StackEvent.Pop -> ({ size: Int -> -size }) to ({ size: Int -> size })

@@ -30,6 +30,7 @@ import cafe.adriel.voyager.sample.rxJavaIntegration.RxJavaIntegrationActivity
 import cafe.adriel.voyager.sample.screenModel.ScreenModelActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
 import cafe.adriel.voyager.sample.tabNavigation.TabNavigationActivity
+import cafe.adriel.voyager.sample.transitions.TransitionNavigationActivity
 
 class SampleActivity : ComponentActivity() {
 
@@ -62,6 +63,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<LiveDataIntegrationActivity>("LiveData Integration")
                 StartSampleButton<HiltMainActivity>("Hilt Integration")
                 StartSampleButton<LegacyActivity>("Legacy Integration")
+                StartSampleButton<TransitionNavigationActivity>("Transition Integration")
             }
         }
     }
