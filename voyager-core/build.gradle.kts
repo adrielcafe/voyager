@@ -9,17 +9,35 @@ plugins {
 kotlin {
     explicitApi = ExplicitApiMode.Strict
 
-    android()
-    jvm()
+    android {
+        publishAllLibraryVariants()
+    }
+    jvm("desktop")
 
     sourceSets {
-        val commonMain by getting {
+        val commonMain by getting
+        val jvmMain by creating {
+            dependsOn(commonMain)
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.ui)
             }
         }
+        val desktopMain by getting {
+            dependsOn(jvmMain)
+        }
+        val androidMain by getting {
+            dependsOn(jvmMain)
+        }
+        val commonTest by getting
+        val jvmTest by creating {
+            dependsOn(commonTest)
+        }
+        val desktopTest by getting {
+            dependsOn(jvmTest)
+        }
         val androidTest by getting {
+            dependsOn(jvmTest)
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
