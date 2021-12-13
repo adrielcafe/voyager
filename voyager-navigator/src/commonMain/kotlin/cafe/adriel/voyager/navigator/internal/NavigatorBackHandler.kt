@@ -1,9 +1,11 @@
 package cafe.adriel.voyager.navigator.internal
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.OnBackPressed
+
+@Composable
+internal expect fun BackHandler(enabled: Boolean = true, onBack: () -> Unit)
 
 @Composable
 internal fun NavigatorBackHandler(
