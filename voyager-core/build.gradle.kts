@@ -1,13 +1,12 @@
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {
-    explicitApi = ExplicitApiMode.Strict
+    explicitApi()
 
     android {
         publishAllLibraryVariants()
@@ -15,6 +14,12 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
+        /* Source sets structure
+        common
+          ├─ jvm
+              ├─ android
+              ├─ desktop
+         */
         val commonMain by getting
         val jvmMain by creating {
             dependsOn(commonMain)
@@ -39,8 +44,6 @@ kotlin {
         val androidTest by getting {
             dependsOn(jvmTest)
             dependencies {
-                implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
                 implementation(libs.junit.api)
                 runtimeOnly(libs.junit.engine)
             }
