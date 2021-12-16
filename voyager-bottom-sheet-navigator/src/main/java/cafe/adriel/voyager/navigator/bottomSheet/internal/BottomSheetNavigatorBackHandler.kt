@@ -13,12 +13,11 @@ internal fun BottomSheetNavigatorBackHandler(
     sheetState: ModalBottomSheetState,
     hideOnBackPress: Boolean
 ) {
-    BackHandler(
-        enabled = sheetState.isVisible,
-        onBack = {
+    if (sheetState.isVisible) {
+        BackHandler {
             if (navigator.pop().not() && hideOnBackPress) {
                 navigator.hide()
             }
         }
-    )
+    }
 }

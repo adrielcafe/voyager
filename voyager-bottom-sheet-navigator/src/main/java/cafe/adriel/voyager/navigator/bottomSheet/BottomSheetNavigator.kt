@@ -48,13 +48,27 @@ public fun BottomSheetNavigator(
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
     content: BottomSheetNavigatorContent
 ) {
-    val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    var hideBottomSheet: (() -> Unit)? = null
     val coroutineScope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { state ->
+            when (state) {
+                ModalBottomSheetValue.Hidden -> {
+                    hideBottomSheet?.invoke()
+                    false
+                }
+                else -> true
+            }
+        }
+    )
 
     Navigator(HiddenBottomSheetScreen, onBackPressed = null) { navigator ->
         val bottomSheetNavigator = remember(navigator, sheetState, coroutineScope) {
             BottomSheetNavigator(navigator, sheetState, coroutineScope)
         }
+
+        hideBottomSheet = bottomSheetNavigator::hide
 
         CompositionLocalProvider(LocalBottomSheetNavigator provides bottomSheetNavigator) {
             ModalBottomSheetLayout(
