@@ -2,6 +2,7 @@
 plugin-android = "7.0.3"
 plugin-ktlint = "10.2.0"
 plugin-maven = "0.18.0"
+plugin-multiplatform-compose = "1.0.0"
 
 kotlin = "1.5.31"
 kodein = "7.8.0"
@@ -21,6 +22,7 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "plugin-ktlint" }
 plugin-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "plugin-maven" }
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "plugin-multiplatform-compose" }
 
 leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
@@ -47,4 +49,4 @@ junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 
 [bundles]
-plugins = ["plugin-android", "plugin-ktlint",  "plugin-maven", "plugin-kotlin", "plugin-hilt"]
+plugins = ["plugin-android", "plugin-ktlint",  "plugin-maven", "plugin-kotlin", "plugin-hilt", "plugin-multiplatform-compose"]
