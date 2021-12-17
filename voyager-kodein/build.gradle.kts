@@ -26,7 +26,7 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 implementation(compose.runtime)
-                implementation(compose.ui)
+                implementation(libs.kodein)
             }
         }
         val desktopMain by getting {
@@ -34,9 +34,6 @@ kotlin {
         }
         val androidMain by getting {
             dependsOn(jvmMain)
-            dependencies {
-                implementation(libs.compose.activity)
-            }
         }
         val commonTest by getting
         val jvmTest by creating {

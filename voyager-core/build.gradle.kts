@@ -37,16 +37,16 @@ kotlin {
         val commonTest by getting
         val jvmTest by creating {
             dependsOn(commonTest)
+            dependencies {
+                implementation(libs.junit.api)
+                runtimeOnly(libs.junit.engine)
+            }
         }
         val desktopTest by getting {
             dependsOn(jvmTest)
         }
         val androidTest by getting {
             dependsOn(jvmTest)
-            dependencies {
-                implementation(libs.junit.api)
-                runtimeOnly(libs.junit.engine)
-            }
         }
     }
 }

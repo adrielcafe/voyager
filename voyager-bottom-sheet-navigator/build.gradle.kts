@@ -25,8 +25,9 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 api(projects.voyagerCore)
+                api(projects.voyagerNavigator)
                 implementation(compose.runtime)
-                implementation(compose.ui)
+                implementation(compose.material)
             }
         }
         val desktopMain by getting {

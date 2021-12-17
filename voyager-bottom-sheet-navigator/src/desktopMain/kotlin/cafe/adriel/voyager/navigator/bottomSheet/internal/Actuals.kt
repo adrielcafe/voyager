@@ -1,4 +1,4 @@
-package cafe.adriel.voyager.navigator.internal
+package cafe.adriel.voyager.navigator.bottomSheet.internal
 
 import androidx.compose.runtime.Composable
 
