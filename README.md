@@ -10,9 +10,9 @@
     <a href="https://voyager.adriel.cafe">Voyager</a>: Compose on Warp Speed
 </h1>
 
-Voyager is a lightweight and complete navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose).
+A multiplatform navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
-Create scalable Single-Activity apps powered by a [pragmatic API](https://voyager.adriel.cafe/navigation).
+Create scalable Single-Activity apps powered by a [pragmatic API](https://voyager.adriel.cafe/navigation):
 
 ```kotlin
 class HomeScreenModel : ScreenModel {
@@ -46,6 +46,7 @@ Turn on the Warp Drive and enjoy the trek 🖖
 See the [project website](https://voyager.adriel.cafe) for documentation and APIs.
 
 ### Features
+- [Supported platforms](https://voyager.adriel.cafe/setup/platform-compatibility): Android, Desktop
 - [Linear navigation](https://voyager.adriel.cafe/navigation)
 - [BottomSheet navigation](https://voyager.adriel.cafe/navigation/bottomsheet-navigation)
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
@@ -61,7 +62,9 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 - [Deep linking](https://voyager.adriel.cafe/deep-links) support
 
 ### Roadmap
-- [Compose for Desktop](https://github.com/JetBrains/compose-jb) support
+- iOS support
+- Multiplatform sample
+- Migrate from Groovy to KTS
 
 ### Samples
 | [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Android ViewModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/androidViewModel) | [ScreenModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/screenModel) | [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) |

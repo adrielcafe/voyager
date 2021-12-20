@@ -18,7 +18,6 @@ kapt {
 dependencies {
     api projects.voyagerAndroidx
 
-    implementation libs.appCompat
     implementation libs.compose.runtime
     implementation libs.compose.ui
     implementation libs.lifecycle.savedState

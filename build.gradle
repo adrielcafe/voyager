@@ -3,6 +3,7 @@ buildscript {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
     }
     dependencies {
         classpath libs.bundles.plugins
@@ -19,6 +20,7 @@ subprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
     }
 }
 

@@ -9,7 +9,7 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 
 class BottomSheetNavigationActivity : ComponentActivity() {
 
-    @ExperimentalMaterialApi
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
