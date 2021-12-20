@@ -46,7 +46,7 @@ Turn on the Warp Drive and enjoy the trek 🖖
 See the [project website](https://voyager.adriel.cafe) for documentation and APIs.
 
 ### Features
-- [Supported platforms](https://voyager.adriel.cafe/setup/platform-compatibility): Android, Desktop
+- [Supported platforms](https://voyager.adriel.cafe/setup#platform-compatibility): Android, Desktop
 - [Linear navigation](https://voyager.adriel.cafe/navigation)
 - [BottomSheet navigation](https://voyager.adriel.cafe/navigation/bottomsheet-navigation)
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
