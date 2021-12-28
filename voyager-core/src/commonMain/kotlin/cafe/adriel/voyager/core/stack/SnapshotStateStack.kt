@@ -1,13 +1,9 @@
 package cafe.adriel.voyager.core.stack
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
@@ -23,7 +19,8 @@ public fun <Item> mutableStateStackOf(
 ): SnapshotStateStack<Item> =
     SnapshotStateStack(*items, minSize = minSize)
 
-@Composable
+// TODO: Saveable API is not multiplatform
+/*@Composable
 public fun <Item : Any> rememberStateStack(
     vararg items: Item,
     minSize: Int = 0
@@ -45,7 +42,7 @@ private fun <Item : Any> stackSaver(
     listSaver(
         save = { stack -> stack.items },
         restore = { items -> SnapshotStateStack(items, minSize) }
-    )
+    )*/
 
 public class SnapshotStateStack<Item>(
     items: List<Item>,

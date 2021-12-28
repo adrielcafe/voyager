@@ -9,13 +9,19 @@ setupModuleForComposeMultiplatform()
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        /* Source sets structure
+        common
+          ├─ jvm
+              ├─ android
+              ├─ desktop
+         */
+        val commonMain by getting {
             dependencies {
                 compileOnly(compose.runtime)
                 compileOnly(compose.ui)
+                implementation(libs.coroutines.core)
             }
         }
-
         val jvmTest by getting {
             dependencies {
                 implementation(libs.junit.api)
