@@ -47,6 +47,10 @@ kotlin {
         }
         val androidTest by getting {
             dependsOn(jvmTest)
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.ui)
+            }
         }
     }
 }
