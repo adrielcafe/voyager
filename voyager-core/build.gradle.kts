@@ -24,8 +24,8 @@ kotlin {
         val jvmMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
+                compileOnly(compose.runtime)
+                compileOnly(compose.ui)
             }
         }
         val desktopMain by getting {
