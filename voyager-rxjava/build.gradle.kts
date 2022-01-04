@@ -24,7 +24,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 api(projects.voyagerCore)
-                implementation(libs.compose.rxjava)
+                compileOnly(libs.compose.rxjava)
             }
         }
         val desktopMain by getting {
