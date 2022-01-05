@@ -25,7 +25,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 api(projects.voyagerCore)
-                implementation(compose.runtime)
+                compileOnly(compose.runtime)
                 implementation(libs.kodein)
             }
         }
@@ -48,6 +48,10 @@ kotlin {
         }
         val androidTest by getting {
             dependsOn(jvmTest)
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.ui)
+            }
         }
     }
 }
