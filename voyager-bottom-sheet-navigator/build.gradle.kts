@@ -9,12 +9,6 @@ setupModuleForComposeMultiplatform()
 
 kotlin {
     sourceSets {
-        /* Source sets structure
-        common
-          ├─ jvm
-              ├─ android
-              ├─ desktop
-         */
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)

@@ -47,6 +47,8 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 compose-materialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 
+composeMultiplatform-runtimeSaveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "plugin-multiplatform-compose" }
+
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 

@@ -11,16 +11,10 @@ setupModuleForComposeMultiplatform()
 
 kotlin {
     sourceSets {
-        /* Source sets structure
-        common
-          ├─ jvm
-              ├─ android
-              ├─ desktop
-         */
         val commonMain by getting {
             dependencies {
                 compileOnly(compose.runtime)
-                compileOnly(compose("org.jetbrains.compose.runtime:runtime-saveable"))
+                compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.coroutines.core)
             }
         }
