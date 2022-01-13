@@ -9,7 +9,7 @@ setupModuleForComposeMultiplatform()
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
