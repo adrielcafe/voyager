@@ -1,3 +1,5 @@
+import org.jetbrains.compose.compose
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -9,11 +11,18 @@ setupModuleForComposeMultiplatform()
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        /* Source sets structure
+        common
+          ├─ jvm
+              ├─ android
+              ├─ desktop
+         */
+
+        val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
                 compileOnly(compose.runtime)
-                compileOnly(compose.ui)
+                compileOnly(compose("org.jetbrains.compose.runtime:runtime-saveable"))
             }
         }
 
