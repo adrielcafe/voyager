@@ -2,11 +2,13 @@ package cafe.adriel.voyager.core.screen
 
 import androidx.compose.runtime.Composable
 
-public interface Screen {
+public expect interface Screen {
 
-    public val key: ScreenKey
-        get() = this::class.qualifiedName ?: error("Default ScreenKey not found, please provide your own key")
+    public open val key: ScreenKey
 
     @Composable
     public fun Content()
 }
+
+internal fun Screen.commonKeyGeneration() =
+    this::class.qualifiedName ?: error("Default ScreenKey not found, please provide your own key")

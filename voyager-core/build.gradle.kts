@@ -1,3 +1,5 @@
+import org.jetbrains.compose.compose
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -18,7 +20,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 compileOnly(compose.runtime)
-                compileOnly(compose.ui)
+                compileOnly(compose("org.jetbrains.compose.runtime:runtime-saveable"))
                 implementation(libs.coroutines.core)
             }
         }
