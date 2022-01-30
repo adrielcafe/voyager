@@ -5,14 +5,14 @@ import cafe.adriel.voyager.androidx.AndroidScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.sample.ListContent
-import org.koin.androidx.compose.getStateViewModel
+import org.koin.androidx.compose.getViewModel
 
 class AndroidListScreen : AndroidScreen() {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel = getStateViewModel<AndroidListViewModel>()
+        val viewModel = getViewModel<AndroidListViewModel>()
 
         ListContent(viewModel.items, onClick = { index -> navigator.push(AndroidDetailsScreen(index)) })
     }
