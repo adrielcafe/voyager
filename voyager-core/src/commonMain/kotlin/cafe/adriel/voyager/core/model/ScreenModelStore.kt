@@ -1,9 +1,9 @@
 package cafe.adriel.voyager.core.model
 
 import androidx.compose.runtime.DisallowComposableCalls
+import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.util.concurrent.ConcurrentHashMap
 
 private typealias ScreenModelKey = String
 
@@ -15,10 +15,10 @@ private typealias Dependency = Pair<DependencyInstance, DependencyOnDispose>
 public object ScreenModelStore {
 
     @PublishedApi
-    internal val screenModels: MutableMap<ScreenModelKey, ScreenModel> = ConcurrentHashMap()
+    internal val screenModels: MutableMap<ScreenModelKey, ScreenModel> = ThreadSafeMap()
 
     @PublishedApi
-    internal val dependencies: MutableMap<DependencyKey, Dependency> = ConcurrentHashMap()
+    internal val dependencies: MutableMap<DependencyKey, Dependency> = ThreadSafeMap()
 
     @PublishedApi
     internal val lastScreenModelKey: MutableStateFlow<ScreenModelKey?> = MutableStateFlow(null)

@@ -1,3 +1,5 @@
+import org.jetbrains.compose.compose
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -9,13 +11,13 @@ setupModuleForComposeMultiplatform()
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
                 compileOnly(compose.runtime)
-                compileOnly(compose.ui)
+                compileOnly(libs.composeMultiplatform.runtimeSaveable)
+                implementation(libs.coroutines.core)
             }
         }
-
         val jvmTest by getting {
             dependencies {
                 implementation(libs.junit.api)
