@@ -64,7 +64,6 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 ### Roadmap
 - iOS support
 - Multiplatform sample
-- Migrate from Groovy to KTS
 
 ### Samples
 | [Stack API](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Android ViewModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/androidViewModel) | [ScreenModel](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/screenModel) | [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/sample/src/main/java/cafe/adriel/voyager/sample/basicNavigation) |
