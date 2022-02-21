@@ -36,7 +36,7 @@ public object ScreenModelStore {
             }
             ?: lastScreenModelKey.value
                 ?.let { "$it:$name" }
-            ?: error("ScreenModel not found: ${screenModel::class.qualifiedName}")
+            ?: "standalone:$name"
 
     @PublishedApi
     internal inline fun <reified T : ScreenModel> getOrPut(
