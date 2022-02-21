@@ -6,13 +6,12 @@ import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import java.util.stream.Stream
 
 internal class SnapshotStateStackTest {
 
     @TestFactory
-    fun initSingle(): Stream<DynamicTest> =
-        Stream.of(
+    fun initSingle(): Sequence<DynamicTest> =
+        sequenceOf(
             "item 1" to 0,
             "item 1" to 1,
         ).map { (item, minSize) ->
@@ -24,8 +23,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun initList(): Stream<DynamicTest> =
-        Stream.of(
+    fun initList(): Sequence<DynamicTest> =
+        sequenceOf(
             Triple(emptyList(), 0, false),
             Triple(emptyList(), 1, true),
             Triple(listOf("item 1"), 0, false),
@@ -50,8 +49,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun items(): Stream<DynamicTest> =
-        Stream.of(
+    fun items(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList(),
             listOf("item 1"),
             listOf("item 1", "item 2")
@@ -64,8 +63,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun lastOrNull(): Stream<DynamicTest> =
-        Stream.of(
+    fun lastOrNull(): Sequence<DynamicTest> =
+        sequenceOf(
             Triple(emptyList(), null, false),
             Triple(listOf("item 1"), "item 1", true),
             Triple(listOf("item 1", "item 2"), "item 2", true)
@@ -78,8 +77,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun size(): Stream<DynamicTest> =
-        Stream.of(
+    fun size(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList<String>() to 0,
             listOf("item 1") to 1,
             listOf("item 1", "item 2") to 2
@@ -92,8 +91,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun isEmpty(): Stream<DynamicTest> =
-        Stream.of(
+    fun isEmpty(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList<String>() to true,
             listOf("item 1") to false,
             listOf("item 1", "item 2") to false
@@ -106,8 +105,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun canPop(): Stream<DynamicTest> =
-        Stream.of(
+    fun canPop(): Sequence<DynamicTest> =
+        sequenceOf(
             Triple(emptyList(), 0, false),
             Triple(listOf("item 1"), 0, true),
             Triple(listOf("item 1"), 1, false),
@@ -122,8 +121,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun pushSingle(): Stream<DynamicTest> =
-        Stream.of(
+    fun pushSingle(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList<String>() to "new item",
             listOf("item 1") to "new item",
             listOf("item 1", "item 2") to "new item"
@@ -138,8 +137,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun pushList(): Stream<DynamicTest> =
-        Stream.of(
+    fun pushList(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList<String>() to emptyList(),
             listOf("item 1") to listOf("new item"),
             listOf("item 1", "item 2") to listOf("new item 1", "new item 2")
@@ -157,8 +156,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun replace(): Stream<DynamicTest> =
-        Stream.of(
+    fun replace(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList<String>() to "new item",
             listOf("item 1") to "new item",
             listOf("item 1", "item 2") to "new item"
@@ -173,8 +172,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun replaceAll(): Stream<DynamicTest> =
-        Stream.of(
+    fun replaceAll(): Sequence<DynamicTest> =
+        sequenceOf(
             emptyList<String>() to "new item",
             listOf("item 1") to "new item",
             listOf("item 1", "item 2") to "new item"
@@ -190,8 +189,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun pop(): Stream<DynamicTest> =
-        Stream.of(
+    fun pop(): Sequence<DynamicTest> =
+        sequenceOf(
             Quadruple(emptyList(), 0, false, null),
             Quadruple(listOf("item 1"), 0, true, null),
             Quadruple(listOf("item 1"), 1, false, "item 1"),
@@ -210,8 +209,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun popAll(): Stream<DynamicTest> =
-        Stream.of(
+    fun popAll(): Sequence<DynamicTest> =
+        sequenceOf(
             Quadruple(emptyList(), 0, 0, null),
             Quadruple(listOf("item 1"), 0, 0, null),
             Quadruple(listOf("item 1"), 1, 1, "item 1"),
@@ -232,8 +231,8 @@ internal class SnapshotStateStackTest {
         }
 
     @TestFactory
-    fun popUntil(): Stream<DynamicTest> =
-        Stream.of(
+    fun popUntil(): Sequence<DynamicTest> =
+        sequenceOf(
             Quadruple(emptyList(), 0, null, null),
             Quadruple(listOf("item 1"), 0, "item 1", "item 1"),
             Quadruple(listOf("item 1"), 1, "item 1", "item 1"),
