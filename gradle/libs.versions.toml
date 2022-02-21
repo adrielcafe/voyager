@@ -1,18 +1,18 @@
 [versions]
-plugin-android = "7.1.0"
+plugin-android = "7.1.1"
 plugin-ktlint = "10.2.1"
 plugin-maven = "0.18.0"
 plugin-multiplatform-compose = "1.0.1"
 
 coroutines = "1.6.0"
 kotlin = "1.6.10"
-kodein = "7.10.0"
+kodein = "7.11.0"
 koin = "3.1.5"
-hilt = "2.40.5"
+hilt = "2.41"
 leakCanary = "2.8.1"
 appCompat = "1.4.1"
-lifecycle = "2.4.0"
-compose = "1.1.0-rc03"
+lifecycle = "2.4.1"
+compose = "1.1.0"
 composeActivity = "1.4.0"
 
 junit = "5.8.2"
