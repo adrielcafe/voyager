@@ -7,7 +7,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 kotlin {
     sourceSets {
