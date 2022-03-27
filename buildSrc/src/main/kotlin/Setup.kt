@@ -100,7 +100,7 @@ fun Project.setupModuleForComposeMultiplatform(
         }
     }
 
-    extensions.configure<LibraryExtension> {
+    findAndroidExtension().apply {
         setupAndroid()
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
@@ -118,3 +118,7 @@ private fun KotlinJvmOptions.configureKotlinJvmOptions(
 
     if(enableExplicitMode) freeCompilerArgs += "-Xexplicit-api=strict"
 }
+
+private fun Project.findAndroidExtension(): BaseExtension = extensions.findByType<LibraryExtension>()
+    ?: extensions.findByType<com.android.build.gradle.AppExtension>()
+    ?: error("Could not found Android application or library plugin applied on module $name")

@@ -6,12 +6,13 @@ dependencyResolutionManagement {
 }
 
 include(
-    ':sample',
+    ':samples:android',
+    ':samples:multiplatform',
 
-    ':sample-multi-module:app',
-    ':sample-multi-module:navigation',
-    ':sample-multi-module:feature-home',
-    ':sample-multi-module:feature-posts',
+    ':samples:multi-module:app',
+    ':samples:multi-module:navigation',
+    ':samples:multi-module:feature-home',
+    ':samples:multi-module:feature-posts',
 
     ':voyager-core',
     ':voyager-navigator',
