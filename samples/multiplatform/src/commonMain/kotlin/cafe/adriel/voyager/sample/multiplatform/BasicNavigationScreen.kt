@@ -84,13 +84,13 @@ public data class BasicNavigationScreen(
                 }
             }
 
-            LazyColumn(
-                modifier = Modifier.height(100.dp)
-            ) {
-                items(100) {
-                    Text("Item #$it")
-                }
-            }
+//            LazyColumn(
+//                modifier = Modifier.height(100.dp)
+//            ) {
+//                items(100) {
+//                    Text("Item #$it")
+//                }
+//            }
         }
     }
 }

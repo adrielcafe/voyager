@@ -60,13 +60,21 @@ fun Project.setupModuleForAndroidxCompose(
 }
 
 fun Project.setupModuleForComposeMultiplatform(
-    withKotlinExplicitMode: Boolean = true
+    withKotlinExplicitMode: Boolean = true,
+    fullyMultiplatform: Boolean = false,
 ) {
     extensions.configure<KotlinMultiplatformExtension> {
         android {
             publishAllLibraryVariants()
         }
         jvm("desktop")
+
+        if(fullyMultiplatform) {
+            macosX64 {}
+            macosArm64 {}
+            iosX64("uikitX64") {}
+            iosArm64("uikitArm64") {}
+        }
 
         sourceSets {
             /* Source sets structure
@@ -96,6 +104,30 @@ fun Project.setupModuleForComposeMultiplatform(
             }
             val androidTest by getting {
                 dependsOn(jvmTest)
+            }
+
+            if(fullyMultiplatform) {
+                val nativeMain by creating {
+                    dependsOn(commonMain)
+                }
+                val macosMain by creating {
+                    dependsOn(nativeMain)
+                }
+                val macosX64Main by getting {
+                    dependsOn(macosMain)
+                }
+                val macosArm64Main by getting {
+                    dependsOn(macosMain)
+                }
+                val uikitMain by creating {
+                    dependsOn(nativeMain)
+                }
+                val uikitX64Main by getting {
+                    dependsOn(uikitMain)
+                }
+                val uikitArm64Main by getting {
+                    dependsOn(uikitMain)
+                }
             }
         }
     }
