@@ -2,13 +2,16 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
+import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
@@ -69,11 +72,24 @@ public fun Navigator(
         val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
         val hooks = lifecycleOwner.getHooks()
 
+        DisposableEffect(navigator) {
+            onDispose {
+                for (screen in navigator.items) {
+                    ScreenModelStore.remove(screen)
+                    ScreenLifecycleStore.remove(screen)
+                    navigator.stateHolder.removeState(screen.key)
+                }
+                navigator.clearEvent()
+            }
+        }
+
         CompositionLocalProvider(
             LocalNavigator provides navigator,
             *hooks.providers.toTypedArray()
         ) {
-            if (autoDispose) NavigatorDisposableEffect(navigator, hooks.onDispose)
+            if (autoDispose) {
+                NavigatorDisposableEffect(navigator)
+            }
 
             NavigatorBackHandler(navigator, onBackPressed)
 

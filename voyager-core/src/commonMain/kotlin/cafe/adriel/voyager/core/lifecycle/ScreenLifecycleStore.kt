@@ -15,6 +15,6 @@ public object ScreenLifecycleStore {
         owners.getOrPut(screen.key) { factory(screen.key) }
 
     public fun remove(screen: Screen) {
-        owners -= screen.key
+        owners.remove(screen.key)?.onDispose(screen)
     }
 }
