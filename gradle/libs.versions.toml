@@ -51,6 +51,3 @@ composeMultiplatform-runtimeSaveable = { module = "org.jetbrains.compose.runtime
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-
-[bundles]
-plugins = ["plugin-android", "plugin-ktlint",  "plugin-maven", "plugin-kotlin", "plugin-hilt", "plugin-multiplatform-compose"]

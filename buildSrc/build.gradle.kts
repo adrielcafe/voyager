@@ -3,11 +3,12 @@ plugins {
 }
 
 repositories {
+    gradlePluginPortal()
     google()
     mavenCentral()
-    gradlePluginPortal()
 }
 
 dependencies {
-    implementation(libs.bundles.plugins)
+    implementation(libs.plugin.android)
+    implementation(libs.plugin.kotlin)
 }
