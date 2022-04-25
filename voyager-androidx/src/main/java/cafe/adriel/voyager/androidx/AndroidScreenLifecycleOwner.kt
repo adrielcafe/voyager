@@ -19,6 +19,7 @@ import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleHooks
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
+import java.util.concurrent.atomic.AtomicReference
 
 public class AndroidScreenLifecycleOwner private constructor() :
     ScreenLifecycleOwner,
@@ -32,8 +33,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private val controller = SavedStateRegistryController.create(this)
 
-    private val Context.isChangingConfigurations: Boolean
-        get() = (this as? Activity)?.isChangingConfigurations ?: false
+    private val atomicContext = AtomicReference<Context>()
 
     init {
         if (controller.savedStateRegistry.isRestored.not()) {
@@ -41,21 +41,22 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
+    override fun onDispose(screen: Screen) {
+        val context = atomicContext.getAndSet(null) ?: return
+        if (context is Activity && context.isChangingConfigurations) return
+        viewModelStore.clear()
+    }
+
     @Composable
     override fun getHooks(): ScreenLifecycleHooks {
-        val context = LocalContext.current
+        atomicContext.compareAndSet(null, LocalContext.current)
 
         return remember(this) {
             ScreenLifecycleHooks(
                 providers = listOf(
                     LocalViewModelStoreOwner provides this,
                     LocalSavedStateRegistryOwner provides this,
-                ),
-                onDispose = {
-                    if (context.isChangingConfigurations.not()) {
-                        viewModelStore.clear()
-                    }
-                }
+                )
             )
         }
     }
