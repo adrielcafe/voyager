@@ -6,4 +6,8 @@ import cafe.adriel.voyager.sample.sampleItems
 class ListScreenModel : ScreenModel {
 
     val items = sampleItems
+
+    override fun onDispose() {
+        println("ScreenModel: dispose list")
+    }
 }

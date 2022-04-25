@@ -20,4 +20,8 @@ class DetailsScreenModel(
             mutableState.value = State.Result("Item #$index")
         }
     }
+
+    override fun onDispose() {
+        println("ScreenModel: dispose details")
+    }
 }
