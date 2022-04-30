@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -39,12 +40,14 @@ public class AndroidScreenLifecycleOwner private constructor() :
         if (controller.savedStateRegistry.isRestored.not()) {
             controller.performRestore(null)
         }
+        initStates.forEach { registry.currentState = it }
     }
 
     override fun onDispose(screen: Screen) {
         val context = atomicContext.getAndSet(null) ?: return
         if (context is Activity && context.isChangingConfigurations) return
         viewModelStore.clear()
+        disposeStates.forEach { registry.currentState = it }
     }
 
     @Composable
@@ -54,6 +57,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         return remember(this) {
             ScreenLifecycleHooks(
                 providers = listOf(
+                    LocalLifecycleOwner provides this,
                     LocalViewModelStoreOwner provides this,
                     LocalSavedStateRegistryOwner provides this,
                 )
@@ -68,6 +72,17 @@ public class AndroidScreenLifecycleOwner private constructor() :
     override fun getSavedStateRegistry(): SavedStateRegistry = controller.savedStateRegistry
 
     public companion object {
+
+        private val initStates = arrayOf(
+            Lifecycle.State.INITIALIZED,
+            Lifecycle.State.CREATED,
+            Lifecycle.State.STARTED,
+            Lifecycle.State.RESUMED
+        )
+
+        private val disposeStates = arrayOf(
+            Lifecycle.State.DESTROYED
+        )
 
         public fun get(screen: Screen): ScreenLifecycleOwner =
             ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }
