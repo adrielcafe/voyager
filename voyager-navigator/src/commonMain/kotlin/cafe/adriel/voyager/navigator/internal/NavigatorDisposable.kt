@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.model.ScreenModelStore
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -17,9 +18,7 @@ internal fun NavigatorDisposableEffect(
     DisposableEffect(navigator) {
         onDispose {
             for (screen in navigator.items) {
-                ScreenModelStore.remove(screen)
-                ScreenLifecycleStore.remove(screen)
-                navigator.stateHolder.removeState(screen.key)
+                navigator.dispose(screen)
             }
             navigator.clearEvent()
         }
@@ -35,11 +34,17 @@ internal fun StepDisposableEffect(
     DisposableEffect(currentScreen.key) {
         onDispose {
             if (navigator.lastEvent in disposableEvents) {
-                ScreenModelStore.remove(currentScreen)
-                ScreenLifecycleStore.remove(currentScreen)
-                navigator.stateHolder.removeState(currentScreen.key)
+                navigator.dispose(currentScreen)
                 navigator.clearEvent()
             }
         }
     }
+}
+
+private fun Navigator.dispose(
+    screen: Screen
+) {
+    ScreenModelStore.remove(screen)
+    ScreenLifecycleStore.remove(screen)
+    stateHolder.removeState(screen.key)
 }

@@ -66,11 +66,11 @@ public fun Navigator(
     CompositionLocalProvider(
         LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
     ) {
-        val navigator = rememberNavigator(screens, LocalNavigator.current)
+        val navigator = rememberNavigator(screens, disposeBehavior, LocalNavigator.current)
         val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
         val hooks = lifecycleOwner.getHooks()
 
-        if (disposeBehavior.autoDisposeNavigator) {
+        if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
             NavigatorDisposableEffect(navigator)
         }
 
@@ -78,7 +78,7 @@ public fun Navigator(
             LocalNavigator provides navigator,
             *hooks.providers.toTypedArray()
         ) {
-            if (disposeBehavior.autoDisposeSteps) {
+            if (disposeBehavior.disposeSteps) {
                 StepDisposableEffect(navigator)
             }
 
@@ -91,6 +91,7 @@ public fun Navigator(
 
 public class Navigator internal constructor(
     screens: List<Screen>,
+    public val disposeBehavior: NavigatorDisposeBehavior,
     public val stateHolder: SaveableStateHolder,
     public val parent: Navigator? = null
 ) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
@@ -124,6 +125,6 @@ public class Navigator internal constructor(
 }
 
 public data class NavigatorDisposeBehavior(
-    val autoDisposeNavigator: Boolean = true,
-    val autoDisposeSteps: Boolean = true,
+    val disposeNestedNavigators: Boolean = true,
+    val disposeSteps: Boolean = true,
 )

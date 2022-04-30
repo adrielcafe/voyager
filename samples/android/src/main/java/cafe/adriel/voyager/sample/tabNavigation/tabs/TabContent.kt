@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.sample.androidViewModel.AndroidListViewModel
@@ -34,10 +33,7 @@ fun Tab.TabContent() {
         onDisposed = { Log.d("Navigator", "Dispose tab $tabTitle") },
     )
 
-    Navigator(
-        screen = BasicNavigationScreen(index = 0),
-        disposeBehavior = NavigatorDisposeBehavior(autoDisposeNavigator = false),
-    ) { navigator ->
+    Navigator(BasicNavigationScreen(index = 0)) { navigator ->
         SlideTransition(navigator) { screen ->
             val screenModel = rememberScreenModel { ListScreenModel() }
             val viewModel = getViewModel<AndroidListViewModel>()
