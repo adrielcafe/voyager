@@ -2,22 +2,20 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
-import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
+import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
 
 public typealias NavigatorContent = @Composable (navigator: Navigator) -> Unit
@@ -44,13 +42,13 @@ public fun CurrentScreen() {
 @Composable
 public fun Navigator(
     screen: Screen,
-    autoDispose: Boolean = true,
+    disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
     Navigator(
         screens = listOf(screen),
-        autoDispose = autoDispose,
+        disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
         content = content
     )
@@ -59,7 +57,7 @@ public fun Navigator(
 @Composable
 public fun Navigator(
     screens: List<Screen>,
-    autoDispose: Boolean = true,
+    disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
@@ -72,23 +70,16 @@ public fun Navigator(
         val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
         val hooks = lifecycleOwner.getHooks()
 
-        DisposableEffect(navigator) {
-            onDispose {
-                for (screen in navigator.items) {
-                    ScreenModelStore.remove(screen)
-                    ScreenLifecycleStore.remove(screen)
-                    navigator.stateHolder.removeState(screen.key)
-                }
-                navigator.clearEvent()
-            }
+        if (disposeBehavior.autoDisposeNavigator) {
+            NavigatorDisposableEffect(navigator)
         }
 
         CompositionLocalProvider(
             LocalNavigator provides navigator,
             *hooks.providers.toTypedArray()
         ) {
-            if (autoDispose) {
-                NavigatorDisposableEffect(navigator)
+            if (disposeBehavior.autoDisposeSteps) {
+                StepDisposableEffect(navigator)
             }
 
             NavigatorBackHandler(navigator, onBackPressed)
@@ -123,13 +114,16 @@ public class Navigator internal constructor(
         popUntilRoot(this)
     }
 
-    private tailrec fun popUntilRoot(navigator: Navigator): Navigator {
+    private tailrec fun popUntilRoot(navigator: Navigator) {
         navigator.popAll()
 
-        return if (navigator.parent == null) {
-            navigator
-        } else {
+        if (navigator.parent != null) {
             popUntilRoot(navigator.parent)
         }
     }
 }
+
+public data class NavigatorDisposeBehavior(
+    val autoDisposeNavigator: Boolean = true,
+    val autoDisposeSteps: Boolean = true,
+)

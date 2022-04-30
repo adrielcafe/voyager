@@ -14,6 +14,22 @@ private val disposableEvents: Set<StackEvent> =
 internal fun NavigatorDisposableEffect(
     navigator: Navigator
 ) {
+    DisposableEffect(navigator) {
+        onDispose {
+            for (screen in navigator.items) {
+                ScreenModelStore.remove(screen)
+                ScreenLifecycleStore.remove(screen)
+                navigator.stateHolder.removeState(screen.key)
+            }
+            navigator.clearEvent()
+        }
+    }
+}
+
+@Composable
+internal fun StepDisposableEffect(
+    navigator: Navigator
+) {
     val currentScreen = navigator.lastItem
 
     DisposableEffect(currentScreen.key) {

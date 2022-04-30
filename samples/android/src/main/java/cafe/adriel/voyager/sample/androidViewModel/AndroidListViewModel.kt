@@ -12,4 +12,8 @@ class AndroidListViewModel(private val handle: SavedStateHandle) : ViewModel() {
 
     val items: List<String>
         get() = handle["items"] ?: error("Items not found")
+
+    override fun onCleared() {
+        println("ViewModel: clear list")
+    }
 }
