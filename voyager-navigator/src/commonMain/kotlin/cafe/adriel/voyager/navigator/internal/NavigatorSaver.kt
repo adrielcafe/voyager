@@ -23,7 +23,7 @@ internal fun rememberNavigator(
     val stateHolder = LocalNavigatorStateHolder.current
 
     return rememberSaveable(saver = navigatorSaver(stateHolder, disposeBehavior, parent)) {
-        Navigator(screens, disposeBehavior, stateHolder, parent)
+        Navigator(screens, stateHolder, disposeBehavior, parent)
     }
 }
 
@@ -34,5 +34,5 @@ private fun navigatorSaver(
 ): Saver<Navigator, Any> =
     listSaver(
         save = { navigator -> navigator.items },
-        restore = { items -> Navigator(items, disposeBehavior, stateHolder, parent) }
+        restore = { items -> Navigator(items, stateHolder, disposeBehavior, parent) }
     )

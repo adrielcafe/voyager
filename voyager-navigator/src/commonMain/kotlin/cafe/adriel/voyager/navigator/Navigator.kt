@@ -8,7 +8,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.concurrent.ThreadSafeList
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
+import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
@@ -34,7 +37,7 @@ public fun CurrentScreen() {
     val navigator = LocalNavigator.currentOrThrow
     val currentScreen = navigator.lastItem
 
-    navigator.stateHolder.SaveableStateProvider(currentScreen.key) {
+    navigator.saveableState("currentScreen") {
         currentScreen.Content()
     }
 }
@@ -91,8 +94,8 @@ public fun Navigator(
 
 public class Navigator internal constructor(
     screens: List<Screen>,
+    private val stateHolder: SaveableStateHolder,
     public val disposeBehavior: NavigatorDisposeBehavior,
-    public val stateHolder: SaveableStateHolder,
     public val parent: Navigator? = null
 ) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
 
@@ -103,12 +106,25 @@ public class Navigator internal constructor(
         lastItemOrNull ?: error("Navigator has no screen")
     }
 
+    private val stateKeys = ThreadSafeList<String>()
+
     @Deprecated(
         message = "Use 'lastItem' instead. Will be removed in 1.0.0.",
         replaceWith = ReplaceWith("lastItem")
     )
     public val last: Screen by derivedStateOf {
         lastItem
+    }
+
+    @Composable
+    public fun saveableState(
+        key: String,
+        screen: Screen = lastItem,
+        content: @Composable () -> Unit
+    ) {
+        val stateKey = "${screen.key}:$key"
+        stateKeys += stateKey
+        stateHolder.SaveableStateProvider(stateKey, content)
     }
 
     public fun popUntilRoot() {
@@ -121,6 +137,20 @@ public class Navigator internal constructor(
         if (navigator.parent != null) {
             popUntilRoot(navigator.parent)
         }
+    }
+
+    internal fun dispose(
+        screen: Screen
+    ) {
+        ScreenModelStore.remove(screen)
+        ScreenLifecycleStore.remove(screen)
+        stateKeys
+            .asSequence()
+            .filter { it.startsWith(screen.key) }
+            .forEach { key ->
+                stateHolder.removeState(key)
+                stateKeys -= key
+            }
     }
 }
 

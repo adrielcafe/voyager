@@ -15,7 +15,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -93,10 +92,9 @@ public fun BottomSheetNavigator(
 
 @OptIn(ExperimentalMaterialApi::class)
 public class BottomSheetNavigator internal constructor(
-    navigator: Navigator,
+    private val navigator: Navigator,
     private val sheetState: ModalBottomSheetState,
-    private val coroutineScope: CoroutineScope,
-    public val stateHolder: SaveableStateHolder = navigator.stateHolder
+    private val coroutineScope: CoroutineScope
 ) : Stack<Screen> by navigator {
 
     public val isVisible: Boolean
@@ -114,6 +112,14 @@ public class BottomSheetNavigator internal constructor(
             sheetState.hide()
             replaceAll(HiddenBottomSheetScreen)
         }
+    }
+
+    @Composable
+    public fun saveableState(
+        key: String,
+        content: @Composable () -> Unit
+    ) {
+        navigator.saveableState(key, content = content)
     }
 }
 

@@ -6,7 +6,6 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
@@ -50,7 +49,7 @@ public fun ScreenTransition(
         transitionSpec = transition,
         modifier = modifier
     ) { screen ->
-        navigator.stateHolder.SaveableStateProvider(screen.key) {
+        navigator.saveableState("transition", screen) {
             content(screen)
         }
     }

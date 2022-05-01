@@ -9,7 +9,7 @@ public fun CurrentTab() {
     val tabNavigator = LocalTabNavigator.current
     val currentTab = tabNavigator.current
 
-    tabNavigator.stateHolder.SaveableStateProvider(currentTab.key) {
+    tabNavigator.saveableState("currentTab") {
         currentTab.Content()
     }
 }

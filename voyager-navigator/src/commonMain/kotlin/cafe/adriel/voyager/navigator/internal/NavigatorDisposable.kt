@@ -2,9 +2,6 @@ package cafe.adriel.voyager.navigator.internal
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
-import cafe.adriel.voyager.core.model.ScreenModelStore
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -39,12 +36,4 @@ internal fun StepDisposableEffect(
             }
         }
     }
-}
-
-private fun Navigator.dispose(
-    screen: Screen
-) {
-    ScreenModelStore.remove(screen)
-    ScreenLifecycleStore.remove(screen)
-    stateHolder.removeState(screen.key)
 }
