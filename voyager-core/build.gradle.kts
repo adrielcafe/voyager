@@ -15,7 +15,7 @@ kotlin {
             dependencies {
                 compileOnly(compose.runtime)
                 compileOnly(libs.composeMultiplatform.runtimeSaveable)
-                implementation(libs.coroutines.core)
+                implementation(libs.coroutines)
             }
         }
         val jvmTest by getting {
@@ -24,7 +24,6 @@ kotlin {
                 runtimeOnly(libs.junit.engine)
             }
         }
-
         val androidTest by getting {
             dependencies {
                 implementation(compose.runtime)

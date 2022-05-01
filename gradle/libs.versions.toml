@@ -25,8 +25,8 @@ plugin-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "plugin-multiplatform-compose" }
 
-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
