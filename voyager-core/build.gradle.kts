@@ -5,7 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.core"
