@@ -1,15 +1,19 @@
 package cafe.adriel.voyager.androidx
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -26,7 +30,8 @@ public class AndroidScreenLifecycleOwner private constructor() :
     ScreenLifecycleOwner,
     LifecycleOwner,
     ViewModelStoreOwner,
-    SavedStateRegistryOwner {
+    SavedStateRegistryOwner,
+    HasDefaultViewModelProviderFactory {
 
     private val registry = LifecycleRegistry(this)
 
@@ -70,6 +75,13 @@ public class AndroidScreenLifecycleOwner private constructor() :
     override fun getViewModelStore(): ViewModelStore = store
 
     override fun getSavedStateRegistry(): SavedStateRegistry = controller.savedStateRegistry
+
+    override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
+        return SavedStateViewModelFactory(
+            (atomicContext.get()?.applicationContext as? Application),
+            this
+        )
+    }
 
     public companion object {
 
