@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabDisposable
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.sample.tabNavigation.tabs.FavoritesTab
 import cafe.adriel.voyager.sample.tabNavigation.tabs.HomeTab
@@ -31,7 +32,15 @@ class TabNavigationActivity : ComponentActivity() {
 
     @Composable
     fun Content() {
-        TabNavigator(HomeTab) { tabNavigator ->
+        TabNavigator(
+            HomeTab,
+            tabDisposable = {
+                TabDisposable(
+                    navigator = it,
+                    tabs = listOf(HomeTab, FavoritesTab, ProfileTab)
+                )
+            }
+        ) { tabNavigator ->
             Scaffold(
                 topBar = {
                     TopAppBar(
