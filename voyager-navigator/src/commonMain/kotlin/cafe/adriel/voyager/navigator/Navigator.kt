@@ -149,7 +149,7 @@ public class Navigator internal constructor(
         }
     }
 
-    internal fun dispose(
+    public fun dispose(
         screen: Screen
     ) {
         ScreenModelStore.remove(screen)
