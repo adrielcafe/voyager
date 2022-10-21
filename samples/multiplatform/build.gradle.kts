@@ -9,7 +9,9 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(
+    withKotlinExplicitMode = false
+)
 
 android {
     namespace = "cafe.adriel.voyager.sample.multiplatform"
