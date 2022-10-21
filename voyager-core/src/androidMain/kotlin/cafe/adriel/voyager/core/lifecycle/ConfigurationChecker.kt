@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
@@ -19,6 +20,7 @@ internal actual fun getConfigurationChecker(): ConfigurationChecker {
     return remember(context) { ConfigurationChecker(context.getActivity()) }
 }
 
+@Stable
 internal actual class ConfigurationChecker(private val activity: Activity?) {
     actual fun isChangingConfigurations(): Boolean {
         return activity?.isChangingConfigurations ?: false
