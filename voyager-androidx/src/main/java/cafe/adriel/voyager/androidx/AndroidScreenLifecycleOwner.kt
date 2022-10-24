@@ -40,14 +40,30 @@ public class AndroidScreenLifecycleOwner private constructor() :
         if (controller.savedStateRegistry.isRestored.not()) {
             controller.performRestore(null)
         }
-        initStates.forEach { registry.currentState = it }
+        initEvents.forEach {
+            registry.handleLifecycleEvent(it)
+        }
+    }
+
+    override fun onStart() {
+        startEvents.forEach {
+            registry.handleLifecycleEvent(it)
+        }
+    }
+
+    override fun onStop() {
+        stopEvents.forEach {
+            registry.handleLifecycleEvent(it)
+        }
     }
 
     override fun onDispose(screen: Screen) {
         val context = atomicContext.getAndSet(null) ?: return
         if (context is Activity && context.isChangingConfigurations) return
         viewModelStore.clear()
-        disposeStates.forEach { registry.currentState = it }
+        disposeEvents.forEach {
+            registry.handleLifecycleEvent(it)
+        }
     }
 
     @Composable
@@ -73,15 +89,22 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     public companion object {
 
-        private val initStates = arrayOf(
-            Lifecycle.State.INITIALIZED,
-            Lifecycle.State.CREATED,
-            Lifecycle.State.STARTED,
-            Lifecycle.State.RESUMED
+        private val initEvents = arrayOf(
+            Lifecycle.Event.ON_CREATE,
         )
 
-        private val disposeStates = arrayOf(
-            Lifecycle.State.DESTROYED
+        private val startEvents = arrayOf(
+            Lifecycle.Event.ON_START,
+            Lifecycle.Event.ON_RESUME
+        )
+
+        private val stopEvents = arrayOf(
+            Lifecycle.Event.ON_PAUSE,
+            Lifecycle.Event.ON_STOP
+        )
+
+        private val disposeEvents = arrayOf(
+            Lifecycle.Event.ON_DESTROY
         )
 
         public fun get(screen: Screen): ScreenLifecycleOwner =
