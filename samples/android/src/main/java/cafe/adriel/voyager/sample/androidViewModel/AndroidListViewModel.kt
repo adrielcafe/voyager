@@ -7,7 +7,9 @@ import cafe.adriel.voyager.sample.sampleItems
 class AndroidListViewModel(private val handle: SavedStateHandle) : ViewModel() {
 
     init {
-        handle["items"] = sampleItems
+        if (handle.get<List<String>>("items").isNullOrEmpty()) {
+            handle["items"] = sampleItems
+        }
     }
 
     val items: List<String>
