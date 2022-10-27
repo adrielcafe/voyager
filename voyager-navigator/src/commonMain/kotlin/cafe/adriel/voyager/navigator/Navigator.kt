@@ -124,7 +124,11 @@ public class Navigator internal constructor(
         stateKeys += stateKey
 
         val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-        LifecycleDisposableEffect(lifecycleOwner)
+        val lifecycleKey = "$stateKey:lifecycle"
+        stateKeys += lifecycleKey
+        stateHolder.SaveableStateProvider(lifecycleKey) {
+            LifecycleDisposableEffect(lifecycleOwner)
+        }
         val hooks = lifecycleOwner.getHooks()
 
         CompositionLocalProvider(*hooks.providers.toTypedArray()) {
