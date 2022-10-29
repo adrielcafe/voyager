@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.viewmodel.CreationExtras
 import cafe.adriel.voyager.androidx.AndroidScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleProvider
 import cafe.adriel.voyager.core.screen.Screen
@@ -27,14 +28,19 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
     val context = LocalContext.current
     return remember(key1 = T::class) {
         val activity = context.componentActivity
-        val lifecycleOwner = (this as? ScreenLifecycleProvider)?.getLifecycleOwner() as? AndroidScreenLifecycleOwner
-        val viewModelStore = lifecycleOwner?.viewModelStore ?: activity.viewModelStore
+        val lifecycleOwner = (this as? ScreenLifecycleProvider)
+            ?.getLifecycleOwner() as? AndroidScreenLifecycleOwner
+            ?: activity
         val factory = VoyagerHiltViewModelFactories.getVoyagerFactory(
             activity = activity,
-            owner = lifecycleOwner ?: activity,
-            delegateFactory = viewModelProviderFactory
+            owner = lifecycleOwner,
+            delegateFactory = viewModelProviderFactory ?: lifecycleOwner.defaultViewModelProviderFactory
         )
-        val provider = ViewModelProvider(store = viewModelStore, factory = factory)
+        val provider = ViewModelProvider(
+            store = lifecycleOwner.viewModelStore,
+            factory = factory,
+            defaultCreationExtras = lifecycleOwner.defaultViewModelCreationExtras
+        )
         provider[T::class.java]
     }
 }
