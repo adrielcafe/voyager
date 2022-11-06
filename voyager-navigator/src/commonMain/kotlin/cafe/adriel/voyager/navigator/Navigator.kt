@@ -20,6 +20,7 @@ import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
+import java.util.concurrent.ConcurrentSkipListSet
 
 public typealias NavigatorContent = @Composable (navigator: Navigator) -> Unit
 
@@ -106,7 +107,7 @@ public class Navigator internal constructor(
         lastItemOrNull ?: error("Navigator has no screen")
     }
 
-    private val stateKeys = ThreadSafeList<String>()
+    private val stateKeys = ConcurrentSkipListSet<String>()
 
     @Deprecated(
         message = "Use 'lastItem' instead. Will be removed in 1.0.0.",
@@ -139,20 +140,29 @@ public class Navigator internal constructor(
         }
     }
 
-    internal fun dispose(
-        screen: Screen
-    ) {
+    internal fun dispose(screen: Screen) {
+        val keyStart = screen.key
+        val keyEndExcl = screen.key.successor
+        val keysToRemove = HashSet(stateKeys.subSet(keyStart, keyEndExcl))
         ScreenModelStore.remove(screen)
         ScreenLifecycleStore.remove(screen)
-        stateKeys
-            .asSequence()
-            .filter { it.startsWith(screen.key) }
-            .forEach { key ->
-                stateHolder.removeState(key)
-                stateKeys -= key
-            }
+        stateKeys.removeAll(keysToRemove)
+        for (key in keysToRemove) {
+            stateHolder.removeState(key)
+        }
     }
 }
+/**
+ * @return the successor of a given string
+ */
+private val String.successor: String get() = if(isEmpty()) {
+    // Special case
+    "${Char.MIN_VALUE}" // \uFFFF
+} else {
+    // Assumes [Char.MAX_VALUE] is never used, since \uFFFF is not a valid Unicode character. A more thorough implementation would add a character on overflow.
+    "${substring(0, length - 1)}${get(length - 1) + 1}"
+}
+
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
