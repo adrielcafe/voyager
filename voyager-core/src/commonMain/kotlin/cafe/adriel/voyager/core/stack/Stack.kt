@@ -38,6 +38,8 @@ public interface Stack<Item> {
 
     public infix fun replaceAll(item: Item)
 
+    public infix fun replaceAll(items: List<Item>)
+
     public fun pop(): Boolean
 
     public fun popAll()
