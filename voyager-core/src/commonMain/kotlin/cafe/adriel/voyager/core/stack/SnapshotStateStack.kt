@@ -95,12 +95,6 @@ public class SnapshotStateStack<Item>(
         stateStack.size > minSize
     }
 
-    override fun replaceAll(items: List<Item>) {
-        stateStack.clear()
-        stateStack += items
-        lastEvent = StackEvent.Replace
-    }
-
     public override infix fun push(item: Item) {
         stateStack += item
         lastEvent = StackEvent.Push
@@ -120,6 +114,12 @@ public class SnapshotStateStack<Item>(
     public override infix fun replaceAll(item: Item) {
         stateStack.clear()
         stateStack += item
+        lastEvent = StackEvent.Replace
+    }
+
+    public override infix fun replaceAll(items: List<Item>) {
+        stateStack.clear()
+        stateStack += items
         lastEvent = StackEvent.Replace
     }
 
