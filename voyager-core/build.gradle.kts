@@ -24,6 +24,11 @@ kotlin {
                 runtimeOnly(libs.junit.engine)
             }
         }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.compose.activity)
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(compose.runtime)
