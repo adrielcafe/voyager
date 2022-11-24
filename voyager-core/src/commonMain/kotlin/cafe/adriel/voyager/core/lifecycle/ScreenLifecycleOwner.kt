@@ -9,6 +9,10 @@ public interface ScreenLifecycleOwner {
     public fun getHooks(): ScreenLifecycleHooks = ScreenLifecycleHooks.Empty
 
     public fun onDispose(screen: Screen) {}
+
+    public fun onStart() {}
+
+    public fun onStop() {}
 }
 
 internal object DefaultScreenLifecycleOwner : ScreenLifecycleOwner

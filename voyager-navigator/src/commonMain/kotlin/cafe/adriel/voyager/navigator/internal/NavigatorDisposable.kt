@@ -3,6 +3,7 @@ package cafe.adriel.voyager.navigator.internal
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -36,5 +37,15 @@ internal fun StepDisposableEffect(
                 navigator.clearEvent()
             }
         }
+    }
+}
+
+@Composable
+internal fun LifecycleDisposableEffect(
+    lifecycleOwner: ScreenLifecycleOwner
+) {
+    DisposableEffect(lifecycleOwner) {
+        lifecycleOwner.onStart()
+        onDispose(lifecycleOwner::onStop)
     }
 }

@@ -15,6 +15,7 @@ import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
+import cafe.adriel.voyager.navigator.internal.LifecycleDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
@@ -70,8 +71,6 @@ public fun Navigator(
         LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
     ) {
         val navigator = rememberNavigator(screens, disposeBehavior, LocalNavigator.current)
-        val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
-        val hooks = lifecycleOwner.getHooks()
 
         if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
             NavigatorDisposableEffect(navigator)
@@ -79,7 +78,6 @@ public fun Navigator(
 
         CompositionLocalProvider(
             LocalNavigator provides navigator,
-            *hooks.providers.toTypedArray()
         ) {
             if (disposeBehavior.disposeSteps) {
                 StepDisposableEffect(navigator)
@@ -124,7 +122,14 @@ public class Navigator internal constructor(
     ) {
         val stateKey = "${screen.key}:$key"
         stateKeys += stateKey
-        stateHolder.SaveableStateProvider(stateKey, content)
+
+        val lifecycleOwner = rememberScreenLifecycleOwner(screen)
+        LifecycleDisposableEffect(lifecycleOwner)
+        val hooks = lifecycleOwner.getHooks()
+
+        CompositionLocalProvider(*hooks.providers.toTypedArray()) {
+            stateHolder.SaveableStateProvider(stateKey, content = content)
+        }
     }
 
     public fun popUntilRoot() {
