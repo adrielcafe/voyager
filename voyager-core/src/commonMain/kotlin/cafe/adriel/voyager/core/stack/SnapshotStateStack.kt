@@ -117,6 +117,12 @@ public class SnapshotStateStack<Item>(
         lastEvent = StackEvent.Replace
     }
 
+    public override infix fun replaceAll(items: List<Item>) {
+        stateStack.clear()
+        stateStack += items
+        lastEvent = StackEvent.Replace
+    }
+
     public override fun pop(): Boolean =
         if (canPop) {
             stateStack.removeLast()
