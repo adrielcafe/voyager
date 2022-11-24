@@ -1,6 +1,3 @@
-import com.vanniktech.maven.publish.MavenPublishPluginExtension
-import com.vanniktech.maven.publish.SonatypeHost
-
 buildscript {
     repositories {
         mavenCentral()
@@ -19,11 +16,6 @@ buildscript {
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    plugins.withId("com.vanniktech.maven.publish") {
-        configure<MavenPublishPluginExtension> {
-            sonatypeHost = SonatypeHost.S01
-        }
-    }
 }
 
 tasks.register<Delete>("clean") {
