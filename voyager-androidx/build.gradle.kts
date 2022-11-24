@@ -9,6 +9,7 @@ setupModuleForAndroidxCompose(
 )
 
 android {
+    namespace = "cafe.adriel.voyager.androidx"
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
     }

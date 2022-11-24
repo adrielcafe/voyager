@@ -7,6 +7,10 @@ plugins {
 
 setupModuleForComposeMultiplatform()
 
+android {
+    namespace = "cafe.adriel.voyager.transitions"
+}
+
 kotlin {
     sourceSets {
         val commonMain by getting {

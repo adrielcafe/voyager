@@ -9,6 +9,10 @@ plugins {
 
 setupModuleForComposeMultiplatform()
 
+android {
+    namespace = "cafe.adriel.voyager.navigator"
+}
+
 kotlin {
     sourceSets {
         val commonMain by getting {

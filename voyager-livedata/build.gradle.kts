@@ -9,6 +9,7 @@ setupModuleForAndroidxCompose(
 )
 
 android {
+    namespace = "cafe.adriel.voyager.livedata"
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
     }

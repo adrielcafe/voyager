@@ -25,7 +25,9 @@ public fun DisposableEffectIgnoringConfiguration(
     effect: DisposableEffectScope.() -> DisposableEffectResult
 ) {
     val configurationChecker = getConfigurationChecker()
-    remember(configurationChecker, key1, key2) { DisposableEffectIgnoringConfigurationImpl(configurationChecker, effect) }
+    remember(configurationChecker, key1, key2) {
+        DisposableEffectIgnoringConfigurationImpl(configurationChecker, effect)
+    }
 }
 
 @Composable
@@ -37,9 +39,10 @@ public fun DisposableEffectIgnoringConfiguration(
     effect: DisposableEffectScope.() -> DisposableEffectResult
 ) {
     val configurationChecker = getConfigurationChecker()
-    remember(configurationChecker, key1, key2, key3) { DisposableEffectIgnoringConfigurationImpl(configurationChecker, effect) }
+    remember(configurationChecker, key1, key2, key3) {
+        DisposableEffectIgnoringConfigurationImpl(configurationChecker, effect)
+    }
 }
-
 
 @Composable
 @NonRestartableComposable

@@ -24,6 +24,7 @@ class LiveDataScreen : Screen {
         when (val result = state) {
             is LiveDataScreenModel.State.Loading -> LoadingContent()
             is LiveDataScreenModel.State.Result -> ListContent(result.items)
+            else -> Unit
         }
 
         LaunchedEffect(currentCompositeKeyHash) {

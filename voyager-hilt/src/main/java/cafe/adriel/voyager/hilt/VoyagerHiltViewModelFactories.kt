@@ -1,9 +1,6 @@
 package cafe.adriel.voyager.hilt
 
-import android.app.Application
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.HasDefaultViewModelProviderFactory
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
 import dagger.hilt.EntryPoint

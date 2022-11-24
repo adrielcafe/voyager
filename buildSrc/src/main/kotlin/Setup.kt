@@ -13,10 +13,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.android.build.gradle.LibraryExtension
 
 private fun BaseExtension.setupAndroid() {
-    compileSdkVersion(31)
+    compileSdkVersion(33)
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
 
         versionCode = 1
         versionName = "1.0"

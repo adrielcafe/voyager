@@ -7,6 +7,10 @@ plugins {
 
 setupModuleForComposeMultiplatform()
 
+android {
+    namespace = "cafe.adriel.voyager.kodein"
+}
+
 kotlin {
     sourceSets {
         val commonMain by getting {

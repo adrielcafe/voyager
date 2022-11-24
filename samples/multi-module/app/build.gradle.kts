@@ -9,6 +9,7 @@ setupModuleForAndroidxCompose(
 )
 
 android {
+    namespace = "cafe.adriel.voyager.sample.multimodule"
     defaultConfig {
         applicationId = "cafe.adriel.voyager.sample.multimodule"
     }

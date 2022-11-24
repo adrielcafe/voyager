@@ -6,6 +6,10 @@ plugins {
 
 setupModuleForComposeMultiplatform()
 
+android {
+    namespace = "cafe.adriel.voyager.rxjava"
+}
+
 kotlin {
     sourceSets {
         val jvmMain by getting {

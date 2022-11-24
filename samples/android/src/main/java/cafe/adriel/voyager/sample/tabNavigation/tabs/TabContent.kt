@@ -13,15 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
-import cafe.adriel.voyager.sample.androidViewModel.AndroidListViewModel
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationScreen
-import cafe.adriel.voyager.sample.screenModel.ListScreenModel
 import cafe.adriel.voyager.transitions.SlideTransition
-import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -35,9 +31,6 @@ fun Tab.TabContent() {
 
     Navigator(BasicNavigationScreen(index = 0)) { navigator ->
         SlideTransition(navigator) { screen ->
-            val screenModel = rememberScreenModel { ListScreenModel() }
-            val viewModel = getViewModel<AndroidListViewModel>()
-
             Column {
                 InnerTabNavigation()
                 screen.Content()

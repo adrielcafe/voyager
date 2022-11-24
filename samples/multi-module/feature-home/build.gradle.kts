@@ -8,6 +8,10 @@ setupModuleForAndroidxCompose(
     withKotlinExplicitMode = false,
 )
 
+android {
+    namespace = "cafe.adriel.voyager.sample.multimodule.home"
+}
+
 dependencies {
     implementation(projects.voyagerNavigator)
 

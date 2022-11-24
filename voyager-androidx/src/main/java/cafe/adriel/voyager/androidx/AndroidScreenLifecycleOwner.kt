@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.enableSavedStateHandles
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -43,11 +44,15 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private val store = ViewModelStore()
 
-    private val controller = SavedStateRegistryController.create(this)
-
     private val atomicContext = AtomicReference<Context>()
 
+    private val controller = SavedStateRegistryController.create(this)
+
+    override val savedStateRegistry: SavedStateRegistry
+        get() = controller.savedStateRegistry
+
     init {
+        enableSavedStateHandles()
         if (controller.savedStateRegistry.isRestored.not()) {
             controller.performRestore(null)
         }
@@ -95,8 +100,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
     override fun getLifecycle(): Lifecycle = registry
 
     override fun getViewModelStore(): ViewModelStore = store
-
-    override fun getSavedStateRegistry(): SavedStateRegistry = controller.savedStateRegistry
 
     override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
         return SavedStateViewModelFactory(
