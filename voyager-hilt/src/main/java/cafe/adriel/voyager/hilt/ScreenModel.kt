@@ -14,9 +14,11 @@ import dagger.hilt.android.EntryPointAccessors
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
-public inline fun <reified T : ScreenModel> Screen.getScreenModel(): T {
+public inline fun <reified T : ScreenModel> Screen.getScreenModel(
+    tag: String? = null
+): T {
     val context = LocalContext.current
-    return rememberScreenModel {
+    return rememberScreenModel(tag) {
         val screenModels = EntryPointAccessors
             .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModels()
@@ -38,10 +40,11 @@ public inline fun <reified T : ScreenModel> Screen.getScreenModel(): T {
  */
 @Composable
 public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Screen.getScreenModel(
+    tag: String? = null,
     noinline factory: (F) -> T
 ): T {
     val context = LocalContext.current
-    return rememberScreenModel {
+    return rememberScreenModel(tag) {
         val screenFactories = EntryPointAccessors
             .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
             .screenModelFactories()
