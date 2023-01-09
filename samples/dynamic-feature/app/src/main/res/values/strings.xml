@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Voyager Dynamic Feature</string>
+    <string name="title_home">Home</string>
+    <string name="title_details">Details</string>
+</resources>

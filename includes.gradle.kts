@@ -1,5 +1,9 @@
 include(
     ":samples:android",
+    ":samples:dynamic-feature:app",
+    ":samples:dynamic-feature:details",
+    ":samples:dynamic-feature:home",
+    ":samples:dynamic-feature:navigation",
     ":samples:multiplatform",
 
     ":samples:multi-module:app",

@@ -1,5 +1,5 @@
 [versions]
-plugin-android = "8.0.0-alpha08"
+plugin-android = "8.0.0-alpha11"
 plugin-ktlint = "11.0.0"
 plugin-maven = "0.22.0"
 plugin-multiplatform-compose = "1.2.1"
@@ -15,6 +15,8 @@ lifecycle = "2.5.1"
 compose = "1.3.1"
 composeActivity = "1.6.1"
 
+playCore = "1.10.3"
+
 junit = "5.8.2"
 
 [libraries]
@@ -25,6 +27,7 @@ plugin-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "plugin-multiplatform-compose" }
 
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
@@ -48,6 +51,8 @@ compose-materialIcons = { module = "androidx.compose.material:material-icons-cor
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 
 composeMultiplatform-runtimeSaveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "plugin-multiplatform-compose" }
+
+play-core = { module = "com.google.android.play:core", version.ref = "playCore" }
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
