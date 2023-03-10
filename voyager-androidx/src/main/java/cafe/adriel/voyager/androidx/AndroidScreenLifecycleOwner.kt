@@ -5,10 +5,14 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -27,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
+import cafe.adriel.voyager.core.lifecycle.SavedState
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleHooks
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
@@ -48,14 +53,22 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private val controller = SavedStateRegistryController.create(this)
 
+    private var deactivateLifecycleListener: (() -> Unit)? = null
+
+    override var isCreated: Boolean by mutableStateOf(false)
+
     override val savedStateRegistry: SavedStateRegistry
         get() = controller.savedStateRegistry
 
     init {
+        controller.performAttach()
         enableSavedStateHandles()
-        if (controller.savedStateRegistry.isRestored.not()) {
-            controller.performRestore(null)
-        }
+    }
+
+    override fun onCreate(savedState: SavedState?) {
+        check(!isCreated) { "onCreate already called" }
+        isCreated = true
+        controller.performRestore(savedState)
         initEvents.forEach {
             registry.handleLifecycleEvent(it)
         }
@@ -68,6 +81,8 @@ public class AndroidScreenLifecycleOwner private constructor() :
     }
 
     override fun onStop() {
+        deactivateLifecycleListener?.invoke()
+        deactivateLifecycleListener = null
         stopEvents.forEach {
             registry.handleLifecycleEvent(it)
         }
@@ -80,6 +95,10 @@ public class AndroidScreenLifecycleOwner private constructor() :
         disposeEvents.forEach {
             registry.handleLifecycleEvent(it)
         }
+    }
+
+    override fun performSave(outState: SavedState) {
+        controller.performSave(outState)
     }
 
     @Composable
@@ -103,21 +122,27 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
         return SavedStateViewModelFactory(
-            (atomicContext.get()?.applicationContext as? Application),
-            this
+            application = atomicContext.get()?.applicationContext?.getApplication(),
+            owner = this
         )
     }
 
-    override fun getDefaultViewModelCreationExtras(): CreationExtras = MutableCreationExtras().apply {
-        var application: Application? = null
-        var context = atomicContext.get()?.applicationContext
-        while (context is ContextWrapper) {
-            if (context is Application) {
-                application = context
-                break
+    override fun registerLifecycleListener(outState: SavedState) {
+        val activity = atomicContext.get()?.getActivity()
+        if (activity != null && activity is LifecycleOwner) {
+            val observer = object : DefaultLifecycleObserver {
+                override fun onStop(owner: LifecycleOwner) {
+                    performSave(outState)
+                }
             }
-            context = context.baseContext
+            val lifecycle = activity.lifecycle
+            lifecycle.addObserver(observer)
+            deactivateLifecycleListener = { lifecycle.removeObserver(observer) }
         }
+    }
+
+    override fun getDefaultViewModelCreationExtras(): CreationExtras = MutableCreationExtras().apply {
+        val application = atomicContext.get()?.applicationContext?.getApplication()
         if (application != null) {
             set(AndroidViewModelFactory.APPLICATION_KEY, application)
         }
@@ -127,6 +152,18 @@ public class AndroidScreenLifecycleOwner private constructor() :
         /* TODO if (getArguments() != null) {
             extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
         }*/
+    }
+
+    private tailrec fun Context.getActivity(): Activity? = when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> null
+    }
+
+    private tailrec fun Context.getApplication(): Application? = when (this) {
+        is Application -> this
+        is ContextWrapper -> baseContext.getApplication()
+        else -> null
     }
 
     public companion object {
