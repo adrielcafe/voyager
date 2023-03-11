@@ -38,6 +38,7 @@ public val LocalBottomSheetNavigator: ProvidableCompositionLocal<BottomSheetNavi
 @Composable
 public fun BottomSheetNavigator(
     modifier: Modifier = Modifier,
+    key: String? = null,
     hideOnBackPress: Boolean = true,
     scrimColor: Color = ModalBottomSheetDefaults.scrimColor,
     sheetShape: Shape = MaterialTheme.shapes.large,
@@ -62,7 +63,7 @@ public fun BottomSheetNavigator(
         }
     )
 
-    Navigator(HiddenBottomSheetScreen, onBackPressed = null) { navigator ->
+    Navigator(HiddenBottomSheetScreen, key = key, onBackPressed = null) { navigator ->
         val bottomSheetNavigator = remember(navigator, sheetState, coroutineScope) {
             BottomSheetNavigator(navigator, sheetState, coroutineScope)
         }

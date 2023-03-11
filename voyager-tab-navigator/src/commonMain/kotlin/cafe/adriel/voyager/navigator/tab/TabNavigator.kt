@@ -16,11 +16,13 @@ public val LocalTabNavigator: ProvidableCompositionLocal<TabNavigator> =
 @Composable
 public fun TabNavigator(
     tab: Tab,
+    key: String? = null,
     disposeNestedNavigators: Boolean = false,
     content: TabNavigatorContent = { CurrentTab() }
 ) {
     Navigator(
         screen = tab,
+        key = key,
         disposeBehavior = NavigatorDisposeBehavior(
             disposeNestedNavigators = disposeNestedNavigators,
             disposeSteps = false
