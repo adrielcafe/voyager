@@ -14,8 +14,8 @@ class BottomSheetNavigationActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            BottomSheetNavigator {
-                Navigator(BackScreen())
+            BottomSheetNavigator(key = "BottomSheet") {
+                Navigator(BackScreen(), key = "MainNavigator")
             }
         }
     }

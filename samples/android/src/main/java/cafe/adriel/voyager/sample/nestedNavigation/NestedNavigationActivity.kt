@@ -35,11 +35,11 @@ class NestedNavigationActivity : ComponentActivity() {
 
     @Composable
     private fun Content() {
-        NestedNavigation(backgroundColor = Color.Gray) {
+        NestedNavigation(backgroundColor = Color.Gray, "1") {
             CurrentScreen()
-            NestedNavigation(backgroundColor = Color.LightGray) {
+            NestedNavigation(backgroundColor = Color.LightGray, "2") {
                 CurrentScreen()
-                NestedNavigation(backgroundColor = Color.White) { navigator ->
+                NestedNavigation(backgroundColor = Color.White, "3") { navigator ->
                     CurrentScreen()
                     Button(
                         onClick = { navigator.popUntilRoot() },
@@ -55,7 +55,8 @@ class NestedNavigationActivity : ComponentActivity() {
     @Composable
     private fun NestedNavigation(
         backgroundColor: Color,
-        content: NavigatorContent = { CurrentScreen() }
+        key: String,
+        content: NavigatorContent = { CurrentScreen() },
     ) {
         Navigator(
             screen = BasicNavigationScreen(index = 0, wrapContent = true)
