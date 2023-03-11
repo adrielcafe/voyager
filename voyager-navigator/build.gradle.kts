@@ -5,7 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.navigator"
@@ -16,8 +16,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                compileOnly(compose.runtime)
-                compileOnly(libs.composeMultiplatform.runtimeSaveable)
+                implementation(compose.runtime)
+                implementation(libs.composeMultiplatform.runtimeSaveable)
             }
         }
 
