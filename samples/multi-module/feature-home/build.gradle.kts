@@ -4,7 +4,7 @@ plugins {
 }
 
 setupModuleForAndroidxCompose(
-    composeCompilerVersion = libs.versions.compose.get(),
+    composeCompilerVersion = libs.versions.composeCompiler.get(),
     withKotlinExplicitMode = false,
 )
 

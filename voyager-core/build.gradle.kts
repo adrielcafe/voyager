@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -17,8 +15,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                compileOnly(compose.runtime)
-                compileOnly(libs.composeMultiplatform.runtimeSaveable)
+                api(compose.runtime)
+                api(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.coroutines)
             }
         }

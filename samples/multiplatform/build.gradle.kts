@@ -1,4 +1,3 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi
@@ -9,7 +8,9 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(
+    withKotlinExplicitMode = false
+)
 
 android {
     namespace = "cafe.adriel.voyager.sample.multiplatform"

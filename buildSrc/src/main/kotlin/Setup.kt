@@ -1,16 +1,19 @@
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.creating
+import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
+import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.gradle.kotlin.dsl.*
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.android.build.gradle.LibraryExtension
 
 private fun BaseExtension.setupAndroid() {
     compileSdkVersion(33)
@@ -62,53 +65,58 @@ fun Project.setupModuleForAndroidxCompose(
 fun Project.setupModuleForComposeMultiplatform(
     withKotlinExplicitMode: Boolean = true
 ) {
-    extensions.configure<KotlinMultiplatformExtension> {
-        android {
-            publishAllLibraryVariants()
+    plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper> {
+        extensions.configure<KotlinMultiplatformExtension> {
+            if (withKotlinExplicitMode) {
+                explicitApi()
+            }
+
+            android {
+                publishAllLibraryVariants()
+            }
+            jvm("desktop")
+
+            sourceSets {
+                /* Source sets structure
+                common
+                  ├─ jvm
+                      ├─ android
+                      ├─ desktop
+                 */
+                val commonMain by getting
+                val commonTest by getting
+                val jvmMain by creating {
+                    dependsOn(commonMain)
+                }
+                val jvmTest by creating {
+                    dependsOn(commonTest)
+                }
+
+
+                val desktopMain by getting {
+                    dependsOn(jvmMain)
+                }
+                val androidMain by getting {
+                    dependsOn(jvmMain)
+                }
+                val desktopTest by getting {
+                    dependsOn(jvmTest)
+                }
+                val androidTest by getting {
+                    dependsOn(jvmTest)
+                }
+            }
         }
-        jvm("desktop")
 
-        sourceSets {
-            /* Source sets structure
-            common
-              ├─ jvm
-                  ├─ android
-                  ├─ desktop
-             */
-            val commonMain by getting
-            val commonTest by getting
-            val jvmMain by creating {
-                dependsOn(commonMain)
-            }
-            val jvmTest by creating {
-                dependsOn(commonTest)
-            }
+        findAndroidExtension().apply {
+            setupAndroid()
+            sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        }
 
-
-            val desktopMain by getting {
-                dependsOn(jvmMain)
-            }
-            val androidMain by getting {
-                dependsOn(jvmMain)
-            }
-            val desktopTest by getting {
-                dependsOn(jvmTest)
-            }
-            val androidTest by getting {
-                dependsOn(jvmTest)
-            }
+        tasks.withType<KotlinCompile> {
+            kotlinOptions.configureKotlinJvmOptions(withKotlinExplicitMode)
         }
     }
-
-    findAndroidExtension().apply {
-        setupAndroid()
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.configureKotlinJvmOptions(withKotlinExplicitMode)
-    }
-
 }
 
 private fun KotlinJvmOptions.configureKotlinJvmOptions(
@@ -116,7 +124,7 @@ private fun KotlinJvmOptions.configureKotlinJvmOptions(
 ) {
     jvmTarget = JavaVersion.VERSION_1_8.toString()
 
-    if(enableExplicitMode) freeCompilerArgs += "-Xexplicit-api=strict"
+    if (enableExplicitMode) freeCompilerArgs += "-Xexplicit-api=strict"
 }
 
 private fun Project.findAndroidExtension(): BaseExtension = extensions.findByType<LibraryExtension>()
