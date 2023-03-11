@@ -24,7 +24,7 @@ public val ScreenModel.coroutineScope: CoroutineScope
 @Composable
 public inline fun <reified T : ScreenModel> Screen.rememberScreenModel(
     tag: String? = null,
-    factory: @DisallowComposableCalls () -> T
+    crossinline factory: @DisallowComposableCalls () -> T
 ): T =
     remember(ScreenModelStore.getKey<T>(this, tag)) {
         ScreenModelStore.getOrPut(this, tag, factory)
