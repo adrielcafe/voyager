@@ -18,6 +18,7 @@ kotlin {
                 api(compose.runtime)
                 api(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.coroutines)
+                implementation(libs.uuid)
             }
         }
         val jvmTest by getting {
