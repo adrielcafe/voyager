@@ -1,16 +1,19 @@
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.creating
+import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
+import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.gradle.kotlin.dsl.*
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.android.build.gradle.LibraryExtension
 
 private fun BaseExtension.setupAndroid() {
     compileSdkVersion(33)

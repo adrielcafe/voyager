@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")

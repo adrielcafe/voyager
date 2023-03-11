@@ -2,12 +2,10 @@ package cafe.adriel.voyager.navigator.internal
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.saveable.LocalSaveableStateRegistry
 import androidx.compose.runtime.saveable.rememberSaveable
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.lifecycle.SavedState
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
