@@ -17,12 +17,13 @@ internal val LocalNavigatorStateHolder: ProvidableCompositionLocal<SaveableState
 @Composable
 internal fun rememberNavigator(
     screens: List<Screen>,
+    key: String? = null,
     disposeBehavior: NavigatorDisposeBehavior,
     parent: Navigator?
 ): Navigator {
     val stateHolder = LocalNavigatorStateHolder.current
 
-    return rememberSaveable(saver = navigatorSaver(stateHolder, disposeBehavior, parent)) {
+    return rememberSaveable(saver = navigatorSaver(stateHolder, disposeBehavior, parent), key = key) {
         Navigator(screens, stateHolder, disposeBehavior, parent)
     }
 }

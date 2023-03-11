@@ -46,12 +46,14 @@ public fun CurrentScreen() {
 @Composable
 public fun Navigator(
     screen: Screen,
+    key: String? = null,
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
 ) {
     Navigator(
         screens = listOf(screen),
+        key = key,
         disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
         content = content
@@ -61,6 +63,7 @@ public fun Navigator(
 @Composable
 public fun Navigator(
     screens: List<Screen>,
+    key: String? = null,
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { CurrentScreen() }
@@ -70,7 +73,7 @@ public fun Navigator(
     CompositionLocalProvider(
         LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
     ) {
-        val navigator = rememberNavigator(screens, disposeBehavior, LocalNavigator.current)
+        val navigator = rememberNavigator(screens, key, disposeBehavior, LocalNavigator.current)
 
         if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
             NavigatorDisposableEffect(navigator)
