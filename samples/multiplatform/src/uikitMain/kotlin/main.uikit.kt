@@ -1,6 +1,5 @@
 
-// Use `xcodegen` first, then `open ./ComposeFallingBalls.xcodeproj` and then Run button in XCode.
-import androidx.compose.ui.window.Application
+import androidx.compose.ui.window.ComposeUIViewController
 import cafe.adriel.voyager.sample.multiplatform.SampleApplication
 import kotlinx.cinterop.ObjCObjectBase
 import kotlinx.cinterop.autoreleasepool
@@ -42,7 +41,7 @@ class SkikoAppDelegate : UIResponder, UIApplicationDelegateProtocol {
 
     override fun application(application: UIApplication, didFinishLaunchingWithOptions: Map<Any?, *>?): Boolean {
         window = UIWindow(frame = UIScreen.mainScreen.bounds)
-        window!!.rootViewController = Application("Falling Balls") {
+        window!!.rootViewController = ComposeUIViewController {
             SampleApplication()
         }
         window!!.makeKeyAndVisible()

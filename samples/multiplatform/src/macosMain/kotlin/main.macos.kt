@@ -5,7 +5,7 @@ import platform.AppKit.NSApplication
 
 fun main() {
     NSApplication.sharedApplication()
-    Window("Falling Balls") {
+    Window("VoyagerMultiplatform") {
         SampleApplication()
     }
     NSApp?.run()

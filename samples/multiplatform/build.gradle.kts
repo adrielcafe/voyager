@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi
+import org.jetbrains.compose.desktop.application.tasks.AbstractNativeMacApplicationPackageTask
 import org.jetbrains.compose.experimental.dsl.IOSDevices
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
@@ -20,7 +21,7 @@ android {
 }
 
 kotlin {
-    macosX64 {
+    val macOsConfiguation: KotlinNativeTarget.() -> Unit = {
         binaries {
             executable {
                 entryPoint = "main"
@@ -30,16 +31,8 @@ kotlin {
             }
         }
     }
-    macosArm64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal"
-                )
-            }
-        }
-    }
+    macosX64(macOsConfiguation)
+    macosArm64(macOsConfiguation)
     val uikitConfiguration: KotlinNativeTarget.() -> Unit = {
         binaries {
             executable() {
@@ -106,6 +99,25 @@ compose.desktop.nativeApplication {
         targetFormats(Dmg)
         packageName = "MultiplatformSample"
         packageVersion = "1.0.0"
+    }
+}
+
+afterEvaluate {
+    val baseTask = "createDistributableNative"
+    listOf("debug", "release").forEach {
+        val createAppTaskName = baseTask + it.capitalize() + "macosX64".capitalize()
+
+        val createAppTask = tasks.getByName(createAppTaskName) as AbstractNativeMacApplicationPackageTask
+        val destinationDir = createAppTask.destinationDir.get().asFile
+        val packageName = createAppTask.packageName.get()
+
+        tasks.create("runNative" + it.capitalize()) {
+            group = createAppTask.group
+            dependsOn(createAppTaskName)
+            doLast {
+                ProcessBuilder("open", destinationDir.absolutePath + "/" + packageName + ".app").start().waitFor()
+            }
+        }
     }
 }
 
