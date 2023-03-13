@@ -5,7 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.navigator.tab"
@@ -17,8 +17,8 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                compileOnly(compose.runtime)
-                compileOnly(compose.ui)
+                implementation(compose.runtime)
+                implementation(compose.ui)
             }
         }
 
@@ -26,13 +26,6 @@ kotlin {
             dependencies {
                 implementation(libs.junit.api)
                 runtimeOnly(libs.junit.engine)
-            }
-        }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
             }
         }
     }

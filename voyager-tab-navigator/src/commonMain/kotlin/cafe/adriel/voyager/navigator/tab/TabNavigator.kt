@@ -48,8 +48,9 @@ public class TabNavigator internal constructor(
     @Composable
     public fun saveableState(
         key: String,
+        tab: Tab = current,
         content: @Composable () -> Unit
     ) {
-        navigator.saveableState(key, content = content)
+        navigator.saveableState(key, tab, content = content)
     }
 }

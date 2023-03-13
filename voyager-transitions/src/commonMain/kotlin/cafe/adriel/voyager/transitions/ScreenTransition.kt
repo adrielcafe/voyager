@@ -11,7 +11,6 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
-@OptIn(ExperimentalAnimationApi::class)
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
 
 @ExperimentalAnimationApi

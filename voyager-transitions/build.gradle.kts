@@ -5,7 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.transitions"
@@ -17,7 +17,7 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                compileOnly(compose.animation)
+                implementation(compose.animation)
             }
         }
 
@@ -30,12 +30,6 @@ kotlin {
 
         val desktopTest by getting {
             dependsOn(jvmTest)
-        }
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
-            }
         }
     }
 }

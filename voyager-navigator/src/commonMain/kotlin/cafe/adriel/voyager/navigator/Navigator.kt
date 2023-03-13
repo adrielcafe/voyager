@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.concurrent.ThreadSafeList
+import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.model.ScreenModelStore
@@ -104,7 +104,7 @@ public class Navigator internal constructor(
         lastItemOrNull ?: error("Navigator has no screen")
     }
 
-    private val stateKeys = ThreadSafeList<String>()
+    private val stateKeys = ThreadSafeSet<String>()
 
     @Deprecated(
         message = "Use 'lastItem' instead. Will be removed in 1.0.0.",
@@ -124,11 +124,16 @@ public class Navigator internal constructor(
         stateKeys += stateKey
 
         val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-        LifecycleDisposableEffect(lifecycleOwner)
-        val hooks = lifecycleOwner.getHooks()
+        val lifecycleKey = "$stateKey:lifecycle"
+        stateKeys += lifecycleKey
+        stateHolder.SaveableStateProvider(lifecycleKey) {
+            LifecycleDisposableEffect(lifecycleOwner)
 
-        CompositionLocalProvider(*hooks.providers.toTypedArray()) {
-            stateHolder.SaveableStateProvider(stateKey, content = content)
+            val hooks = lifecycleOwner.getHooks()
+
+            CompositionLocalProvider(*hooks.providers.toTypedArray()) {
+                stateHolder.SaveableStateProvider(stateKey, content = content)
+            }
         }
     }
 

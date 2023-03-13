@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -7,7 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.navigator"
@@ -18,8 +16,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                compileOnly(compose.runtime)
-                compileOnly(libs.composeMultiplatform.runtimeSaveable)
+                implementation(compose.runtime)
+                implementation(libs.composeMultiplatform.runtimeSaveable)
             }
         }
 
@@ -33,13 +31,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.activity)
-            }
-        }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
             }
         }
     }

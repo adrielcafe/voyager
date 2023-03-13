@@ -12,7 +12,9 @@ class HiltListViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        handle["items"] = sampleItems
+        if (handle.get<List<String>>("items").isNullOrEmpty()) {
+            handle["items"] = sampleItems
+        }
     }
 
     val items: List<String>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,7 +47,8 @@ class SampleActivity : ComponentActivity() {
         LazyColumn(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().padding(24.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(24.dp)
         ) {
             item {
                 StartSampleButton<StateStackActivity>("SnapshotStateStack")

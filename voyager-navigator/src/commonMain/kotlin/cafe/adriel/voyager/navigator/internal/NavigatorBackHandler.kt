@@ -5,7 +5,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.OnBackPressed
 
 @Composable
-internal expect fun BackHandler(enabled: Boolean = true, onBack: () -> Unit)
+internal expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
 
 @Composable
 internal fun NavigatorBackHandler(
