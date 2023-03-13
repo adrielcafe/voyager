@@ -5,6 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
+// Support fully when https://github.com/kosi-libs/Kodein/pull/431 get merged.
 setupModuleForComposeMultiplatform()
 
 android {
@@ -25,13 +26,6 @@ kotlin {
             dependencies {
                 implementation(libs.junit.api)
                 runtimeOnly(libs.junit.engine)
-            }
-        }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
             }
         }
     }

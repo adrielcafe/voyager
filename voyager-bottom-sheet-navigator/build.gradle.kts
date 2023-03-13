@@ -29,13 +29,6 @@ kotlin {
             }
         }
 
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
-            }
-        }
-
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.activity)

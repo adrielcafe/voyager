@@ -28,12 +28,5 @@ kotlin {
                 runtimeOnly(libs.junit.engine)
             }
         }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
-            }
-        }
     }
 }

@@ -13,7 +13,9 @@ plugins {
 
 setupModuleForComposeMultiplatform(
     fullyMultiplatform = true,
-    withKotlinExplicitMode = false
+    withKotlinExplicitMode = false,
+    // this is required for the Compose iOS Application DSL expect a `uikit` target name.
+    iosPrefixName = "uikit"
 )
 
 android {
@@ -127,11 +129,9 @@ compose.experimental {
         projectName = "MultiplatformSample"
         deployConfigurations {
             simulator("IPhone8") {
-                //Usage: ./gradlew iosDeployIPhone8Debug
                 device = IOSDevices.IPHONE_8
             }
             simulator("IPad") {
-                //Usage: ./gradlew iosDeployIPadDebug
                 device = IOSDevices.IPAD_MINI_6th_Gen
             }
         }

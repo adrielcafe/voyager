@@ -2,6 +2,7 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.creating
@@ -11,6 +12,7 @@ import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
+import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -27,12 +29,14 @@ private fun BaseExtension.setupAndroid() {
 }
 
 fun Project.setupModuleForAndroidxCompose(
-    composeCompilerVersion: String,
     withKotlinExplicitMode: Boolean = true,
 ) {
     val androidExtension: BaseExtension = extensions.findByType<LibraryExtension>()
         ?: extensions.findByType<com.android.build.gradle.AppExtension>()
         ?: error("Could not found Android application or library plugin applied on module $name")
+
+    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+    val composeCompilerVersion = libs.findVersion("composeCompiler").get().requiredVersion
 
     androidExtension.apply {
         setupAndroid()
@@ -65,6 +69,7 @@ fun Project.setupModuleForAndroidxCompose(
 fun Project.setupModuleForComposeMultiplatform(
     withKotlinExplicitMode: Boolean = true,
     fullyMultiplatform: Boolean = false,
+    iosPrefixName: String = "ios" // only used in ios sample
 ) {
     plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper> {
         extensions.configure<KotlinMultiplatformExtension> {
@@ -80,9 +85,8 @@ fun Project.setupModuleForComposeMultiplatform(
             if (fullyMultiplatform) {
                 macosX64()
                 macosArm64()
-                iosX64("uikitX64")
-                iosArm64("uikitArm64")
-                iosSimulatorArm64("uikitSimulatorArm64")
+                ios(iosPrefixName)
+                iosSimulatorArm64("${iosPrefixName}SimulatorArm64")
             }
 
             sourceSets {
@@ -111,14 +115,12 @@ fun Project.setupModuleForComposeMultiplatform(
                 val desktopTest by getting {
                     dependsOn(jvmTest)
                 }
-                val androidTest by getting {
-                    dependsOn(jvmTest)
-                }
 
                 if (fullyMultiplatform) {
                     val nativeMain by creating {
                         dependsOn(commonMain)
                     }
+
                     val macosMain by creating {
                         dependsOn(nativeMain)
                     }
@@ -128,17 +130,11 @@ fun Project.setupModuleForComposeMultiplatform(
                     val macosArm64Main by getting {
                         dependsOn(macosMain)
                     }
-                    val uikitMain by creating {
+                    val iosMain = getByName(iosPrefixName + "Main").apply {
                         dependsOn(nativeMain)
                     }
-                    val uikitX64Main by getting {
-                        dependsOn(uikitMain)
-                    }
-                    val uikitArm64Main by getting {
-                        dependsOn(uikitMain)
-                    }
-                    val uikitSimulatorArm64Main by getting {
-                        dependsOn(uikitMain)
+                    val iosSimulatorArm64Main = getByName(iosPrefixName + "SimulatorArm64Main").apply {
+                        dependsOn(iosMain)
                     }
                 }
             }
