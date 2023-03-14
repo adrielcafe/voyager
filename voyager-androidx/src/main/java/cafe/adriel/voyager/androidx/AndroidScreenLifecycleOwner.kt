@@ -4,10 +4,15 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -31,8 +36,6 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
-import cafe.adriel.voyager.core.lifecycle.SavedState
-import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleHooks
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
@@ -55,7 +58,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private var deactivateLifecycleListener: (() -> Unit)? = null
 
-    override var isCreated: Boolean by mutableStateOf(false)
+    private var isCreated: Boolean by mutableStateOf(false)
 
     override val savedStateRegistry: SavedStateRegistry
         get() = controller.savedStateRegistry
@@ -65,7 +68,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         enableSavedStateHandles()
     }
 
-    override fun onCreate(savedState: SavedState?) {
+    private fun onCreate(savedState: Bundle?) {
         check(!isCreated) { "onCreate already called" }
         isCreated = true
         controller.performRestore(savedState)
@@ -74,17 +77,33 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
-    override fun onStart() {
+    private fun onStart() {
         startEvents.forEach {
             registry.handleLifecycleEvent(it)
         }
     }
 
-    override fun onStop() {
+    private fun onStop() {
         deactivateLifecycleListener?.invoke()
         deactivateLifecycleListener = null
         stopEvents.forEach {
             registry.handleLifecycleEvent(it)
+        }
+    }
+
+    @Composable
+    override fun ProvideBeforeScreenContent(
+        provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
+        content: @Composable () -> Unit
+    ) {
+        provideSaveableState("lifecycle") {
+            LifecycleDisposableEffect()
+
+            val hooks = getHooks()
+
+            CompositionLocalProvider(*hooks.toTypedArray()) {
+                content()
+            }
         }
     }
 
@@ -97,21 +116,19 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
-    override fun performSave(outState: SavedState) {
+    private fun performSave(outState: Bundle) {
         controller.performSave(outState)
     }
 
     @Composable
-    override fun getHooks(): ScreenLifecycleHooks {
+    private fun getHooks(): List<ProvidedValue<*>> {
         atomicContext.compareAndSet(null, LocalContext.current)
 
         return remember(this) {
-            ScreenLifecycleHooks(
-                providers = listOf(
-                    LocalLifecycleOwner provides this,
-                    LocalViewModelStoreOwner provides this,
-                    LocalSavedStateRegistryOwner provides this,
-                )
+            listOf(
+                LocalLifecycleOwner provides this,
+                LocalViewModelStoreOwner provides this,
+                LocalSavedStateRegistryOwner provides this,
             )
         }
     }
@@ -127,7 +144,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         )
     }
 
-    override fun registerLifecycleListener(outState: SavedState) {
+    private fun registerLifecycleListener(outState: Bundle) {
         val activity = atomicContext.get()?.getActivity()
         if (activity != null && activity is LifecycleOwner) {
             val observer = object : DefaultLifecycleObserver {
@@ -152,6 +169,23 @@ public class AndroidScreenLifecycleOwner private constructor() :
         /* TODO if (getArguments() != null) {
             extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
         }*/
+    }
+
+    @Composable
+    private fun LifecycleDisposableEffect() {
+        val savedState = rememberSaveable { Bundle() }
+        if (!isCreated) {
+            onCreate(savedState) // do this in the UI thread to force it to be called before anything else
+        }
+
+        DisposableEffect(this) {
+            registerLifecycleListener(savedState)
+            onStart()
+            onDispose {
+                performSave(savedState)
+                onStop()
+            }
+        }
     }
 
     private tailrec fun Context.getActivity(): Activity? = when (this) {
@@ -185,7 +219,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
         private val disposeEvents = arrayOf(
             Lifecycle.Event.ON_DESTROY
         )
-
         public fun get(screen: Screen): ScreenLifecycleOwner =
             ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }
     }
