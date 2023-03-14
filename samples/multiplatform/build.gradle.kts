@@ -109,7 +109,9 @@ afterEvaluate {
     listOf("debug", "release").forEach {
         val createAppTaskName = baseTask + it.capitalize() + "macosX64".capitalize()
 
-        val createAppTask = tasks.getByName(createAppTaskName) as AbstractNativeMacApplicationPackageTask
+        val createAppTask = tasks.findByName(createAppTaskName) as? AbstractNativeMacApplicationPackageTask?
+            ?: return@forEach
+
         val destinationDir = createAppTask.destinationDir.get().asFile
         val packageName = createAppTask.packageName.get()
 
