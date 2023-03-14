@@ -15,7 +15,6 @@ import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
-import cafe.adriel.voyager.navigator.internal.LifecycleDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
@@ -123,18 +122,20 @@ public class Navigator internal constructor(
         val stateKey = "${screen.key}:$key"
         stateKeys += stateKey
 
-        val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-        val lifecycleKey = "$stateKey:lifecycle"
-        stateKeys += lifecycleKey
-        stateHolder.SaveableStateProvider(lifecycleKey) {
-            LifecycleDisposableEffect(lifecycleOwner)
-
-            val hooks = lifecycleOwner.getHooks()
-
-            CompositionLocalProvider(*hooks.providers.toTypedArray()) {
-                stateHolder.SaveableStateProvider(stateKey, content = content)
-            }
+        @Composable
+        fun provideSaveableState(suffixKey: String, content: @Composable () -> Unit) {
+            val providedStateKey = "$stateKey:$suffixKey"
+            stateKeys += providedStateKey
+            stateHolder.SaveableStateProvider(providedStateKey, content)
         }
+
+        val lifecycleOwner = rememberScreenLifecycleOwner(screen)
+        lifecycleOwner.ProvideBeforeScreenContent(
+            provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
+            content = {
+                stateHolder.SaveableStateProvider(stateKey, content)
+            }
+        )
     }
 
     public fun popUntilRoot() {
