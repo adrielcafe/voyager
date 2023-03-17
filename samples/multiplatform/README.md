@@ -14,6 +14,11 @@
 ./gradlew :samples:multiplatform:run
 ```
 
+### Running Web Compose Canvas
+```shell
+./gradlew :samples:multiplatform:jsBrowserDevelopmentRun
+```
+
 ### Building Android App
 ```shell
 ./gradlew :samples:multiplatform:assembleDebug

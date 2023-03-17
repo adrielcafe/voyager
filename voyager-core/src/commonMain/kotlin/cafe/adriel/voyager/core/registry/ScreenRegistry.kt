@@ -1,6 +1,7 @@
 package cafe.adriel.voyager.core.registry
 
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
+import cafe.adriel.voyager.core.platform.multiplatformName
 import cafe.adriel.voyager.core.screen.Screen
 import kotlin.reflect.KClass
 
@@ -23,7 +24,7 @@ public object ScreenRegistry {
 
     public fun get(provider: ScreenProvider): Screen {
         val factory = factories[provider::class]
-            ?: error("ScreenProvider not registered: ${provider::class.qualifiedName}")
+            ?: error("ScreenProvider not registered: ${provider::class.multiplatformName}")
         return factory(provider)
     }
 }

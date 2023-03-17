@@ -83,6 +83,9 @@ fun Project.setupModuleForComposeMultiplatform(
             jvm("desktop")
 
             if (fullyMultiplatform) {
+                js(IR) {
+                    browser()
+                }
                 macosX64()
                 macosArm64()
                 ios(iosPrefixName)

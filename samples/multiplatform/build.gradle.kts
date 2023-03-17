@@ -51,6 +51,11 @@ kotlin {
     iosArm64("uikitArm64", uikitConfiguration)
     iosSimulatorArm64("uikitSimulatorArm64", uikitConfiguration)
 
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -138,4 +143,5 @@ compose.experimental {
             }
         }
     }
+    web.application {}
 }
