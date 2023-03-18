@@ -17,8 +17,8 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                implementation(compose.runtime)
-                implementation(compose.ui)
+                compileOnly(compose.runtime)
+                compileOnly(compose.ui)
             }
         }
 
