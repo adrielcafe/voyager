@@ -29,7 +29,7 @@ jobs:
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
           echo "New version: ${NEW_VERSION}"
-          ./gradlew -Pversion=${NEW_VERSION} publish --stacktrace -p
+          ./gradlew -Pversion=${NEW_VERSION} publish --stacktrace
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
