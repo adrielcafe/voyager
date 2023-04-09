@@ -18,6 +18,10 @@ kotlin {
                 compileOnly(compose.runtime)
                 compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.coroutines)
+                api(projects.voyagerNavigator)
+                api(libs.ktor.events)
+                api(libs.ktor.http)
+                api(libs.ktor.utils)
             }
         }
         val jvmTest by getting {
