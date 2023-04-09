@@ -17,7 +17,7 @@ public fun VoyagerRouter(router: VoyagerRouting) {
         }
     }
 
-    CompositionLocalProvider(LocalRouter provides router) {
+    CompositionLocalProvider(VoyagerLocalRouter provides router) {
         Navigator(
             screen = router.initialScreen(uri = null) // TODO: Get initial uri from a deep link
         ) { navigator ->

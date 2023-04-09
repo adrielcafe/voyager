@@ -12,12 +12,12 @@ import cafe.adriel.voyager.routing.core.application.BaseApplicationPlugin
 import cafe.adriel.voyager.routing.core.application.call
 import cafe.adriel.voyager.routing.core.application.install
 import cafe.adriel.voyager.routing.core.application.log
+import cafe.adriel.voyager.routing.core.plugins.MissingRequestParameterException
 import cafe.adriel.voyager.routing.core.plugins.RouteNotFoundException
 import cafe.adriel.voyager.routing.core.plugins.TooManyRedirectException
 import cafe.adriel.voyager.routing.core.screens.EmptyScreen
 import io.ktor.http.Parameters
-import io.ktor.http.ParametersBuilder
-import io.ktor.http.appendUrlFullPath
+import io.ktor.http.plus
 import io.ktor.util.AttributeKey
 import io.ktor.util.KtorDsl
 import io.ktor.util.logging.KtorSimpleLogger
@@ -25,10 +25,10 @@ import io.ktor.util.logging.Logger
 import io.ktor.util.logging.isTraceEnabled
 import io.ktor.util.pipeline.PipelineContext
 import io.ktor.util.pipeline.execute
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * A root routing node.
@@ -39,12 +39,12 @@ public class VoyagerRouting internal constructor(
     internal val application: Application,
 ) : VoyagerRoute(
     parent = null,
-    selector = RootRouteSelector(application.environment.rootPath),
+    selector = RootRouteSelector(""),
     application.environment.developmentMode,
     application.environment
 ) {
     private val tracers = mutableListOf<(RoutingResolveTrace) -> Unit>()
-    private val namedPaths = mutableMapOf<String, VoyagerNamedRoute>()
+    private val namedRoutes = mutableMapOf<String, VoyagerRoute>()
     internal val navigation = MutableStateFlow<VoyagerRouteEvent>(VoyagerRouteEvent.Idle)
 
     init {
@@ -65,43 +65,52 @@ public class VoyagerRouting internal constructor(
         executeCall(VoyagerApplicationCall(application = application, route = this, popUntilPredicate = predicate))
     }
 
-    public fun push(path: String) {
-        executeCall(VoyagerApplicationCall(application = application, route = this, uri = path))
+    public fun push(path: String, parameters: Parameters = Parameters.Empty) {
+        executeCall(
+            VoyagerApplicationCall(
+                application = application,
+                route = this,
+                uri = path,
+                parameters = parameters,
+            )
+        )
     }
 
     public fun pushNamed(
         name: String,
-        pathParameters: Parameters = Parameters.Empty,
-        queryParameters: Parameters = Parameters.Empty,
+        parameters: Parameters = Parameters.Empty,
+        pathReplacements: Parameters = Parameters.Empty,
     ) {
         executeCall(
             VoyagerApplicationCall(
                 application = application,
                 route = this,
                 name = name,
-                parameters = pathParameters,
-                queryParameters = queryParameters,
+                parameters = parameters,
+                pathReplacements = pathReplacements,
             )
         )
     }
 
-    public fun replace(path: String) {
+    public fun replace(path: String, parameters: Parameters = Parameters.Empty) {
         executeCall(
             VoyagerApplicationCall(
                 application = application,
                 route = this,
                 uri = path,
+                parameters = parameters,
                 replaceCurrent = true,
             )
         )
     }
 
-    public fun replaceAll(path: String) {
+    public fun replaceAll(path: String, parameters: Parameters = Parameters.Empty) {
         executeCall(
             VoyagerApplicationCall(
                 application = application,
                 route = this,
                 uri = path,
+                parameters = parameters,
                 replaceAll = true,
             )
         )
@@ -109,16 +118,16 @@ public class VoyagerRouting internal constructor(
 
     public fun replaceNamed(
         name: String,
-        pathParameters: Parameters = Parameters.Empty,
-        queryParameters: Parameters = Parameters.Empty,
+        parameters: Parameters = Parameters.Empty,
+        pathReplacements: Parameters = Parameters.Empty,
     ) {
         executeCall(
             VoyagerApplicationCall(
                 application = application,
                 route = this,
                 name = name,
-                parameters = pathParameters,
-                queryParameters = queryParameters,
+                parameters = parameters,
+                pathReplacements = pathReplacements,
                 replaceCurrent = true,
             )
         )
@@ -126,16 +135,16 @@ public class VoyagerRouting internal constructor(
 
     public fun replaceAllNamed(
         name: String,
-        pathParameters: Parameters = Parameters.Empty,
-        queryParameters: Parameters = Parameters.Empty,
+        parameters: Parameters = Parameters.Empty,
+        pathReplacements: Parameters = Parameters.Empty,
     ) {
         executeCall(
             VoyagerApplicationCall(
                 application = application,
                 route = this,
                 name = name,
-                parameters = pathParameters,
-                queryParameters = queryParameters,
+                parameters = parameters,
+                pathReplacements = pathReplacements,
                 replaceAll = true,
             )
         )
@@ -151,7 +160,7 @@ public class VoyagerRouting internal constructor(
 
     internal fun initialScreen(uri: String?): Screen {
         val path = when {
-            uri.isNullOrBlank() -> application.environment.rootPath
+            uri.isNullOrBlank() -> application.environment.starterPath
             else -> uri
         }
         replace(path)
@@ -169,14 +178,114 @@ public class VoyagerRouting internal constructor(
         tracers.add(block)
     }
 
-    internal fun registerNamed(name: String, named: VoyagerNamedRoute) {
-        check(!namedPaths.containsKey(name)) {
-            "Duplicated route name. Found '$name' to ${namedPaths[name]?.routingPath} and ${named.routingPath}"
+    internal fun registerNamed(name: String, route: VoyagerRoute) {
+        check(!namedRoutes.containsKey(name)) {
+            "Duplicated named route. Found '$name' to ${namedRoutes[name]} and $route"
         }
-        namedPaths[name] = named
+        namedRoutes[name] = route
     }
 
-    internal fun executeCall(call: ApplicationCall) {
+    internal fun mapNameToPath(name: String, pathReplacements: Parameters): String {
+        val namedRoute =
+            namedRoutes[name] ?: throw RouteNotFoundException(message = "Named route not found with name: $name")
+        val routeSelectors = namedRoute.allSelectors()
+        val skipPathParameters = routeSelectors.run {
+            isEmpty() || all { selector -> selector is PathSegmentConstantRouteSelector }
+        }
+        if (skipPathParameters) {
+            return namedRoute.toString()
+        }
+
+        return tryReplacePathParameters(
+            routeName = name,
+            namedRoute = namedRoute,
+            pathParameters = pathReplacements,
+            routeSelectors = routeSelectors,
+        )
+    }
+
+    private fun tryReplacePathParameters(
+        routeName: String,
+        namedRoute: VoyagerRoute,
+        pathParameters: Parameters,
+        routeSelectors: List<RouteSelector>,
+    ): String {
+        val destination = mutableListOf<String>()
+        for (selector in routeSelectors) {
+            when (selector) {
+                // Check constant value in path as 'hello' in /hello
+                is PathSegmentConstantRouteSelector -> {
+                    destination += selector.value
+                }
+
+                // Check optional {value?} path parameter
+                is PathSegmentOptionalParameterRouteSelector -> {
+                    val param = pathParameters[selector.name]
+                    if (!param.isNullOrBlank()) {
+                        destination += param
+                    }
+                }
+
+                // Check required {value} path parameter
+                is PathSegmentParameterRouteSelector -> {
+                    val param = pathParameters[selector.name]
+                    assertParameters(
+                        routeName = routeName,
+                        namedRoute = namedRoute,
+                        parameterName = selector.name,
+                        predicate = param::isNullOrBlank,
+                    )
+                    destination += param!!
+                }
+
+                // Check tailcard {value...} or {...} path parameter
+                is PathSegmentTailcardRouteSelector -> {
+                    if (selector.name.isNotBlank()) {
+                        val values = pathParameters.getAll(selector.name)
+                        assertParameters(
+                            routeName = routeName,
+                            namedRoute = namedRoute,
+                            parameterName = selector.name,
+                            predicate = values::isNullOrEmpty,
+                        )
+                        destination.addAll(values!!)
+                    } else {
+                        assertParameters(
+                            routeName = routeName,
+                            namedRoute = namedRoute,
+                            parameterName = selector.name,
+                            predicate = pathParameters::isEmpty,
+                        )
+                        pathParameters.forEach { _, values ->
+                            destination.addAll(values)
+                        }
+                    }
+                }
+
+                // Check * path parameter
+                is PathSegmentWildcardRouteSelector -> {
+                    val names = pathParameters.names()
+                    assertParameters(
+                        routeName = routeName,
+                        namedRoute = namedRoute,
+                        parameterName = selector.toString(),
+                        predicate = names::isEmpty,
+                    )
+                    val values = pathParameters.getAll(names.first())
+                    assertParameters(
+                        routeName = routeName,
+                        namedRoute = namedRoute,
+                        parameterName = selector.toString(),
+                        predicate = values::isNullOrEmpty,
+                    )
+                    destination.addAll(values!!)
+                }
+            }
+        }
+        return destination.joinToString(separator = "/")
+    }
+
+    private fun executeCall(call: ApplicationCall) {
         with(application) {
             launch {
                 execute(call)
@@ -192,119 +301,20 @@ public class VoyagerRouting internal constructor(
         }
     }
 
-    internal fun mapNameToPath(
-        name: String,
-        pathParameters: Parameters,
-        queryParameters: Parameters,
-    ): String {
-        val routeNamed = namedPaths[name]
-        checkNotNull(routeNamed) {
-            "Named route not found with name: $name"
+    @Throws(MissingRequestParameterException::class)
+    private fun assertParameters(
+        routeName: String,
+        namedRoute: VoyagerRoute,
+        parameterName: String,
+        predicate: () -> Boolean,
+    ) {
+        if (predicate()) {
+            throw MissingRequestParameterException(
+                parameterName = parameterName,
+                message = "Parameter $parameterName is missing to route named '$routeName' and path: $namedRoute"
+            )
         }
-
-        val skipParameters = routeNamed.partAndSelector.isEmpty() ||
-                routeNamed.partAndSelector.all { it.value is PathSegmentConstantRouteSelector }
-        if (skipParameters && queryParameters.isEmpty()) {
-            return routeNamed.routingPath.toString()
-        }
-
-        val path = when {
-            skipParameters -> routeNamed.routingPath.toString()
-            else -> tryReplacePathParameters(routeNamed, pathParameters, name)
-        }
-
-        if (queryParameters.isEmpty()) {
-            return path
-        }
-
-        val queryParametersBuilder = ParametersBuilder().apply {
-            appendAll(queryParameters)
-        }
-
-        val builder = StringBuilder()
-        builder.appendUrlFullPath(
-            encodedPath = path,
-            encodedQueryParameters = queryParametersBuilder,
-            trailingQuery = false,
-        )
-        return builder.toString()
     }
-
-    private fun tryReplacePathParameters(
-        routeNamed: VoyagerNamedRoute,
-        pathParameters: Parameters,
-        name: String,
-    ): String {
-        val destination = mutableListOf<String>()
-        for (index in routeNamed.routingPath.parts.indices) {
-            val (value, _) = routeNamed.routingPath.parts[index]
-
-            when (val selector = routeNamed.partAndSelector[value]) {
-                // Check constant value in path as 'hello' in /hello
-                is PathSegmentConstantRouteSelector -> {
-                    destination += value
-                }
-
-                // Check optional {value?} path parameter
-                is PathSegmentOptionalParameterRouteSelector -> {
-                    val param = pathParameters[selector.name]
-                    if (!param.isNullOrBlank()) {
-                        destination += param
-                    }
-                }
-
-                // Check required {value} path parameter
-                is PathSegmentParameterRouteSelector -> {
-                    val param = pathParameters[selector.name]
-                    check(!param.isNullOrBlank()) {
-                        "Path parameter $value ${provideErrorMessage(name, routeNamed.routingPath)}"
-                    }
-                    destination += param
-                }
-
-                // Check tailcard {value...} or {...} path parameter
-                is PathSegmentTailcardRouteSelector -> {
-                    if (selector.name.isNotBlank()) {
-                        val values = pathParameters.getAll(selector.name)
-                        check(!values.isNullOrEmpty()) {
-                            "Tailcard parameter $value ${provideErrorMessage(name, routeNamed.routingPath)}"
-                        }
-                        destination.addAll(values)
-                    } else {
-                        check(!pathParameters.isEmpty()) {
-                            "Tailcard parameters ${provideErrorMessage(name, routeNamed.routingPath)}"
-                        }
-                        pathParameters.forEach { _, values ->
-                            destination.addAll(values)
-                        }
-                    }
-                }
-
-                // Check * path parameter
-                is PathSegmentWildcardRouteSelector -> {
-                    val names = pathParameters.names()
-                    check(names.isNotEmpty()) {
-                        "Wildcard parameters ${provideErrorMessage(name, routeNamed.routingPath)}"
-                    }
-                    check(names.size == 1) {
-                        "Wildcard supports one parameter only. Route named '$name' received: $names"
-                    }
-                    val paramName = names.first()
-                    val values = pathParameters.getAll(paramName)
-                    if (!values.isNullOrEmpty()) {
-                        check(values.size == 1) {
-                            "Wildcard supports one value only. Route named '$name' received: $values"
-                        }
-                        destination.addAll(values)
-                    }
-                }
-            }
-        }
-        return destination.joinToString(separator = "/")
-    }
-
-    private fun provideErrorMessage(routeName: String, routePath: RoutingPath): String =
-        "not provided to named route '$routeName' with path: $routePath"
 
     private suspend fun interceptor(context: PipelineContext<Unit, ApplicationCall>) {
         var call = requireNotNull(context.call as? VoyagerApplicationCall) {
@@ -325,8 +335,7 @@ public class VoyagerRouting internal constructor(
                 name = "",
                 uri = mapNameToPath(
                     name = call.name,
-                    pathParameters = call.parameters,
-                    queryParameters = call.queryParameters,
+                    pathReplacements = call.pathReplacements,
                 )
             )
         }
@@ -343,19 +352,12 @@ public class VoyagerRouting internal constructor(
         when (val resolveResult = resolveContext.resolve()) {
             is RoutingResolveResult.Failure -> throw RouteNotFoundException(message = resolveResult.reason)
 
-            is RoutingResolveResult.Success ->
-                resolveSuccess(call, resolveResult.route, resolveResult.parameters)
+            is RoutingResolveResult.Success -> {
+                val routingCallPipeline = resolveResult.route.buildPipeline()
+                val routingCall = call.copy(parameters = call.parameters + resolveResult.parameters)
+                routingCallPipeline.execute(routingCall)
+            }
         }
-    }
-
-    private suspend fun resolveSuccess(
-        call: VoyagerApplicationCall,
-        route: VoyagerRoute,
-        parameters: Parameters
-    ) {
-        val routingCallPipeline = route.buildPipeline()
-        val routingCall = call.copy(parameters = parameters)
-        routingCallPipeline.execute(routingCall)
     }
 
     /**
@@ -391,7 +393,7 @@ public val VoyagerRoute.application: Application
 public fun voyagerRouting(
     parentCoroutineContext: CoroutineContext = EmptyCoroutineContext,
     log: Logger = KtorSimpleLogger("VoyagerRouting"),
-    rootPath: String = "/",
+    startDestination: String = "/",
     developmentMode: Boolean = false,
     maxRedirectAttempts: Int = 5,
     configuration: VoyagerRouting.() -> Unit
@@ -399,7 +401,7 @@ public fun voyagerRouting(
     val environment = ApplicationEnvironment(
         parentCoroutineContext = parentCoroutineContext,
         log = log,
-        rootPath = rootPath,
+        starterPath = startDestination,
         developmentMode = developmentMode,
         maxRedirectAttempts = maxRedirectAttempts,
     )

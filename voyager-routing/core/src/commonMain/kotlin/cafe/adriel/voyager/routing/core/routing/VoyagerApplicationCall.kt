@@ -15,7 +15,7 @@ public data class VoyagerApplicationCall(
     override val parameters: Parameters = Parameters.Empty,
     public val name: String = "",
     public val popUntilPredicate: ((Screen) -> Boolean)? = null,
-    public val queryParameters: Parameters = Parameters.Empty,
+    public val pathReplacements: Parameters = Parameters.Empty,
     public val replaceAll: Boolean = false,
     public val replaceCurrent: Boolean = false,
     public val redirectAttempt: Int = 0,

@@ -120,8 +120,7 @@ public open class VoyagerRoute(
                     screen.name.isBlank() -> screen.path
                     else -> routingCall.routing.mapNameToPath(
                         name = screen.name,
-                        pathParameters = routingCall.parameters,
-                        queryParameters = routingCall.queryParameters,
+                        pathReplacements = routingCall.pathReplacements,
                     )
                 }
                 routingCall.routing.application.execute(
@@ -146,6 +145,17 @@ public open class VoyagerRoute(
         cachedPipeline = pipeline
         pipeline
     }
+}
+
+internal fun VoyagerRoute.allSelectors(): List<RouteSelector> {
+    val selectors = mutableListOf(selector)
+    var other = parent
+    while (other != null && other !is VoyagerRouting) {
+        selectors += other.selector
+        other = other.parent
+    }
+    // We need reverse to starting from top-most parent
+    return selectors.reversed()
 }
 
 /**

@@ -4,6 +4,10 @@
 
 package cafe.adriel.voyager.routing.core.plugins
 
+import io.ktor.util.internal.initCauseBridge
+import kotlinx.coroutines.CopyableThrowable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 /**
  * Base exception to indicate that the request is not correct due to
  * wrong/missing request parameters, body content or header values.
@@ -11,6 +15,23 @@ package cafe.adriel.voyager.routing.core.plugins
  * unless a custom [io.ktor.plugins.StatusPages] handler registered.
  */
 public open class BadRequestException(message: String, cause: Throwable? = null) : Exception(message, cause)
+
+/**
+ * This exception is thrown when a required parameter with name [parameterName] is missing
+ * @property parameterName of missing request parameter
+ */
+@OptIn(ExperimentalCoroutinesApi::class)
+public class MissingRequestParameterException(
+    public val parameterName: String,
+    message: String? = null,
+) : BadRequestException(message ?: "Request parameter $parameterName is missing"),
+    CopyableThrowable<MissingRequestParameterException> {
+
+    override fun createCopy(): MissingRequestParameterException =
+        MissingRequestParameterException(parameterName, message).also {
+            it.initCauseBridge(this)
+        }
+}
 
 public class RouteNotFoundException(
     public override val message: String,

@@ -54,16 +54,14 @@ public fun VoyagerRoute.redirectTo(
  * Creates a routing entry for the specified path.
  */
 internal fun VoyagerRoute.createRouteFromPath(path: String, name: String?): VoyagerRoute {
-    val partAndSelector = mutableMapOf<String, RouteSelector>()
-    val routingPath = RoutingPath.parse(path)
+    val parts = RoutingPath.parse(path).parts
     var current: VoyagerRoute = this
-    for (index in routingPath.parts.indices) {
-        val (value, kind) = routingPath.parts[index]
+    for (index in parts.indices) {
+        val (value, kind) = parts[index]
         val selector = when (kind) {
             RoutingPathSegmentKind.Parameter -> PathSegmentSelectorBuilder.parseParameter(value)
             RoutingPathSegmentKind.Constant -> PathSegmentSelectorBuilder.parseConstant(value)
         }
-        partAndSelector += value to selector
         // there may already be entry with same selector, so join them
         current = current.createChild(selector)
     }
@@ -72,13 +70,7 @@ internal fun VoyagerRoute.createRouteFromPath(path: String, name: String?): Voya
     }
     // Registering named route
     if (!name.isNullOrBlank()) {
-        routing().registerNamed(
-            name = name,
-            named = VoyagerNamedRoute(
-                routingPath = routingPath,
-                partAndSelector = partAndSelector,
-            )
-        )
+        routing().registerNamed(name = name, route = current)
     }
     return current
 }
