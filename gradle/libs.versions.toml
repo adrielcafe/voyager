@@ -35,7 +35,6 @@ leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.re
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-ktor-events = { module = "io.ktor:ktor-events", version.ref = "ktor" }
 ktor-http = { module = "io.ktor:ktor-http", version.ref = "ktor" }
 ktor-utils = { module = "io.ktor:ktor-utils", version.ref = "ktor" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }

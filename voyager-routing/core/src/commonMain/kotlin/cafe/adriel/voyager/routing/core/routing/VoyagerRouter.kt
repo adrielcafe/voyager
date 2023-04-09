@@ -2,6 +2,7 @@ package cafe.adriel.voyager.routing.core.routing
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -10,9 +11,15 @@ import cafe.adriel.voyager.navigator.Navigator
 
 @Composable
 public fun VoyagerRouter(router: VoyagerRouting) {
+    DisposableEffect(router) {
+        onDispose {
+            router.dispose()
+        }
+    }
+
     CompositionLocalProvider(LocalRouter provides router) {
         Navigator(
-            screen = router.initialScreen(uri = null) // TODO: Get initial screen from a deep link
+            screen = router.initialScreen(uri = null) // TODO: Get initial uri from a deep link
         ) { navigator ->
             val event by router.navigation.collectAsState()
 

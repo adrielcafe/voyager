@@ -4,7 +4,6 @@
 
 package cafe.adriel.voyager.routing.core.application
 
-import io.ktor.events.Events
 import io.ktor.util.logging.Logger
 import kotlin.coroutines.CoroutineContext
 
@@ -21,11 +20,6 @@ public data class ApplicationEnvironment(
      * Instance of [Logger] to be used for logging.
      */
     public val log: Logger,
-
-    /**
-     * Provides events on Application lifecycle
-     */
-    public val monitor: Events,
 
     /**
      * Application's root path (prefix, context path in servlet container).

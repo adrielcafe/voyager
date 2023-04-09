@@ -9,27 +9,26 @@ import cafe.adriel.voyager.routing.core.application.Application
 import cafe.adriel.voyager.routing.core.application.ApplicationCall
 import cafe.adriel.voyager.routing.core.application.ApplicationEnvironment
 import cafe.adriel.voyager.routing.core.application.BaseApplicationPlugin
-import cafe.adriel.voyager.routing.core.application.Plugin
 import cafe.adriel.voyager.routing.core.application.call
 import cafe.adriel.voyager.routing.core.application.install
-import cafe.adriel.voyager.routing.core.application.pluginOrNull
+import cafe.adriel.voyager.routing.core.application.log
 import cafe.adriel.voyager.routing.core.plugins.RouteNotFoundException
 import cafe.adriel.voyager.routing.core.plugins.TooManyRedirectException
 import cafe.adriel.voyager.routing.core.screens.EmptyScreen
-import io.ktor.events.EventDefinition
 import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import io.ktor.http.appendUrlFullPath
 import io.ktor.util.AttributeKey
 import io.ktor.util.KtorDsl
 import io.ktor.util.logging.KtorSimpleLogger
+import io.ktor.util.logging.Logger
 import io.ktor.util.logging.isTraceEnabled
 import io.ktor.util.pipeline.PipelineContext
 import io.ktor.util.pipeline.execute
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
-internal val LOGGER = KtorSimpleLogger("io.ktor.routing.Routing")
 
 /**
  * A root routing node.
@@ -142,6 +141,10 @@ public class VoyagerRouting internal constructor(
         )
     }
 
+    internal fun dispose() {
+        application.dispose()
+    }
+
     internal fun clearEvent() {
         navigation.tryEmit(value = VoyagerRouteEvent.Idle)
     }
@@ -182,10 +185,10 @@ public class VoyagerRouting internal constructor(
     }
 
     private fun addDefaultTracing() {
-        if (!LOGGER.isTraceEnabled) return
+        if (!application.log.isTraceEnabled) return
 
         tracers.add {
-            LOGGER.trace(it.buildText())
+            application.log.trace(it.buildText())
         }
     }
 
@@ -200,7 +203,7 @@ public class VoyagerRouting internal constructor(
         }
 
         val skipParameters = routeNamed.partAndSelector.isEmpty() ||
-            routeNamed.partAndSelector.all { it.value is PathSegmentConstantRouteSelector }
+                routeNamed.partAndSelector.all { it.value is PathSegmentConstantRouteSelector }
         if (skipParameters && queryParameters.isEmpty()) {
             return routeNamed.routingPath.toString()
         }
@@ -352,12 +355,7 @@ public class VoyagerRouting internal constructor(
     ) {
         val routingCallPipeline = route.buildPipeline()
         val routingCall = call.copy(parameters = parameters)
-        application.environment.monitor.raise(RoutingCallStarted, routingCall)
-        try {
-            routingCallPipeline.execute(routingCall)
-        } finally {
-            application.environment.monitor.raise(RoutingCallFinished, routingCall)
-        }
+        routingCallPipeline.execute(routingCall)
     }
 
     /**
@@ -365,16 +363,6 @@ public class VoyagerRouting internal constructor(
      */
     @Suppress("PublicApiImplicitType")
     public companion object Plugin : BaseApplicationPlugin<Application, VoyagerRouting, VoyagerRouting> {
-
-        /**
-         * A definition for an event that is fired when routing-based call processing starts.
-         */
-        public val RoutingCallStarted: EventDefinition<ApplicationCall> = EventDefinition()
-
-        /**
-         * A definition for an event that is fired when routing-based call processing is finished.
-         */
-        public val RoutingCallFinished: EventDefinition<ApplicationCall> = EventDefinition()
 
         override val key: AttributeKey<VoyagerRouting> = AttributeKey("Routing")
 
@@ -399,22 +387,23 @@ public val VoyagerRoute.application: Application
         )
     }
 
-/**
- * Installs a [plugin] into this pipeline, if it is not yet installed.
- */
-// TODO: Change extension to VoyagerRoute to support route scoped plugins
-public fun <B : Any, F : Any> VoyagerRouting.install(
-    plugin: Plugin<Application, B, F>,
-    configure: B.() -> Unit = {}
-): F = application.install(plugin, configure)
-
 @KtorDsl
 public fun voyagerRouting(
-    environment: ApplicationEnvironment,
+    parentCoroutineContext: CoroutineContext = EmptyCoroutineContext,
+    log: Logger = KtorSimpleLogger("VoyagerRouting"),
+    rootPath: String = "/",
+    developmentMode: Boolean = false,
+    maxRedirectAttempts: Int = 5,
     configuration: VoyagerRouting.() -> Unit
 ): VoyagerRouting {
-    // TODO: Creating application instance here always install the plugin instead of reuse
+    val environment = ApplicationEnvironment(
+        parentCoroutineContext = parentCoroutineContext,
+        log = log,
+        rootPath = rootPath,
+        developmentMode = developmentMode,
+        maxRedirectAttempts = maxRedirectAttempts,
+    )
     return with(Application(environment)) {
-        pluginOrNull(VoyagerRouting)?.apply(configuration) ?: install(VoyagerRouting, configuration)
+        install(VoyagerRouting, configuration)
     }
 }
