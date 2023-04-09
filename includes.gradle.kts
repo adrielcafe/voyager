@@ -1,6 +1,7 @@
 include(
     ":samples:android",
     ":samples:multiplatform",
+    ":samples:multiplatform-routing",
 
     ":samples:multi-module:app",
     ":samples:multi-module:navigation",
