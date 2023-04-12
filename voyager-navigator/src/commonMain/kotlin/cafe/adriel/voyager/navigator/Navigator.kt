@@ -157,6 +157,17 @@ public class Navigator internal constructor(
         popUntil(predicate)
     }
 
+    @Composable
+    public fun <T> getResult(screenKey: String): State<T?> {
+        val result = results[screenKey] as? T
+        val resultState = remember(screenKey, result) {
+            derivedStateOf {
+                results -= screenKey
+                result
+            }
+        }
+        return resultState
+    }
 
     internal fun dispose(
         screen: Screen
