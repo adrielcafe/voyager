@@ -10,12 +10,7 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -102,6 +97,8 @@ public class BottomSheetNavigator internal constructor(
     public val isVisible: Boolean
         get() = sheetState.isVisible
 
+    private val results = mutableStateMapOf<String, Any?>()
+
     public fun show(screen: Screen) {
         coroutineScope.launch {
             replaceAll(screen)
@@ -114,6 +111,27 @@ public class BottomSheetNavigator internal constructor(
             sheetState.hide()
             replaceAll(HiddenBottomSheetScreen)
         }
+    }
+
+    public fun hideWithResult(result: Any? = null, key: String) {
+        coroutineScope.launch {
+            results[key] = result
+            sheetState.hide()
+            replaceAll(HiddenBottomSheetScreen)
+        }
+    }
+
+    @Composable
+    public fun <T> getResult(screenKey: String): State<T?> {
+        val result = results[screenKey] as? T
+        val resultState =
+            remember(screenKey, result) {
+                derivedStateOf {
+                    results -= screenKey
+                    result
+                }
+            }
+        return resultState
     }
 
     @Composable
