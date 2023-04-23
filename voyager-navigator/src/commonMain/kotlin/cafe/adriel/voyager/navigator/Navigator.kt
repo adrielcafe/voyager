@@ -53,7 +53,7 @@ public fun Navigator(
         screens = listOf(screen),
         disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
-        content = content
+        content = content,
     )
 }
 
@@ -62,7 +62,7 @@ public fun Navigator(
     screens: List<Screen>,
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
-    content: NavigatorContent = { CurrentScreen() }
+    content: NavigatorContent = { CurrentScreen() },
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
 
