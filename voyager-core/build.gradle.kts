@@ -31,5 +31,10 @@ kotlin {
                 implementation(libs.compose.activity)
             }
         }
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.multiplatformUuid)
+            }
+        }
     }
 }

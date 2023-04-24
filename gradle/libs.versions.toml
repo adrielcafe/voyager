@@ -22,6 +22,8 @@ composeUI = "1.3.3"
 
 junit = "5.8.2"
 
+multiplatformUuid = "0.7.0"
+
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -53,6 +55,8 @@ compose-materialIcons = { module = "androidx.compose.material:material-icons-cor
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 
 composeMultiplatform-runtimeSaveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "plugin-multiplatform-compose" }
+
+multiplatformUuid = { module = "com.benasher44:uuid", version.ref = "multiplatformUuid" }
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
