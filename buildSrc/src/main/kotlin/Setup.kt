@@ -79,6 +79,7 @@ fun Project.setupModuleForComposeMultiplatform(
             sourceSets {
                 all {
                     languageSettings.optIn("cafe.adriel.voyager.core.annotation.InternalVoyagerApi")
+                    languageSettings.optIn("cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi")
                 }
             }
 
@@ -166,6 +167,7 @@ private fun KotlinJvmOptions.configureKotlinJvmOptions(
 
     if (enableExplicitMode) freeCompilerArgs += "-Xexplicit-api=strict"
     freeCompilerArgs += "-opt-in=cafe.adriel.voyager.core.annotation.InternalVoyagerApi"
+    freeCompilerArgs += "-opt-in=cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi"
 }
 
 private fun Project.findAndroidExtension(): BaseExtension = extensions.findByType<LibraryExtension>()

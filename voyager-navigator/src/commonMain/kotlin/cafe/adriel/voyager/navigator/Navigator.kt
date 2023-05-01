@@ -10,7 +10,9 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
+import cafe.adriel.voyager.core.lifecycle.ComposedScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
+import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
@@ -131,7 +133,10 @@ public class Navigator @InternalVoyagerApi constructor(
         }
 
         val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-        lifecycleOwner.ProvideBeforeScreenContent(
+        val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleOwner(screen)
+
+        val composed = ComposedScreenLifecycleOwner(listOf(lifecycleOwner) + navigatorScreenLifecycleOwners)
+        composed.ProvideBeforeScreenContent(
             provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
             content = {
                 stateHolder.SaveableStateProvider(stateKey, content)

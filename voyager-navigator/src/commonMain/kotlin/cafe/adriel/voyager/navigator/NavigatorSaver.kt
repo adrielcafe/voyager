@@ -5,11 +5,13 @@ import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 
 public val LocalNavigatorSaver: ProvidableCompositionLocal<NavigatorSaver<*>> =
     staticCompositionLocalOf { defaultNavigatorSaver() }
 
+@ExperimentalVoyagerApi
 public fun interface NavigatorSaver<Saveable : Any> {
     public fun saver(
         initialScreens: List<Screen>,
