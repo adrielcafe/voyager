@@ -1,9 +1,8 @@
-package cafe.adriel.voyager.navigator.internal
+package cafe.adriel.voyager.navigator
 
 import android.os.Parcelable
 import androidx.compose.runtime.saveable.listSaver
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.Navigator
 
 /**
  * Navigator Saver that forces all Screens be [Parcelable], if not, it will throw a exception while trying to save
