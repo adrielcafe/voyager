@@ -6,7 +6,7 @@ plugin-multiplatform-compose = "1.4.0"
 
 coroutines = "1.6.4"
 kotlin = "1.8.20"
-kodein = "7.18.0"
+kodein = "7.20.1"
 koin = "3.2.2"
 hilt = "2.44"
 leakCanary = "2.8.1"
