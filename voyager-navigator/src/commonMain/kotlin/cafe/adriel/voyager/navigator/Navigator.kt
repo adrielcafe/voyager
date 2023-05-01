@@ -156,7 +156,8 @@ public class Navigator @InternalVoyagerApi constructor(
         }
     }
 
-    internal fun dispose(
+    @InternalVoyagerApi
+    public fun dispose(
         screen: Screen
     ) {
         ScreenModelStore.remove(screen)
