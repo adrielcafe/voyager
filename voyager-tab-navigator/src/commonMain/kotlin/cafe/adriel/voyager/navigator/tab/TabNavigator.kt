@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
@@ -44,6 +45,7 @@ public fun TabNavigator(
     }
 }
 
+@ExperimentalVoyagerApi
 @Composable
 public fun TabDisposable(navigator: TabNavigator, tabs: List<Tab>) {
     DisposableEffectIgnoringConfiguration(Unit) {
