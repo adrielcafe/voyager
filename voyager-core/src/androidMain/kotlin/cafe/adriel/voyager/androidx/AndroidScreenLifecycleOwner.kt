@@ -219,7 +219,9 @@ public class AndroidScreenLifecycleOwner private constructor() :
         private val disposeEvents = arrayOf(
             Lifecycle.Event.ON_DESTROY
         )
-        public fun get(screen: Screen): ScreenLifecycleOwner =
-            ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }
+        public fun get(screen: Screen): ScreenLifecycleOwner {
+            return ScreenLifecycleStore.register(screen) { AndroidScreenLifecycleOwner() }
+        }
+
     }
 }
