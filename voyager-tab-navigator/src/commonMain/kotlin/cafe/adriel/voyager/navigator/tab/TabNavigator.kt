@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 import cafe.adriel.voyager.navigator.compositionUniqueId
@@ -18,8 +19,9 @@ public val LocalTabNavigator: ProvidableCompositionLocal<TabNavigator> =
 public fun TabNavigator(
     tab: Tab,
     disposeNestedNavigators: Boolean = false,
+    tabDisposable: (@Composable (TabNavigator) -> Unit)? = null,
     key: String = compositionUniqueId(),
-    content: TabNavigatorContent = { CurrentTab() }
+    content: TabNavigatorContent = { CurrentTab() },
 ) {
     Navigator(
         screen = tab,
@@ -34,14 +36,27 @@ public fun TabNavigator(
             TabNavigator(navigator)
         }
 
+        tabDisposable?.invoke(tabNavigator)
+
         CompositionLocalProvider(LocalTabNavigator provides tabNavigator) {
             content(tabNavigator)
         }
     }
 }
 
+@Composable
+public fun TabDisposable(navigator: TabNavigator, tabs: List<Tab>) {
+    DisposableEffectIgnoringConfiguration(Unit) {
+        onDispose {
+            tabs.forEach {
+                navigator.navigator.dispose(it)
+            }
+        }
+    }
+}
+
 public class TabNavigator internal constructor(
-    private val navigator: Navigator
+    internal val navigator: Navigator
 ) {
 
     public var current: Tab
