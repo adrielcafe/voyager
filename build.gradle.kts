@@ -17,7 +17,3 @@ buildscript {
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
-}

@@ -5,7 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.kodein"
@@ -16,7 +16,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                implementation(compose.runtime)
+                compileOnly(compose.runtime)
+                compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.kodein)
             }
         }
@@ -25,13 +26,6 @@ kotlin {
             dependencies {
                 implementation(libs.junit.api)
                 runtimeOnly(libs.junit.engine)
-            }
-        }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
             }
         }
     }

@@ -15,8 +15,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.runtime)
-                api(libs.composeMultiplatform.runtimeSaveable)
+                compileOnly(compose.runtime)
+                compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.coroutines)
             }
         }
@@ -29,12 +29,16 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.activity)
+
+                implementation(libs.lifecycle.runtime)
+                implementation(libs.lifecycle.savedState)
+                implementation(libs.lifecycle.viewModelKtx)
+                implementation(libs.lifecycle.viewModelCompose)
             }
         }
-        val androidTest by getting {
+        val jsMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
+                implementation(libs.multiplatformUuid)
             }
         }
     }

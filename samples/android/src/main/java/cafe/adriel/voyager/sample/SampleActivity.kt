@@ -27,6 +27,7 @@ import cafe.adriel.voyager.sample.kodeinIntegration.KodeinIntegrationActivity
 import cafe.adriel.voyager.sample.koinIntegration.KoinIntegrationActivity
 import cafe.adriel.voyager.sample.liveDataIntegration.LiveDataIntegrationActivity
 import cafe.adriel.voyager.sample.nestedNavigation.NestedNavigationActivity
+import cafe.adriel.voyager.sample.parcelableScreen.ParcelableActivity
 import cafe.adriel.voyager.sample.rxJavaIntegration.RxJavaIntegrationActivity
 import cafe.adriel.voyager.sample.screenModel.ScreenModelActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
@@ -53,6 +54,7 @@ class SampleActivity : ComponentActivity() {
             item {
                 StartSampleButton<StateStackActivity>("SnapshotStateStack")
                 StartSampleButton<BasicNavigationActivity>("Basic Navigation")
+                StartSampleButton<ParcelableActivity>("Basic Navigation with Parcelable")
                 StartSampleButton<TabNavigationActivity>("Tab Navigation")
                 StartSampleButton<BottomSheetNavigationActivity>("BottomSheet Navigation")
                 StartSampleButton<NestedNavigationActivity>("Nested Navigation")

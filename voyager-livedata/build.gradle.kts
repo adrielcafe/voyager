@@ -4,9 +4,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForAndroidxCompose(
-    composeCompilerVersion = libs.versions.composeCompiler.get()
-)
+setupModuleForAndroidxCompose()
 
 android {
     namespace = "cafe.adriel.voyager.livedata"

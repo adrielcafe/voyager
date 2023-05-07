@@ -46,7 +46,7 @@ Turn on the Warp Drive and enjoy the trek 🖖
 See the [project website](https://voyager.adriel.cafe) for documentation and APIs.
 
 ### Features
-- [Supported platforms](https://voyager.adriel.cafe/setup#platform-compatibility): Android, Desktop
+- [Supported platforms](https://voyager.adriel.cafe/setup#platform-compatibility): Android, iOS, Desktop, Web.
 - [Linear navigation](https://voyager.adriel.cafe/navigation)
 - [BottomSheet navigation](https://voyager.adriel.cafe/navigation/bottomsheet-navigation)
 - [Tab navigation](https://voyager.adriel.cafe/navigation/tab-navigation) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
@@ -60,9 +60,6 @@ See the [project website](https://voyager.adriel.cafe) for documentation and API
 - [Lifecycle](https://voyager.adriel.cafe/lifecycle) callbacks
 - [Back press](https://voyager.adriel.cafe/back-press) handling
 - [Deep linking](https://voyager.adriel.cafe/deep-links) support
-
-### Roadmap
-- iOS support
 
 ### Samples
 | [Stack API](https://github.com/adrielcafe/voyager/tree/main/samples/android/src/main/java/cafe/adriel/voyager/sample/stateStack) | [Android ViewModel](https://github.com/adrielcafe/voyager/tree/main/samples/android/src/main/java/cafe/adriel/voyager/sample/androidViewModel) | [ScreenModel](https://github.com/adrielcafe/voyager/tree/main/samples/android/src/main/java/cafe/adriel/voyager/sample/screenModel) | [Basic nav.](https://github.com/adrielcafe/voyager/tree/main/samples/android/src/main/java/cafe/adriel/voyager/sample/basicNavigation) |

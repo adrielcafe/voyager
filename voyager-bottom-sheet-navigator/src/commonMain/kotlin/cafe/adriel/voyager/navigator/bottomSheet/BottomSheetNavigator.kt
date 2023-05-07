@@ -44,6 +44,7 @@ public fun BottomSheetNavigator(
     sheetElevation: Dp = ModalBottomSheetDefaults.Elevation,
     sheetBackgroundColor: Color = MaterialTheme.colors.surface,
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
+    skipHalfExpanded: Boolean = true,
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
     content: BottomSheetNavigatorContent
 ) {
@@ -51,6 +52,7 @@ public fun BottomSheetNavigator(
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = skipHalfExpanded,
         confirmStateChange = { state ->
             when (state) {
                 ModalBottomSheetValue.Hidden -> {

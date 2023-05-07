@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi
+import org.jetbrains.compose.desktop.application.tasks.AbstractNativeMacApplicationPackageTask
 import org.jetbrains.compose.experimental.dsl.IOSDevices
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
@@ -12,7 +13,9 @@ plugins {
 
 setupModuleForComposeMultiplatform(
     fullyMultiplatform = true,
-    withKotlinExplicitMode = false
+    withKotlinExplicitMode = false,
+    // this is required for the Compose iOS Application DSL expect a `uikit` target name.
+    iosPrefixName = "uikit"
 )
 
 android {
@@ -20,7 +23,7 @@ android {
 }
 
 kotlin {
-    macosX64 {
+    val macOsConfiguation: KotlinNativeTarget.() -> Unit = {
         binaries {
             executable {
                 entryPoint = "main"
@@ -30,16 +33,8 @@ kotlin {
             }
         }
     }
-    macosArm64 {
-        binaries {
-            executable {
-                entryPoint = "main"
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal"
-                )
-            }
-        }
-    }
+    macosX64(macOsConfiguation)
+    macosArm64(macOsConfiguation)
     val uikitConfiguration: KotlinNativeTarget.() -> Unit = {
         binaries {
             executable() {
@@ -55,6 +50,11 @@ kotlin {
     iosX64("uikitX64", uikitConfiguration)
     iosArm64("uikitArm64", uikitConfiguration)
     iosSimulatorArm64("uikitSimulatorArm64", uikitConfiguration)
+
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -109,28 +109,39 @@ compose.desktop.nativeApplication {
     }
 }
 
+afterEvaluate {
+    val baseTask = "createDistributableNative"
+    listOf("debug", "release").forEach {
+        val createAppTaskName = baseTask + it.capitalize() + "macosX64".capitalize()
+
+        val createAppTask = tasks.findByName(createAppTaskName) as? AbstractNativeMacApplicationPackageTask?
+            ?: return@forEach
+
+        val destinationDir = createAppTask.destinationDir.get().asFile
+        val packageName = createAppTask.packageName.get()
+
+        tasks.create("runNative" + it.capitalize()) {
+            group = createAppTask.group
+            dependsOn(createAppTaskName)
+            doLast {
+                ProcessBuilder("open", destinationDir.absolutePath + "/" + packageName + ".app").start().waitFor()
+            }
+        }
+    }
+}
+
 compose.experimental {
     uikit.application {
         bundleIdPrefix = "cafe.adriel.voyager"
         projectName = "MultiplatformSample"
         deployConfigurations {
             simulator("IPhone8") {
-                //Usage: ./gradlew iosDeployIPhone8Debug
                 device = IOSDevices.IPHONE_8
             }
             simulator("IPad") {
-                //Usage: ./gradlew iosDeployIPadDebug
                 device = IOSDevices.IPAD_MINI_6th_Gen
             }
         }
     }
-}
-
-kotlin {
-    targets.withType<KotlinNativeTarget> {
-        binaries.all {
-            // TODO: the current compose binary surprises LLVM, so disable checks for now.
-            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
-        }
-    }
+    web.application {}
 }

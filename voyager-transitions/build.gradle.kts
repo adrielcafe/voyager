@@ -17,7 +17,7 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                implementation(compose.animation)
+                compileOnly(compose.animation)
             }
         }
 
@@ -30,12 +30,6 @@ kotlin {
 
         val desktopTest by getting {
             dependsOn(jvmTest)
-        }
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
-            }
         }
     }
 }

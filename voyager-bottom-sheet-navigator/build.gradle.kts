@@ -17,8 +17,8 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                implementation(compose.runtime)
-                implementation(compose.material)
+                compileOnly(compose.runtime)
+                compileOnly(compose.material)
             }
         }
 
@@ -26,13 +26,6 @@ kotlin {
             dependencies {
                 implementation(libs.junit.api)
                 runtimeOnly(libs.junit.engine)
-            }
-        }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
             }
         }
 

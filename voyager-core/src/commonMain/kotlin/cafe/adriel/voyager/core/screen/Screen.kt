@@ -1,6 +1,7 @@
 package cafe.adriel.voyager.core.screen
 
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.platform.multiplatformName
 
 public expect interface Screen {
 
@@ -11,4 +12,4 @@ public expect interface Screen {
 }
 
 internal fun Screen.commonKeyGeneration() =
-    this::class.qualifiedName ?: error("Default ScreenKey not found, please provide your own key")
+    this::class.multiplatformName ?: error("Default ScreenKey not found, please provide your own key")

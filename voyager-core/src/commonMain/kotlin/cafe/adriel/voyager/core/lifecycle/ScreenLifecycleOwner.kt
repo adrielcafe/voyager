@@ -1,29 +1,29 @@
 package cafe.adriel.voyager.core.lifecycle
 
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 
 public interface ScreenLifecycleOwner {
 
-    public val isCreated: Boolean
-
+    /**
+     * Called before rendering the Screen Content.
+     *
+     * IMPORTANT: This is only called when ScreenLifecycleOwner is provided by [ScreenLifecycleProvider] or [NavigatorScreenLifecycleProvider].
+     */
     @Composable
-    public fun getHooks(): ScreenLifecycleHooks = ScreenLifecycleHooks.Empty
+    public fun ProvideBeforeScreenContent(
+        provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
+        content: @Composable () -> Unit
+    ): Unit = content()
 
-    public fun performSave(outState: SavedState) {}
-
-    public fun onCreate(savedState: SavedState?) {}
-
+    /**
+     * Called on the Screen leaves the stack.
+     */
     public fun onDispose(screen: Screen) {}
-
-    public fun onStart() {}
-
-    public fun onStop() {}
-
-    public fun registerLifecycleListener(outState: SavedState) {}
 }
 
-internal object DefaultScreenLifecycleOwner : ScreenLifecycleOwner {
-    override val isCreated: Boolean
-        get() = true
-}
+@InternalVoyagerApi
+public object DefaultScreenLifecycleOwner : ScreenLifecycleOwner
+
+

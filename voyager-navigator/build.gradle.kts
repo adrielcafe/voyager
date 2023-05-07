@@ -16,8 +16,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                implementation(compose.runtime)
-                implementation(libs.composeMultiplatform.runtimeSaveable)
+                compileOnly(compose.runtime)
+                compileOnly(libs.composeMultiplatform.runtimeSaveable)
             }
         }
 
@@ -31,13 +31,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.activity)
-            }
-        }
-
-        val androidTest by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
             }
         }
     }

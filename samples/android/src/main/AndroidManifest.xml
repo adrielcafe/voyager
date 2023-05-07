@@ -22,6 +22,7 @@
         <activity android:name=".basicNavigation.BasicNavigationActivity"/>
         <activity android:name=".tabNavigation.TabNavigationActivity"/>
         <activity android:name=".nestedNavigation.NestedNavigationActivity"/>
+        <activity android:name=".parcelableScreen.ParcelableActivity"/>
         <activity android:name=".screenModel.ScreenModelActivity"/>
         <activity android:name=".androidViewModel.AndroidViewModelActivity"/>
         <activity android:name=".bottomSheetNavigation.BottomSheetNavigationActivity"/>

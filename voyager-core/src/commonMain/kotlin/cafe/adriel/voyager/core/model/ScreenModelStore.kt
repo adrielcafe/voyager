@@ -2,6 +2,7 @@ package cafe.adriel.voyager.core.model
 
 import androidx.compose.runtime.DisallowComposableCalls
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
+import cafe.adriel.voyager.core.platform.multiplatformName
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -25,7 +26,7 @@ public object ScreenModelStore {
 
     @PublishedApi
     internal inline fun <reified T : ScreenModel> getKey(screen: Screen, tag: String?): ScreenModelKey =
-        "${screen.key}:${T::class.qualifiedName}:${tag ?: "default"}"
+        "${screen.key}:${T::class.multiplatformName}:${tag ?: "default"}"
 
     @PublishedApi
     internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey =
