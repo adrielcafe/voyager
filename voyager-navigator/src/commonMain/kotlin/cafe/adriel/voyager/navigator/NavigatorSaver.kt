@@ -15,6 +15,7 @@ public val LocalNavigatorSaver: ProvidableCompositionLocal<NavigatorSaver<*>> =
 public fun interface NavigatorSaver<Saveable : Any> {
     public fun saver(
         initialScreens: List<Screen>,
+        key: String,
         stateHolder: SaveableStateHolder,
         disposeBehavior: NavigatorDisposeBehavior,
         parent: Navigator?
@@ -32,9 +33,9 @@ public fun interface NavigatorSaver<Saveable : Any> {
  *
  * If you want to use only Parcelable and want a NavigatorSaver that forces the use Parcelable, you can use [parcelableNavigatorSaver].
  */
-public fun defaultNavigatorSaver(): NavigatorSaver<Any> = NavigatorSaver { _, stateHolder, disposeBehavior, parent ->
+public fun defaultNavigatorSaver(): NavigatorSaver<Any> = NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
     listSaver(
         save = { navigator -> navigator.items },
-        restore = { items -> Navigator(items, stateHolder, disposeBehavior, parent) }
+        restore = { items -> Navigator(items, key, stateHolder, disposeBehavior, parent) }
     )
 }

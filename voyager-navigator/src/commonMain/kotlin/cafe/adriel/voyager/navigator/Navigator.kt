@@ -3,6 +3,7 @@ package cafe.adriel.voyager.navigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -51,12 +52,14 @@ public fun Navigator(
     screen: Screen,
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
+    key: String = compositionUniqueId(),
     content: NavigatorContent = { CurrentScreen() }
 ) {
     Navigator(
         screens = listOf(screen),
         disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
+        key = key,
         content = content,
     )
 }
@@ -66,14 +69,16 @@ public fun Navigator(
     screens: List<Screen>,
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
+    key: String = compositionUniqueId(),
     content: NavigatorContent = { CurrentScreen() },
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
+    require(key.isNotEmpty()) { "Navigator key can't be empty" }
 
     CompositionLocalProvider(
         LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
     ) {
-        val navigator = rememberNavigator(screens, disposeBehavior, LocalNavigator.current)
+        val navigator = rememberNavigator(screens, key, disposeBehavior, LocalNavigator.current)
 
         if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
             NavigatorDisposableEffect(navigator)
@@ -95,6 +100,7 @@ public fun Navigator(
 
 public class Navigator @InternalVoyagerApi constructor(
     screens: List<Screen>,
+    @InternalVoyagerApi public val key: String,
     private val stateHolder: SaveableStateHolder,
     public val disposeBehavior: NavigatorDisposeBehavior,
     public val parent: Navigator? = null
@@ -180,3 +186,9 @@ public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
     val disposeSteps: Boolean = true,
 )
+
+@InternalVoyagerApi
+@Composable
+public fun compositionUniqueId(): String = currentCompositeKeyHash.toString(MaxSupportedRadix)
+
+private val MaxSupportedRadix = 36
