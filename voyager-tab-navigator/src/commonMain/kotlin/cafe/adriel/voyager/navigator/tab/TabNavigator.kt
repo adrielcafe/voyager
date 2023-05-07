@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
+import cafe.adriel.voyager.navigator.compositionUniqueId
 
 public typealias TabNavigatorContent = @Composable (tabNavigator: TabNavigator) -> Unit
 
@@ -17,6 +18,7 @@ public val LocalTabNavigator: ProvidableCompositionLocal<TabNavigator> =
 public fun TabNavigator(
     tab: Tab,
     disposeNestedNavigators: Boolean = false,
+    key: String = compositionUniqueId(),
     content: TabNavigatorContent = { CurrentTab() }
 ) {
     Navigator(
@@ -25,7 +27,8 @@ public fun TabNavigator(
             disposeNestedNavigators = disposeNestedNavigators,
             disposeSteps = false
         ),
-        onBackPressed = null
+        onBackPressed = null,
+        key = key,
     ) { navigator ->
         val tabNavigator = remember(navigator) {
             TabNavigator(navigator)

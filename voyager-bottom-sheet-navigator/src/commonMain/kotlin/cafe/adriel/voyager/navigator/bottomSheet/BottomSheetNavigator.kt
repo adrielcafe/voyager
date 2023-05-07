@@ -26,6 +26,7 @@ import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.internal.BottomSheetNavigatorBackHandler
+import cafe.adriel.voyager.navigator.compositionUniqueId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -45,6 +46,7 @@ public fun BottomSheetNavigator(
     sheetBackgroundColor: Color = MaterialTheme.colors.surface,
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
     skipHalfExpanded: Boolean = true,
+    key: String = compositionUniqueId(),
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
     content: BottomSheetNavigatorContent
 ) {
@@ -64,7 +66,7 @@ public fun BottomSheetNavigator(
         }
     )
 
-    Navigator(HiddenBottomSheetScreen, onBackPressed = null) { navigator ->
+    Navigator(HiddenBottomSheetScreen, onBackPressed = null, key = key) { navigator ->
         val bottomSheetNavigator = remember(navigator, sheetState, coroutineScope) {
             BottomSheetNavigator(navigator, sheetState, coroutineScope)
         }
