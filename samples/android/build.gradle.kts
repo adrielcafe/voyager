@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.compose.activity)
     implementation(libs.compose.material)
     implementation(libs.compose.materialIcons)
+    implementation(libs.compose.animation)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
