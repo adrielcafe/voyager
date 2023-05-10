@@ -1,0 +1,28 @@
+name: Build
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: macOS-latest
+    timeout-minutes: 60
+    steps:
+
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Validate publish
+        run: |
+          ./gradlew -Pversion=1.0.0-SNAPSHOT publishToMavenLocal --stacktrace
