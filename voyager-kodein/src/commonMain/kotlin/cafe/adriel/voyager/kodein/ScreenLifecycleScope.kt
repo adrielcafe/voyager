@@ -60,7 +60,6 @@ private class ScreenScopeLifecycleOwner(
     val onDispose: () -> Unit
 ) : ScreenLifecycleOwner {
     override fun onDispose(screen: Screen) {
-        println("KODEIN: levando a screen embora")
         onDispose()
     }
 }
