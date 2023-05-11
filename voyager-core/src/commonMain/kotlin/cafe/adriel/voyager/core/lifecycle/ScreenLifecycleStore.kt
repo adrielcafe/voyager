@@ -9,7 +9,7 @@ import kotlin.reflect.typeOf
 public object ScreenLifecycleStore {
 
     private val owners = ThreadSafeMap<ScreenKey, ScreenLifecycleOwner>()
-    private val newOwners = ThreadSafeMap<ScreenKey, ThreadSafeMap<KType, ScreenLifecycleOwner>>()
+    private val newOwners = ThreadSafeMap<ScreenKey, ThreadSafeMap<KType, ScreenDisposable>>()
 
     @Deprecated(
         message = "Use `register` instead. Will be removed in 1.0.0.",
@@ -25,7 +25,7 @@ public object ScreenLifecycleStore {
      * Register a ScreenLifecycleOwner that will be called `onDispose` on the
      * [screen] leaves the Navigation stack.
      */
-    public inline fun <reified T : ScreenLifecycleOwner> register(
+    public inline fun <reified T : ScreenDisposable> register(
         screen: Screen,
         noinline factory: (ScreenKey) -> T,
     ): T {
@@ -33,16 +33,16 @@ public object ScreenLifecycleStore {
     }
 
     @PublishedApi
-    internal fun <T : ScreenLifecycleOwner> register(
+    internal fun <T : ScreenDisposable> register(
         screen: Screen,
-        screenLifecycleOwnerType: KType,
+        screenDisposeListenerType: KType,
         factory: (ScreenKey) -> T,
-    ): ScreenLifecycleOwner {
+    ): ScreenDisposable {
         return newOwners.getOrPut(screen.key) {
-            ThreadSafeMap<KType, ScreenLifecycleOwner>().apply {
-                put(screenLifecycleOwnerType, factory(screen.key))
+            ThreadSafeMap<KType, ScreenDisposable>().apply {
+                put(screenDisposeListenerType, factory(screen.key))
             }
-        }.getOrPut(screenLifecycleOwnerType) {
+        }.getOrPut(screenDisposeListenerType) {
             factory(screen.key)
         }
     }

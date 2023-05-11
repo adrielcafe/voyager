@@ -32,7 +32,7 @@ public fun rememberScreenLifecycleOwner(
 @Composable
 @ExperimentalVoyagerApi
 @InternalVoyagerApi
-public fun getNavigatorScreenLifecycleOwner(screen: Screen): List<ScreenLifecycleOwner> {
+public fun getNavigatorScreenLifecycleProvider(screen: Screen): List<ScreenLifecycleContentProvider> {
     val navigatorScreenLifecycleProvider = LocalNavigatorScreenLifecycleProvider.current
     return remember(screen.key) {
         navigatorScreenLifecycleProvider.provide(screen)

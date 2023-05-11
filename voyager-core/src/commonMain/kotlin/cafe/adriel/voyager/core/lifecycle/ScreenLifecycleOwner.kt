@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 
-public interface ScreenLifecycleOwner {
+public interface ScreenLifecycleOwner : ScreenLifecycleContentProvider, ScreenDisposable
 
+public interface ScreenLifecycleContentProvider {
     /**
      * Called before rendering the Screen Content.
      *
@@ -16,7 +17,9 @@ public interface ScreenLifecycleOwner {
         provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
         content: @Composable () -> Unit
     ): Unit = content()
+}
 
+public interface ScreenDisposable {
     /**
      * Called on the Screen leaves the stack.
      */

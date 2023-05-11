@@ -9,14 +9,14 @@ import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 @InternalVoyagerApi
 @Composable
 public fun MultipleProvideBeforeScreenContent(
-    screenLifecycleOwners: List<ScreenLifecycleOwner>,
+    screenLifecycleContentProviders: List<ScreenLifecycleContentProvider>,
     provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    if(screenLifecycleOwners.isNotEmpty()) {
-        val copy = screenLifecycleOwners.toMutableList()
+    if(screenLifecycleContentProviders.isNotEmpty()) {
+        val copy = screenLifecycleContentProviders.toMutableList()
         RecursiveProvideBeforeScreenContent(
-            screenLifecycleOwner = copy.removeFirst(),
+            screenLifecycleContentProvider = copy.removeFirst(),
             provideSaveableState = provideSaveableState,
             content = content,
             nextOrNull = { copy.removeFirstOrNull() }
@@ -28,22 +28,22 @@ public fun MultipleProvideBeforeScreenContent(
 
 @Composable
 private fun RecursiveProvideBeforeScreenContent(
-    screenLifecycleOwner: ScreenLifecycleOwner,
+    screenLifecycleContentProvider: ScreenLifecycleContentProvider,
     provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
     content: @Composable () -> Unit,
-    nextOrNull: () -> ScreenLifecycleOwner?,
+    nextOrNull: () -> ScreenLifecycleContentProvider?,
 ) {
-    val next = remember(screenLifecycleOwner, provideSaveableState, content, nextOrNull) { nextOrNull() }
+    val next = remember(screenLifecycleContentProvider, provideSaveableState, content, nextOrNull) { nextOrNull() }
     if(next != null) {
         val recursiveContent = @Composable {
             RecursiveProvideBeforeScreenContent(
-                screenLifecycleOwner = next,
+                screenLifecycleContentProvider = next,
                 provideSaveableState = provideSaveableState,
                 content = content,
                 nextOrNull = nextOrNull,
             )
         }
-        screenLifecycleOwner.ProvideBeforeScreenContent(
+        screenLifecycleContentProvider.ProvideBeforeScreenContent(
             provideSaveableState = { suffixKey, _ ->
                 provideSaveableState(suffixKey, recursiveContent)
             }
@@ -52,7 +52,7 @@ private fun RecursiveProvideBeforeScreenContent(
         }
 
     } else {
-        screenLifecycleOwner.ProvideBeforeScreenContent(
+        screenLifecycleContentProvider.ProvideBeforeScreenContent(
             provideSaveableState = { suffixKey, content ->
                 provideSaveableState(suffixKey, content)
             }

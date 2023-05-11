@@ -14,7 +14,7 @@ import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
 import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
-import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleOwner
+import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
@@ -140,13 +140,13 @@ public class Navigator @InternalVoyagerApi constructor(
         }
 
         val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-        val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleOwner(screen)
+        val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleProvider(screen)
 
         val composed = remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
             listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
         }
         MultipleProvideBeforeScreenContent(
-            screenLifecycleOwners = composed,
+            screenLifecycleContentProviders = composed,
             provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
             content = {
                 stateHolder.SaveableStateProvider(stateKey, content)

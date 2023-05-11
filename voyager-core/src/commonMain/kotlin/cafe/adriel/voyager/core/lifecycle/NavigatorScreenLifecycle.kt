@@ -16,10 +16,10 @@ public val LocalNavigatorScreenLifecycleProvider: ProvidableCompositionLocal<Nav
 public interface NavigatorScreenLifecycleProvider {
 
     @ExperimentalVoyagerApi
-    public fun provide(screen: Screen): List<ScreenLifecycleOwner>
+    public fun provide(screen: Screen): List<ScreenLifecycleContentProvider>
 }
 
 internal expect class DefaultNavigatorScreenLifecycleProvider() : NavigatorScreenLifecycleProvider{
-    override fun provide(screen: Screen): List<ScreenLifecycleOwner>
+    override fun provide(screen: Screen): List<ScreenLifecycleContentProvider>
 }
 
