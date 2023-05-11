@@ -22,7 +22,7 @@ public object ScreenLifecycleStore {
         owners.getOrPut(screen.key) { factory(screen.key) }
 
     /**
-     * Register a ScreenLifecycleOwner that will be called `onDispose` on the
+     * Register a ScreenDisposable that will be called `onDispose` on the
      * [screen] leaves the Navigation stack.
      */
     public inline fun <reified T : ScreenDisposable> register(

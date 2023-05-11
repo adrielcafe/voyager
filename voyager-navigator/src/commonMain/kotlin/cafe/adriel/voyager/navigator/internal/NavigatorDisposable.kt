@@ -5,6 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
 
 private val disposableEvents: Set<StackEvent> =
     setOf(StackEvent.Pop, StackEvent.Replace)
@@ -18,6 +19,7 @@ internal fun NavigatorDisposableEffect(
             for (screen in navigator.items) {
                 navigator.dispose(screen)
             }
+            NavigatorLifecycleStore.remove(navigator)
             navigator.clearEvent()
         }
     }
