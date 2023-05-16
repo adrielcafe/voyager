@@ -2,6 +2,7 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.derivedStateOf
@@ -11,7 +12,9 @@ import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
+import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
+import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
@@ -20,11 +23,14 @@ import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
+import cafe.adriel.voyager.navigator.internal.ChildrenNavigationDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
+import cafe.adriel.voyager.navigator.internal.disposeNavigator
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
+import cafe.adriel.voyager.navigator.lifecycle.NavigatorKey
 
 public typealias NavigatorContent = @Composable (navigator: Navigator) -> Unit
 
@@ -95,6 +101,8 @@ public fun Navigator(
 
             content(navigator)
         }
+
+        ChildrenNavigationDisposableEffect(navigator)
     }
 }
 
@@ -114,6 +122,8 @@ public class Navigator @InternalVoyagerApi constructor(
     }
 
     private val stateKeys = ThreadSafeSet<String>()
+
+    internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
 
     @Deprecated(
         message = "Use 'lastItem' instead. Will be removed in 1.0.0.",

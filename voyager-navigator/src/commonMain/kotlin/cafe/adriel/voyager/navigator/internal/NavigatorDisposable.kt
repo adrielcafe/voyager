@@ -16,11 +16,7 @@ internal fun NavigatorDisposableEffect(
 ) {
     DisposableEffectIgnoringConfiguration(navigator) {
         onDispose {
-            for (screen in navigator.items) {
-                navigator.dispose(screen)
-            }
-            NavigatorLifecycleStore.remove(navigator)
-            navigator.clearEvent()
+            disposeNavigator(navigator)
         }
     }
 }
@@ -42,4 +38,45 @@ internal fun StepDisposableEffect(
             }
         }
     }
+}
+
+@Composable
+internal fun ChildrenNavigationDisposableEffect(
+    navigator: Navigator
+) {
+    // disposing children navigators
+    DisposableEffectIgnoringConfiguration(navigator) {
+        onDispose {
+            fun disposeChildren(navigator: Navigator) {
+                disposeNavigator(navigator)
+                navigator.children.values.forEach { childNavigator ->
+                    disposeChildren(childNavigator)
+                }
+                navigator.children.clear()
+            }
+            if (navigator.parent == null || navigator.disposeBehavior.disposeNestedNavigators) {
+                navigator.children.values.forEach { childNavigator ->
+                    disposeChildren(childNavigator)
+                }
+            }
+        }
+    }
+
+    // referencing nested navigators in parent navigator
+    DisposableEffectIgnoringConfiguration(navigator) {
+        navigator.parent?.children?.put(navigator.key, navigator)
+        onDispose {
+            if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
+                navigator.parent?.children?.remove(navigator.key)
+            }
+        }
+    }
+}
+
+internal fun disposeNavigator(navigator: Navigator) {
+    for (screen in navigator.items) {
+        navigator.dispose(screen)
+    }
+    NavigatorLifecycleStore.remove(navigator)
+    navigator.clearEvent()
 }
