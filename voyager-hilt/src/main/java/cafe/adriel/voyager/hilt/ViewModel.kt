@@ -32,7 +32,6 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
             ?: activity
         val factory = VoyagerHiltViewModelFactories.getVoyagerFactory(
             activity = activity,
-            owner = lifecycleOwner,
             delegateFactory = viewModelProviderFactory ?: lifecycleOwner.defaultViewModelProviderFactory
         )
         val provider = ViewModelProvider(
