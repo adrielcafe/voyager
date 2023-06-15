@@ -5,8 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-// Support fully when https://github.com/kosi-libs/Kodein/pull/431 get merged.
-setupModuleForComposeMultiplatform()
+setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.kodein"
@@ -17,7 +16,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                implementation(compose.runtime)
+                implementation(projects.voyagerNavigator)
+                compileOnly(compose.runtime)
+                compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.kodein)
             }
         }

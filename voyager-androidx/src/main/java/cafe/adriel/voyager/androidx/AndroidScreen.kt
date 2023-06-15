@@ -1,5 +1,6 @@
 package cafe.adriel.voyager.androidx
 
+import cafe.adriel.voyager.core.lifecycle.DefaultScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleProvider
 import cafe.adriel.voyager.core.screen.Screen
@@ -10,5 +11,5 @@ public abstract class AndroidScreen : Screen, ScreenLifecycleProvider {
 
     override val key: ScreenKey = uniqueScreenKey
 
-    override fun getLifecycleOwner(): ScreenLifecycleOwner = AndroidScreenLifecycleOwner.get(this)
+    override fun getLifecycleOwner(): ScreenLifecycleOwner = DefaultScreenLifecycleOwner
 }

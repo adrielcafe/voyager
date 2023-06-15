@@ -29,6 +29,16 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.activity)
+
+                implementation(libs.lifecycle.runtime)
+                implementation(libs.lifecycle.savedState)
+                implementation(libs.lifecycle.viewModelKtx)
+                implementation(libs.lifecycle.viewModelCompose)
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.multiplatformUuid)
             }
         }
     }
