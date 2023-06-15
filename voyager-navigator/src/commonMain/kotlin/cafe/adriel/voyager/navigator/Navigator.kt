@@ -2,19 +2,22 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.State
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
-import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
@@ -28,7 +31,6 @@ import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
-import cafe.adriel.voyager.navigator.internal.disposeNavigator
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorKey
 
@@ -36,12 +38,10 @@ public typealias NavigatorContent = @Composable (navigator: Navigator) -> Unit
 
 public typealias OnBackPressed = ((currentScreen: Screen) -> Boolean)?
 
-public val LocalNavigator: ProvidableCompositionLocal<Navigator?> =
-    staticCompositionLocalOf { null }
+public val LocalNavigator: ProvidableCompositionLocal<Navigator?> = staticCompositionLocalOf { null }
 
 public val <T> ProvidableCompositionLocal<T?>.currentOrThrow: T
-    @Composable
-    get() = current ?: error("CompositionLocal is null")
+    @Composable get() = current ?: error("CompositionLocal is null")
 
 @Composable
 public fun CurrentScreen() {
@@ -53,6 +53,7 @@ public fun CurrentScreen() {
     }
 }
 
+@OptIn(InternalVoyagerApi::class)
 @Composable
 public fun Navigator(
     screen: Screen,
@@ -70,6 +71,7 @@ public fun Navigator(
     )
 }
 
+@OptIn(InternalVoyagerApi::class)
 @Composable
 public fun Navigator(
     screens: List<Screen>,
@@ -114,33 +116,41 @@ public class Navigator @InternalVoyagerApi constructor(
     public val parent: Navigator? = null
 ) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
 
-    public val level: Int =
-        parent?.level?.inc() ?: 0
+    public var isNavigating: Boolean by mutableStateOf(false)
+    public val level: Int = parent?.level?.inc() ?: 0
 
     public val lastItem: Screen by derivedStateOf {
         lastItemOrNull ?: error("Navigator has no screen")
     }
 
+
     private val stateKeys = ThreadSafeSet<String>()
 
     internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
 
+    private val results = mutableStateMapOf<String, Any?>()
+
     @Deprecated(
-        message = "Use 'lastItem' instead. Will be removed in 1.0.0.",
-        replaceWith = ReplaceWith("lastItem")
+        message = "Use 'lastItem' instead. Will be removed in 1.0.0.", replaceWith = ReplaceWith("lastItem")
     )
     public val last: Screen by derivedStateOf {
         lastItem
     }
 
+    @OptIn(ExperimentalVoyagerApi::class, InternalVoyagerApi::class)
     @Composable
     public fun saveableState(
-        key: String,
-        screen: Screen = lastItem,
-        content: @Composable () -> Unit
+        key: String, screen: Screen = lastItem, content: @Composable () -> Unit
     ) {
         val stateKey = "${screen.key}:$key"
-        stateKeys += stateKey
+        if (!(screen.key.contains("onboarding", ignoreCase = true) && stateKey.contains(
+                "onboarding", ignoreCase = true
+            ))
+        ) {
+            stateKeys += stateKey
+        }
+
+
 
         @Composable
         fun provideSaveableState(suffixKey: String, content: @Composable () -> Unit) {
@@ -155,13 +165,44 @@ public class Navigator @InternalVoyagerApi constructor(
         val composed = remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
             listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
         }
-        MultipleProvideBeforeScreenContent(
-            screenLifecycleContentProviders = composed,
+        MultipleProvideBeforeScreenContent(screenLifecycleContentProviders = composed,
             provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
             content = {
                 stateHolder.SaveableStateProvider(stateKey, content)
+            })
+    }
+
+    public fun setResult(screenKey: String, result: Any?) {
+        results[screenKey] = result
+    }
+
+    public fun popWithResult(result: Any? = null) {
+        val currentScreen = lastItem
+        results[currentScreen.key] = result
+        pop()
+    }
+
+    public fun clearResults() {
+        results.clear()
+    }
+
+
+    public fun popUntilWithResult(predicate: (Screen) -> Boolean, result: Any? = null) {
+        val currentScreen = lastItem
+        results[currentScreen.key] = result
+        popUntil(predicate)
+    }
+
+    @Composable
+    public fun <T> getResult(screenKey: String): State<T?> {
+        val result = results[screenKey] as? T
+        val resultState = remember(screenKey, result) {
+            derivedStateOf {
+                results.remove(screenKey)
+                result
             }
-        )
+        }
+        return resultState
     }
 
     public fun popUntilRoot() {
@@ -182,13 +223,10 @@ public class Navigator @InternalVoyagerApi constructor(
     ) {
         ScreenModelStore.remove(screen)
         ScreenLifecycleStore.remove(screen)
-        stateKeys
-            .asSequence()
-            .filter { it.startsWith(screen.key) }
-            .forEach { key ->
-                stateHolder.removeState(key)
-                stateKeys -= key
-            }
+        stateKeys.asSequence().filter { it.startsWith(screen.key) }.forEach { key ->
+            stateHolder.removeState(key)
+            stateKeys -= key
+        }
     }
 }
 

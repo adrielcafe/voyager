@@ -10,12 +10,21 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.navigator.CurrentScreen
@@ -30,6 +39,7 @@ public typealias BottomSheetNavigatorContent = @Composable (bottomSheetNavigator
 public val LocalBottomSheetNavigator: ProvidableCompositionLocal<BottomSheetNavigator> =
     staticCompositionLocalOf { error("BottomSheetNavigator not initialized") }
 
+@OptIn(InternalVoyagerApi::class)
 @ExperimentalMaterialApi
 @Composable
 public fun BottomSheetNavigator(
@@ -56,6 +66,7 @@ public fun BottomSheetNavigator(
                     hideBottomSheet?.invoke()
                     false
                 }
+
                 else -> true
             }
         }
@@ -96,10 +107,9 @@ public class BottomSheetNavigator internal constructor(
     private val coroutineScope: CoroutineScope
 ) : Stack<Screen> by navigator {
 
+    private val results = mutableStateMapOf<String, Any?>()
     public val isVisible: Boolean
         get() = sheetState.isVisible
-
-    private val results = mutableStateMapOf<String, Any?>()
 
     public fun show(screen: Screen) {
         coroutineScope.launch {
@@ -126,15 +136,15 @@ public class BottomSheetNavigator internal constructor(
     @Composable
     public fun <T> getResult(screenKey: String): State<T?> {
         val result = results[screenKey] as? T
-        val resultState =
-            remember(screenKey, result) {
-                derivedStateOf {
-                    results -= screenKey
-                    result
-                }
+        val resultState = remember(screenKey, result) {
+            derivedStateOf {
+                results -= screenKey
+                result
             }
+        }
         return resultState
     }
+
 
     @Composable
     public fun saveableState(
