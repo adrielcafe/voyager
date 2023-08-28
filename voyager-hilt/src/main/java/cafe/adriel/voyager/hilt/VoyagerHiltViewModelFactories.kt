@@ -2,7 +2,6 @@ package cafe.adriel.voyager.hilt
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.savedstate.SavedStateRegistryOwner
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -16,12 +15,11 @@ public object VoyagerHiltViewModelFactories {
 
     public fun getVoyagerFactory(
         activity: ComponentActivity,
-        owner: SavedStateRegistryOwner,
         delegateFactory: ViewModelProvider.Factory
     ): ViewModelProvider.Factory {
         return EntryPoints.get(activity, ViewModelFactoryEntryPoint::class.java)
             .internalViewModelFactory()
-            .fromActivity(owner, delegateFactory)
+            .fromActivity(delegateFactory)
     }
 
     internal class InternalViewModelFactory @Inject internal constructor(
@@ -29,10 +27,9 @@ public object VoyagerHiltViewModelFactories {
         private val viewModelComponentBuilder: ViewModelComponentBuilder
     ) {
         fun fromActivity(
-            owner: SavedStateRegistryOwner,
             delegateFactory: ViewModelProvider.Factory
         ): ViewModelProvider.Factory {
-            return HiltViewModelFactory(owner, null, keySet, delegateFactory, viewModelComponentBuilder)
+            return HiltViewModelFactory(keySet, delegateFactory, viewModelComponentBuilder)
         }
     }
 

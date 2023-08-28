@@ -2,19 +2,22 @@ package cafe.adriel.voyager.sample.hiltIntegration
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.androidx.AndroidScreen
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getScreenModel
+import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.sample.ListContent
 
-class HiltListScreen : AndroidScreen() {
+class HiltListScreen : Screen {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        // Uncomment version below if you want keep using ViewModel instead of to convert it to ScreenModel
-        // val viewModel: HiltListViewModel = getViewModel()
-        val viewModel: HiltListScreenModel = getScreenModel()
+         val viewModel: HiltListViewModel = getViewModel()
+
+        // Uncomment version below if you want to use ScreenModel
+        // val viewModel: HiltListScreenModel = getScreenModel()
 
         ListContent(viewModel.items, onClick = { index -> navigator.push(HiltDetailsScreen(index)) })
     }
