@@ -2,6 +2,7 @@ package cafe.adriel.voyager.transitions
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -13,12 +14,11 @@ import cafe.adriel.voyager.navigator.Navigator
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
 
-@ExperimentalAnimationApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
-    enterTransition: AnimatedContentScope<Screen>.() -> ContentTransform,
-    exitTransition: AnimatedContentScope<Screen>.() -> ContentTransform,
+    enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
+    exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
     content: ScreenTransitionContent = { it.Content() }
 ) {
@@ -35,11 +35,10 @@ public fun ScreenTransition(
     )
 }
 
-@ExperimentalAnimationApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
-    transition: AnimatedContentScope<Screen>.() -> ContentTransform,
+    transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
     content: ScreenTransitionContent = { it.Content() }
 ) {

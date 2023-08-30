@@ -22,11 +22,15 @@ kotlin {
                 api(projects.voyagerCore)
 
                 compileOnly(compose.runtime)
-                compileOnly(libs.composeMultiplatform.runtimeSaveable)
 
                 implementation(libs.coroutines)
-                implementation(libs.koin.compose)
             }
         }
+    }
+}
+
+dependencies {
+    commonMainImplementation(libs.koin.compose) {
+        exclude("org.jetbrains.compose.runtime")
     }
 }

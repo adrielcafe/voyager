@@ -1,28 +1,19 @@
 plugins {
-    kotlin("multiplatform")
+    kotlin("android")
     id("com.android.library")
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform()
+setupModuleForAndroidxCompose()
 
 android {
     namespace = "cafe.adriel.voyager.rxjava"
 }
 
-kotlin {
-    sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                api(projects.voyagerCore)
-                compileOnly(libs.compose.rxjava)
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.junit.api)
-                runtimeOnly(libs.junit.engine)
-            }
-        }
-    }
+dependencies {
+    api(projects.voyagerCore)
+    compileOnly(libs.compose.rxjava)
+
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
 }

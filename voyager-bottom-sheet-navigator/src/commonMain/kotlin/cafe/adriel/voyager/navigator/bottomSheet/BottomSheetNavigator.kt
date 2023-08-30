@@ -54,8 +54,7 @@ public fun BottomSheetNavigator(
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        skipHalfExpanded = skipHalfExpanded,
-        confirmStateChange = { state ->
+        confirmValueChange = { state ->
             when (state) {
                 ModalBottomSheetValue.Hidden -> {
                     hideBottomSheet?.invoke()
@@ -63,7 +62,8 @@ public fun BottomSheetNavigator(
                 }
                 else -> true
             }
-        }
+        },
+        skipHalfExpanded = skipHalfExpanded
     )
 
     Navigator(HiddenBottomSheetScreen, onBackPressed = null, key = key) { navigator ->
