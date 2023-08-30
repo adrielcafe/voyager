@@ -121,10 +121,6 @@ public class BottomSheetNavigator internal constructor(
         }
     }
 
-    internal fun hiddenScreen() {
-        replaceAll(HiddenBottomSheetScreen)
-    }
-
     @Composable
     public fun saveableState(
         key: String,
