@@ -1,5 +1,6 @@
 package cafe.adriel.voyager.navigator.bottomSheet
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.ExperimentalMaterialApi
@@ -8,6 +9,7 @@ import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.SwipeableDefaults
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -46,6 +48,7 @@ public fun BottomSheetNavigator(
     sheetBackgroundColor: Color = MaterialTheme.colors.surface,
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
     skipHalfExpanded: Boolean = true,
+    animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
     key: String = compositionUniqueId(),
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
     content: BottomSheetNavigatorContent
@@ -55,15 +58,13 @@ public fun BottomSheetNavigator(
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         confirmValueChange = { state ->
-            when (state) {
-                ModalBottomSheetValue.Hidden -> {
-                    hideBottomSheet?.invoke()
-                    false
-                }
-                else -> true
+            if (state == ModalBottomSheetValue.Hidden) {
+                hideBottomSheet?.invoke()
             }
+            true
         },
-        skipHalfExpanded = skipHalfExpanded
+        skipHalfExpanded = skipHalfExpanded,
+        animationSpec = animationSpec
     )
 
     Navigator(HiddenBottomSheetScreen, onBackPressed = null, key = key) { navigator ->
@@ -113,9 +114,15 @@ public class BottomSheetNavigator internal constructor(
 
     public fun hide() {
         coroutineScope.launch {
-            sheetState.hide()
-            replaceAll(HiddenBottomSheetScreen)
+            if (isVisible) {
+                sheetState.hide()
+                replaceAll(HiddenBottomSheetScreen)
+            }
         }
+    }
+
+    internal fun hiddenScreen() {
+        replaceAll(HiddenBottomSheetScreen)
     }
 
     @Composable
