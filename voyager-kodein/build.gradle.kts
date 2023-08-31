@@ -18,7 +18,6 @@ kotlin {
                 api(projects.voyagerCore)
                 implementation(projects.voyagerNavigator)
                 compileOnly(compose.runtime)
-                compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.kodein)
             }
         }

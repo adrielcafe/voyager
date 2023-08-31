@@ -16,7 +16,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 compileOnly(compose.runtime)
-                compileOnly(libs.composeMultiplatform.runtimeSaveable)
                 implementation(libs.coroutines)
             }
         }

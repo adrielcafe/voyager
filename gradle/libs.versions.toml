@@ -58,8 +58,6 @@ compose-materialIcons = { module = "androidx.compose.material:material-icons-cor
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
-composeMultiplatform-runtimeSaveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "plugin-multiplatform-compose" }
-
 multiplatformUuid = { module = "com.benasher44:uuid", version.ref = "multiplatformUuid" }
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
