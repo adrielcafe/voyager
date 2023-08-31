@@ -11,7 +11,7 @@ public val ScreenModel.disposables: CompositeDisposable
         screenModel = this,
         name = "ScreenModelCompositeDisposable",
         factory = { CompositeDisposable() },
-        onDispose = { disposables -> disposables.clear() }
+        onDispose = { disposables -> disposables.dispose() }
     )
 
 public abstract class RxScreenModel<S : Any> : ScreenModel {

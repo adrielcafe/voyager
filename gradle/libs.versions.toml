@@ -20,6 +20,7 @@ composeFoundation = "1.5.0"
 composeMaterial = "1.5.0"
 composeRuntime = "1.5.0"
 composeUI = "1.5.0"
+rxjava = "3.1.5"
 
 junit = "5.10.0"
 
@@ -55,6 +56,7 @@ compose-animation = { module = "androidx.compose.animation:animation", version.r
 compose-material = { module = "androidx.compose.material:material", version.ref = "composeMaterial" }
 compose-materialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "composeMaterial" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
 composeMultiplatform-runtimeSaveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "plugin-multiplatform-compose" }
 
