@@ -1,7 +1,7 @@
 [versions]
 plugin-android = "8.1.1"
-plugin-ktlint = "11.0.0"
-plugin-maven = "0.22.0"
+plugin-ktlint = "11.5.0"
+plugin-maven = "0.25.3"
 plugin-multiplatform-compose = "1.5.0"
 
 coroutines = "1.7.3"
