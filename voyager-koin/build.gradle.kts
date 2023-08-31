@@ -22,6 +22,7 @@ kotlin {
                 api(projects.voyagerCore)
 
                 compileOnly(compose.runtime)
+                compileOnly(compose.runtimeSaveable)
 
                 implementation(libs.coroutines)
             }

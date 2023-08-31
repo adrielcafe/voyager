@@ -17,6 +17,7 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 compileOnly(compose.runtime)
+                compileOnly(compose.runtimeSaveable)
             }
         }
 
