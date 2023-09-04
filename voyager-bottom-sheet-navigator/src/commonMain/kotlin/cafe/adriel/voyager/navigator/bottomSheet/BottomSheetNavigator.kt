@@ -47,6 +47,7 @@ public fun BottomSheetNavigator(
     sheetElevation: Dp = ModalBottomSheetDefaults.Elevation,
     sheetBackgroundColor: Color = MaterialTheme.colors.surface,
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
+    sheetGesturesEnabled: Boolean = true,
     skipHalfExpanded: Boolean = true,
     animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
     key: String = compositionUniqueId(),
@@ -83,6 +84,7 @@ public fun BottomSheetNavigator(
                 sheetElevation = sheetElevation,
                 sheetBackgroundColor = sheetBackgroundColor,
                 sheetContentColor = sheetContentColor,
+                sheetGesturesEnabled = sheetGesturesEnabled,
                 sheetContent = {
                     BottomSheetNavigatorBackHandler(bottomSheetNavigator, sheetState, hideOnBackPress)
                     sheetContent(bottomSheetNavigator)
