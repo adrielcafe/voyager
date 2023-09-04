@@ -6,7 +6,7 @@ package cafe.adriel.voyager.core.annotation
         AnnotationTarget.PROPERTY,
         AnnotationTarget.FUNCTION,
         AnnotationTarget.TYPEALIAS,
-        AnnotationTarget.CONSTRUCTOR,
+        AnnotationTarget.CONSTRUCTOR
     ]
 )
 @RequiresOptIn(
@@ -21,7 +21,7 @@ public annotation class InternalVoyagerApi
         AnnotationTarget.PROPERTY,
         AnnotationTarget.FUNCTION,
         AnnotationTarget.TYPEALIAS,
-        AnnotationTarget.CONSTRUCTOR,
+        AnnotationTarget.CONSTRUCTOR
     ]
 )
 @RequiresOptIn(

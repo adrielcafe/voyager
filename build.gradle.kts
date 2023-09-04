@@ -16,4 +16,9 @@ buildscript {
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
+
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        version.set("0.47.1")
+        disabledRules.set(setOf("filename"))
+    }
 }

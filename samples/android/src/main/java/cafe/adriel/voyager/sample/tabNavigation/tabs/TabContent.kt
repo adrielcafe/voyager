@@ -26,7 +26,7 @@ fun Tab.TabContent() {
 
     LifecycleEffect(
         onStarted = { Log.d("Navigator", "Start tab $tabTitle") },
-        onDisposed = { Log.d("Navigator", "Dispose tab $tabTitle") },
+        onDisposed = { Log.d("Navigator", "Dispose tab $tabTitle") }
     )
 
     Navigator(BasicNavigationScreen(index = 0)) { navigator ->

@@ -2,8 +2,6 @@ package cafe.adriel.voyager.navigator.lifecycle
 
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
-import cafe.adriel.voyager.core.lifecycle.ScreenDisposable
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
@@ -22,7 +20,7 @@ public object NavigatorLifecycleStore {
     @ExperimentalVoyagerApi
     public inline fun <reified T : NavigatorDisposable> register(
         navigator: Navigator,
-        noinline factory: (NavigatorKey) -> T,
+        noinline factory: (NavigatorKey) -> T
     ): T {
         return register(navigator, typeOf<T>(), factory) as T
     }
@@ -31,7 +29,7 @@ public object NavigatorLifecycleStore {
     internal fun <T : NavigatorDisposable> register(
         navigator: Navigator,
         screenDisposeListenerType: KType,
-        factory: (NavigatorKey) -> T,
+        factory: (NavigatorKey) -> T
     ): NavigatorDisposable {
         return owners.getOrPut(navigator.key) {
             ThreadSafeMap<KType, NavigatorDisposable>().apply {

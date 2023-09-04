@@ -106,8 +106,11 @@ public class SnapshotStateStack<Item>(
     }
 
     public override infix fun replace(item: Item) {
-        if (stateStack.isEmpty()) push(item)
-        else stateStack[stateStack.lastIndex] = item
+        if (stateStack.isEmpty()) {
+            push(item)
+        } else {
+            stateStack[stateStack.lastIndex] = item
+        }
         lastEvent = StackEvent.Replace
     }
 

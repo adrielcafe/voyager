@@ -2,7 +2,6 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.derivedStateOf
@@ -14,7 +13,6 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
-import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
@@ -28,7 +26,6 @@ import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
-import cafe.adriel.voyager.navigator.internal.disposeNavigator
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorKey
 
@@ -66,7 +63,7 @@ public fun Navigator(
         disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
         key = key,
-        content = content,
+        content = content
     )
 }
 
@@ -76,7 +73,7 @@ public fun Navigator(
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     key: String = compositionUniqueId(),
-    content: NavigatorContent = { CurrentScreen() },
+    content: NavigatorContent = { CurrentScreen() }
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
     require(key.isNotEmpty()) { "Navigator key can't be empty" }
@@ -91,7 +88,7 @@ public fun Navigator(
         }
 
         CompositionLocalProvider(
-            LocalNavigator provides navigator,
+            LocalNavigator provides navigator
         ) {
             if (disposeBehavior.disposeSteps) {
                 StepDisposableEffect(navigator)
@@ -194,7 +191,7 @@ public class Navigator @InternalVoyagerApi constructor(
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
-    val disposeSteps: Boolean = true,
+    val disposeSteps: Boolean = true
 )
 
 @InternalVoyagerApi

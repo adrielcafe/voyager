@@ -7,7 +7,6 @@ plugins {
 
 setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
-
 android {
     namespace = "cafe.adriel.voyager.koin"
     defaultConfig {

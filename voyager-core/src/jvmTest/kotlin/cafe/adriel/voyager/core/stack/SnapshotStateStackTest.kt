@@ -13,7 +13,7 @@ internal class SnapshotStateStackTest {
     fun initSingle(): Sequence<DynamicTest> =
         sequenceOf(
             "item 1" to 0,
-            "item 1" to 1,
+            "item 1" to 1
         ).map { (item, minSize) ->
             dynamicTest("when min size is $minSize then should not throw") {
                 assertDoesNotThrow {

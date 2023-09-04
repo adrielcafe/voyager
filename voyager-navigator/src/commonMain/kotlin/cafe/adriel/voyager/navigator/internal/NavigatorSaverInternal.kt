@@ -19,7 +19,7 @@ internal fun rememberNavigator(
     screens: List<Screen>,
     key: String,
     disposeBehavior: NavigatorDisposeBehavior,
-    parent: Navigator?,
+    parent: Navigator?
 ): Navigator {
     val stateHolder = LocalNavigatorStateHolder.current
     val navigatorSaver = LocalNavigatorSaver.current

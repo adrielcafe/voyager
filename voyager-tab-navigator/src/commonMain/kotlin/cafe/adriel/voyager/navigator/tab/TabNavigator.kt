@@ -22,7 +22,7 @@ public fun TabNavigator(
     disposeNestedNavigators: Boolean = false,
     tabDisposable: (@Composable (TabNavigator) -> Unit)? = null,
     key: String = compositionUniqueId(),
-    content: TabNavigatorContent = { CurrentTab() },
+    content: TabNavigatorContent = { CurrentTab() }
 ) {
     Navigator(
         screen = tab,
@@ -31,7 +31,7 @@ public fun TabNavigator(
             disposeSteps = false
         ),
         onBackPressed = null,
-        key = key,
+        key = key
     ) { navigator ->
         val tabNavigator = remember(navigator) {
             TabNavigator(navigator)

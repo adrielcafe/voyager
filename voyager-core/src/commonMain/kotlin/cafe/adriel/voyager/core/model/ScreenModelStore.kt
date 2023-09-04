@@ -32,8 +32,11 @@ public object ScreenModelStore {
     internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey =
         screenModels
             .firstNotNullOfOrNull {
-                if (it.value == screenModel) it.key
-                else null
+                if (it.value == screenModel) {
+                    it.key
+                } else {
+                    null
+                }
             }
             ?: lastScreenModelKey.value
                 ?.let { "$it:$name" }

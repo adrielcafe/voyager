@@ -19,7 +19,6 @@ public interface NavigatorScreenLifecycleProvider {
     public fun provide(screen: Screen): List<ScreenLifecycleContentProvider>
 }
 
-internal expect class DefaultNavigatorScreenLifecycleProvider() : NavigatorScreenLifecycleProvider{
+internal expect class DefaultNavigatorScreenLifecycleProvider() : NavigatorScreenLifecycleProvider {
     override fun provide(screen: Screen): List<ScreenLifecycleContentProvider>
 }
-

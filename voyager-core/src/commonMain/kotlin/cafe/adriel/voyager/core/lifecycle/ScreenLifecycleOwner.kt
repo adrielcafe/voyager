@@ -28,5 +28,3 @@ public interface ScreenDisposable {
 
 @InternalVoyagerApi
 public object DefaultScreenLifecycleOwner : ScreenLifecycleOwner
-
-

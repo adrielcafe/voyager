@@ -34,7 +34,7 @@ public data class BasicNavigationScreen(
     override fun Content() {
         LifecycleEffect(
             onStarted = { println("Navigator: Start screen #$index") },
-            onDisposed = { println("Navigator: Dispose screen #$index") },
+            onDisposed = { println("Navigator: Dispose screen #$index") }
         )
 
         val navigator = LocalNavigator.currentOrThrow
@@ -43,8 +43,11 @@ public data class BasicNavigationScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.run {
-                if (wrapContent) padding(vertical = 16.dp).wrapContentHeight()
-                else fillMaxSize()
+                if (wrapContent) {
+                    padding(vertical = 16.dp).wrapContentHeight()
+                } else {
+                    fillMaxSize()
+                }
             }
         ) {
             Text(

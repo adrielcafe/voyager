@@ -7,7 +7,7 @@ plugins {
 }
 
 setupModuleForAndroidxCompose(
-    withKotlinExplicitMode = false,
+    withKotlinExplicitMode = false
 )
 
 android {

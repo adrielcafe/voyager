@@ -42,7 +42,7 @@ data class SampleParcelableScreen(
     override fun Content() {
         LifecycleEffect(
             onStarted = { Log.d("Navigator", "Start screen #${parcelable.index}") },
-            onDisposed = { Log.d("Navigator", "Dispose screen #${parcelable.index}") },
+            onDisposed = { Log.d("Navigator", "Dispose screen #${parcelable.index}") }
         )
 
         val navigator = LocalNavigator.currentOrThrow
@@ -51,8 +51,11 @@ data class SampleParcelableScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.run {
-                if (wrapContent) padding(vertical = 16.dp).wrapContentHeight()
-                else fillMaxSize()
+                if (wrapContent) {
+                    padding(vertical = 16.dp).wrapContentHeight()
+                } else {
+                    fillMaxSize()
+                }
             }
         ) {
             Text(
@@ -76,7 +79,11 @@ data class SampleParcelableScreen(
                 Spacer(modifier = Modifier.weight(.1f))
 
                 Button(
-                    onClick = { navigator.push(SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent)) },
+                    onClick = {
+                        navigator.push(
+                            SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent)
+                        )
+                    },
                     modifier = Modifier.weight(.5f)
                 ) {
                     Text(text = "Push")
@@ -85,7 +92,11 @@ data class SampleParcelableScreen(
                 Spacer(modifier = Modifier.weight(.1f))
 
                 Button(
-                    onClick = { navigator.replace(SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent)) },
+                    onClick = {
+                        navigator.replace(
+                            SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent)
+                        )
+                    },
                     modifier = Modifier.weight(.5f)
                 ) {
                     Text(text = "Replace")
