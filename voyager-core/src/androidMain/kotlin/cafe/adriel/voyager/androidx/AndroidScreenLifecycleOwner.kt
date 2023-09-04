@@ -133,16 +133,17 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
-    override fun getLifecycle(): Lifecycle = registry
+    override val lifecycle: Lifecycle
+        get() = registry
 
-    override fun getViewModelStore(): ViewModelStore = store
+    override val viewModelStore: ViewModelStore
+        get() = store
 
-    override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
-        return SavedStateViewModelFactory(
+    override val defaultViewModelProviderFactory: ViewModelProvider.Factory
+        get() = SavedStateViewModelFactory(
             application = atomicContext.get()?.applicationContext?.getApplication(),
             owner = this
         )
-    }
 
     private fun registerLifecycleListener(outState: Bundle) {
         val activity = atomicContext.get()?.getActivity()
@@ -158,18 +159,19 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
-    override fun getDefaultViewModelCreationExtras(): CreationExtras = MutableCreationExtras().apply {
-        val application = atomicContext.get()?.applicationContext?.getApplication()
-        if (application != null) {
-            set(AndroidViewModelFactory.APPLICATION_KEY, application)
-        }
-        set(SAVED_STATE_REGISTRY_OWNER_KEY, this@AndroidScreenLifecycleOwner)
-        set(VIEW_MODEL_STORE_OWNER_KEY, this@AndroidScreenLifecycleOwner)
+    override val defaultViewModelCreationExtras: CreationExtras
+        get() = MutableCreationExtras().apply {
+            val application = atomicContext.get()?.applicationContext?.getApplication()
+            if (application != null) {
+                set(AndroidViewModelFactory.APPLICATION_KEY, application)
+            }
+            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@AndroidScreenLifecycleOwner)
+            set(VIEW_MODEL_STORE_OWNER_KEY, this@AndroidScreenLifecycleOwner)
 
-        /* TODO if (getArguments() != null) {
-            extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
-        }*/
-    }
+            /* TODO if (getArguments() != null) {
+                extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
+            }*/
+        }
 
     @Composable
     private fun LifecycleDisposableEffect() {

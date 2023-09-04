@@ -15,7 +15,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                compileOnly(libs.compose.rxjava)
+                compileOnly(libs.rxjava)
             }
         }
         val jvmTest by getting {
