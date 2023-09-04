@@ -48,9 +48,9 @@ public class AndroidScreenLifecycleOwner private constructor() :
     SavedStateRegistryOwner,
     HasDefaultViewModelProviderFactory {
 
-    private val registry = LifecycleRegistry(this)
+    override val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
 
-    private val store = ViewModelStore()
+    override val viewModelStore: ViewModelStore = ViewModelStore()
 
     private val atomicContext = AtomicReference<Context>()
 
@@ -63,6 +63,26 @@ public class AndroidScreenLifecycleOwner private constructor() :
     override val savedStateRegistry: SavedStateRegistry
         get() = controller.savedStateRegistry
 
+    override val defaultViewModelProviderFactory: ViewModelProvider.Factory
+        get() = SavedStateViewModelFactory(
+            application = atomicContext.get()?.applicationContext?.getApplication(),
+            owner = this
+        )
+
+    override val defaultViewModelCreationExtras: CreationExtras
+        get() = MutableCreationExtras().apply {
+            val application = atomicContext.get()?.applicationContext?.getApplication()
+            if (application != null) {
+                set(AndroidViewModelFactory.APPLICATION_KEY, application)
+            }
+            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@AndroidScreenLifecycleOwner)
+            set(VIEW_MODEL_STORE_OWNER_KEY, this@AndroidScreenLifecycleOwner)
+
+            /* TODO if (getArguments() != null) {
+                extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
+            }*/
+        }
+
     init {
         controller.performAttach()
         enableSavedStateHandles()
@@ -73,13 +93,13 @@ public class AndroidScreenLifecycleOwner private constructor() :
         isCreated = true
         controller.performRestore(savedState)
         initEvents.forEach {
-            registry.handleLifecycleEvent(it)
+            lifecycle.handleLifecycleEvent(it)
         }
     }
 
     private fun onStart() {
         startEvents.forEach {
-            registry.handleLifecycleEvent(it)
+            lifecycle.handleLifecycleEvent(it)
         }
     }
 
@@ -87,7 +107,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         deactivateLifecycleListener?.invoke()
         deactivateLifecycleListener = null
         stopEvents.forEach {
-            registry.handleLifecycleEvent(it)
+            lifecycle.handleLifecycleEvent(it)
         }
     }
 
@@ -112,7 +132,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         if (context is Activity && context.isChangingConfigurations) return
         viewModelStore.clear()
         disposeEvents.forEach {
-            registry.handleLifecycleEvent(it)
+            lifecycle.handleLifecycleEvent(it)
         }
     }
 
@@ -128,22 +148,10 @@ public class AndroidScreenLifecycleOwner private constructor() :
             listOf(
                 LocalLifecycleOwner provides this,
                 LocalViewModelStoreOwner provides this,
-                LocalSavedStateRegistryOwner provides this,
+                LocalSavedStateRegistryOwner provides this
             )
         }
     }
-
-    override val lifecycle: Lifecycle
-        get() = registry
-
-    override val viewModelStore: ViewModelStore
-        get() = store
-
-    override val defaultViewModelProviderFactory: ViewModelProvider.Factory
-        get() = SavedStateViewModelFactory(
-            application = atomicContext.get()?.applicationContext?.getApplication(),
-            owner = this
-        )
 
     private fun registerLifecycleListener(outState: Bundle) {
         val activity = atomicContext.get()?.getActivity()
@@ -158,20 +166,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
             deactivateLifecycleListener = { lifecycle.removeObserver(observer) }
         }
     }
-
-    override val defaultViewModelCreationExtras: CreationExtras
-        get() = MutableCreationExtras().apply {
-            val application = atomicContext.get()?.applicationContext?.getApplication()
-            if (application != null) {
-                set(AndroidViewModelFactory.APPLICATION_KEY, application)
-            }
-            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@AndroidScreenLifecycleOwner)
-            set(VIEW_MODEL_STORE_OWNER_KEY, this@AndroidScreenLifecycleOwner)
-
-            /* TODO if (getArguments() != null) {
-                extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
-            }*/
-        }
 
     @Composable
     private fun LifecycleDisposableEffect() {
@@ -205,7 +199,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
     public companion object {
 
         private val initEvents = arrayOf(
-            Lifecycle.Event.ON_CREATE,
+            Lifecycle.Event.ON_CREATE
         )
 
         private val startEvents = arrayOf(
@@ -224,6 +218,5 @@ public class AndroidScreenLifecycleOwner private constructor() :
         public fun get(screen: Screen): ScreenLifecycleOwner {
             return ScreenLifecycleStore.register(screen) { AndroidScreenLifecycleOwner() }
         }
-
     }
 }

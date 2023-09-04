@@ -6,17 +6,16 @@ plugin-multiplatform-compose = "1.5.0"
 
 coroutines = "1.7.3"
 kotlin = "1.9.0"
-kodein = "7.20.1"
+kodein = "7.20.2"
 koin = "3.4.3"
 koin-compose = "1.0.4"
-hilt = "2.46.1"
-leakCanary = "2.8.1"
+hilt = "2.47"
+leakCanary = "2.9.1"
 appCompat = "1.6.1"
 lifecycle = "2.6.1"
 composeCompiler = "1.5.2"
 composeActivity = "1.7.2"
 composeAnimation = "1.5.0"
-composeFoundation = "1.5.0"
 composeMaterial = "1.5.0"
 composeRuntime = "1.5.0"
 composeUI = "1.5.0"
@@ -24,7 +23,7 @@ rxjava = "3.1.5"
 
 junit = "5.10.0"
 
-multiplatformUuid = "0.7.0"
+multiplatformUuid = "0.8.1"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
