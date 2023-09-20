@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.lifecycle.savedState)
     implementation(libs.lifecycle.viewModelKtx)
+    implementation(libs.lifecycle.viewModelCompose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 

@@ -1,5 +1,6 @@
 package cafe.adriel.voyager.sample.hiltIntegration
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -8,6 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 class HiltDetailsViewModel(
     val index: Int
 ) : ViewModel() {
+
+    override fun onCleared() {
+        Log.d(">> TAG <<", "HiltDetailsViewModel#$index is being cleared by onCleared()")
+    }
+
     companion object {
         fun provideFactory(
             index: Int
