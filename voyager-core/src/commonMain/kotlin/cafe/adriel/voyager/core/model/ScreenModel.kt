@@ -6,18 +6,18 @@ import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.plus
 
 public val ScreenModel.coroutineScope: CoroutineScope
     get() = ScreenModelStore.getOrPutDependency(
         screenModel = this,
         name = "ScreenModelCoroutineScope",
-        factory = { key -> MainScope() + CoroutineName(key) },
+        factory = { key -> CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + CoroutineName(key)) },
         onDispose = { scope -> scope.cancel() }
     )
 
