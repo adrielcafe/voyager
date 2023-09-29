@@ -96,6 +96,8 @@ fun Project.setupModuleForComposeMultiplatform(
                 macosArm64()
                 ios(iosPrefixName)
                 iosSimulatorArm64("${iosPrefixName}SimulatorArm64")
+                tvos()
+                tvosSimulatorArm64()
             }
 
             sourceSets {
@@ -145,6 +147,9 @@ fun Project.setupModuleForComposeMultiplatform(
                     val iosSimulatorArm64Main = getByName(iosPrefixName + "SimulatorArm64Main").apply {
                         dependsOn(iosMain)
                     }
+
+                    val tvosMain by getting { dependsOn(nativeMain) }
+                    val tvosSimulatorArm64Main by getting { dependsOn(tvosMain) }
                 }
             }
         }
