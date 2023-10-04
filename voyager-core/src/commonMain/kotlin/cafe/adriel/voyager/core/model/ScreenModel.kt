@@ -13,6 +13,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+public val ScreenModel.lifecycleScope: CoroutineScope
+    @Suppress("DEPRECATION")
+    get() = coroutineScope
+
+@Deprecated(
+    message = "Use lifecycleScope instead.",
+    replaceWith = ReplaceWith(
+        expression = "lifecycleScope",
+        "cafe.adriel.voyager.core.model.lifecycleScope"
+    ),
+    level = DeprecationLevel.WARNING,
+)
 public val ScreenModel.coroutineScope: CoroutineScope
     get() = ScreenModelStore.getOrPutDependency(
         screenModel = this,
