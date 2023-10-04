@@ -173,6 +173,11 @@ public class Navigator @InternalVoyagerApi constructor(
         }
     }
 
+    internal fun popRecursively() {
+        if (pop()) return
+        parent?.popRecursively()
+    }
+
     @InternalVoyagerApi
     public fun dispose(
         screen: Screen
