@@ -119,6 +119,9 @@ public class BottomSheetNavigator internal constructor(
             if (isVisible) {
                 sheetState.hide()
                 replaceAll(HiddenBottomSheetScreen)
+            } else if (sheetState.targetValue == ModalBottomSheetValue.Hidden) {
+                // Swipe down - sheetState is already hidden here so `isVisible` is false
+                replaceAll(HiddenBottomSheetScreen)
             }
         }
     }
