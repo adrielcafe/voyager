@@ -81,7 +81,7 @@ public object ScreenModelStore : ScreenDisposable {
 
     @Deprecated(
         message = "Use 'onDispose' instead. Will be removed in 1.0.0.",
-        replaceWith = ReplaceWith("options")
+        replaceWith = ReplaceWith("onDispose")
     )
     public fun remove(screen: Screen) {
         onDispose(screen)
