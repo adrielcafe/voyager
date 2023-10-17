@@ -1,6 +1,7 @@
 package cafe.adriel.voyager.core.model
 
 import androidx.compose.runtime.DisallowComposableCalls
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.lifecycle.ScreenDisposable
 import cafe.adriel.voyager.core.platform.multiplatformName
@@ -27,7 +28,14 @@ public object ScreenModelStore : ScreenDisposable {
 
     @PublishedApi
     internal inline fun <reified T : ScreenModel> getKey(screen: Screen, tag: String?): ScreenModelKey =
-        "${screen.key}:${T::class.multiplatformName}:${tag ?: "default"}"
+        getKey<T>(screen.key, tag)
+
+    /**
+     * Public: used in Navigator Scoped ScreenModels
+     */
+    @InternalVoyagerApi
+    public inline fun <reified T : ScreenModel> getKey(holderKey: String, tag: String?): ScreenModelKey =
+        "${holderKey}:${T::class.multiplatformName}:${tag ?: "default"}"
 
     @PublishedApi
     internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey =
@@ -48,8 +56,18 @@ public object ScreenModelStore : ScreenDisposable {
         screen: Screen,
         tag: String?,
         factory: @DisallowComposableCalls () -> T
+    ): T = getOrPut(screen.key, tag, factory)
+
+    /**
+     * Public: used in Navigator Scoped ScreenModels
+     */
+    @InternalVoyagerApi
+    public inline fun <reified T : ScreenModel> getOrPut(
+        holderKey: String,
+        tag: String?,
+        factory: @DisallowComposableCalls () -> T
     ): T {
-        val key = getKey<T>(screen, tag)
+        val key = getKey<T>(holderKey, tag)
         lastScreenModelKey.value = key
         return screenModels.getOrPut(key, factory) as T
     }
@@ -68,15 +86,15 @@ public object ScreenModelStore : ScreenDisposable {
     }
 
     override fun onDispose(screen: Screen) {
-        screenModels.onEach(screen) { key ->
-            screenModels[key]?.onDispose()
-            screenModels -= key
-        }
+        disposeHolder(screen.key)
+    }
 
-        dependencies.onEach(screen) { key ->
-            dependencies[key]?.let { (instance, onDispose) -> onDispose(instance) }
-            dependencies -= key
-        }
+    /**
+     * Public: used in Navigator Scoped ScreenModels
+     */
+    @InternalVoyagerApi
+    public fun onDisposeNavigator(navigatorKey: String) {
+        disposeHolder(navigatorKey)
     }
 
     @Deprecated(
@@ -87,9 +105,22 @@ public object ScreenModelStore : ScreenDisposable {
         onDispose(screen)
     }
 
-    private fun Map<String, *>.onEach(screen: Screen, block: (String) -> Unit) =
+    private fun disposeHolder(holderKey: String) {
+        screenModels.onEachHolder(holderKey) { key ->
+            screenModels[key]?.onDispose()
+            screenModels -= key
+        }
+
+        dependencies.onEachHolder(holderKey) { key ->
+            dependencies[key]?.let { (instance, onDispose) -> onDispose(instance) }
+            dependencies -= key
+        }
+    }
+
+
+    private fun Map<String, *>.onEachHolder(holderKey: String, block: (String) -> Unit) =
         asSequence()
-            .filter { it.key.startsWith(screen.key) }
+            .filter { it.key.startsWith(holderKey) }
             .map { it.key }
             .forEach(block)
 }
