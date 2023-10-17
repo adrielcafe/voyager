@@ -57,8 +57,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private val controller = SavedStateRegistryController.create(this)
 
-    private var deactivateLifecycleListener: (() -> Unit)? = null
-
     private var isCreated: Boolean by mutableStateOf(false)
 
     override val savedStateRegistry: SavedStateRegistry
@@ -98,15 +96,13 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
-    private fun onStart() {
+    private fun emitOnStartEvents() {
         startEvents.forEach {
             lifecycle.handleLifecycleEvent(it)
         }
     }
 
-    private fun onStop() {
-        deactivateLifecycleListener?.invoke()
-        deactivateLifecycleListener = null
+    private fun emitOnStopEvents() {
         stopEvents.forEach {
             lifecycle.handleLifecycleEvent(it)
         }
@@ -156,25 +152,11 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 
-    private fun registerLifecycleListenerForSaveState(outState: Bundle) {
-        val lifecycleOwner = getParentLifecycleOwnerOrActivityOrNull()
-        if (lifecycleOwner != null) {
-            val observer = object : DefaultLifecycleObserver {
-                override fun onStop(owner: LifecycleOwner) {
-                    performSave(outState)
-                }
-            }
-            val lifecycle = lifecycleOwner.lifecycle
-            lifecycle.addObserver(observer)
-            deactivateLifecycleListener = { lifecycle.removeObserver(observer) }
-        }
-    }
-
     /**
      * Returns a unregister callback
      */
-    private fun registerLifecycleListenerPropagation(): () -> Unit {
-        val lifecycleOwner = getParentLifecycleOwnerOrActivityOrNull()
+    private fun registerLifecycleListener(outState: Bundle): () -> Unit {
+        val lifecycleOwner = atomicParentLifecycleOwner.get()
         if (lifecycleOwner != null) {
             val observer = object : DefaultLifecycleObserver {
                 override fun onPause(owner: LifecycleOwner) {
@@ -191,6 +173,9 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
                 override fun onStop(owner: LifecycleOwner) {
                     lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+
+                    // when the Application goes to background, perform save
+                    performSave(outState)
                 }
             }
             val lifecycle = lifecycleOwner.lifecycle
@@ -210,13 +195,17 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
 
         DisposableEffect(this) {
-            registerLifecycleListenerForSaveState(savedState)
-            val unregisterLifecyclePropagation = registerLifecycleListenerPropagation()
-            onStart()
+            val unregisterLifecycle = registerLifecycleListener(savedState)
+            emitOnStartEvents()
+
             onDispose {
-                unregisterLifecyclePropagation()
+                unregisterLifecycle()
+
+                // when the screen goes to stack, perform save
                 performSave(savedState)
-                onStop()
+
+                // notify lifecycle screen listeners
+                emitOnStopEvents()
             }
         }
     }
@@ -231,14 +220,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
         is Application -> this
         is ContextWrapper -> baseContext.getApplication()
         else -> null
-    }
-
-    private fun getParentLifecycleOwnerOrActivityOrNull(): LifecycleOwner? =
-        getParentLifecycleOwner() ?: atomicContext.get()?.getActivity() as? LifecycleOwner?
-
-    private fun getParentLifecycleOwner(): LifecycleOwner? = when (val parent = atomicParentLifecycleOwner.get()) {
-        is AndroidScreenLifecycleOwner -> parent.getParentLifecycleOwner()
-        else -> parent
     }
 
     public companion object {
