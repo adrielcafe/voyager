@@ -30,9 +30,7 @@ public object ScreenModelStore : ScreenDisposable {
     internal inline fun <reified T : ScreenModel> getKey(screen: Screen, tag: String?): ScreenModelKey =
         getKey<T>(screen.key, tag)
 
-    /**
-     * Public: used in Navigator Scoped ScreenModels
-     */
+    // Public: used in Navigator Scoped ScreenModels
     @InternalVoyagerApi
     public inline fun <reified T : ScreenModel> getKey(holderKey: String, tag: String?): ScreenModelKey =
         "${holderKey}:${T::class.multiplatformName}:${tag ?: "default"}"
@@ -58,9 +56,7 @@ public object ScreenModelStore : ScreenDisposable {
         factory: @DisallowComposableCalls () -> T
     ): T = getOrPut(screen.key, tag, factory)
 
-    /**
-     * Public: used in Navigator Scoped ScreenModels
-     */
+    // Public: used in Navigator Scoped ScreenModels
     @InternalVoyagerApi
     public inline fun <reified T : ScreenModel> getOrPut(
         holderKey: String,
@@ -89,9 +85,7 @@ public object ScreenModelStore : ScreenDisposable {
         disposeHolder(screen.key)
     }
 
-    /**
-     * Public: used in Navigator Scoped ScreenModels
-     */
+    // Public: used in Navigator Scoped ScreenModels
     @InternalVoyagerApi
     public fun onDisposeNavigator(navigatorKey: String) {
         disposeHolder(navigatorKey)
