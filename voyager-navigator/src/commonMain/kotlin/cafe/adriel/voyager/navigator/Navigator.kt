@@ -177,7 +177,6 @@ public class Navigator @InternalVoyagerApi constructor(
     public fun dispose(
         screen: Screen
     ) {
-        ScreenModelStore.remove(screen)
         ScreenLifecycleStore.remove(screen)
         stateKeys
             .asSequence()

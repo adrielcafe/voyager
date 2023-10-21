@@ -3,6 +3,7 @@ package cafe.adriel.voyager.core.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.remember
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -32,10 +33,14 @@ public val ScreenModel.screenModelScope: CoroutineScope
 public inline fun <reified T : ScreenModel> Screen.rememberScreenModel(
     tag: String? = null,
     crossinline factory: @DisallowComposableCalls () -> T
-): T =
-    remember(ScreenModelStore.getKey<T>(this, tag)) {
-        ScreenModelStore.getOrPut(this, tag, factory)
+): T {
+    val screenModelStore = remember(this) {
+        ScreenLifecycleStore.register(this) { ScreenModelStore }
     }
+    return remember(screenModelStore.getKey<T>(this, tag)) {
+        screenModelStore.getOrPut(this, tag, factory)
+    }
+}
 
 public interface ScreenModel {
 

@@ -2,6 +2,7 @@ package cafe.adriel.voyager.core.model
 
 import androidx.compose.runtime.DisallowComposableCalls
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
+import cafe.adriel.voyager.core.lifecycle.ScreenDisposable
 import cafe.adriel.voyager.core.platform.multiplatformName
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,7 @@ private typealias DependencyInstance = Any
 private typealias DependencyOnDispose = (Any) -> Unit
 private typealias Dependency = Pair<DependencyInstance, DependencyOnDispose>
 
-public object ScreenModelStore {
+public object ScreenModelStore : ScreenDisposable {
 
     @PublishedApi
     internal val screenModels: MutableMap<ScreenModelKey, ScreenModel> = ThreadSafeMap()
@@ -66,7 +67,7 @@ public object ScreenModelStore {
             .first as T
     }
 
-    public fun remove(screen: Screen) {
+    override fun onDispose(screen: Screen) {
         screenModels.onEach(screen) { key ->
             screenModels[key]?.onDispose()
             screenModels -= key
@@ -76,6 +77,14 @@ public object ScreenModelStore {
             dependencies[key]?.let { (instance, onDispose) -> onDispose(instance) }
             dependencies -= key
         }
+    }
+
+    @Deprecated(
+        message = "Use 'onDispose' instead. Will be removed in 1.0.0.",
+        replaceWith = ReplaceWith("onDispose")
+    )
+    public fun remove(screen: Screen) {
+        onDispose(screen)
     }
 
     private fun Map<String, *>.onEach(screen: Screen, block: (String) -> Unit) =
