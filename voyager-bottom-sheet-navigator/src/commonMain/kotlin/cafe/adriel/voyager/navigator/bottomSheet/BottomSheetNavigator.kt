@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.navigator.CurrentScreen
@@ -98,7 +99,7 @@ public fun BottomSheetNavigator(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-public class BottomSheetNavigator internal constructor(
+public class BottomSheetNavigator @InternalVoyagerApi constructor(
     private val navigator: Navigator,
     private val sheetState: ModalBottomSheetState,
     private val coroutineScope: CoroutineScope
