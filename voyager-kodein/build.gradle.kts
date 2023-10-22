@@ -16,7 +16,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                implementation(projects.voyagerNavigator)
+                api(projects.voyagerNavigator)
                 compileOnly(compose.runtime)
                 compileOnly(compose.runtimeSaveable)
                 implementation(libs.kodein)

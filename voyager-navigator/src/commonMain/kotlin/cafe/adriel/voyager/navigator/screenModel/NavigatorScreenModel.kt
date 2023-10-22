@@ -11,8 +11,8 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorDisposable
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
 
-@Composable
 @ExperimentalVoyagerApi
+@Composable
 public inline fun <reified T : ScreenModel> Navigator.rememberNavigatorScreenModel(
     tag: String? = null,
     crossinline factory: @DisallowComposableCalls () -> T
