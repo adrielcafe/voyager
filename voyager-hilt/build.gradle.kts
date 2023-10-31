@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.lifecycle.savedState)
     implementation(libs.lifecycle.viewModelKtx)
     implementation(libs.hilt.android)
+    implementation(libs.lifecycle.viewModelCompose)
     kapt(libs.hilt.compiler)
 
     testRuntimeOnly(libs.junit.engine)
