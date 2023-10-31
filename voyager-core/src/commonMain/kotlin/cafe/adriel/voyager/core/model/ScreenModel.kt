@@ -3,6 +3,7 @@ package cafe.adriel.voyager.core.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.remember
+import cafe.adriel.voyager.core.concurrent.PlatformMainDispatcher
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
 import kotlinx.coroutines.CoroutineName
@@ -25,7 +26,7 @@ public val ScreenModel.screenModelScope: CoroutineScope
     get() = ScreenModelStore.getOrPutDependency(
         screenModel = this,
         name = "ScreenModelCoroutineScope",
-        factory = { key -> CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + CoroutineName(key)) },
+        factory = { key -> CoroutineScope(SupervisorJob() + PlatformMainDispatcher + CoroutineName(key)) },
         onDispose = { scope -> scope.cancel() }
     )
 

@@ -17,7 +17,7 @@ kotlin {
             dependencies {
                 compileOnly(compose.runtime)
                 compileOnly(compose.runtimeSaveable)
-                implementation(libs.coroutines)
+                implementation(libs.coroutines.core)
             }
         }
         val jvmTest by getting {
