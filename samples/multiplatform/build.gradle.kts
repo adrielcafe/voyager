@@ -67,7 +67,7 @@ kotlin {
 
                 implementation(projects.voyagerCore)
                 implementation(projects.voyagerNavigator)
-                implementation(libs.coroutines)
+                implementation(libs.coroutines.core)
             }
         }
 
