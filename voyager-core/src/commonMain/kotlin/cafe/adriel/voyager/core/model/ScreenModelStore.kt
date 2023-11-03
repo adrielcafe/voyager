@@ -113,7 +113,7 @@ public object ScreenModelStore : ScreenDisposable {
 
 
     private fun Map<String, *>.onEachHolder(holderKey: String, block: (String) -> Unit) =
-        asSequence()
+        toMap() // copy
             .filter { it.key.startsWith(holderKey) }
             .map { it.key }
             .forEach(block)
