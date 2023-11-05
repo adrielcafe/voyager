@@ -1,6 +1,5 @@
 package cafe.adriel.voyager.core.concurrent
 
-import androidx.compose.runtime.toMutableStateList
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 
