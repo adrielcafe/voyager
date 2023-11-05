@@ -1,5 +1,6 @@
 package cafe.adriel.voyager.core.concurrent
 
+import androidx.compose.runtime.toMutableStateList
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 
@@ -29,11 +30,11 @@ public actual class ThreadSafeMap<K, V>(
     }
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() = synchronized(syncObject) { delegate.entries }
+        get() = synchronized(syncObject) { delegate.entries.toMutableSet() }
     override val keys: MutableSet<K>
-        get() = synchronized(syncObject) { delegate.keys }
+        get() = synchronized(syncObject) { delegate.keys.toMutableSet() }
     override val values: MutableCollection<V>
-        get() = synchronized(syncObject) { delegate.values }
+        get() = synchronized(syncObject) { delegate.values.toMutableList() }
 
     override fun clear() {
         synchronized(syncObject) { delegate.clear() }
