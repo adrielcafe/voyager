@@ -179,7 +179,7 @@ public class Navigator @InternalVoyagerApi constructor(
     ) {
         ScreenLifecycleStore.remove(screen)
         stateKeys
-            .asSequence()
+            .toMutableSet() // Copy
             .filter { it.startsWith(screen.key) }
             .forEach { key ->
                 stateHolder.removeState(key)
