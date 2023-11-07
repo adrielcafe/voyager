@@ -40,7 +40,7 @@ class SingleActivity : ComponentActivity() {
 }
 ```
 
-Turn on the Warp Drive and enjoy the trek 🖖
+Turn on the Warp Drive and enjoy the voyage 🖖
 
 ### Documentation
 See the [project website](https://voyager.adriel.cafe) for documentation and APIs.
