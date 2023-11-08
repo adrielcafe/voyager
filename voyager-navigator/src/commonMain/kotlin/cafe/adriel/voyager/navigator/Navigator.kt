@@ -17,7 +17,6 @@ import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
-import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
@@ -179,7 +178,8 @@ public class Navigator @InternalVoyagerApi constructor(
     ) {
         ScreenLifecycleStore.remove(screen)
         stateKeys
-            .toMutableSet() // Copy
+            .toSet() // Copy
+            .asSequence()
             .filter { it.startsWith(screen.key) }
             .forEach { key ->
                 stateHolder.removeState(key)

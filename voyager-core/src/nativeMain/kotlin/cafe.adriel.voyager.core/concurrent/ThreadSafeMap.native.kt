@@ -29,11 +29,11 @@ public actual class ThreadSafeMap<K, V>(
     }
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() = synchronized(syncObject) { delegate.entries.toMutableSet() }
+        get() = synchronized(syncObject) { ThreadSafeSet(syncObject, delegate.entries) }
     override val keys: MutableSet<K>
-        get() = synchronized(syncObject) { delegate.keys.toMutableSet() }
+        get() = synchronized(syncObject) { ThreadSafeSet(syncObject, delegate.keys) }
     override val values: MutableCollection<V>
-        get() = synchronized(syncObject) { delegate.values.toMutableList() }
+        get() = synchronized(syncObject) { ThreadSafeMutableCollection(syncObject, delegate.values) }
 
     override fun clear() {
         synchronized(syncObject) { delegate.clear() }
