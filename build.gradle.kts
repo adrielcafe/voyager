@@ -14,6 +14,10 @@ buildscript {
     }
 }
 
+plugins {
+    alias(libs.plugins.binaryCompatibilityValidator) apply false
+}
+
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 

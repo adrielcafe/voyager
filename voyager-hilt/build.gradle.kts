@@ -3,6 +3,7 @@ plugins {
     kotlin("kapt")
     id("com.android.library")
     id("com.vanniktech.maven.publish")
+    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 setupModuleForAndroidxCompose()
