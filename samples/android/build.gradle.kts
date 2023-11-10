@@ -26,7 +26,6 @@ dependencies {
     implementation(projects.voyagerTabNavigator)
     implementation(projects.voyagerBottomSheetNavigator)
     implementation(projects.voyagerTransitions)
-    implementation(projects.voyagerAndroidx)
     implementation(projects.voyagerHilt)
     implementation(projects.voyagerKodein)
     implementation(projects.voyagerKoin)

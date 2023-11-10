@@ -20,7 +20,6 @@ kapt {
 }
 
 dependencies {
-    api(projects.voyagerAndroidx)
     api(projects.voyagerNavigator)
 
     implementation(libs.compose.runtime)

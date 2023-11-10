@@ -12,7 +12,6 @@ include(
     ":voyager-tab-navigator",
     ":voyager-bottom-sheet-navigator",
     ":voyager-transitions",
-    ":voyager-androidx",
     ":voyager-hilt",
     ":voyager-kodein",
     ":voyager-koin",
