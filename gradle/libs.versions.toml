@@ -3,6 +3,7 @@ plugin-android = "8.1.1"
 plugin-ktlint = "11.5.1"
 plugin-maven = "0.25.3"
 plugin-multiplatform-compose = "1.5.1"
+plugin-binaryCompatibilityValidator = "0.13.2"
 
 coroutines = "1.7.3"
 kotlin = "1.9.10"
@@ -61,3 +62,6 @@ multiplatformUuid = { module = "com.benasher44:uuid", version.ref = "multiplatfo
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+
+[plugins]
+binaryCompatibilityValidator =  { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "plugin-binaryCompatibilityValidator" }
