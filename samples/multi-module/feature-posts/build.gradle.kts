@@ -1,6 +1,6 @@
 plugins {
-    kotlin("android")
     id("com.android.library")
+    kotlin("android")
 }
 
 setupModuleForAndroidxCompose(

@@ -3,7 +3,6 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     id("com.vanniktech.maven.publish")
-    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 setupModuleForComposeMultiplatform(fullyMultiplatform = true)

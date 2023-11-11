@@ -15,7 +15,7 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.binaryCompatibilityValidator) apply false
+    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 subprojects {
@@ -25,4 +25,12 @@ subprojects {
         version.set("0.47.1")
         disabledRules.set(setOf("filename"))
     }
+}
+
+apiValidation {
+    ignoredProjects.addAll(listOf("samples"))
+    nonPublicMarkers.addAll(listOf(
+        "cafe.adriel.voyager.core.annotation.InternalVoyagerApi",
+        "cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi"
+    ))
 }
