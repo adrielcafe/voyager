@@ -1,8 +1,7 @@
 plugins {
-    kotlin("android")
     id("com.android.library")
+    kotlin("android")
     id("com.vanniktech.maven.publish")
-    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 setupModuleForAndroidxCompose()
