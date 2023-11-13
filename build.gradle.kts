@@ -28,7 +28,14 @@ subprojects {
 }
 
 apiValidation {
-    ignoredProjects.addAll(listOf("samples"))
+    ignoredProjects.addAll(listOf(
+        /*samples*/"android",
+        /*samples*/"multiplatform",
+        /*samples/multi-modulo*/"app",
+        /*samples/multi-modulo*/"feature-home",
+        /*samples/multi-modulo*/"feature-posts",
+        /*samples/multi-modulo*/"navigation",
+    ))
     nonPublicMarkers.addAll(listOf(
         "cafe.adriel.voyager.core.annotation.InternalVoyagerApi",
         "cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi"
