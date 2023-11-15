@@ -8,7 +8,7 @@ include(
     ":samples:multi-module:feature-posts",
 
     ":voyager-core",
-    ":voyager-screen-model",
+    ":voyager-screenmodel",
     ":voyager-navigator",
     ":voyager-tab-navigator",
     ":voyager-bottom-sheet-navigator",
