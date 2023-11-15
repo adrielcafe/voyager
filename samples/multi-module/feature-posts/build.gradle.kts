@@ -12,7 +12,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.voyagerScreenModel)
+    implementation(projects.voyagerScreenmodel)
     implementation(projects.voyagerNavigator)
 
     implementation(projects.samples.multiModule.navigation)
