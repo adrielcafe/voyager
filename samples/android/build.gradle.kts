@@ -22,6 +22,7 @@ kapt {
 }
 
 dependencies {
+    implementation(projects.voyagerScreenModel)
     implementation(projects.voyagerNavigator)
     implementation(projects.voyagerTabNavigator)
     implementation(projects.voyagerBottomSheetNavigator)
