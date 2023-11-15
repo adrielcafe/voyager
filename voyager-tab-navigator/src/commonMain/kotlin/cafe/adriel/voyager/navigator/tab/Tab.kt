@@ -24,18 +24,4 @@ public interface Tab : Screen {
 
     public val options: TabOptions
         @Composable get
-
-    @Deprecated(
-        message = "Use 'options' instead. Will be removed in 1.0.0.",
-        replaceWith = ReplaceWith("options")
-    )
-    public val title: String
-        @Composable get() = options.title
-
-    @Deprecated(
-        message = "Use 'options' instead. Will be removed in 1.0.0.",
-        replaceWith = ReplaceWith("options")
-    )
-    public val icon: Painter?
-        @Composable get() = options.icon
 }

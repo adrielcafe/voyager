@@ -91,14 +91,6 @@ public object ScreenModelStore : ScreenDisposable {
         disposeHolder(navigatorKey)
     }
 
-    @Deprecated(
-        message = "Use 'onDispose' instead. Will be removed in 1.0.0.",
-        replaceWith = ReplaceWith("onDispose")
-    )
-    public fun remove(screen: Screen) {
-        onDispose(screen)
-    }
-
     private fun disposeHolder(holderKey: String) {
         screenModels.onEachHolder(holderKey) { key ->
             screenModels[key]?.onDispose()

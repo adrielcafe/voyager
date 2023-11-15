@@ -18,12 +18,6 @@ public interface Stack<Item> {
 
     public val lastItemOrNull: Item?
 
-    @Deprecated(
-        message = "Use 'lastItemOrNull' instead. Will be removed in 1.0.0.",
-        replaceWith = ReplaceWith("lastItemOrNull")
-    )
-    public val lastOrNull: Item?
-
     public val size: Int
 
     public val isEmpty: Boolean

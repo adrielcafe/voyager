@@ -15,13 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-@Deprecated(
-    message = "Use 'screenModelScope' instead. Will be removed in 1.0.0.",
-    replaceWith = ReplaceWith("screenModelScope")
-)
-public val ScreenModel.coroutineScope: CoroutineScope
-    get() = screenModelScope
-
 public val ScreenModel.screenModelScope: CoroutineScope
     get() = ScreenModelStore.getOrPutDependency(
         screenModel = this,
