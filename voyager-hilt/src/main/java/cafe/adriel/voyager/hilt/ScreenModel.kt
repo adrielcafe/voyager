@@ -66,7 +66,6 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Scre
  *
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
-@ExperimentalVoyagerApi
 @Composable
 public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
     tag: String? = null
@@ -93,7 +92,6 @@ public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
  * @param factory A function that receives a [ScreenModelFactory] and returns a [ScreenModel] created by the custom factory
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
-@ExperimentalVoyagerApi
 @Composable
 public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Navigator.getNavigatorScreenModel(
     tag: String? = null,

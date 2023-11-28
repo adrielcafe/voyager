@@ -30,7 +30,6 @@ public fun rememberScreenLifecycleOwner(
     }
 
 @Composable
-@ExperimentalVoyagerApi
 @InternalVoyagerApi
 public fun getNavigatorScreenLifecycleProvider(screen: Screen): List<ScreenLifecycleContentProvider> {
     val navigatorScreenLifecycleProvider = LocalNavigatorScreenLifecycleProvider.current

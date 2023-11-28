@@ -45,7 +45,6 @@ public fun TabNavigator(
     }
 }
 
-@ExperimentalVoyagerApi
 @Composable
 public fun TabDisposable(navigator: TabNavigator, tabs: List<Tab>) {
     DisposableEffectIgnoringConfiguration(Unit) {

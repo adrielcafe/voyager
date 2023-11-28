@@ -8,7 +8,6 @@ import kotlin.reflect.typeOf
 
 public typealias NavigatorKey = String
 
-@ExperimentalVoyagerApi
 public object NavigatorLifecycleStore {
 
     private val owners = ThreadSafeMap<NavigatorKey, ThreadSafeMap<KType, NavigatorDisposable>>()
@@ -17,16 +16,15 @@ public object NavigatorLifecycleStore {
      * Register a NavigatorDisposable that will be called `onDispose` on the
      * [navigator] leaves the Composition.
      */
-    @ExperimentalVoyagerApi
-    public inline fun <reified T : NavigatorDisposable> register(
+    public inline fun <reified T : NavigatorDisposable> get(
         navigator: Navigator,
         noinline factory: (NavigatorKey) -> T
     ): T {
-        return register(navigator, typeOf<T>(), factory) as T
+        return get(navigator, typeOf<T>(), factory) as T
     }
 
     @PublishedApi
-    internal fun <T : NavigatorDisposable> register(
+    internal fun <T : NavigatorDisposable> get(
         navigator: Navigator,
         screenDisposeListenerType: KType,
         factory: (NavigatorKey) -> T
@@ -40,7 +38,6 @@ public object NavigatorLifecycleStore {
         }
     }
 
-    @ExperimentalVoyagerApi
     public fun remove(navigator: Navigator) {
         owners.remove(navigator.key)?.forEach { it.value.onDispose(navigator) }
     }
