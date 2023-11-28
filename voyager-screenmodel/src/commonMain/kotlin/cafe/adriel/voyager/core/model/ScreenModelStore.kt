@@ -33,7 +33,7 @@ public object ScreenModelStore : ScreenDisposable {
     // Public: used in Navigator Scoped ScreenModels
     @InternalVoyagerApi
     public inline fun <reified T : ScreenModel> getKey(holderKey: String, tag: String?): ScreenModelKey =
-        "${holderKey}:${T::class.multiplatformName}:${tag ?: "default"}"
+        "$holderKey:${T::class.multiplatformName}:${tag ?: "default"}"
 
     @PublishedApi
     internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey =
@@ -102,7 +102,6 @@ public object ScreenModelStore : ScreenDisposable {
             dependencies -= key
         }
     }
-
 
     private fun Map<String, *>.onEachHolder(holderKey: String, block: (String) -> Unit) =
         toMap() // copy

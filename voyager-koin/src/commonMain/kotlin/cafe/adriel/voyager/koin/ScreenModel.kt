@@ -1,7 +1,6 @@
 package cafe.adriel.voyager.koin
 
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.rememberNavigatorScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel

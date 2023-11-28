@@ -2,7 +2,6 @@ package cafe.adriel.voyager.hilt
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.rememberNavigatorScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -78,8 +77,8 @@ public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
         val model = screenModels[T::class.java]?.get()
             ?: error(
                 "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                        "declaration to your ScreenModel using @IntoMap and " +
-                        "@ScreenModelKey(${T::class.qualifiedName}::class)"
+                    "declaration to your ScreenModel using @IntoMap and " +
+                    "@ScreenModelKey(${T::class.qualifiedName}::class)"
             )
         model as T
     }
@@ -105,8 +104,8 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Navi
         val screenFactory = screenFactories[F::class.java]?.get()
             ?: error(
                 "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                        "declaration to your ScreenModelFactory using @IntoMap and " +
-                        "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
+                    "declaration to your ScreenModelFactory using @IntoMap and " +
+                    "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
             )
         factory.invoke(screenFactory as F)
     }
