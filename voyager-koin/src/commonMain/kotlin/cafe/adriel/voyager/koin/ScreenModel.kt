@@ -20,7 +20,6 @@ public inline fun <reified T : ScreenModel> Screen.getScreenModel(
     return rememberScreenModel(tag = qualifier?.value) { koin.get(qualifier, parameters) }
 }
 
-@ExperimentalVoyagerApi
 @Composable
 public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
     qualifier: Qualifier? = null,

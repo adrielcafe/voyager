@@ -26,7 +26,6 @@ public inline fun <reified A : Any, reified T : ScreenModel> Screen.rememberScre
     rememberScreenModel(tag = tag?.toString()) { direct.provider<A, T>(tag, arg)() }
 }
 
-@ExperimentalVoyagerApi
 @Composable
 public inline fun <reified T : ScreenModel> Navigator.rememberNavigatorScreenModel(
     tag: Any? = null
@@ -34,7 +33,6 @@ public inline fun <reified T : ScreenModel> Navigator.rememberNavigatorScreenMod
     rememberNavigatorScreenModel(tag = tag?.toString()) { direct.provider<T>(tag)() }
 }
 
-@ExperimentalVoyagerApi
 @Composable
 public inline fun <reified A : Any, reified T : ScreenModel> Navigator.rememberNavigatorScreenModel(
     tag: Any? = null,

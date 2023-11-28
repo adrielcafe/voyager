@@ -9,7 +9,6 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorDisposable
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
 
-@ExperimentalVoyagerApi
 @Composable
 public inline fun <reified T : ScreenModel> Navigator.rememberNavigatorScreenModel(
     tag: String? = null,
@@ -17,7 +16,7 @@ public inline fun <reified T : ScreenModel> Navigator.rememberNavigatorScreenMod
 ): T {
     // register the navigator lifecycle listener if is not already registered
     remember(this) {
-        NavigatorLifecycleStore.register(this) { NavigatorScreenModelDisposer }
+        NavigatorLifecycleStore.get(this) { NavigatorScreenModelDisposer }
     }
 
     return remember(ScreenModelStore.getKey<T>(this.key, tag)) {
