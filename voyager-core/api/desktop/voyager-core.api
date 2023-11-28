@@ -134,7 +134,7 @@ public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenLifecyc
 public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleStore {
 	public static final field $stable I
 	public static final field INSTANCE Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleStore;
-	public final fun register (Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/reflect/KType;Lkotlin/jvm/functions/Function1;)Lcafe/adriel/voyager/core/lifecycle/ScreenDisposable;
+	public final fun get (Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/reflect/KType;Lkotlin/jvm/functions/Function1;)Lcafe/adriel/voyager/core/lifecycle/ScreenDisposable;
 	public final fun remove (Lcafe/adriel/voyager/core/screen/Screen;)V
 }
 
