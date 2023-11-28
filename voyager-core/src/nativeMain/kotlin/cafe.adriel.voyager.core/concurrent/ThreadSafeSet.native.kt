@@ -1,7 +1,6 @@
 package cafe.adriel.voyager.core.concurrent
 
 import kotlinx.atomicfu.locks.SynchronizedObject
-import kotlinx.atomicfu.locks.synchronized
 
 public actual class ThreadSafeSet<T>(
     syncObject: SynchronizedObject,

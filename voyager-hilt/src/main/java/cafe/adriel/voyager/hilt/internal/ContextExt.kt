@@ -3,7 +3,6 @@ package cafe.adriel.voyager.hilt.internal
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.ViewModelProvider
 
 private inline fun <reified T> findOwner(context: Context): T? {
     var innerContext = context
