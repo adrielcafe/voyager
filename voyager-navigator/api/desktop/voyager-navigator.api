@@ -1,0 +1,81 @@
+public final class cafe/adriel/voyager/navigator/ComposableSingletons$NavigatorKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/navigator/ComposableSingletons$NavigatorKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function3;
+	public static field lambda-2 Lkotlin/jvm/functions/Function3;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_navigator ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda-2$voyager_navigator ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class cafe/adriel/voyager/navigator/Navigator : cafe/adriel/voyager/core/stack/Stack {
+	public static final field $stable I
+	public fun clearEvent ()V
+	public fun getCanPop ()Z
+	public final fun getDisposeBehavior ()Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
+	public fun getItems ()Ljava/util/List;
+	public fun getLastEvent ()Lcafe/adriel/voyager/core/stack/StackEvent;
+	public final fun getLastItem ()Lcafe/adriel/voyager/core/screen/Screen;
+	public fun getLastItemOrNull ()Lcafe/adriel/voyager/core/screen/Screen;
+	public synthetic fun getLastItemOrNull ()Ljava/lang/Object;
+	public final fun getLevel ()I
+	public final fun getParent ()Lcafe/adriel/voyager/navigator/Navigator;
+	public fun getSize ()I
+	public fun isEmpty ()Z
+	public fun plusAssign (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun plusAssign (Ljava/lang/Object;)V
+	public fun plusAssign (Ljava/util/List;)V
+	public fun pop ()Z
+	public fun popAll ()V
+	public fun popUntil (Lkotlin/jvm/functions/Function1;)Z
+	public final fun popUntilRoot ()V
+	public fun push (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun push (Ljava/lang/Object;)V
+	public fun push (Ljava/util/List;)V
+	public fun replace (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun replace (Ljava/lang/Object;)V
+	public fun replaceAll (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun replaceAll (Ljava/lang/Object;)V
+	public fun replaceAll (Ljava/util/List;)V
+	public final fun saveableState (Ljava/lang/String;Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class cafe/adriel/voyager/navigator/NavigatorDisposeBehavior {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Z
+	public final fun copy (ZZ)Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
+	public static synthetic fun copy$default (Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;ZZILjava/lang/Object;)Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDisposeNestedNavigators ()Z
+	public final fun getDisposeSteps ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class cafe/adriel/voyager/navigator/NavigatorKt {
+	public static final fun CurrentScreen (Landroidx/compose/runtime/Composer;I)V
+	public static final fun Navigator (Lcafe/adriel/voyager/core/screen/Screen;Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Navigator (Ljava/util/List;Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun getCurrentOrThrow (Landroidx/compose/runtime/ProvidableCompositionLocal;Landroidx/compose/runtime/Composer;I)Ljava/lang/Object;
+	public static final fun getLocalNavigator ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class cafe/adriel/voyager/navigator/NavigatorSaverKt {
+	public static final fun defaultNavigatorSaver ()Lcafe/adriel/voyager/navigator/NavigatorSaver;
+	public static final fun getLocalNavigatorSaver ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public abstract interface class cafe/adriel/voyager/navigator/lifecycle/NavigatorDisposable {
+	public abstract fun onDispose (Lcafe/adriel/voyager/navigator/Navigator;)V
+}
+
+public final class cafe/adriel/voyager/navigator/lifecycle/NavigatorLifecycleStore {
+	public static final field $stable I
+	public static final field INSTANCE Lcafe/adriel/voyager/navigator/lifecycle/NavigatorLifecycleStore;
+	public final fun get (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/reflect/KType;Lkotlin/jvm/functions/Function1;)Lcafe/adriel/voyager/navigator/lifecycle/NavigatorDisposable;
+	public final fun remove (Lcafe/adriel/voyager/navigator/Navigator;)V
+}
+

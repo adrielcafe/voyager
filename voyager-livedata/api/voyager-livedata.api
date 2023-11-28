@@ -1,0 +1,8 @@
+public abstract class cafe/adriel/voyager/livedata/LiveScreenModel : cafe/adriel/voyager/core/model/ScreenModel {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/Object;)V
+	protected final fun getMutableState ()Landroidx/lifecycle/MutableLiveData;
+	public final fun getState ()Landroidx/lifecycle/LiveData;
+	public fun onDispose ()V
+}
+

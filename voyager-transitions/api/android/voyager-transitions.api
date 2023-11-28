@@ -1,0 +1,55 @@
+public final class cafe/adriel/voyager/transitions/ComposableSingletons$FadeTransitionKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$FadeTransitionKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function4;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+}
+
+public final class cafe/adriel/voyager/transitions/ComposableSingletons$ScaleTransitionKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$ScaleTransitionKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function4;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+}
+
+public final class cafe/adriel/voyager/transitions/ComposableSingletons$ScreenTransitionKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$ScreenTransitionKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function4;
+	public static field lambda-2 Lkotlin/jvm/functions/Function4;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda-2$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+}
+
+public final class cafe/adriel/voyager/transitions/ComposableSingletons$SlideTransitionKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$SlideTransitionKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function4;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+}
+
+public final class cafe/adriel/voyager/transitions/FadeTransitionKt {
+	public static final fun FadeTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class cafe/adriel/voyager/transitions/ScaleTransitionKt {
+	public static final fun ScaleTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class cafe/adriel/voyager/transitions/ScreenTransitionKt {
+	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class cafe/adriel/voyager/transitions/SlideOrientation : java/lang/Enum {
+	public static final field Horizontal Lcafe/adriel/voyager/transitions/SlideOrientation;
+	public static final field Vertical Lcafe/adriel/voyager/transitions/SlideOrientation;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcafe/adriel/voyager/transitions/SlideOrientation;
+	public static fun values ()[Lcafe/adriel/voyager/transitions/SlideOrientation;
+}
+
+public final class cafe/adriel/voyager/transitions/SlideTransitionKt {
+	public static final fun SlideTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Lcafe/adriel/voyager/transitions/SlideOrientation;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+

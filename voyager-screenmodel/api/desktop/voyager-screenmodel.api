@@ -1,0 +1,30 @@
+public abstract interface class cafe/adriel/voyager/core/model/ScreenModel {
+	public abstract fun onDispose ()V
+}
+
+public final class cafe/adriel/voyager/core/model/ScreenModel$DefaultImpls {
+	public static fun onDispose (Lcafe/adriel/voyager/core/model/ScreenModel;)V
+}
+
+public final class cafe/adriel/voyager/core/model/ScreenModelKt {
+	public static final fun getScreenModelScope (Lcafe/adriel/voyager/core/model/ScreenModel;)Lkotlinx/coroutines/CoroutineScope;
+}
+
+public final class cafe/adriel/voyager/core/model/ScreenModelStore : cafe/adriel/voyager/core/lifecycle/ScreenDisposable {
+	public static final field $stable I
+	public static final field INSTANCE Lcafe/adriel/voyager/core/model/ScreenModelStore;
+	public final fun getDependencies ()Ljava/util/Map;
+	public final fun getDependencyKey (Lcafe/adriel/voyager/core/model/ScreenModel;Ljava/lang/String;)Ljava/lang/String;
+	public final fun getLastScreenModelKey ()Lkotlinx/coroutines/flow/MutableStateFlow;
+	public final fun getScreenModels ()Ljava/util/Map;
+	public fun onDispose (Lcafe/adriel/voyager/core/screen/Screen;)V
+}
+
+public abstract class cafe/adriel/voyager/core/model/StateScreenModel : cafe/adriel/voyager/core/model/ScreenModel {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/Object;)V
+	protected final fun getMutableState ()Lkotlinx/coroutines/flow/MutableStateFlow;
+	public final fun getState ()Lkotlinx/coroutines/flow/StateFlow;
+	public fun onDispose ()V
+}
+
