@@ -242,7 +242,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
             Lifecycle.Event.ON_DESTROY
         )
         public fun get(screen: Screen): ScreenLifecycleOwner {
-            return ScreenLifecycleStore.register(screen) { AndroidScreenLifecycleOwner() }
+            return ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }
         }
     }
 }

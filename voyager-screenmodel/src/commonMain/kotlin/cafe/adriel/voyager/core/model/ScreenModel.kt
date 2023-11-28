@@ -28,7 +28,7 @@ public inline fun <reified T : ScreenModel> Screen.rememberScreenModel(
     crossinline factory: @DisallowComposableCalls () -> T
 ): T {
     val screenModelStore = remember(this) {
-        ScreenLifecycleStore.register(this) { ScreenModelStore }
+        ScreenLifecycleStore.get(this) { ScreenModelStore }
     }
     return remember(screenModelStore.getKey<T>(this, tag)) {
         screenModelStore.getOrPut(this, tag, factory)
