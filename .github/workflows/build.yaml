@@ -25,6 +25,14 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
+      - name: Lint
+        run: |
+          ./gradlew ktlintCheck --stacktrace
+
+      - name: Api Check
+        run: |
+          ./gradlew apiCheck --stacktrace
+
       - name: Validate publish
         run: |
           ./gradlew -Pversion=1.0.0-SNAPSHOT publishToMavenLocal --stacktrace

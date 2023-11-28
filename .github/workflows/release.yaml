@@ -25,6 +25,10 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
+      - name: Api Check
+        run: |
+          ./gradlew apiCheck --stacktrace
+
       - name: Deploy to Sonatype
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
