@@ -15,6 +15,7 @@ android {
 
 dependencies {
     api(projects.voyagerCore)
+    api(projects.voyagerScreenmodel)
 
     implementation(libs.compose.runtimeLiveData)
 

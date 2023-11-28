@@ -15,6 +15,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(projects.voyagerCore)
+                api(projects.voyagerScreenmodel)
                 compileOnly(libs.rxjava)
             }
         }
