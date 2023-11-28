@@ -1,0 +1,11 @@
+public abstract class cafe/adriel/voyager/rxjava/RxScreenModel : cafe/adriel/voyager/core/model/ScreenModel {
+	public fun <init> ()V
+	protected final fun getMutableState ()Lio/reactivex/rxjava3/subjects/BehaviorSubject;
+	public final fun getState ()Lio/reactivex/rxjava3/core/Observable;
+	public fun onDispose ()V
+}
+
+public final class cafe/adriel/voyager/rxjava/ScreenModelKt {
+	public static final fun getDisposables (Lcafe/adriel/voyager/core/model/ScreenModel;)Lio/reactivex/rxjava3/disposables/CompositeDisposable;
+}
+

@@ -1,0 +1,237 @@
+public abstract interface annotation class cafe/adriel/voyager/core/annotation/ExperimentalVoyagerApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class cafe/adriel/voyager/core/annotation/InternalVoyagerApi : java/lang/annotation/Annotation {
+}
+
+public final class cafe/adriel/voyager/core/concurrent/PlatformDispatcher_desktopKt {
+}
+
+public final class cafe/adriel/voyager/core/concurrent/ThreadSafeList : java/util/List, kotlin/jvm/internal/markers/KMutableList {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun add (ILjava/lang/Object;)V
+	public fun add (Ljava/lang/Object;)Z
+	public fun addAll (ILjava/util/Collection;)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public fun clear ()V
+	public fun contains (Ljava/lang/Object;)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public fun get (I)Ljava/lang/Object;
+	public fun getSize ()I
+	public fun indexOf (Ljava/lang/Object;)I
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public fun lastIndexOf (Ljava/lang/Object;)I
+	public fun listIterator ()Ljava/util/ListIterator;
+	public fun listIterator (I)Ljava/util/ListIterator;
+	public final fun remove (I)Ljava/lang/Object;
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun removeAt (I)Ljava/lang/Object;
+	public fun retainAll (Ljava/util/Collection;)Z
+	public fun set (ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun size ()I
+	public fun subList (II)Ljava/util/List;
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+}
+
+public final class cafe/adriel/voyager/core/concurrent/ThreadSafeMap : java/util/Map, kotlin/jvm/internal/markers/KMutableMap {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun clear ()V
+	public fun containsKey (Ljava/lang/Object;)Z
+	public fun containsValue (Ljava/lang/Object;)Z
+	public final fun entrySet ()Ljava/util/Set;
+	public fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun getEntries ()Ljava/util/Set;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun isEmpty ()Z
+	public final fun keySet ()Ljava/util/Set;
+	public fun put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun putAll (Ljava/util/Map;)V
+	public fun remove (Ljava/lang/Object;)Ljava/lang/Object;
+	public final fun size ()I
+	public final fun values ()Ljava/util/Collection;
+}
+
+public final class cafe/adriel/voyager/core/concurrent/ThreadSafeSet : java/util/Set, kotlin/jvm/internal/markers/KMutableSet {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun add (Ljava/lang/Object;)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public fun clear ()V
+	public fun contains (Ljava/lang/Object;)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public fun getSize ()I
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public final fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/DisposableEffectKt {
+	public static final fun DisposableEffectIgnoringConfiguration (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
+	public static final fun DisposableEffectIgnoringConfiguration (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
+	public static final fun DisposableEffectIgnoringConfiguration (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
+	public static final fun DisposableEffectIgnoringConfiguration ([Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
+}
+
+public abstract interface class cafe/adriel/voyager/core/lifecycle/JavaSerializable : java/io/Serializable {
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/MultipleScreenLifecycleOwnerUtilKt {
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/NavigatorScreenLifecycleKt {
+	public static final fun getLocalNavigatorScreenLifecycleProvider ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public abstract interface class cafe/adriel/voyager/core/lifecycle/NavigatorScreenLifecycleProvider {
+	public abstract fun provide (Lcafe/adriel/voyager/core/screen/Screen;)Ljava/util/List;
+}
+
+public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenDisposable {
+	public abstract fun onDispose (Lcafe/adriel/voyager/core/screen/Screen;)V
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/ScreenDisposable$DefaultImpls {
+	public static fun onDispose (Lcafe/adriel/voyager/core/lifecycle/ScreenDisposable;Lcafe/adriel/voyager/core/screen/Screen;)V
+}
+
+public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProvider {
+	public abstract fun ProvideBeforeScreenContent (Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProvider$DefaultImpls {
+	public static fun ProvideBeforeScreenContent (Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProvider;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleKt {
+	public static final fun LifecycleEffect (Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun rememberScreenLifecycleOwner (Lcafe/adriel/voyager/core/screen/Screen;Landroidx/compose/runtime/Composer;I)Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner;
+}
+
+public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner : cafe/adriel/voyager/core/lifecycle/ScreenDisposable, cafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProvider {
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner$DefaultImpls {
+	public static fun ProvideBeforeScreenContent (Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static fun onDispose (Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner;Lcafe/adriel/voyager/core/screen/Screen;)V
+}
+
+public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleProvider {
+	public abstract fun getLifecycleOwner ()Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner;
+}
+
+public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleStore {
+	public static final field $stable I
+	public static final field INSTANCE Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleStore;
+	public final fun register (Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/reflect/KType;Lkotlin/jvm/functions/Function1;)Lcafe/adriel/voyager/core/lifecycle/ScreenDisposable;
+	public final fun remove (Lcafe/adriel/voyager/core/screen/Screen;)V
+}
+
+public final class cafe/adriel/voyager/core/platform/KClassEx_jvmKt {
+	public static final fun getMultiplatformName (Lkotlin/reflect/KClass;)Ljava/lang/String;
+}
+
+public final class cafe/adriel/voyager/core/registry/ScreenModuleKt {
+	public static final fun screenModule (Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
+}
+
+public abstract interface class cafe/adriel/voyager/core/registry/ScreenProvider {
+}
+
+public final class cafe/adriel/voyager/core/registry/ScreenRegistry {
+	public static final field $stable I
+	public static final field INSTANCE Lcafe/adriel/voyager/core/registry/ScreenRegistry;
+	public final fun get (Lcafe/adriel/voyager/core/registry/ScreenProvider;)Lcafe/adriel/voyager/core/screen/Screen;
+	public final fun getFactories ()Lcafe/adriel/voyager/core/concurrent/ThreadSafeMap;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract interface class cafe/adriel/voyager/core/screen/Screen : java/io/Serializable {
+	public abstract fun Content (Landroidx/compose/runtime/Composer;I)V
+	public abstract fun getKey ()Ljava/lang/String;
+}
+
+public final class cafe/adriel/voyager/core/screen/Screen$DefaultImpls {
+	public static fun getKey (Lcafe/adriel/voyager/core/screen/Screen;)Ljava/lang/String;
+}
+
+public final class cafe/adriel/voyager/core/screen/ScreenKeyKt {
+	public static final fun getUniqueScreenKey (Lcafe/adriel/voyager/core/screen/Screen;)Ljava/lang/String;
+}
+
+public final class cafe/adriel/voyager/core/stack/SnapshotStateStack : cafe/adriel/voyager/core/stack/Stack {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;I)V
+	public synthetic fun <init> (Ljava/util/List;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ([Ljava/lang/Object;I)V
+	public synthetic fun <init> ([Ljava/lang/Object;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun clearEvent ()V
+	public fun getCanPop ()Z
+	public fun getItems ()Ljava/util/List;
+	public fun getLastEvent ()Lcafe/adriel/voyager/core/stack/StackEvent;
+	public fun getLastItemOrNull ()Ljava/lang/Object;
+	public fun getSize ()I
+	public final fun getStateStack ()Landroidx/compose/runtime/snapshots/SnapshotStateList;
+	public fun isEmpty ()Z
+	public fun plusAssign (Ljava/lang/Object;)V
+	public fun plusAssign (Ljava/util/List;)V
+	public fun pop ()Z
+	public fun popAll ()V
+	public fun popUntil (Lkotlin/jvm/functions/Function1;)Z
+	public fun push (Ljava/lang/Object;)V
+	public fun push (Ljava/util/List;)V
+	public fun replace (Ljava/lang/Object;)V
+	public fun replaceAll (Ljava/lang/Object;)V
+	public fun replaceAll (Ljava/util/List;)V
+}
+
+public final class cafe/adriel/voyager/core/stack/SnapshotStateStackKt {
+	public static final fun mutableStateStackOf ([Ljava/lang/Object;I)Lcafe/adriel/voyager/core/stack/SnapshotStateStack;
+	public static synthetic fun mutableStateStackOf$default ([Ljava/lang/Object;IILjava/lang/Object;)Lcafe/adriel/voyager/core/stack/SnapshotStateStack;
+	public static final fun rememberStateStack (Ljava/util/List;ILandroidx/compose/runtime/Composer;II)Lcafe/adriel/voyager/core/stack/SnapshotStateStack;
+	public static final fun rememberStateStack ([Ljava/lang/Object;ILandroidx/compose/runtime/Composer;II)Lcafe/adriel/voyager/core/stack/SnapshotStateStack;
+	public static final fun toMutableStateStack (Ljava/util/List;I)Lcafe/adriel/voyager/core/stack/SnapshotStateStack;
+	public static synthetic fun toMutableStateStack$default (Ljava/util/List;IILjava/lang/Object;)Lcafe/adriel/voyager/core/stack/SnapshotStateStack;
+}
+
+public abstract interface class cafe/adriel/voyager/core/stack/Stack {
+	public abstract fun clearEvent ()V
+	public abstract fun getCanPop ()Z
+	public abstract fun getItems ()Ljava/util/List;
+	public abstract fun getLastEvent ()Lcafe/adriel/voyager/core/stack/StackEvent;
+	public abstract fun getLastItemOrNull ()Ljava/lang/Object;
+	public abstract fun getSize ()I
+	public abstract fun isEmpty ()Z
+	public abstract fun plusAssign (Ljava/lang/Object;)V
+	public abstract fun plusAssign (Ljava/util/List;)V
+	public abstract fun pop ()Z
+	public abstract fun popAll ()V
+	public abstract fun popUntil (Lkotlin/jvm/functions/Function1;)Z
+	public abstract fun push (Ljava/lang/Object;)V
+	public abstract fun push (Ljava/util/List;)V
+	public abstract fun replace (Ljava/lang/Object;)V
+	public abstract fun replaceAll (Ljava/lang/Object;)V
+	public abstract fun replaceAll (Ljava/util/List;)V
+}
+
+public final class cafe/adriel/voyager/core/stack/StackEvent : java/lang/Enum {
+	public static final field Idle Lcafe/adriel/voyager/core/stack/StackEvent;
+	public static final field Pop Lcafe/adriel/voyager/core/stack/StackEvent;
+	public static final field Push Lcafe/adriel/voyager/core/stack/StackEvent;
+	public static final field Replace Lcafe/adriel/voyager/core/stack/StackEvent;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcafe/adriel/voyager/core/stack/StackEvent;
+	public static fun values ()[Lcafe/adriel/voyager/core/stack/StackEvent;
+}
+

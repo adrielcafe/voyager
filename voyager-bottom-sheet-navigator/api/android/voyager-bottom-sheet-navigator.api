@@ -1,0 +1,42 @@
+public final class cafe/adriel/voyager/navigator/bottomSheet/BottomSheetNavigator : cafe/adriel/voyager/core/stack/Stack {
+	public static final field $stable I
+	public fun clearEvent ()V
+	public fun getCanPop ()Z
+	public fun getItems ()Ljava/util/List;
+	public fun getLastEvent ()Lcafe/adriel/voyager/core/stack/StackEvent;
+	public fun getLastItemOrNull ()Lcafe/adriel/voyager/core/screen/Screen;
+	public synthetic fun getLastItemOrNull ()Ljava/lang/Object;
+	public fun getSize ()I
+	public final fun hide ()V
+	public fun isEmpty ()Z
+	public final fun isVisible ()Z
+	public fun plusAssign (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun plusAssign (Ljava/lang/Object;)V
+	public fun plusAssign (Ljava/util/List;)V
+	public fun pop ()Z
+	public fun popAll ()V
+	public fun popUntil (Lkotlin/jvm/functions/Function1;)Z
+	public fun push (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun push (Ljava/lang/Object;)V
+	public fun push (Ljava/util/List;)V
+	public fun replace (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun replace (Ljava/lang/Object;)V
+	public fun replaceAll (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public synthetic fun replaceAll (Ljava/lang/Object;)V
+	public fun replaceAll (Ljava/util/List;)V
+	public final fun saveableState (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public final fun show (Lcafe/adriel/voyager/core/screen/Screen;)V
+}
+
+public final class cafe/adriel/voyager/navigator/bottomSheet/BottomSheetNavigatorKt {
+	public static final fun BottomSheetNavigator-Tbvkuc8 (Landroidx/compose/ui/Modifier;ZJLandroidx/compose/ui/graphics/Shape;FJJZZLandroidx/compose/animation/core/AnimationSpec;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
+	public static final fun getLocalBottomSheetNavigator ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class cafe/adriel/voyager/navigator/bottomSheet/ComposableSingletons$BottomSheetNavigatorKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/navigator/bottomSheet/ComposableSingletons$BottomSheetNavigatorKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function3;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_bottom_sheet_navigator_release ()Lkotlin/jvm/functions/Function3;
+}
+
