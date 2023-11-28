@@ -31,7 +31,7 @@ public object ScreenLifecycleStore {
     @Deprecated(
         message = "Use `get` instead. Will be removed in 1.1.0.",
         replaceWith = ReplaceWith("ScreenLifecycleStore.get<T>(screen, factory)"),
-        level = DeprecationLevel.HIDDEN,
+        level = DeprecationLevel.HIDDEN
     )
     public inline fun <reified T : ScreenDisposable> register(
         screen: Screen,

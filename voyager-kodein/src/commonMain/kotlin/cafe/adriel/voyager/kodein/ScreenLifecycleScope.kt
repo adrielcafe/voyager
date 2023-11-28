@@ -28,7 +28,7 @@ public class ScreenContext(
     internal var disposeCallback: () -> Unit = {}
 
     internal fun onRegistryScope() {
-        ScreenLifecycleStore.register(screen) {
+        ScreenLifecycleStore.get(screen) {
             ScreenScopeLifecycleOwner(disposeCallback)
         }
     }
