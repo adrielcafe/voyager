@@ -19,6 +19,7 @@ kapt {
 }
 
 dependencies {
+    api(projects.voyagerScreenmodel)
     api(projects.voyagerNavigator)
 
     implementation(libs.compose.runtime)
