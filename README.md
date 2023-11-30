@@ -23,7 +23,7 @@ class HomeScreen : Screen {
 
     @Composable
     override fun Content() {
-        val screenModel = rememberScreenModel<HomeScreenModel>()
+        val screenModel = rememberScreenModel { HomeScreenModel() }
         // ...
     }
 }

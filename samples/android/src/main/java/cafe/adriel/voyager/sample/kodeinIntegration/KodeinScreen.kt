@@ -19,7 +19,7 @@ class KodeinScreen : Screen {
 
     @Composable
     override fun Content() {
-        val screenModel = rememberScreenModel<KodeinScreenModel>()
+        val screenModel = rememberScreenModel { KodeinScreenModel() }
         val scopedDependency by localDI().on(ScreenContext(this)).instance<KodeinScopedDependencySample>()
 
         Column {
