@@ -1,18 +1,19 @@
 package cafe.adriel.voyager.sample.hiltIntegration
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-// Until now, there is no support to assisted injection.
-// Follow the thread here: https://github.com/google/dagger/issues/2287
-class HiltDetailsViewModel(
-    val index: Int
+@HiltViewModel(assistedFactory = HiltDetailsViewModel.Factory::class)
+class HiltDetailsViewModel @AssistedInject constructor(
+    @Assisted val index: Int
 ) : ViewModel() {
-    companion object {
-        fun provideFactory(
-            index: Int
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T = HiltDetailsViewModel(index) as T
-        }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(index: Int): HiltDetailsViewModel
     }
+
 }
