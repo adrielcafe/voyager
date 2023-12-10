@@ -22,11 +22,12 @@ internal fun NavigatorBackHandler(
         // because `navigator.canPop` always returns `true` when stack min size is 1
         BackHandler(
             enabled = (navigator.size == 1 && !onBackPressed(navigator.lastItem)) ||
-                    navigator.canPop ||
-                    navigator.parent?.canPop ?: false,
+                navigator.canPop ||
+                navigator.parent?.canPop ?: false,
             onBack = {
-                if (onBackPressed(navigator.lastItem))
+                if (onBackPressed(navigator.lastItem)) {
                     navigator.popRecursively()
+                }
             }
         )
     }
