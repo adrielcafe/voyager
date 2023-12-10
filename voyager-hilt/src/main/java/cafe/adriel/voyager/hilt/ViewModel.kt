@@ -53,7 +53,7 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
 }
 
 /**
- * A function to provide a [dagger.hilt.android.lifecycle.HiltViewModel] managed by voyager ViewModelLifecycleOwner
+ * A function to provide a [dagger.hilt.android.lifecycle.HiltViewModel] managed by Voyager ViewModelLifecycleOwner
  * instead of using Activity ViewModelLifecycleOwner.
  * There is compatibility with Activity ViewModelLifecycleOwner too but it must be avoided because your ViewModels
  * will be cleared when activity is totally destroyed only.
@@ -63,9 +63,9 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
  * @return A new instance of [ViewModel] or the existent instance in the [ViewModelStore]
  */
 @Composable
-public inline fun <reified VM : ViewModel, VMF> Screen.getViewModel(
+public inline fun <reified VM : ViewModel, F> Screen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null,
-    noinline viewModelFactory: (VMF) -> VM,
+    noinline viewModelFactory: (F) -> VM,
 ) : VM {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
