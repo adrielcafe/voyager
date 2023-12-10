@@ -19,7 +19,7 @@ internal fun NavigatorBackHandler(
         )
     } else {
         // `navigator.size == 1` covers onBackPressed = { false } and empty stack
-        // because `navigator.canPop` always returns `true` when stack min size is 1
+        // because `navigator.canPop` always returns `false` when stack min size is 1
         BackHandler(
             enabled = (navigator.size == 1 && !onBackPressed(navigator.lastItem)) ||
                 navigator.canPop ||
