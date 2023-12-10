@@ -65,8 +65,8 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
 @Composable
 public inline fun <reified VM : ViewModel, F> Screen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null,
-    noinline viewModelFactory: (F) -> VM,
-) : VM {
+    noinline viewModelFactory: (F) -> VM
+): VM {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
@@ -80,11 +80,13 @@ public inline fun <reified VM : ViewModel, F> Screen.getViewModel(
             "$viewModelStoreOwner is null or have a null viewModelStore"
         }
 
-        val creationExtras = hasDefaultViewModelProviderFactory.defaultViewModelCreationExtras.withCreationCallback(viewModelFactory)
+        val creationExtras = hasDefaultViewModelProviderFactory.defaultViewModelCreationExtras
+            .withCreationCallback(viewModelFactory)
 
         val factory = VoyagerHiltViewModelFactories.getVoyagerFactory(
             activity = context.componentActivity,
-            delegateFactory = viewModelProviderFactory ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory
+            delegateFactory = viewModelProviderFactory
+                ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory
         )
 
         val provider = ViewModelProvider(

@@ -15,5 +15,4 @@ class HiltDetailsViewModel @AssistedInject constructor(
     interface Factory {
         fun create(index: Int): HiltDetailsViewModel
     }
-
 }
