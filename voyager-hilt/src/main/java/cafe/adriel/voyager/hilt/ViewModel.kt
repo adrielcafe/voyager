@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.internal.componentActivity
 import dagger.hilt.android.lifecycle.withCreationCallback
@@ -63,6 +64,7 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
  * @return A new instance of [ViewModel] or the existent instance in the [ViewModelStore]
  */
 @Composable
+@ExperimentalVoyagerApi
 public inline fun <reified VM : ViewModel, F> Screen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null,
     noinline viewModelFactory: (F) -> VM
