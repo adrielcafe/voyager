@@ -1,8 +1,8 @@
 # multiplatform sample
 
 ### Running iOS
-- IPhone: `./gradlew :samples:multiplatform:iosDeployIPhone8Debug`
-- IPad: `./gradlew :samples:multiplatform:iosDeployIPadDebug`
+- Open Xcode project with: `open samples/multiplatform-iosApp/iosApp.xcodeproj`
+- Run/Build in Xcode
 
 ### Running MacOS Native app (Desktop using Kotlin Native)
 ```shell

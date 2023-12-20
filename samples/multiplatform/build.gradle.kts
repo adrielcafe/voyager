@@ -2,7 +2,6 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi
 import org.jetbrains.compose.desktop.application.tasks.AbstractNativeMacApplicationPackageTask
-import org.jetbrains.compose.experimental.dsl.IOSDevices
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
@@ -13,9 +12,7 @@ plugins {
 
 setupModuleForComposeMultiplatform(
     fullyMultiplatform = true,
-    withKotlinExplicitMode = false,
-    // this is required for the Compose iOS Application DSL expect a `uikit` target name.
-    iosPrefixName = "uikit"
+    withKotlinExplicitMode = false
 )
 
 android {
@@ -38,21 +35,16 @@ kotlin {
     }
     macosX64(macOsConfiguation)
     macosArm64(macOsConfiguation)
-    val uikitConfiguration: KotlinNativeTarget.() -> Unit = {
-        binaries {
-            executable() {
-                entryPoint = "main"
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal",
-                    "-linker-option", "-framework", "-linker-option", "CoreText",
-                    "-linker-option", "-framework", "-linker-option", "CoreGraphics"
-                )
-            }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
         }
     }
-    iosX64("uikitX64", uikitConfiguration)
-    iosArm64("uikitArm64", uikitConfiguration)
-    iosSimulatorArm64("uikitSimulatorArm64", uikitConfiguration)
 
     js(IR) {
         browser()
@@ -134,17 +126,5 @@ afterEvaluate {
 }
 
 compose.experimental {
-    uikit.application {
-        bundleIdPrefix = "cafe.adriel.voyager"
-        projectName = "MultiplatformSample"
-        deployConfigurations {
-            simulator("IPhone8") {
-                device = IOSDevices.IPHONE_8
-            }
-            simulator("IPad") {
-                device = IOSDevices.IPAD_MINI_6th_Gen
-            }
-        }
-    }
     web.application {}
 }
