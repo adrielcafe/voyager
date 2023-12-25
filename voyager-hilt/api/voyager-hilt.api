@@ -24,6 +24,13 @@ public abstract interface annotation class cafe/adriel/voyager/hilt/ScreenModelK
 	public abstract fun value ()Ljava/lang/Class;
 }
 
+public final class cafe/adriel/voyager/hilt/ViewModelKt {
+	public static final fun createVoyagerFactory (Landroidx/lifecycle/ViewModelStoreOwner;Landroid/content/Context;Landroidx/lifecycle/ViewModelProvider$Factory;)Landroidx/lifecycle/ViewModelProvider$Factory;
+	public static synthetic fun createVoyagerFactory$default (Landroidx/lifecycle/ViewModelStoreOwner;Landroid/content/Context;Landroidx/lifecycle/ViewModelProvider$Factory;ILjava/lang/Object;)Landroidx/lifecycle/ViewModelProvider$Factory;
+	public static final fun get (Landroidx/lifecycle/ViewModelStoreOwner;Ljava/lang/Class;Ljava/lang/String;Landroidx/lifecycle/ViewModelProvider$Factory;Landroidx/lifecycle/viewmodel/CreationExtras;)Landroidx/lifecycle/ViewModel;
+	public static synthetic fun get$default (Landroidx/lifecycle/ViewModelStoreOwner;Ljava/lang/Class;Ljava/lang/String;Landroidx/lifecycle/ViewModelProvider$Factory;Landroidx/lifecycle/viewmodel/CreationExtras;ILjava/lang/Object;)Landroidx/lifecycle/ViewModel;
+}
+
 public final class cafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories {
 	public static final field $stable I
 	public static final field INSTANCE Lcafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories;
