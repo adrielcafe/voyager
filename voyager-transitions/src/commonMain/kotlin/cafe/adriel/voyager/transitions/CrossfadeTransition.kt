@@ -9,7 +9,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 
 @Composable
-fun CrossfadeTransition(
+public fun CrossfadeTransition(
     navigator: Navigator,
     animationSpec: FiniteAnimationSpec<Float> = tween(),
     label: String = "Crossfade",
