@@ -5,7 +5,10 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform(fullyMultiplatform = true)
+setupModuleForComposeMultiplatform(
+    fullyMultiplatform = true,
+    enableWasm = false, // https://github.com/kosi-libs/Kodein/issues/447
+)
 
 android {
     namespace = "cafe.adriel.voyager.kodein"

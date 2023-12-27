@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     id("com.vanniktech.maven.publish")
+    id("kotlinx-atomicfu")
 }
 
 setupModuleForComposeMultiplatform(fullyMultiplatform = true)
@@ -36,7 +37,7 @@ kotlin {
                 implementation(libs.lifecycle.viewModelCompose)
             }
         }
-        val jsMain by getting {
+        val commonWebMain by getting {
             dependencies {
                 implementation(libs.multiplatformUuid)
             }

@@ -15,6 +15,7 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 private fun BaseExtension.setupAndroid() {
@@ -69,6 +70,7 @@ fun Project.setupModuleForAndroidxCompose(
 fun Project.setupModuleForComposeMultiplatform(
     withKotlinExplicitMode: Boolean = true,
     fullyMultiplatform: Boolean = false,
+    enableWasm: Boolean = true,
     iosPrefixName: String = "ios" // only used in ios sample
 ) {
     plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper> {
@@ -91,6 +93,10 @@ fun Project.setupModuleForComposeMultiplatform(
             if (fullyMultiplatform) {
                 js(IR) {
                     browser()
+                }
+                if (enableWasm) {
+                    @OptIn(ExperimentalWasmDsl::class)
+                    wasmJs { browser() }
                 }
                 macosX64()
                 macosArm64()
@@ -126,6 +132,13 @@ fun Project.setupModuleForComposeMultiplatform(
                 }
 
                 if (fullyMultiplatform) {
+                    val commonWebMain by creating {
+                        dependsOn(commonMain)
+                    }
+
+                    val jsMain by getting
+                    jsMain.dependsOn(commonWebMain)
+
                     val nativeMain by creating {
                         dependsOn(commonMain)
                     }
@@ -144,6 +157,11 @@ fun Project.setupModuleForComposeMultiplatform(
                     }
                     val iosSimulatorArm64Main = getByName(iosPrefixName + "SimulatorArm64Main").apply {
                         dependsOn(iosMain)
+                    }
+
+                    if (enableWasm) {
+                        val wasmJsMain by getting
+                        wasmJsMain.dependsOn(commonWebMain)
                     }
                 }
             }

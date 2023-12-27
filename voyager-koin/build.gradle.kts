@@ -5,7 +5,10 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-setupModuleForComposeMultiplatform(fullyMultiplatform = true)
+setupModuleForComposeMultiplatform(
+    fullyMultiplatform = true,
+    enableWasm = false, // https://github.com/InsertKoinIO/koin/issues/1634
+)
 
 android {
     namespace = "cafe.adriel.voyager.koin"

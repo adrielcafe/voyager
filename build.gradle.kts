@@ -11,6 +11,7 @@ buildscript {
         classpath(libs.plugin.ktlint)
         classpath(libs.plugin.maven)
         classpath(libs.plugin.multiplatform.compose)
+        classpath(libs.plugin.atomicfu)
     }
 }
 

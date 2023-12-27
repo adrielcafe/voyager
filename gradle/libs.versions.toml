@@ -2,10 +2,11 @@
 plugin-android = "8.1.1"
 plugin-ktlint = "11.5.1"
 plugin-maven = "0.25.3"
-plugin-multiplatform-compose = "1.5.11"
+plugin-multiplatform-compose = "1.6.0-alpha01"
 plugin-binaryCompatibilityValidator = "0.13.2"
+plugin-atomicfu = "0.23.1"
 
-coroutines = "1.7.3"
+coroutines = "1.8.0-RC"
 kotlin = "1.9.21"
 kodein = "7.20.2"
 koin = "3.4.3"
@@ -24,7 +25,7 @@ rxjava = "3.1.5"
 
 junit = "5.10.0"
 
-multiplatformUuid = "0.8.1"
+multiplatformUuid = "0.8.2"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
@@ -33,6 +34,7 @@ plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref =
 plugin-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "plugin-maven" }
 plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "plugin-multiplatform-compose" }
+plugin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "plugin-atomicfu" }
 
 leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
