@@ -92,19 +92,19 @@ public class AndroidScreenLifecycleOwner private constructor() :
         isCreated = true
         controller.performRestore(savedState)
         initEvents.forEach {
-            lifecycle.handleLifecycleEvent(it)
+            lifecycle.safeHandleLifecycleEvent(it)
         }
     }
 
     private fun emitOnStartEvents() {
         startEvents.forEach {
-            lifecycle.handleLifecycleEvent(it)
+            lifecycle.safeHandleLifecycleEvent(it)
         }
     }
 
     private fun emitOnStopEvents() {
         stopEvents.forEach {
-            lifecycle.handleLifecycleEvent(it)
+            lifecycle.safeHandleLifecycleEvent(it)
         }
     }
 
@@ -130,7 +130,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         if (activity != null && activity.isChangingConfigurations) return
         viewModelStore.clear()
         disposeEvents.forEach { event ->
-            lifecycle.handleLifecycleEvent(event)
+            lifecycle.safeHandleLifecycleEvent(event)
         }
     }
 
@@ -160,19 +160,19 @@ public class AndroidScreenLifecycleOwner private constructor() :
         if (lifecycleOwner != null) {
             val observer = object : DefaultLifecycleObserver {
                 override fun onPause(owner: LifecycleOwner) {
-                    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
                 }
 
                 override fun onResume(owner: LifecycleOwner) {
-                    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_RESUME)
                 }
 
                 override fun onStart(owner: LifecycleOwner) {
-                    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
+                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_START)
                 }
 
                 override fun onStop(owner: LifecycleOwner) {
-                    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_STOP)
 
                     // when the Application goes to background, perform save
                     performSave(outState)
@@ -220,6 +220,13 @@ public class AndroidScreenLifecycleOwner private constructor() :
         is Application -> this
         is ContextWrapper -> baseContext.getApplication()
         else -> null
+    }
+
+    private fun LifecycleRegistry.safeHandleLifecycleEvent(event: Lifecycle.Event) {
+        val currentState = currentState
+        if(!currentState.isAtLeast(Lifecycle.State.INITIALIZED)) return
+
+        handleLifecycleEvent(event)
     }
 
     public companion object {
