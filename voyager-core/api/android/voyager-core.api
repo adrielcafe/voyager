@@ -15,6 +15,11 @@ public final class cafe/adriel/voyager/androidx/AndroidScreenLifecycleOwner$Comp
 	public final fun get (Lcafe/adriel/voyager/core/screen/Screen;)Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner;
 }
 
+public final class cafe/adriel/voyager/androidx/ContextExtKt {
+	public static final fun getApplication (Landroid/content/Context;)Landroid/app/Application;
+	public static final fun getComponentActivity (Landroid/content/Context;)Landroidx/activity/ComponentActivity;
+}
+
 public abstract interface annotation class cafe/adriel/voyager/core/annotation/ExperimentalVoyagerApi : java/lang/annotation/Annotation {
 }
 

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.androidx.componentActivity
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.rememberNavigatorScreenModel
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -14,6 +15,7 @@ import dagger.hilt.android.EntryPointAccessors
 
 @Composable
 @PublishedApi
+@InternalVoyagerApi
 internal fun getActivity(): ComponentActivity {
     val context = LocalContext.current
     return remember(context) {
@@ -24,6 +26,7 @@ internal fun getActivity(): ComponentActivity {
 }
 
 @PublishedApi
+@InternalVoyagerApi
 internal inline fun <reified T : ScreenModel> createScreenModel(
     activity: ComponentActivity
 ): T {
@@ -40,6 +43,7 @@ internal inline fun <reified T : ScreenModel> createScreenModel(
 }
 
 @PublishedApi
+@InternalVoyagerApi
 internal inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> createScreenModelUsingFactory(
     activity: ComponentActivity,
     noinline factory: (F) -> T
