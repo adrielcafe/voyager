@@ -112,8 +112,12 @@ internal inline fun <reified T : ViewModel, VMF> Screen.getViewModel(
     val delegateFactory = remember(key1 = key) {
         when {
             viewModelProviderFactory != null -> viewModelProviderFactory
-            viewModelStoreOwner is HasDefaultViewModelProviderFactory -> viewModelStoreOwner.defaultViewModelProviderFactory
-            else -> error("A custom ViewModelProvider.Factory or your ViewModelStoreOwner be a HasDefaultViewModelProviderFactory is required")
+            viewModelStoreOwner is HasDefaultViewModelProviderFactory ->
+                viewModelStoreOwner.defaultViewModelProviderFactory
+            else -> error(
+                "A custom ViewModelProvider.Factory or your " +
+                    "ViewModelStoreOwner be a HasDefaultViewModelProviderFactory is required"
+            )
         }
     }
     val activity = getActivity()

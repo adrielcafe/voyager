@@ -33,8 +33,8 @@ internal inline fun <reified T : ScreenModel> createScreenModel(
     val model = screenModels[T::class.java]?.get()
         ?: error(
             "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                    "declaration to your ScreenModel using @IntoMap and " +
-                    "@ScreenModelKey(${T::class.qualifiedName}::class)"
+                "declaration to your ScreenModel using @IntoMap and " +
+                "@ScreenModelKey(${T::class.qualifiedName}::class)"
         )
     return model as T
 }
@@ -42,7 +42,7 @@ internal inline fun <reified T : ScreenModel> createScreenModel(
 @PublishedApi
 internal inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> createScreenModelUsingFactory(
     activity: ComponentActivity,
-    noinline factory: (F) -> T,
+    noinline factory: (F) -> T
 ): T {
     val screenFactories = EntryPointAccessors
         .fromActivity(activity, ScreenModelEntryPoint::class.java)
@@ -50,8 +50,8 @@ internal inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> cr
     val screenFactory = screenFactories[F::class.java]?.get()
         ?: error(
             "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                    "declaration to your ScreenModelFactory using @IntoMap and " +
-                    "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
+                "declaration to your ScreenModelFactory using @IntoMap and " +
+                "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
         )
     return factory.invoke(screenFactory as F)
 }
@@ -86,7 +86,7 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Scre
     return rememberScreenModel(tag = tag) {
         createScreenModelUsingFactory<T, F>(
             activity = activity,
-            factory = factory,
+            factory = factory
         )
     }
 }
@@ -122,7 +122,7 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Navi
     return rememberNavigatorScreenModel(tag = tag) {
         createScreenModelUsingFactory<T, F>(
             activity = activity,
-            factory = factory,
+            factory = factory
         )
     }
 }

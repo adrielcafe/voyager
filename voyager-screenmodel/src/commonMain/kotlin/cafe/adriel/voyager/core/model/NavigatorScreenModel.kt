@@ -49,7 +49,7 @@ public inline fun <reified T : ScreenModel> Screen.navigatorScreenModel(
     while (screenModel == null) {
         screenModel = ScreenModelStore.getOrNull(
             holderKey = navigator.key,
-            tag = tag,
+            tag = tag
         )
         navigator = navigator.parent ?: break
     }

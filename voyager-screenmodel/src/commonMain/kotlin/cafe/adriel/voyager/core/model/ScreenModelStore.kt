@@ -72,7 +72,7 @@ public object ScreenModelStore : ScreenDisposable {
     @InternalVoyagerApi
     public inline fun <reified T : ScreenModel> getOrNull(
         holderKey: String,
-        tag: String?,
+        tag: String?
     ): T? {
         val key = getKey<T>(holderKey, tag)
         return screenModels[key] as T?
