@@ -224,7 +224,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private fun LifecycleRegistry.safeHandleLifecycleEvent(event: Lifecycle.Event) {
         val currentState = currentState
-        if(!currentState.isAtLeast(Lifecycle.State.INITIALIZED)) return
+        if (!currentState.isAtLeast(Lifecycle.State.INITIALIZED)) return
 
         handleLifecycleEvent(event)
     }
