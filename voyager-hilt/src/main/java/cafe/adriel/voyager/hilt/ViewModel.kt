@@ -52,8 +52,8 @@ public inline fun <reified T : ViewModel> Screen.hiltViewModel(
  * A function to provide a [dagger.hilt.android.lifecycle.HiltViewModel] managed by voyager [Screen] lifecycle
  * instead of using Activity or Fragment LifecycleOwner.
  *
- * @param key The key used to identify the [ViewModel]. Default is null
  * @param viewModelFactory A custom callback to be used for assisted injection
+ * @param key The key used to identify the [ViewModel]. Default is null
  * @param viewModelStoreOwner The owner of the [ViewModel] that controls the scope and lifetime
  * of the returned [ViewModel]. Defaults to using [LocalViewModelStoreOwner].
  * @param extras The default extras used to create the [ViewModel].
@@ -62,8 +62,8 @@ public inline fun <reified T : ViewModel> Screen.hiltViewModel(
  */
 @Composable
 public inline fun <reified T : ViewModel, VMF> Screen.hiltViewModel(
+    noinline viewModelFactory: ViewModelFactory<VMF>,
     key: String? = null,
-    noinline viewModelFactory: ViewModelFactory<VMF>? = null,
     viewModelStoreOwner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     },
