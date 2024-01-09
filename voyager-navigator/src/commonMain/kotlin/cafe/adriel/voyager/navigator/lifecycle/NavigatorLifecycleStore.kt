@@ -1,7 +1,9 @@
 package cafe.adriel.voyager.navigator.lifecycle
 
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
+import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.internal.NavigatorScreen
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
@@ -39,5 +41,6 @@ public object NavigatorLifecycleStore {
 
     public fun remove(navigator: Navigator) {
         owners.remove(navigator.key)?.forEach { it.value.onDispose(navigator) }
+        ScreenLifecycleStore.remove(screen = NavigatorScreen(key = navigator.key))
     }
 }

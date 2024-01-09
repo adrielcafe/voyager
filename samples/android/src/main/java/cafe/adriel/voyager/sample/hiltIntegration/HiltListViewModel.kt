@@ -1,5 +1,6 @@
 package cafe.adriel.voyager.sample.hiltIntegration
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import cafe.adriel.voyager.sample.sampleItems
@@ -19,4 +20,8 @@ class HiltListViewModel @Inject constructor(
 
     val items: List<String>
         get() = handle["items"] ?: error("Items not found")
+
+    override fun onCleared() {
+        Log.d(">> TAG <<", "HiltListViewModel cleared")
+    }
 }

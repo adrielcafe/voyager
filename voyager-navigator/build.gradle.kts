@@ -31,6 +31,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.activity)
+                implementation(libs.lifecycle.viewModelCompose)
             }
         }
     }
