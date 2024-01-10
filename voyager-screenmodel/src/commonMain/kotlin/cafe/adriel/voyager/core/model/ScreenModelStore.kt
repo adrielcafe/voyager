@@ -68,16 +68,6 @@ public object ScreenModelStore : ScreenDisposable {
         return screenModels.getOrPut(key, factory) as T
     }
 
-    // Public: used in Navigator Scoped ScreenModels
-    @InternalVoyagerApi
-    public inline fun <reified T : ScreenModel> getOrNull(
-        holderKey: String,
-        tag: String?
-    ): T? {
-        val key = getKey<T>(holderKey, tag)
-        return screenModels[key] as T?
-    }
-
     public inline fun <reified T : Any> getOrPutDependency(
         screenModel: ScreenModel,
         name: String,
