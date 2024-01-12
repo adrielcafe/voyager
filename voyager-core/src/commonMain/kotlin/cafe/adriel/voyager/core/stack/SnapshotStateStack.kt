@@ -1,7 +1,6 @@
 package cafe.adriel.voyager.core.stack
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -9,48 +8,35 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 
-public fun <Item> List<Item>.toMutableStateStack(
+public fun <Item> List<Item>.toMutableSnapshotStateStack(
     minSize: Int = 0
-): SnapshotStateStack<Item> =
-    SnapshotStateStack(this, minSize)
+): SnapshotStateStack<Item> = SnapshotStateStack(this, minSize)
 
-public fun <Item> mutableStateStackOf(
+public fun <Item> mutableSnapshotStateStackOf(
     vararg items: Item,
     minSize: Int = 0
-): SnapshotStateStack<Item> =
-    SnapshotStateStack(*items, minSize = minSize)
+): SnapshotStateStack<Item> = SnapshotStateStack((items as List<Item>), minSize = minSize)
 
 @Composable
-public fun <Item : Any> rememberStateStack(
-    vararg items: Item,
-    minSize: Int = 0
-): SnapshotStateStack<Item> =
-    rememberStateStack(items.toList(), minSize)
-
-@Composable
-public fun <Item : Any> rememberStateStack(
+public fun <Item : Any> rememberSnapshotStateStack(
     items: List<Item>,
     minSize: Int = 0
-): SnapshotStateStack<Item> =
-    rememberSaveable(saver = stackSaver(minSize)) {
-        SnapshotStateStack(items, minSize)
-    }
+): SnapshotStateStack<Item> = rememberSaveable(saver = stackSaver(minSize)) {
+    SnapshotStateStack(items, minSize)
+}
 
 private fun <Item : Any> stackSaver(
     minSize: Int
-): Saver<SnapshotStateStack<Item>, Any> =
-    listSaver(
-        save = { stack -> stack.items },
-        restore = { items -> SnapshotStateStack(items, minSize) }
-    )
+): Saver<SnapshotStateStack<Item>, Any> = listSaver(
+    save = { stack -> stack.items },
+    restore = { items -> SnapshotStateStack(items, minSize) }
+)
 
 public class SnapshotStateStack<Item>(
     items: List<Item>,
     minSize: Int = 0
-) : Stack<Item> {
+) : SnapshotStatePropertyHolderStack<Item>(items, minSize), Stack<Item> {
 
     public constructor(
         vararg items: Item,
@@ -60,36 +46,8 @@ public class SnapshotStateStack<Item>(
         minSize = minSize
     )
 
-    init {
-        require(minSize >= 0) { "Min size $minSize is less than zero" }
-        require(items.size >= minSize) { "Stack size ${items.size} is less than the min size $minSize" }
-    }
-
-    @PublishedApi
-    internal val stateStack: SnapshotStateList<Item> = items.toMutableStateList()
-
     public override var lastEvent: StackEvent by mutableStateOf(StackEvent.Idle, neverEqualPolicy())
         private set
-
-    public override val items: List<Item> by derivedStateOf {
-        stateStack.toList()
-    }
-
-    public override val lastItemOrNull: Item? by derivedStateOf {
-        stateStack.lastOrNull()
-    }
-
-    public override val size: Int by derivedStateOf {
-        stateStack.size
-    }
-
-    public override val isEmpty: Boolean by derivedStateOf {
-        stateStack.isEmpty()
-    }
-
-    public override val canPop: Boolean by derivedStateOf {
-        stateStack.size > minSize
-    }
 
     public override infix fun push(item: Item) {
         stateStack += item
@@ -131,10 +89,6 @@ public class SnapshotStateStack<Item>(
             false
         }
 
-    public override fun popAll() {
-        popUntil { false }
-    }
-
     public override infix fun popUntil(predicate: (Item) -> Boolean): Boolean {
         var success = false
         val shouldPop = {
@@ -152,6 +106,10 @@ public class SnapshotStateStack<Item>(
         lastEvent = StackEvent.Pop
 
         return success
+    }
+
+    public override fun popAll() {
+        popUntil { false }
     }
 
     public override operator fun plusAssign(item: Item) {

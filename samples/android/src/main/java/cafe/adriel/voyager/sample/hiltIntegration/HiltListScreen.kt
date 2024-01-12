@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.push
 import cafe.adriel.voyager.sample.ListContent
 
 class HiltListScreen : Screen {
@@ -17,6 +18,6 @@ class HiltListScreen : Screen {
         // Uncomment version below if you want to use ScreenModel
         // val viewModel: HiltListScreenModel = getScreenModel()
 
-        ListContent(viewModel.items, onClick = { index -> navigator.push(HiltDetailsScreen(index)) })
+        ListContent(viewModel.items, onClick = { index -> navigator.push(HiltDetailsScreen(index)) } )
     }
 }

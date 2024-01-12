@@ -23,6 +23,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.pop
+import cafe.adriel.voyager.navigator.push
+import cafe.adriel.voyager.navigator.replace
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -70,7 +73,7 @@ data class SampleParcelableScreen(
             ) {
                 Button(
                     enabled = navigator.canPop,
-                    onClick = navigator::pop,
+                    onClick = { navigator.pop() },
                     modifier = Modifier.weight(.5f)
                 ) {
                     Text(text = "Pop")

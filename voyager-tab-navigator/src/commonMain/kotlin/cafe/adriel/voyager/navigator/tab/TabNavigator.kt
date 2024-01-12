@@ -61,7 +61,12 @@ public class TabNavigator internal constructor(
 
     public var current: Tab
         get() = navigator.lastItem as Tab
-        set(tab) = navigator.replaceAll(tab)
+        private set(value) {}
+
+    public fun setCurrent(invoker: Tab, newTab: Tab) {
+        navigator.replaceAll(invoker, newTab)
+        current = newTab
+    }
 
     @Composable
     public fun saveableState(

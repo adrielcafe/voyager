@@ -67,7 +67,7 @@ class TabNavigationActivity : ComponentActivity() {
 
         BottomNavigationItem(
             selected = tabNavigator.current.key == tab.key,
-            onClick = { tabNavigator.current = tab },
+            onClick = { tabNavigator.setCurrent(invoker = tabNavigator.current, newTab = tab) },
             icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
         )
     }

@@ -34,7 +34,7 @@ fun Tab.TabContent() {
             Column {
                 InnerTabNavigation()
                 screen.Content()
-                Log.d("Navigator", "Last Event: ${navigator.lastEvent}")
+                Log.d("Navigator", "Last Event: ${navigator.lastAction.event}")
             }
         }
     }
@@ -65,7 +65,7 @@ private fun RowScope.TabNavigationButton(
 
     Button(
         enabled = tabNavigator.current.key != tab.key,
-        onClick = { tabNavigator.current = tab },
+        onClick = { tabNavigator.setCurrent(invoker = tabNavigator.current, newTab = tab) },
         modifier = Modifier.weight(1f)
     ) {
         Text(text = tab.options.title)

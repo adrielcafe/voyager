@@ -42,7 +42,7 @@ class NestedNavigationActivity : ComponentActivity() {
                 NestedNavigation(backgroundColor = Color.White) { navigator ->
                     CurrentScreen()
                     Button(
-                        onClick = { navigator.popUntilRoot() },
+                        onClick = { navigator.popUntilRoot(navigator.lastItem) },
                         modifier = Modifier.padding(bottom = 16.dp)
                     ) {
                         Text(text = "Pop Until Root")

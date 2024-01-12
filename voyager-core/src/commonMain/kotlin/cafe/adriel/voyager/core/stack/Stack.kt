@@ -10,11 +10,9 @@ public enum class StackEvent {
     Idle
 }
 
-public interface Stack<Item> {
+public interface PropertyHolderStack<Item> {
 
     public val items: List<Item>
-
-    public val lastEvent: StackEvent
 
     public val lastItemOrNull: Item?
 
@@ -23,6 +21,11 @@ public interface Stack<Item> {
     public val isEmpty: Boolean
 
     public val canPop: Boolean
+}
+
+public interface Stack<Item> : PropertyHolderStack<Item> {
+
+    public val lastEvent: StackEvent
 
     public infix fun push(item: Item)
 
@@ -34,15 +37,47 @@ public interface Stack<Item> {
 
     public infix fun replaceAll(items: List<Item>)
 
+    public infix fun popUntil(predicate: (Item) -> Boolean): Boolean
+
     public fun pop(): Boolean
 
     public fun popAll()
-
-    public infix fun popUntil(predicate: (Item) -> Boolean): Boolean
 
     public operator fun plusAssign(item: Item)
 
     public operator fun plusAssign(items: List<Item>)
 
     public fun clearEvent()
+}
+
+public data class StackLastAction<Item>(
+    val invoker: Item?,
+    val event: StackEvent,
+)
+
+/**
+ * A [PropertyHolderStack] a stack that keeps track of the last action performed in it.
+ * Crucial API difference from [Stack] is that this interface can't perform infix or operator functions.
+ */
+public interface WithLastActionStack<Item> : PropertyHolderStack<Item> {
+
+    public val lastAction: StackLastAction<Item>
+
+    public fun push(invoker: Item, item: Item)
+
+    public fun push(invoker: Item, items: List<Item>)
+
+    public fun replace(invoker: Item, item: Item)
+
+    public fun replaceAll(invoker: Item, item: Item)
+
+    public fun replaceAll(invoker: Item, items: List<Item>)
+
+    public fun pop(invoker: Item): Boolean
+
+    public fun popUntil(invoker: Item, predicate: (Item) -> Boolean): Boolean
+
+    public fun popAll(invoker: Item)
+
+    public fun clearEvent(invoker: Item)
 }

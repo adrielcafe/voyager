@@ -12,6 +12,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -31,7 +32,7 @@ public fun SlideTransition(
         modifier = modifier,
         content = content,
         transition = {
-            val (initialOffset, targetOffset) = when (navigator.lastEvent) {
+            val (initialOffset, targetOffset) = when (navigator.lastAction.event) {
                 StackEvent.Pop -> ({ size: Int -> -size }) to ({ size: Int -> size })
                 else -> ({ size: Int -> size }) to ({ size: Int -> -size })
             }
@@ -39,10 +40,10 @@ public fun SlideTransition(
             when (orientation) {
                 SlideOrientation.Horizontal ->
                     slideInHorizontally(animationSpec, initialOffset) togetherWith
-                        slideOutHorizontally(animationSpec, targetOffset)
+                            slideOutHorizontally(animationSpec, targetOffset)
                 SlideOrientation.Vertical ->
                     slideInVertically(animationSpec, initialOffset) togetherWith
-                        slideOutVertically(animationSpec, targetOffset)
+                            slideOutVertically(animationSpec, targetOffset)
             }
         }
     )

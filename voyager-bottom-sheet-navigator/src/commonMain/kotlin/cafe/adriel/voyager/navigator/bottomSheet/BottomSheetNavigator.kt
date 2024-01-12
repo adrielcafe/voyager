@@ -26,8 +26,10 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
+import cafe.adriel.voyager.core.stack.WithLastActionStack
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.NavigatorOld
 import cafe.adriel.voyager.navigator.bottomSheet.internal.BottomSheetNavigatorBackHandler
 import cafe.adriel.voyager.navigator.compositionUniqueId
 import kotlinx.coroutines.CoroutineScope
@@ -99,8 +101,8 @@ public fun BottomSheetNavigator(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-public class BottomSheetNavigator @InternalVoyagerApi constructor(
-    private val navigator: Navigator,
+public class BottomSheetNavigatorSimple @InternalVoyagerApi constructor(
+    private val navigator: NavigatorOld,
     private val sheetState: ModalBottomSheetState,
     private val coroutineScope: CoroutineScope
 ) : Stack<Screen> by navigator {
@@ -110,7 +112,7 @@ public class BottomSheetNavigator @InternalVoyagerApi constructor(
 
     public fun show(screen: Screen) {
         coroutineScope.launch {
-            replaceAll(screen)
+            navigator.replaceAll(screen)
             sheetState.show()
         }
     }
@@ -119,10 +121,48 @@ public class BottomSheetNavigator @InternalVoyagerApi constructor(
         coroutineScope.launch {
             if (isVisible) {
                 sheetState.hide()
-                replaceAll(HiddenBottomSheetScreen)
+                navigator.replaceAll(HiddenBottomSheetScreen)
             } else if (sheetState.targetValue == ModalBottomSheetValue.Hidden) {
                 // Swipe down - sheetState is already hidden here so `isVisible` is false
-                replaceAll(HiddenBottomSheetScreen)
+                navigator.replaceAll(HiddenBottomSheetScreen)
+            }
+        }
+    }
+
+    @Composable
+    public fun saveableState(
+        key: String,
+        content: @Composable () -> Unit
+    ) {
+        navigator.saveableState(key, content = content)
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+public class BottomSheetNavigator @InternalVoyagerApi constructor(
+    private val navigator: Navigator,
+    private val sheetState: ModalBottomSheetState,
+    private val coroutineScope: CoroutineScope
+) : WithLastActionStack<Screen> by navigator {
+
+    public val isVisible: Boolean
+        get() = sheetState.isVisible
+
+    public fun show(screen: Screen) {
+        coroutineScope.launch {
+            navigator.replaceAll(navigator.lastItem, screen)
+            sheetState.show()
+        }
+    }
+
+    public fun hide() {
+        coroutineScope.launch {
+            if (isVisible) {
+                sheetState.hide()
+                navigator.replaceAll(navigator.lastItem, HiddenBottomSheetScreen)
+            } else if (sheetState.targetValue == ModalBottomSheetValue.Hidden) {
+                // Swipe down - sheetState is already hidden here so `isVisible` is false
+                navigator.replaceAll(navigator.lastItem, HiddenBottomSheetScreen)
             }
         }
     }

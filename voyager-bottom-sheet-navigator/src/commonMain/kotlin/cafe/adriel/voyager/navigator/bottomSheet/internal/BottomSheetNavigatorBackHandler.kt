@@ -16,8 +16,10 @@ internal fun BottomSheetNavigatorBackHandler(
     hideOnBackPress: Boolean
 ) {
     BackHandler(enabled = sheetState.isVisible) {
-        if (navigator.pop().not() && hideOnBackPress) {
-            navigator.hide()
+        navigator.lastItemOrNull?.let {
+            if (navigator.pop(it).not() && hideOnBackPress) {
+                navigator.hide()
+            }
         }
     }
 }

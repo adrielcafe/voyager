@@ -11,6 +11,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.pop
 import cafe.adriel.voyager.sample.DetailsContent
 import cafe.adriel.voyager.sample.LoadingContent
 
@@ -28,7 +29,9 @@ data class DetailsScreen(
 
         when (val result = state) {
             is DetailsScreenModel.State.Loading -> LoadingContent()
-            is DetailsScreenModel.State.Result -> DetailsContent(screenModel, result.item, navigator::pop)
+            is DetailsScreenModel.State.Result -> DetailsContent(screenModel, result.item) {
+                navigator.pop()
+            }
         }
 
         LaunchedEffect(currentCompositeKeyHash) {

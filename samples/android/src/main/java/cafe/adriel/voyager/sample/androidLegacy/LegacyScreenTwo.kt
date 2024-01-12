@@ -18,6 +18,7 @@ import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.hilt.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.pop
 
 class LegacyScreenTwo : Screen {
     override val key: ScreenKey = uniqueScreenKey
@@ -47,7 +48,7 @@ class LegacyScreenTwo : Screen {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = navigator::pop,
+                onClick = { navigator.pop() },
                 content = { Text(text = "Go to One") }
             )
         }

@@ -7,6 +7,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.push
 import cafe.adriel.voyager.sample.ListContent
 
 class AndroidListScreen : Screen {
@@ -17,6 +18,8 @@ class AndroidListScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel = viewModel<AndroidListViewModel>()
 
-        ListContent(viewModel.items, onClick = { index -> navigator.push(AndroidDetailsScreen(index)) })
+        ListContent(viewModel.items, onClick = {
+            index -> navigator.push(AndroidDetailsScreen(index))
+        })
     }
 }

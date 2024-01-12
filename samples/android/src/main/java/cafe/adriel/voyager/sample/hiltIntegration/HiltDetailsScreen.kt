@@ -7,6 +7,7 @@ import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.hilt.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.pop
 import cafe.adriel.voyager.sample.DetailsContent
 
 data class HiltDetailsScreen(
@@ -28,6 +29,8 @@ data class HiltDetailsScreen(
             factory.create(index)
         }
 
-        DetailsContent(viewModel, "Item #${viewModel.index}", navigator::pop)
+        DetailsContent(viewModel, "Item #${viewModel.index}") {
+            navigator.pop()
+        }
     }
 }

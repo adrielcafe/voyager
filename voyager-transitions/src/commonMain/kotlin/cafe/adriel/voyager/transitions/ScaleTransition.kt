@@ -26,7 +26,7 @@ public fun ScaleTransition(
         modifier = modifier,
         content = content,
         transition = {
-            val (initialScale, targetScale) = when (navigator.lastEvent) {
+            val (initialScale, targetScale) = when (navigator.lastAction.event) {
                 StackEvent.Pop -> ExitScales
                 else -> EnterScales
             }

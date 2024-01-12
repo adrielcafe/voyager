@@ -25,7 +25,7 @@ public fun ScreenTransition(
         modifier = modifier,
         content = content,
         transition = {
-            when (navigator.lastEvent) {
+            when (navigator.lastAction.event) {
                 StackEvent.Pop -> exitTransition()
                 else -> enterTransition()
             }

@@ -30,11 +30,11 @@ internal fun StepDisposableEffect(
     DisposableEffect(currentScreens) {
         onDispose {
             val newScreenKeys = navigator.items.map { it.key }
-            if (navigator.lastEvent in disposableEvents) {
+            if (navigator.lastAction.event in disposableEvents) {
                 currentScreens.filter { it.key !in newScreenKeys }.forEach {
                     navigator.dispose(it)
                 }
-                navigator.clearEvent()
+                navigator.clearEvent(navigator.lastItem)
             }
         }
     }
@@ -78,5 +78,5 @@ internal fun disposeNavigator(navigator: Navigator) {
         navigator.dispose(screen)
     }
     NavigatorLifecycleStore.remove(navigator)
-    navigator.clearEvent()
+    navigator.clearEvent(navigator.lastItem)
 }

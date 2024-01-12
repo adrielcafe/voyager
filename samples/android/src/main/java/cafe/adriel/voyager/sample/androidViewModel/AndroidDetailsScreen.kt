@@ -5,7 +5,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.pop
 import cafe.adriel.voyager.sample.DetailsContent
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -20,6 +22,8 @@ data class AndroidDetailsScreen(
         val navigator = LocalNavigator.currentOrThrow
         val viewModel = getViewModel<AndroidDetailsViewModel> { parametersOf(index) }
 
-        DetailsContent(viewModel, "Item #${viewModel.index}", navigator::pop)
+        DetailsContent(viewModel, "Item #${viewModel.index}") {
+            navigator.pop()
+        }
     }
 }

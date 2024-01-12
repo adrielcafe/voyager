@@ -18,8 +18,10 @@ import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.stack.SnapshotStateStack
 import cafe.adriel.voyager.core.stack.Stack
-import cafe.adriel.voyager.core.stack.toMutableStateStack
+import cafe.adriel.voyager.core.stack.WithLastActionSnapshotStackState
+import cafe.adriel.voyager.core.stack.WithLastActionStack
 import cafe.adriel.voyager.navigator.internal.ChildrenNavigationDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
@@ -108,7 +110,7 @@ public class Navigator @InternalVoyagerApi constructor(
     private val stateHolder: SaveableStateHolder,
     public val disposeBehavior: NavigatorDisposeBehavior,
     public val parent: Navigator? = null
-) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
+) : WithLastActionStack<Screen> by WithLastActionSnapshotStackState(screens, 1) {
 
     public val level: Int =
         parent?.level?.inc() ?: 0
@@ -152,15 +154,15 @@ public class Navigator @InternalVoyagerApi constructor(
         )
     }
 
-    public fun popUntilRoot() {
-        popUntilRoot(this)
+    public fun popUntilRoot(invoker: Screen) {
+        popUntilRoot(invoker, this)
     }
 
-    private tailrec fun popUntilRoot(navigator: Navigator) {
-        navigator.popAll()
+    private tailrec fun popUntilRoot(invoker: Screen, navigator: Navigator) {
+        navigator.popAll(invoker)
 
         if (navigator.parent != null) {
-            popUntilRoot(navigator.parent)
+            popUntilRoot(invoker, navigator.parent)
         }
     }
 

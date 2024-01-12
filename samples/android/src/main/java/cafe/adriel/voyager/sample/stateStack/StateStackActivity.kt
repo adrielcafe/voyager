@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -83,7 +82,7 @@ class StateStackActivity : ComponentActivity() {
                     if (stateStack.lastItemOrNull == selectedItem) {
                         selectItem("")
                     }
-                    stateStack.pop()
+                    stateStack.pop("Pop")
                 }
                 ActionButton(text = "Pop Until", enabled = stateStack.canPop) {
                     if (selectedItem.isBlank()) {
@@ -91,27 +90,27 @@ class StateStackActivity : ComponentActivity() {
                         return@ActionButton
                     }
                     selectItem("")
-                    stateStack.popUntil { it == selectedItem }
+                    stateStack.popUntil("Pop Until") { it == selectedItem }
                 }
                 ActionButton(text = "Push") {
-                    stateStack.push(randomValue)
+                    stateStack.push("Push", randomValue)
                 }
             }
             Row(
                 modifier = Modifier.weight(.1f)
             ) {
                 ActionButton(text = "Replace") {
-                    stateStack.replace(randomValue)
+                    stateStack.replace("Replace", randomValue)
                 }
                 ActionButton(text = "Replace All") {
-                    stateStack.replaceAll(randomValue)
+                    stateStack.replaceAll("Replace All", randomValue)
                 }
             }
         }
     }
 
     @Composable
-    private fun LazyItemScope.ListItem(
+    private fun ListItem(
         index: Int,
         item: String,
         isLast: Boolean,
