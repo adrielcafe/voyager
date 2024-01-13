@@ -44,10 +44,6 @@ public class WithLastActionSnapshotStackState<Item>(
     minSize: Int = 1
 ) : SnapshotStatePropertyHolderStack<Item>(items, minSize), WithLastActionStack<Item> {
 
-    init {
-        require(minSize >= 1) { "SnapshotStackState can't work properly with none screen inside. Min size $minSize is less than one" }
-    }
-
     public constructor(
         vararg items: Item,
         minSize: Int = 0

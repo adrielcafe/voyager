@@ -32,6 +32,7 @@ import cafe.adriel.voyager.sample.rxJavaIntegration.RxJavaIntegrationActivity
 import cafe.adriel.voyager.sample.screenModel.ScreenModelActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
 import cafe.adriel.voyager.sample.tabNavigation.TabNavigationActivity
+import cafe.adriel.voyager.sample.transition.TransitionActivity
 
 class SampleActivity : ComponentActivity() {
 
@@ -58,6 +59,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<TabNavigationActivity>("Tab Navigation")
                 StartSampleButton<BottomSheetNavigationActivity>("BottomSheet Navigation")
                 StartSampleButton<NestedNavigationActivity>("Nested Navigation")
+                StartSampleButton<TransitionActivity>("Transition")
                 StartSampleButton<AndroidViewModelActivity>("Android ViewModel")
                 StartSampleButton<ScreenModelActivity>("ScreenModel")
                 StartSampleButton<KoinIntegrationActivity>("Koin Integration")
@@ -76,7 +78,9 @@ class SampleActivity : ComponentActivity() {
 
         Button(
             onClick = { context.startActivity(Intent(this, T::class.java)) },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         ) {
             Text(text = text)
         }
