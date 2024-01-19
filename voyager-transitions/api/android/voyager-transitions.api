@@ -1,3 +1,10 @@
+public final class cafe/adriel/voyager/transitions/ComposableSingletons$CrossfadeTransitionKt {
+	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$CrossfadeTransitionKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function3;
+	public fun <init> ()V
+	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function3;
+}
+
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$FadeTransitionKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$FadeTransitionKt;
 	public static field lambda-1 Lkotlin/jvm/functions/Function4;
@@ -26,6 +33,10 @@ public final class cafe/adriel/voyager/transitions/ComposableSingletons$SlideTra
 	public static field lambda-1 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
 	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+}
+
+public final class cafe/adriel/voyager/transitions/CrossfadeTransitionKt {
+	public static final fun CrossfadeTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/animation/core/FiniteAnimationSpec;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class cafe/adriel/voyager/transitions/FadeTransitionKt {
