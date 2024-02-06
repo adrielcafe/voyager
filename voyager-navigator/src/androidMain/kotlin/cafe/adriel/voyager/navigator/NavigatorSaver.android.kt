@@ -9,7 +9,7 @@ import cafe.adriel.voyager.core.screen.Screen
  * the navigator state.
  */
 public fun parcelableNavigatorSaver(
-    navigatorCreator: NavigatorCreator = summonNavigatorCreator()
+    navigatorCreator: NavigatorCreator = summonNavigatorCreator
 ): NavigatorSaver<Any> =
     NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
         listSaver(

@@ -34,7 +34,7 @@ public fun interface NavigatorSaver<Saveable : Any> {
  * If you want to use only Parcelable and want a NavigatorSaver that forces the use Parcelable, you can use [parcelableNavigatorSaver].
  */
 public fun defaultNavigatorSaver(
-    navigatorCreator: NavigatorCreator = summonNavigatorCreator()
+    navigatorCreator: NavigatorCreator = summonNavigatorCreator
 ): NavigatorSaver<Any> =
     NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
         listSaver(

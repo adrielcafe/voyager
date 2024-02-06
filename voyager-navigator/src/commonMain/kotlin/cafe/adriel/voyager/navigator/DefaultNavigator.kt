@@ -13,9 +13,4 @@ public class DefaultNavigator @InternalVoyagerApi constructor(
     disposeBehavior: NavigatorDisposeBehavior,
     parent: Navigator? = null,
     stack: Stack<Screen> = screens.toMutableStateStack(minSize = 1)
-) : Navigator(screens, key, stateHolder, disposeBehavior, parent, stack) {
-
-    override var lastAction: StackLastAction<Screen>?
-        get() = TODO("Not yet implemented")
-        set(value) {}
-}
+) : Navigator(screens, key, stateHolder, disposeBehavior, parent, stack)

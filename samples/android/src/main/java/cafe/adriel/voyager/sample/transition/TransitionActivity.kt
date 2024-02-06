@@ -25,9 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.DefaultNavigatorCreator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.isPop
-import cafe.adriel.voyager.navigator.isPush
+import cafe.adriel.voyager.navigator.isPopLastEvent
+import cafe.adriel.voyager.navigator.isPushLastEvent
+import cafe.adriel.voyager.navigator.summonNavigatorCreator
 import cafe.adriel.voyager.transitions.ScreenTransition
 import cafe.adriel.voyager.transitions.ScreenTransitionContent
 
@@ -37,10 +39,16 @@ class TransitionActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            summonNavigatorCreator = SelfResetNavigatorCreator(5000L)
             Navigator(TransitionScreen) {
                 TransitionDemo(it)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        summonNavigatorCreator = DefaultNavigatorCreator()
     }
 }
 
@@ -52,18 +60,20 @@ fun TransitionDemo(
 ) {
     val transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform = {
         // Define any StackEvent you want transition to be
-        val isPush = navigator.lastAction.isPush()
-        val isPop = navigator.lastAction.isPop()
+        val isPush = navigator.isPushLastEvent()
+        val isPop = navigator.isPopLastEvent()
         // Define any Screen you want transition must be from
-        val isInvokerTransitionScreen = navigator.lastAction?.invoker == TransitionScreen
-        val isInvokerFadeScreen = navigator.lastAction?.invoker == FadeScreen
-        val isInvokerShrinkScreen = navigator.lastAction?.invoker == ShrinkScreen
-        val isInvokerScaleScreen = navigator.lastAction?.invoker == ScaleScreen
+        val invoker = this.initialState
+        val target = this.targetState
+        val isInvokerTransitionScreen = invoker == TransitionScreen
+        val isInvokerFadeScreen = invoker == FadeScreen
+        val isInvokerShrinkScreen = invoker == ShrinkScreen
+        val isInvokerScaleScreen = invoker == ScaleScreen
         // Define any Screen you want transition must be to
-        val isTargetTransitionScreen = navigator.lastItem == TransitionScreen
-        val isTargetFadeScreen = navigator.lastItem == FadeScreen
-        val isTargetShrinkScreen = navigator.lastItem == ShrinkScreen
-        val isTargetScaleScreen = navigator.lastItem == ScaleScreen
+        val isTargetTransitionScreen = target == TransitionScreen
+        val isTargetFadeScreen = target == FadeScreen
+        val isTargetShrinkScreen = target == ShrinkScreen
+        val isTargetScaleScreen = target == ScaleScreen
 
         val tweenOffset: FiniteAnimationSpec<IntOffset> = tween(
             durationMillis = 2000,

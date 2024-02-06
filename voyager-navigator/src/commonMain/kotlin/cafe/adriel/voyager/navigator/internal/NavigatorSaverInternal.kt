@@ -22,7 +22,7 @@ internal fun rememberNavigator(
     key: String,
     disposeBehavior: NavigatorDisposeBehavior,
     parent: Navigator?,
-    navigatorCreator: NavigatorCreator = summonNavigatorCreator()
+    navigatorCreator: NavigatorCreator = summonNavigatorCreator
 ): Navigator {
     val stateHolder = LocalNavigatorStateHolder.current
     val navigatorSaver = LocalNavigatorSaver.current

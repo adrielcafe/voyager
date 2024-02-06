@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
@@ -20,6 +19,7 @@ import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
+import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.core.stack.toMutableStateStack
 import cafe.adriel.voyager.navigator.internal.ChildrenNavigationDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
@@ -112,9 +112,6 @@ public abstract class Navigator @InternalVoyagerApi constructor(
     private val stack: Stack<Screen> = screens.toMutableStateStack(minSize = 1)
 ) : Stack<Screen> by stack {
 
-    @ExperimentalVoyagerApi
-    public abstract var lastAction: StackLastAction<Screen>?
-
     public val level: Int =
         parent?.level?.inc() ?: 0
 
@@ -195,3 +192,8 @@ public data class NavigatorDisposeBehavior(
 public fun compositionUniqueId(): String = currentCompositeKeyHash.toString(MaxSupportedRadix)
 
 private val MaxSupportedRadix = 36
+
+public fun Navigator?.isPushLastEvent(): Boolean = this?.lastEvent == StackEvent.Push
+public fun Navigator?.isPopLastEvent(): Boolean = this?.lastEvent == StackEvent.Pop
+public fun Navigator?.isReplaceLastEvent(): Boolean = this?.lastEvent == StackEvent.Replace
+public fun Navigator?.isIdleLastEvent(): Boolean = this?.lastEvent == StackEvent.Idle
