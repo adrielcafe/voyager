@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
@@ -102,13 +103,14 @@ public fun Navigator(
     }
 }
 
-public class Navigator @InternalVoyagerApi constructor(
+public abstract class Navigator(
     screens: List<Screen>,
     @InternalVoyagerApi public val key: String,
     private val stateHolder: SaveableStateHolder,
     public val disposeBehavior: NavigatorDisposeBehavior,
-    public val parent: Navigator? = null
-) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
+    public val parent: Navigator? = null,
+    private val stack: Stack<Screen> = screens.toMutableStateStack(minSize = 1)
+) : Stack<Screen> by stack {
 
     public val level: Int =
         parent?.level?.inc() ?: 0
@@ -117,7 +119,10 @@ public class Navigator @InternalVoyagerApi constructor(
         lastItemOrNull ?: error("Navigator has no screen")
     }
 
-    private val stateKeys = ThreadSafeSet<String>()
+    @ExperimentalVoyagerApi
+    public abstract var lastAction: StackLastAction<Screen>?
+
+    private val stateKeys: ThreadSafeSet<String> = ThreadSafeSet()
 
     internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
 
@@ -152,18 +157,6 @@ public class Navigator @InternalVoyagerApi constructor(
         )
     }
 
-    public fun popUntilRoot() {
-        popUntilRoot(this)
-    }
-
-    private tailrec fun popUntilRoot(navigator: Navigator) {
-        navigator.popAll()
-
-        if (navigator.parent != null) {
-            popUntilRoot(navigator.parent)
-        }
-    }
-
     @InternalVoyagerApi
     public fun dispose(
         screen: Screen
@@ -178,7 +171,27 @@ public class Navigator @InternalVoyagerApi constructor(
                 stateKeys -= key
             }
     }
+
+    public fun popUntilRoot() {
+        popUntilRoot(this)
+    }
+
+    private tailrec fun popUntilRoot(navigator: Navigator) {
+        navigator.popAll()
+
+        if (navigator.parent != null) {
+            popUntilRoot(navigator.parent)
+        }
+    }
 }
+
+public typealias NavigatorCreator = (
+    screens: List<Screen>,
+    key: String,
+    stateHolder: SaveableStateHolder,
+    disposeBehavior: NavigatorDisposeBehavior,
+    parent: Navigator?
+) -> Navigator
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,

@@ -37,6 +37,6 @@ public fun defaultNavigatorSaver(): NavigatorSaver<Any> =
     NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
         listSaver(
             save = { navigator -> navigator.items },
-            restore = { items -> Navigator(items, key, stateHolder, disposeBehavior, parent) }
+            restore = { items -> NavigatorDefault(items, key, stateHolder, disposeBehavior, parent) }
         )
     }

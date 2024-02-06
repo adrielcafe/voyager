@@ -1,19 +1,10 @@
 package cafe.adriel.voyager.navigator.tab
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.staticCompositionLocalOf
-import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
-import cafe.adriel.voyager.navigator.compositionUniqueId
-
-import cafe.adriel.voyager.navigator.NavigatorExtended
 
 public class TabNavigatorExtended internal constructor(
-    internal val navigator: NavigatorExtended
+    internal val navigator: Navigator
 ) {
 
     public var current: Tab
@@ -21,7 +12,9 @@ public class TabNavigatorExtended internal constructor(
         private set(value) {}
 
     public fun setCurrent(invoker: Tab, newTab: Tab) {
-        navigator.replaceAll(invoker, newTab)
+        // TODO: sdfsdfd
+        //navigator.replaceAll(invoker, newTab)
+        navigator.replaceAll(newTab)
         current = newTab
     }
 
