@@ -6,7 +6,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
 
-public class NavigatorDefault @InternalVoyagerApi constructor(
+public class DefaultNavigator @InternalVoyagerApi constructor(
     screens: List<Screen>,
     key: String,
     stateHolder: SaveableStateHolder,

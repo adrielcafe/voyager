@@ -14,13 +14,15 @@ import cafe.adriel.voyager.core.stack.toMutableStateStack
 
 public data class StackLastAction<Item>(
     val invoker: Item?,
-    val event: StackEvent,
+    val event: StackEvent
 )
 
 public fun <Item> StackLastAction<Item>?.isPush(): Boolean = this?.event == StackEvent.Push
 public fun <Item> StackLastAction<Item>?.isPop(): Boolean = this?.event == StackEvent.Pop
+public fun <Item> StackLastAction<Item>?.isReplace(): Boolean = this?.event == StackEvent.Replace
+public fun <Item> StackLastAction<Item>?.isIdle(): Boolean = this?.event == StackEvent.Idle
 
-public class NavigatorExtended @InternalVoyagerApi constructor(
+public class ExtendedNavigator @InternalVoyagerApi constructor(
     screens: List<Screen>,
     key: String,
     stateHolder: SaveableStateHolder,
@@ -58,7 +60,7 @@ public class NavigatorExtended @InternalVoyagerApi constructor(
     }
 
     override fun pop(): Boolean {
-        if(canPop) {
+        if (canPop) {
             lastAction = StackLastAction(lastItemOrNull, StackEvent.Pop)
         }
         return stack.pop()
@@ -82,5 +84,10 @@ public class NavigatorExtended @InternalVoyagerApi constructor(
     override fun plusAssign(items: List<Screen>) {
         lastAction = StackLastAction(lastItemOrNull, StackEvent.Push)
         stack.plusAssign(items)
+    }
+
+    override fun clearEvent() {
+        lastAction = StackLastAction(lastItemOrNull, StackEvent.Idle)
+        stack.clearEvent()
     }
 }

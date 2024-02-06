@@ -1,26 +1,15 @@
 package cafe.adriel.voyager.navigator
 
 import android.os.Parcelable
-import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.listSaver
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
-import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 
 /**
  * Navigator Saver that forces all Screens be [Parcelable], if not, it will throw a exception while trying to save
  * the navigator state.
  */
-@OptIn(ExperimentalVoyagerApi::class, InternalVoyagerApi::class)
 public fun parcelableNavigatorSaver(
-    createNavigator: NavigatorCreator = {
-            screenCollection: List<Screen>,
-            s: String,
-            saveableStateHolder: SaveableStateHolder,
-            navigatorDisposeBehavior: NavigatorDisposeBehavior,
-            navigator: Navigator?, ->
-        NavigatorDefault(screenCollection, s, saveableStateHolder, navigatorDisposeBehavior, navigator)
-    }
+    navigatorCreator: NavigatorCreator = summonNavigatorCreator()
 ): NavigatorSaver<Any> =
     NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
         listSaver(
@@ -41,7 +30,7 @@ public fun parcelableNavigatorSaver(
 
                 screenAsParcelables
             },
-            restore = { items -> createNavigator(items as List<Screen>, key, stateHolder, disposeBehavior, parent) }
+            restore = { items -> navigatorCreator(items as List<Screen>, key, stateHolder, disposeBehavior, parent) }
         )
     }
 

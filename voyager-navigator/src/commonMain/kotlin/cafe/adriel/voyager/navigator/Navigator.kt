@@ -103,7 +103,7 @@ public fun Navigator(
     }
 }
 
-public abstract class Navigator(
+public abstract class Navigator @InternalVoyagerApi constructor(
     screens: List<Screen>,
     @InternalVoyagerApi public val key: String,
     private val stateHolder: SaveableStateHolder,
@@ -112,6 +112,9 @@ public abstract class Navigator(
     private val stack: Stack<Screen> = screens.toMutableStateStack(minSize = 1)
 ) : Stack<Screen> by stack {
 
+    @ExperimentalVoyagerApi
+    public abstract var lastAction: StackLastAction<Screen>?
+
     public val level: Int =
         parent?.level?.inc() ?: 0
 
@@ -119,10 +122,7 @@ public abstract class Navigator(
         lastItemOrNull ?: error("Navigator has no screen")
     }
 
-    @ExperimentalVoyagerApi
-    public abstract var lastAction: StackLastAction<Screen>?
-
-    private val stateKeys: ThreadSafeSet<String> = ThreadSafeSet()
+    private val stateKeys = ThreadSafeSet<String>()
 
     internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
 
@@ -157,6 +157,18 @@ public abstract class Navigator(
         )
     }
 
+    public fun popUntilRoot() {
+        popUntilRoot(this)
+    }
+
+    private tailrec fun popUntilRoot(navigator: Navigator) {
+        navigator.popAll()
+
+        if (navigator.parent != null) {
+            popUntilRoot(navigator.parent)
+        }
+    }
+
     @InternalVoyagerApi
     public fun dispose(
         screen: Screen
@@ -171,27 +183,7 @@ public abstract class Navigator(
                 stateKeys -= key
             }
     }
-
-    public fun popUntilRoot() {
-        popUntilRoot(this)
-    }
-
-    private tailrec fun popUntilRoot(navigator: Navigator) {
-        navigator.popAll()
-
-        if (navigator.parent != null) {
-            popUntilRoot(navigator.parent)
-        }
-    }
 }
-
-public typealias NavigatorCreator = (
-    screens: List<Screen>,
-    key: String,
-    stateHolder: SaveableStateHolder,
-    disposeBehavior: NavigatorDisposeBehavior,
-    parent: Navigator?
-) -> Navigator
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,

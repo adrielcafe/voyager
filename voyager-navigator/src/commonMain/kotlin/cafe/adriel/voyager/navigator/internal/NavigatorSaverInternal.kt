@@ -10,8 +10,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigatorSaver
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.NavigatorCreator
-import cafe.adriel.voyager.navigator.NavigatorDefault
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
+import cafe.adriel.voyager.navigator.summonNavigatorCreator
 
 internal val LocalNavigatorStateHolder: ProvidableCompositionLocal<SaveableStateHolder> =
     staticCompositionLocalOf { error("LocalNavigatorStateHolder not initialized") }
@@ -22,14 +22,7 @@ internal fun rememberNavigator(
     key: String,
     disposeBehavior: NavigatorDisposeBehavior,
     parent: Navigator?,
-    createNavigator: NavigatorCreator = {
-            screenCollection: List<Screen>,
-            s: String,
-            saveableStateHolder: SaveableStateHolder,
-            navigatorDisposeBehavior: NavigatorDisposeBehavior,
-            navigator: Navigator?, ->
-        NavigatorDefault(screenCollection, s, saveableStateHolder, navigatorDisposeBehavior, navigator)
-    }
+    navigatorCreator: NavigatorCreator = summonNavigatorCreator()
 ): Navigator {
     val stateHolder = LocalNavigatorStateHolder.current
     val navigatorSaver = LocalNavigatorSaver.current
@@ -38,6 +31,6 @@ internal fun rememberNavigator(
     }
 
     return rememberSaveable(saver = saver, key = key) {
-        createNavigator(screens, key, stateHolder, disposeBehavior, parent)
+        navigatorCreator(screens, key, stateHolder, disposeBehavior, parent)
     }
 }
