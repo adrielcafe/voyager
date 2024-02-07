@@ -7,7 +7,6 @@ plugins {
 
 setupModuleForComposeMultiplatform(
     fullyMultiplatform = true,
-    enableWasm = false, // https://github.com/kosi-libs/Kodein/issues/447
 )
 
 android {
