@@ -7,7 +7,7 @@ plugins {
 
 setupModuleForComposeMultiplatform(
     fullyMultiplatform = true,
-    enableWasm = false, // https://github.com/InsertKoinIO/koin/issues/1634
+    enableWasm = false // https://github.com/InsertKoinIO/koin/issues/1634
 )
 
 android {
