@@ -28,6 +28,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.isPopLastEvent
 import cafe.adriel.voyager.navigator.isPushLastEvent
+import cafe.adriel.voyager.navigator.isReplaceLastEvent
+import cafe.adriel.voyager.sample.tabNavigation.tabs.FavoritesTab
+import cafe.adriel.voyager.sample.tabNavigation.tabs.HomeTab
+import cafe.adriel.voyager.sample.tabNavigation.tabs.ProfileTab
 import cafe.adriel.voyager.transitions.ScreenTransition
 import cafe.adriel.voyager.transitions.ScreenTransitionContent
 
@@ -186,6 +190,11 @@ private object TransitionFrames {
 }
 
 private object TransitionTween {
+    val tweenOffsetShortest: FiniteAnimationSpec<IntOffset> = tween(
+        durationMillis = 200,
+        delayMillis = 50,
+        easing = LinearEasing
+    )
     val tweenOffsetShort: FiniteAnimationSpec<IntOffset> = tween(
         durationMillis = 500,
         delayMillis = 100,
@@ -228,3 +237,85 @@ private object TransitionScale {
     val Out = scaleOut(TransitionFrames.scaleOutFrames)
 }
 
+@Composable
+fun TransitionTab(
+    navigator: Navigator,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent = { it.Content() }
+) {
+    val transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform = {
+        // Define any StackEvent you want transition should react to
+        val isReplace = navigator.isReplaceLastEvent() // in TabNavigator is always true
+        // Define any Screen you want transition must be from
+        val invoker = this.initialState
+        val isInvokerHomeTab = invoker == HomeTab
+        val isInvokerFavoritesTab = invoker == FavoritesTab
+        val isInvokerProfileTab = invoker == ProfileTab
+        // Define any Screen you want transition must be to
+        val target = this.targetState
+        val isTargetHomeTab = target == HomeTab
+        val isTargetFavoritesTab = target == FavoritesTab
+        val isTargetProfileTab = target == ProfileTab
+        // Define offset based on target and invoker
+        // Offset is important to choose side transition be to or from. Top, Left, Right, Bottom
+        val sizeDefault = ({ size: Int -> size })
+        val sizeMinus = ({ size: Int -> -size })
+        val (initialOffset, targetOffset) = when {
+            isReplace -> {  // in TabNavigator is always true
+                // This reverts animation side.
+                // Any else tabs will appear from the left
+                if (isInvokerProfileTab) sizeMinus to sizeDefault
+                // From center tab to the most left tab
+                else if (isInvokerFavoritesTab && isTargetHomeTab) sizeMinus to sizeDefault
+                // Default Push behaviour.
+                // Horizontal animation will show from right
+                // Vertical animation will show from bottom
+                else sizeDefault to sizeMinus  // Case when isInvokerScaleScreen
+            }
+            // Always the same side
+            else -> sizeDefault to sizeMinus
+        }
+        // Create transitions
+        val slide = TransitionSlide(initialOffset = initialOffset, targetOffset = targetOffset)
+        val fade = TransitionFade
+        val shrink = TransitionShrink
+        val scale = TransitionScale
+        // Define custom behaviour or use default
+        // There can be any custom transition you want based on StackEvent, invoker and target
+        when {
+            // From the most left tab to the most right tab
+            isInvokerHomeTab && isTargetProfileTab -> {
+                val enter = scale.In + fade.In
+                val exit = scale.Out + fade.Out
+                enter togetherWith exit
+            }
+            // From the most right tab to the center tab
+            isInvokerProfileTab && isTargetFavoritesTab -> {
+                val enter = slide.inVertically
+                val exit = shrink.vertically
+                enter togetherWith exit
+            }
+            // From the most right tab to the most left tab
+            isInvokerProfileTab && isTargetHomeTab -> {
+                val enter = scale.In + fade.In
+                val exit = slide.outVertically
+                enter togetherWith exit
+            }
+            // Default
+            else -> {
+                val slideShort = TransitionSlide(
+                    initialOffset = initialOffset,
+                    targetOffset = targetOffset,
+                    animationSpec = TransitionTween.tweenOffsetShortest
+                )
+                slideShort.inHorizontally togetherWith slideShort.outHorizontally
+            }
+        }
+    }
+    ScreenTransition(
+        navigator = navigator,
+        transition = transition,
+        modifier = modifier,
+        content = content,
+    )
+}
