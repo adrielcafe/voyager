@@ -20,7 +20,7 @@ kotlin {
                 api(projects.voyagerNavigator)
                 compileOnly(compose.runtime)
                 compileOnly(compose.runtimeSaveable)
-                implementation(libs.kodein)
+                compileOnly(libs.kodein)
             }
         }
 
