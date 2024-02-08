@@ -189,54 +189,6 @@ private object TransitionFrames {
     }
 }
 
-private object TransitionTween {
-    val tweenOffsetShortest: FiniteAnimationSpec<IntOffset> = tween(
-        durationMillis = 200,
-        delayMillis = 50,
-        easing = LinearEasing
-    )
-    val tweenOffsetShort: FiniteAnimationSpec<IntOffset> = tween(
-        durationMillis = 500,
-        delayMillis = 100,
-        easing = LinearEasing
-    )
-    val tweenOffset: FiniteAnimationSpec<IntOffset> = tween(
-        durationMillis = 2000,
-        delayMillis = 100,
-        easing = LinearEasing
-    )
-    val tweenSize: FiniteAnimationSpec<IntSize> = tween(
-        durationMillis = 2000,
-        delayMillis = 100,
-        easing = LinearEasing
-    )
-}
-
-private class TransitionSlide(
-    initialOffset: (Int) -> Int,
-    targetOffset: (Int) -> Int,
-    animationSpec: FiniteAnimationSpec<IntOffset> = TransitionTween.tweenOffset
-) {
-    val inHorizontally = slideInHorizontally(animationSpec, initialOffset)
-    val outHorizontally = slideOutHorizontally(animationSpec, targetOffset)
-    val inVertically = slideInVertically(animationSpec, initialOffset)
-    val outVertically = slideOutVertically(animationSpec, targetOffset)
-}
-
-private object TransitionFade {
-    val In = fadeIn(TransitionFrames.fadeInFrames)
-    val Out = fadeOut(TransitionFrames.fadeOutFrames)
-}
-
-private object TransitionShrink {
-    val vertically = shrinkVertically(animationSpec = TransitionTween.tweenSize, shrinkTowards = Alignment.Top)
-}
-
-private object TransitionScale {
-    val In = scaleIn(TransitionFrames.scaleInFrames)
-    val Out = scaleOut(TransitionFrames.scaleOutFrames)
-}
-
 @Composable
 fun TransitionTab(
     navigator: Navigator,
@@ -318,4 +270,52 @@ fun TransitionTab(
         modifier = modifier,
         content = content,
     )
+}
+
+private object TransitionTween {
+    val tweenOffsetShortest: FiniteAnimationSpec<IntOffset> = tween(
+        durationMillis = 200,
+        delayMillis = 50,
+        easing = LinearEasing
+    )
+    val tweenOffsetShort: FiniteAnimationSpec<IntOffset> = tween(
+        durationMillis = 500,
+        delayMillis = 100,
+        easing = LinearEasing
+    )
+    val tweenOffset: FiniteAnimationSpec<IntOffset> = tween(
+        durationMillis = 2000,
+        delayMillis = 100,
+        easing = LinearEasing
+    )
+    val tweenSize: FiniteAnimationSpec<IntSize> = tween(
+        durationMillis = 2000,
+        delayMillis = 100,
+        easing = LinearEasing
+    )
+}
+
+private class TransitionSlide(
+    initialOffset: (Int) -> Int,
+    targetOffset: (Int) -> Int,
+    animationSpec: FiniteAnimationSpec<IntOffset> = TransitionTween.tweenOffset
+) {
+    val inHorizontally = slideInHorizontally(animationSpec, initialOffset)
+    val outHorizontally = slideOutHorizontally(animationSpec, targetOffset)
+    val inVertically = slideInVertically(animationSpec, initialOffset)
+    val outVertically = slideOutVertically(animationSpec, targetOffset)
+}
+
+private object TransitionFade {
+    val In = fadeIn(TransitionFrames.fadeInFrames)
+    val Out = fadeOut(TransitionFrames.fadeOutFrames)
+}
+
+private object TransitionShrink {
+    val vertically = shrinkVertically(animationSpec = TransitionTween.tweenSize, shrinkTowards = Alignment.Top)
+}
+
+private object TransitionScale {
+    val In = scaleIn(TransitionFrames.scaleInFrames)
+    val Out = scaleOut(TransitionFrames.scaleOutFrames)
 }

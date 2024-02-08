@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -41,6 +42,10 @@ data object TransitionScreen : Screen {
             PushButton(text = "Push fade scale bottom\nPop scale left") {
                 navigator.push(ScaleScreen)
             }
+            Spacer(modifier = Modifier.height(50.dp))
+            PushButton(text = "Tap to see how transition might work inside TabNavigator") {
+                navigator.push(TabNavigationScreen)
+            }
         }
     }
 }
@@ -52,7 +57,9 @@ private fun PushButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier.sizeIn(minWidth = 200.dp, minHeight = 70.dp)
+        modifier = Modifier
+            .sizeIn(minWidth = 200.dp, minHeight = 70.dp)
+            .padding(horizontal = 32.dp)
     ) {
         Text(text = text)
     }
