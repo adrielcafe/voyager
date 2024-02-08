@@ -51,7 +51,7 @@ fun TransitionDemo(
     content: ScreenTransitionContent = { it.Content() }
 ) {
     val transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform = {
-        // Define any StackEvent you want transition to be
+        // Define any StackEvent you want transition should react to
         val isPush = navigator.isPushLastEvent()
         val isPop = navigator.isPopLastEvent()
         // Define any Screen you want transition must be from
@@ -66,18 +66,7 @@ fun TransitionDemo(
         val isTargetFadeScreen = target == FadeScreen
         val isTargetShrinkScreen = target == ShrinkScreen
         val isTargetScaleScreen = target == ScaleScreen
-
-        val tweenOffset: FiniteAnimationSpec<IntOffset> = tween(
-            durationMillis = 2000,
-            delayMillis = 100,
-            easing = LinearEasing
-        )
-        val tweenSize: FiniteAnimationSpec<IntSize> = tween(
-            durationMillis = 2000,
-            delayMillis = 100,
-            easing = LinearEasing
-        )
-
+        // Define offset based on target and invoker
         val sizeDefault = ({ size: Int -> size })
         val sizeMinus = ({ size: Int -> -size })
         val (initialOffset, targetOffset) = when {
@@ -88,73 +77,44 @@ fun TransitionDemo(
             isPop && isInvokerFadeScreen && isTargetTransitionScreen -> sizeDefault to sizeMinus
             else -> sizeDefault to sizeMinus
         }
-
-        val fadeInFrames = keyframes {
-            durationMillis = 2000
-            0.1f at 0 with LinearEasing
-            0.2f at 1800 with LinearEasing
-            1.0f at 2000 with LinearEasing
-        }
-        val fadeOutFrames = keyframes {
-            durationMillis = 2000
-            0.9f at 0 with LinearEasing
-            0.8f at 100 with LinearEasing
-            0.7f at 200 with LinearEasing
-            0.6f at 300 with LinearEasing
-            0.5f at 400 with LinearEasing
-            0.4f at 500 with LinearEasing
-            0.3f at 600 with LinearEasing
-            0.2f at 1000 with LinearEasing
-            0.1f at 1500 with LinearEasing
-            0.0f at 2000 with LinearEasing
-        }
-
-        val scaleInFrames = keyframes {
-            durationMillis = 2000
-            0.1f at 0 with LinearEasing
-            0.3f at 1500 with LinearEasing
-            1.0f at 2000 with LinearEasing
-        }
-        val scaleOutFrames = keyframes {
-            durationMillis = 2000
-            0.9f at 0 with LinearEasing
-            0.7f at 500 with LinearEasing
-            0.3f at 700 with LinearEasing
-            0.0f at 2000 with LinearEasing
-        }
-
+        // Create transitions
+        val slide = TransitionSlide(initialOffset = initialOffset, targetOffset = targetOffset)
+        val fade = TransitionFade
+        val shrink = TransitionShrink
+        val scale = TransitionScale
+        // Define custom behaviour or use default
+        // There can be any custom transition you want based on StackEvent, invoker and target
         when {
-            // Define any transition you want based on the StackEvent, invoker and target
             isPush && isInvokerTransitionScreen && isTargetFadeScreen ||
                     isPop && isInvokerFadeScreen && isTargetTransitionScreen -> {
-                val enter = slideInHorizontally(tweenOffset, initialOffset) + fadeIn(fadeInFrames)
-                val exit = slideOutHorizontally(tweenOffset, targetOffset) + fadeOut(fadeOutFrames)
+                val enter = slide.inHorizontally + fade.In
+                val exit = slide.outHorizontally + fade.Out
                 enter togetherWith exit
             }
             isPush && isInvokerTransitionScreen && isTargetShrinkScreen ||
                 isPop && isInvokerShrinkScreen && isTargetTransitionScreen -> {
-                val enter = slideInVertically(tweenOffset, initialOffset)
-                val exit = shrinkVertically(animationSpec = tweenSize, shrinkTowards = Alignment.Top)
+                val enter = slide.inVertically
+                val exit = shrink.vertically
                 enter togetherWith exit
             }
             isPush && isInvokerTransitionScreen && isTargetScaleScreen -> {
-                val enter = slideInVertically(tweenOffset, initialOffset) + fadeIn(fadeInFrames) + scaleIn(scaleInFrames)
-                val exit = slideOutVertically(tweenOffset, targetOffset) + fadeOut(fadeOutFrames) + scaleOut(scaleOutFrames)
+                val enter = slide.inVertically + fade.In + scale.In
+                val exit = slide.outVertically + fade.Out + scale.Out
                 enter togetherWith exit
             }
             isPop && isInvokerScaleScreen && isTargetTransitionScreen -> {
-                val enter = slideInHorizontally(tweenOffset, initialOffset) + fadeIn(fadeInFrames) + scaleIn(scaleInFrames)
-                val exit = slideOutHorizontally(tweenOffset, targetOffset) + fadeOut(fadeOutFrames) + scaleOut(scaleOutFrames)
+                val enter = slide.inHorizontally + fade.In + scale.In
+                val exit = fade.Out + scale.Out
                 enter togetherWith exit
             }
+            // Default
             else -> {
-                val animationSpec: FiniteAnimationSpec<IntOffset> = tween(
-                    durationMillis = 500,
-                    delayMillis = 100,
-                    easing = LinearEasing
+                val slideShort = TransitionSlide(
+                    initialOffset = initialOffset,
+                    targetOffset = targetOffset,
+                    animationSpec = TransitionTween.tweenOffsetShort
                 )
-                slideInHorizontally(animationSpec, initialOffset) togetherWith
-                        slideOutHorizontally(animationSpec, targetOffset)
+                slideShort.inHorizontally togetherWith slideShort.outHorizontally
             }
         }
     }
@@ -165,3 +125,86 @@ fun TransitionDemo(
         content = content,
     )
 }
+
+private object TransitionFrames {
+
+    val fadeInFrames = keyframes {
+        durationMillis = 2000
+        0.1f at 0 with LinearEasing
+        0.2f at 1800 with LinearEasing
+        1.0f at 2000 with LinearEasing
+    }
+
+    val fadeOutFrames = keyframes {
+        durationMillis = 2000
+        0.9f at 0 with LinearEasing
+        0.8f at 100 with LinearEasing
+        0.7f at 200 with LinearEasing
+        0.6f at 300 with LinearEasing
+        0.5f at 400 with LinearEasing
+        0.4f at 500 with LinearEasing
+        0.3f at 600 with LinearEasing
+        0.2f at 1000 with LinearEasing
+        0.1f at 1500 with LinearEasing
+        0.0f at 2000 with LinearEasing
+    }
+
+    val scaleInFrames = keyframes {
+        durationMillis = 2000
+        0.1f at 0 with LinearEasing
+        0.3f at 1500 with LinearEasing
+        1.0f at 2000 with LinearEasing
+    }
+
+    val scaleOutFrames = keyframes {
+        durationMillis = 2000
+        0.9f at 0 with LinearEasing
+        0.7f at 500 with LinearEasing
+        0.3f at 700 with LinearEasing
+        0.0f at 2000 with LinearEasing
+    }
+}
+
+private object TransitionTween {
+    val tweenOffsetShort: FiniteAnimationSpec<IntOffset> = tween(
+        durationMillis = 500,
+        delayMillis = 100,
+        easing = LinearEasing
+    )
+    val tweenOffset: FiniteAnimationSpec<IntOffset> = tween(
+        durationMillis = 2000,
+        delayMillis = 100,
+        easing = LinearEasing
+    )
+    val tweenSize: FiniteAnimationSpec<IntSize> = tween(
+        durationMillis = 2000,
+        delayMillis = 100,
+        easing = LinearEasing
+    )
+}
+
+private class TransitionSlide(
+    initialOffset: (Int) -> Int,
+    targetOffset: (Int) -> Int,
+    animationSpec: FiniteAnimationSpec<IntOffset> = TransitionTween.tweenOffset
+) {
+    val inHorizontally = slideInHorizontally(animationSpec, initialOffset)
+    val outHorizontally = slideOutHorizontally(animationSpec, targetOffset)
+    val inVertically = slideInVertically(animationSpec, initialOffset)
+    val outVertically = slideOutVertically(animationSpec, targetOffset)
+}
+
+private object TransitionFade {
+    val In = fadeIn(TransitionFrames.fadeInFrames)
+    val Out = fadeOut(TransitionFrames.fadeOutFrames)
+}
+
+private object TransitionShrink {
+    val vertically = shrinkVertically(animationSpec = TransitionTween.tweenSize, shrinkTowards = Alignment.Top)
+}
+
+private object TransitionScale {
+    val In = scaleIn(TransitionFrames.scaleInFrames)
+    val Out = scaleOut(TransitionFrames.scaleOutFrames)
+}
+
