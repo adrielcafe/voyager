@@ -67,14 +67,34 @@ fun TransitionDemo(
         val isTargetShrinkScreen = target == ShrinkScreen
         val isTargetScaleScreen = target == ScaleScreen
         // Define offset based on target and invoker
+        // Offset is important to choose side transition be to or from. Top, Left, Right, Bottom
         val sizeDefault = ({ size: Int -> size })
         val sizeMinus = ({ size: Int -> -size })
         val (initialOffset, targetOffset) = when {
-            isPush && isInvokerTransitionScreen -> {
+            isPush -> {
+                isInvokerTransitionScreen // in our example is always true
+                // This reverts animation side.
+                // FadeScreen will show from left
+                // ShrinkScreen will show from top
                 if (isTargetFadeScreen || isTargetShrinkScreen) sizeMinus to sizeDefault
-                else sizeDefault to sizeMinus
+                // Default Push behaviour.
+                // Horizontal animation will show from right
+                // Vertical animation will show from bottom
+                else sizeDefault to sizeMinus  // Case when isInvokerScaleScreen
             }
-            isPop && isInvokerFadeScreen && isTargetTransitionScreen -> sizeDefault to sizeMinus
+            isPop -> {
+                isTargetTransitionScreen  // in our example is always true
+                // This reverts animation side.
+                // TransitionScreen will show from right
+                if (isInvokerFadeScreen) sizeDefault to sizeMinus
+                // TransitionScreen will show from bottom
+                else if (isInvokerShrinkScreen) sizeDefault to sizeMinus
+                // Default Pop behaviour.
+                // Horizontal animation will show from left
+                // Vertical animation will show from top
+                else sizeMinus to sizeDefault // Case when isInvokerScaleScreen
+            }
+            // Always the same side
             else -> sizeDefault to sizeMinus
         }
         // Create transitions

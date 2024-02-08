@@ -38,7 +38,7 @@ data object TransitionScreen : Screen {
                 navigator.push(ShrinkScreen)
             }
             Spacer(modifier = Modifier.height(50.dp))
-            PushButton(text = "Push fade scale bottom\nPop scale right") {
+            PushButton(text = "Push fade scale bottom\nPop scale left") {
                 navigator.push(ScaleScreen)
             }
         }
