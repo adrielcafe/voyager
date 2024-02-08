@@ -122,7 +122,7 @@ fun TransitionDemo(
                 enter togetherWith exit
             }
             isPush && isInvokerTransitionScreen && isTargetScaleScreen -> {
-                val enter = slide.inVertically + fade.In + scale.In
+                val enter = slide.inVertically + scale.In
                 val exit = slide.outVertically + fade.Out + scale.Out
                 enter togetherWith exit
             }
