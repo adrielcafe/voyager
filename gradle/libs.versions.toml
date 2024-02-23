@@ -2,7 +2,7 @@
 plugin-android = "8.1.1"
 plugin-ktlint = "11.5.1"
 plugin-maven = "0.25.3"
-plugin-multiplatform-compose = "1.6.0-beta02"
+plugin-multiplatform-compose = "1.6.0-rc02"
 plugin-binaryCompatibilityValidator = "0.13.2"
 plugin-atomicfu = "0.23.1"
 
