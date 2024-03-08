@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- https://github.com/bumptech/glide/issues/4940 -->
+<lint>
+    <issue id="NotificationPermission">
+        <ignore regexp="leakcanary.NotificationEventListener" />
+    </issue>
+</lint>
