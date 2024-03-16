@@ -15,6 +15,10 @@ android {
     defaultConfig {
         applicationId = "cafe.adriel.voyager.sample"
     }
+    lint {
+        // related to https://github.com/bumptech/glide/issues/4940
+        lintConfig = file("${project.projectDir}/../android_leakcanary_lint.xml")
+    }
 }
 
 kapt {
