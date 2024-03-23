@@ -40,7 +40,7 @@ public inline fun <reified T : ScreenModel> Navigator.koinNavigatorScreenModel(
 }
 
 @Deprecated(
-    message = "use koinScreenModel() instead",
+    message = "use koinScreenModel() instead. Will be removed on 1.1.0",
     replaceWith = ReplaceWith("koinScreenModel")
 )
 @Composable
@@ -50,7 +50,7 @@ public inline fun <reified T : ScreenModel> Screen.getScreenModel(
 ): T = koinScreenModel<T>(qualifier = qualifier, parameters = parameters)
 
 @Deprecated(
-    message = "use koinNavigatorScreenModel() instead",
+    message = "use koinNavigatorScreenModel() instead. Will be removed on 1.1.0",
     replaceWith = ReplaceWith("koinNavigatorScreenModel")
 )
 @Composable
