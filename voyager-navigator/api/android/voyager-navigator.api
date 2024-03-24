@@ -77,6 +77,9 @@ public final class cafe/adriel/voyager/navigator/VoyagerNavigatorSaverException 
 	public fun <init> (Ljava/lang/String;)V
 }
 
+public final class cafe/adriel/voyager/navigator/internal/ActualsKt {
+}
+
 public abstract interface class cafe/adriel/voyager/navigator/lifecycle/NavigatorDisposable {
 	public abstract fun onDispose (Lcafe/adriel/voyager/navigator/Navigator;)V
 }
