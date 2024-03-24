@@ -68,6 +68,9 @@ public final class cafe/adriel/voyager/navigator/NavigatorSaverKt {
 	public static final fun getLocalNavigatorSaver ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
+public final class cafe/adriel/voyager/navigator/internal/ActualsKt {
+}
+
 public abstract interface class cafe/adriel/voyager/navigator/lifecycle/NavigatorDisposable {
 	public abstract fun onDispose (Lcafe/adriel/voyager/navigator/Navigator;)V
 }

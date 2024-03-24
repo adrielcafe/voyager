@@ -2,6 +2,8 @@ package cafe.adriel.voyager.navigator.internal
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 
+@InternalVoyagerApi
 @Composable
-internal actual fun BackHandler(enabled: Boolean, onBack: () -> Unit) = BackHandler(enabled, onBack)
+public actual fun BackHandler(enabled: Boolean, onBack: () -> Unit): Unit = BackHandler(enabled, onBack)

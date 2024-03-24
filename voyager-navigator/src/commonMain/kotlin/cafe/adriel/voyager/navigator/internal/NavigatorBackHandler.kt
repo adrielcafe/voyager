@@ -1,11 +1,13 @@
 package cafe.adriel.voyager.navigator.internal
 
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.OnBackPressed
 
+@InternalVoyagerApi
 @Composable
-internal expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
+public expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
 
 @Composable
 internal fun NavigatorBackHandler(
