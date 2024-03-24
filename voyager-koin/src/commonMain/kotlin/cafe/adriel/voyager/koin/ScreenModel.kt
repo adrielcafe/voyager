@@ -17,7 +17,7 @@ import org.koin.core.scope.Scope
 public inline fun <reified T : ScreenModel> Screen.koinScreenModel(
     qualifier: Qualifier? = null,
     scope: Scope = currentKoinScope(),
-    noinline parameters: ParametersDefinition? = null,
+    noinline parameters: ParametersDefinition? = null
 ): T {
     val st = parameters?.let { rememberStableParametersDefinition(parameters) }
     val tag = remember(qualifier, scope) { qualifier?.value }
@@ -30,7 +30,7 @@ public inline fun <reified T : ScreenModel> Screen.koinScreenModel(
 public inline fun <reified T : ScreenModel> Navigator.koinNavigatorScreenModel(
     qualifier: Qualifier? = null,
     scope: Scope = currentKoinScope(),
-    noinline parameters: ParametersDefinition? = null,
+    noinline parameters: ParametersDefinition? = null
 ): T {
     val st = parameters?.let { rememberStableParametersDefinition(parameters) }
     val tag = remember(qualifier, scope) { qualifier?.value }

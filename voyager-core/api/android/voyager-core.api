@@ -1,6 +1,7 @@
 public final class cafe/adriel/voyager/androidx/AndroidScreenLifecycleOwner : androidx/lifecycle/HasDefaultViewModelProviderFactory, androidx/lifecycle/LifecycleOwner, androidx/lifecycle/ViewModelStoreOwner, androidx/savedstate/SavedStateRegistryOwner, cafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner {
 	public static final field $stable I
 	public static final field Companion Lcafe/adriel/voyager/androidx/AndroidScreenLifecycleOwner$Companion;
+	public synthetic fun ProvideBeforeScreenContent (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
 	public fun ProvideBeforeScreenContent (Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 	public fun getDefaultViewModelCreationExtras ()Landroidx/lifecycle/viewmodel/CreationExtras;
 	public fun getDefaultViewModelProviderFactory ()Landroidx/lifecycle/ViewModelProvider$Factory;
