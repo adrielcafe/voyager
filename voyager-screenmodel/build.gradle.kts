@@ -13,21 +13,18 @@ android {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(projects.voyagerCore)
-                api(projects.voyagerNavigator)
-                compileOnly(compose.runtime)
-                compileOnly(compose.runtimeSaveable)
-                implementation(libs.coroutines.core)
-            }
+        commonMain.dependencies {
+            api(projects.voyagerCore)
+            api(projects.voyagerNavigator)
+            compileOnly(compose.runtime)
+            compileOnly(compose.runtimeSaveable)
+            implementation(libs.coroutines.core)
+
         }
 
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.junit.api)
-                runtimeOnly(libs.junit.engine)
-            }
+        jvmTest.dependencies {
+            implementation(libs.junit.api)
+            runtimeOnly(libs.junit.engine)
         }
     }
 }
