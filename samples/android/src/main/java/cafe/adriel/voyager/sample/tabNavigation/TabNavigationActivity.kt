@@ -26,49 +26,53 @@ class TabNavigationActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Content()
+            TabNavigationContent {
+                CurrentTab()
+            }
         }
     }
+}
 
-    @Composable
-    fun Content() {
-        TabNavigator(
-            HomeTab,
-            tabDisposable = {
-                TabDisposable(
-                    navigator = it,
-                    tabs = listOf(HomeTab, FavoritesTab, ProfileTab)
-                )
-            }
-        ) { tabNavigator ->
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text(text = tabNavigator.current.options.title) }
-                    )
-                },
-                content = {
-                    CurrentTab()
-                },
-                bottomBar = {
-                    BottomNavigation {
-                        TabNavigationItem(HomeTab)
-                        TabNavigationItem(FavoritesTab)
-                        TabNavigationItem(ProfileTab)
-                    }
-                }
+@Composable
+private fun RowScope.TabNavigationItem(tab: Tab) {
+    val tabNavigator = LocalTabNavigator.current
+
+    BottomNavigationItem(
+        selected = tabNavigator.current.key == tab.key,
+        onClick = { tabNavigator.current = tab },
+        icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
+    )
+}
+
+@Composable
+fun TabNavigationContent(
+    scaffoldContent: @Composable (TabNavigator) -> Unit
+) {
+    TabNavigator(
+        tab = HomeTab,
+        tabDisposable = {
+            TabDisposable(
+                navigator = it,
+                tabs = listOf(HomeTab, FavoritesTab, ProfileTab)
             )
         }
-    }
-
-    @Composable
-    private fun RowScope.TabNavigationItem(tab: Tab) {
-        val tabNavigator = LocalTabNavigator.current
-
-        BottomNavigationItem(
-            selected = tabNavigator.current.key == tab.key,
-            onClick = { tabNavigator.current = tab },
-            icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
+    ) { tabNavigator ->
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = tabNavigator.current.options.title) }
+                )
+            },
+            content = {
+                scaffoldContent(tabNavigator)
+            },
+            bottomBar = {
+                BottomNavigation {
+                    TabNavigationItem(HomeTab)
+                    TabNavigationItem(FavoritesTab)
+                    TabNavigationItem(ProfileTab)
+                }
+            }
         )
     }
 }
