@@ -17,7 +17,7 @@ kotlin {
             api(projects.voyagerScreenmodel)
             compileOnly(libs.rxjava)
         }
-         jvmTest.dependencies {
+        jvmTest.dependencies {
             implementation(libs.junit.api)
             runtimeOnly(libs.junit.engine)
         }

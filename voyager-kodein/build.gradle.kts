@@ -25,7 +25,6 @@ kotlin {
         jvmTest.dependencies {
             implementation(libs.junit.api)
             runtimeOnly(libs.junit.engine)
-
         }
     }
 }
