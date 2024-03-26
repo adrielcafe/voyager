@@ -8,7 +8,9 @@ import cafe.adriel.voyager.core.screen.Screen
  * Navigator Saver that forces all Screens be [Parcelable], if not, it will throw a exception while trying to save
  * the navigator state.
  */
-public fun parcelableNavigatorSaver(): NavigatorSaver<Any> =
+public fun parcelableNavigatorSaver(
+    navigatorCreator: NavigatorCreator = summonNavigatorCreator
+): NavigatorSaver<Any> =
     NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
         listSaver(
             save = { navigator ->
@@ -28,7 +30,7 @@ public fun parcelableNavigatorSaver(): NavigatorSaver<Any> =
 
                 screenAsParcelables
             },
-            restore = { items -> Navigator(items as List<Screen>, key, stateHolder, disposeBehavior, parent) }
+            restore = { items -> navigatorCreator(items as List<Screen>, key, stateHolder, disposeBehavior, parent) }
         )
     }
 
