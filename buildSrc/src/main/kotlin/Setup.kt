@@ -15,6 +15,7 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -71,7 +72,6 @@ fun Project.setupModuleForComposeMultiplatform(
     withKotlinExplicitMode: Boolean = true,
     fullyMultiplatform: Boolean = false,
     enableWasm: Boolean = true,
-    iosPrefixName: String = "ios" // only used in ios sample
 ) {
     plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper> {
         extensions.configure<KotlinMultiplatformExtension> {
@@ -82,6 +82,24 @@ fun Project.setupModuleForComposeMultiplatform(
                 all {
                     languageSettings.optIn("cafe.adriel.voyager.core.annotation.InternalVoyagerApi")
                     languageSettings.optIn("cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi")
+                }
+            }
+
+            applyDefaultHierarchyTemplate {
+                common {
+                    if(fullyMultiplatform) {
+                        group("commonWeb") {
+                            withJs()
+                            if(enableWasm) {
+                                withWasm()
+                            }
+                        }
+                    }
+                    group("jvm") {
+                        withCompilations {
+                            it.target.targetName == "desktop" || it.target is KotlinAndroidTarget
+                        }
+                    }
                 }
             }
 
@@ -100,70 +118,9 @@ fun Project.setupModuleForComposeMultiplatform(
                 }
                 macosX64()
                 macosArm64()
-                ios(iosPrefixName)
-                iosSimulatorArm64("${iosPrefixName}SimulatorArm64")
-            }
-
-            sourceSets {
-                /* Source sets structure
-                common
-                  ├─ jvm
-                      ├─ android
-                      ├─ desktop
-                 */
-                val commonMain by getting
-                val commonTest by getting
-                val jvmMain by creating {
-                    dependsOn(commonMain)
-                }
-                val jvmTest by creating {
-                    dependsOn(commonTest)
-                }
-
-
-                val desktopMain by getting {
-                    dependsOn(jvmMain)
-                }
-                val androidMain by getting {
-                    dependsOn(jvmMain)
-                }
-                val desktopTest by getting {
-                    dependsOn(jvmTest)
-                }
-
-                if (fullyMultiplatform) {
-                    val commonWebMain by creating {
-                        dependsOn(commonMain)
-                    }
-
-                    val jsMain by getting
-                    jsMain.dependsOn(commonWebMain)
-
-                    val nativeMain by creating {
-                        dependsOn(commonMain)
-                    }
-
-                    val macosMain by creating {
-                        dependsOn(nativeMain)
-                    }
-                    val macosX64Main by getting {
-                        dependsOn(macosMain)
-                    }
-                    val macosArm64Main by getting {
-                        dependsOn(macosMain)
-                    }
-                    val iosMain = getByName(iosPrefixName + "Main").apply {
-                        dependsOn(nativeMain)
-                    }
-                    val iosSimulatorArm64Main = getByName(iosPrefixName + "SimulatorArm64Main").apply {
-                        dependsOn(iosMain)
-                    }
-
-                    if (enableWasm) {
-                        val wasmJsMain by getting
-                        wasmJsMain.dependsOn(commonWebMain)
-                    }
-                }
+                iosArm64()
+                iosX64()
+                iosSimulatorArm64()
             }
         }
 

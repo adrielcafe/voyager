@@ -14,28 +14,22 @@ android {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                compileOnly(compose.runtime)
-                compileOnly(compose.runtimeSaveable)
-                implementation(libs.coroutines.core)
-            }
+        commonMain.dependencies {
+            compileOnly(compose.runtime)
+            compileOnly(compose.runtimeSaveable)
+            implementation(libs.coroutines.core)
         }
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.junit.api)
-                runtimeOnly(libs.junit.engine)
-            }
+        jvmTest.dependencies {
+            implementation(libs.junit.api)
+            runtimeOnly(libs.junit.engine)
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.compose.activity)
+        androidMain.dependencies {
+            implementation(libs.compose.activity)
 
-                implementation(libs.lifecycle.runtime)
-                implementation(libs.lifecycle.savedState)
-                implementation(libs.lifecycle.viewModelKtx)
-                implementation(libs.lifecycle.viewModelCompose)
-            }
+            implementation(libs.lifecycle.runtime)
+            implementation(libs.lifecycle.savedState)
+            implementation(libs.lifecycle.viewModelKtx)
+            implementation(libs.lifecycle.viewModelCompose)
         }
         val commonWebMain by getting {
             dependencies {

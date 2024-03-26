@@ -19,17 +19,15 @@ android {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(projects.voyagerCore)
-                api(projects.voyagerScreenmodel)
-                api(projects.voyagerNavigator)
+        commonMain.dependencies {
+            api(projects.voyagerCore)
+            api(projects.voyagerScreenmodel)
+            api(projects.voyagerNavigator)
 
-                compileOnly(compose.runtime)
-                compileOnly(compose.runtimeSaveable)
+            compileOnly(compose.runtime)
+            compileOnly(compose.runtimeSaveable)
 
-                implementation(libs.coroutines.core)
-            }
+            implementation(libs.coroutines.core)
         }
     }
 }

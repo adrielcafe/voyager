@@ -12,18 +12,14 @@ android {
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                api(projects.voyagerCore)
-                api(projects.voyagerScreenmodel)
-                compileOnly(libs.rxjava)
-            }
+        jvmMain.dependencies {
+            api(projects.voyagerCore)
+            api(projects.voyagerScreenmodel)
+            compileOnly(libs.rxjava)
         }
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.junit.api)
-                runtimeOnly(libs.junit.engine)
-            }
+        jvmTest.dependencies {
+            implementation(libs.junit.api)
+            runtimeOnly(libs.junit.engine)
         }
     }
 }
