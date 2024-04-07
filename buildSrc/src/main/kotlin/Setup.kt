@@ -13,6 +13,7 @@ import org.gradle.kotlin.dsl.getting
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.hasPlugin
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
@@ -104,7 +105,9 @@ fun Project.setupModuleForComposeMultiplatform(
             }
 
             androidTarget {
-                publishAllLibraryVariants()
+                if (plugins.hasPlugin("com.vanniktech.maven.publish")) {
+                    publishLibraryVariants("release")
+                }
             }
             jvm("desktop")
 
