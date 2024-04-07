@@ -66,22 +66,18 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.material)
-                implementation(compose.runtime)
+        commonMain.dependencies {
+            implementation(compose.material)
+            implementation(compose.runtime)
 
-                implementation(projects.voyagerCore)
-                implementation(projects.voyagerNavigator)
-                implementation(libs.coroutines.core)
-            }
+            implementation(projects.voyagerCore)
+            implementation(projects.voyagerNavigator)
+            implementation(libs.coroutines.core)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.appCompat)
-                implementation(libs.compose.activity)
-            }
+        androidMain.dependencies {
+            implementation(libs.appCompat)
+            implementation(libs.compose.activity)
         }
 
         val desktopMain by getting {
