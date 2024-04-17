@@ -1,0 +1,81 @@
+# pip install mkdocs mkdocs-material
+# mkdocs serve
+# mkdocs gh-deploy
+
+site_name: Voyager
+repo_name: Voyager
+repo_url: https://github.com/adrielcafe/voyager
+site_description: 🛸 A pragmatic navigation library for Jetpack Compose"
+remote_branch: gh-pages
+
+#copyright: 'Copyright &copy; '
+
+theme:
+  name: 'material'
+  logo: 'media/icon/logo.png'
+  favicon: 'media/icon/logo.png'
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: 'cyan'
+      accent: 'deep-purple'
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: 'black'
+      accent: 'blue-grey'
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+# Plugins
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - smarty
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.emoji
+  - tables
+  - admonition
+
+nav:
+  - 'Setup': setup.md
+  - 'Navigation': navigation.md
+  - 'Nested navigation': nested-navigation.md
+  - 'Multi-module navigation': multi-module-navigation.md
+  - 'Navigation extensions':
+      - 'BottomSheet navigation': bottomsheet-navigation.md
+      - 'Tab navigation': tab-navigation.md
+  - 'ScreenModel':
+      - 'Overview': screenmodel.md
+      - 'Coroutines integration': screenmodel-coroutines.md
+      - 'RxJava integration': screenmodel-rxjava.md
+      - 'LiveData integration': screenmodel-livedata.md
+      - 'Hilt integration': screenmodel-hilt.md
+      - 'Koin integration': screenmodel-koin.md
+      - 'Kodein integration': screenmodel-kodein.md
+  - 'Android ViewModel': android-viewmodel.md
+  - 'Stack API': stack-api.md
+  - 'State restoration': state-restoration.md
+  - 'Transitions': transitions-api.md
+  - 'Lifecycle': lifecycle.md
+  - 'Back press': back-press.md
+  - 'Deep links': deep-links.md
+  - 'Migration to 1.0.0': migration-1-0.md
