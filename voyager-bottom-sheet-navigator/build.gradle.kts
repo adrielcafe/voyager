@@ -18,7 +18,7 @@ kotlin {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
                 compileOnly(compose.runtime)
-                compileOnly(compose.material)
+                compileOnly(compose.material3)
             }
         }
 

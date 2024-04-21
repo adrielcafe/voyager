@@ -1,18 +1,18 @@
 package cafe.adriel.voyager.navigator.bottomSheet.internal
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 
 @Composable
 internal expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 internal fun BottomSheetNavigatorBackHandler(
     navigator: BottomSheetNavigator,
-    sheetState: ModalBottomSheetState,
+    sheetState: SheetState,
     hideOnBackPress: Boolean
 ) {
     BackHandler(enabled = sheetState.isVisible) {

@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.compose.runtimeLiveData)
     implementation(libs.compose.activity)
     implementation(libs.compose.material)
+    implementation(libs.compose.material3)
     implementation(libs.compose.materialIcons)
     implementation(libs.compose.animation)
     implementation(libs.hilt.android)

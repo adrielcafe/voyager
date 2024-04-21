@@ -1,17 +1,15 @@
 package cafe.adriel.voyager.navigator.bottomSheet
 
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetDefaults
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.SwipeableDefaults
-import androidx.compose.material.contentColorFor
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -39,19 +37,18 @@ public typealias BottomSheetNavigatorContent = @Composable (bottomSheetNavigator
 public val LocalBottomSheetNavigator: ProvidableCompositionLocal<BottomSheetNavigator> =
     staticCompositionLocalOf { error("BottomSheetNavigator not initialized") }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 public fun BottomSheetNavigator(
+    onDismissRequest: () -> Unit = {},
     modifier: Modifier = Modifier,
     hideOnBackPress: Boolean = true,
-    scrimColor: Color = ModalBottomSheetDefaults.scrimColor,
+    scrimColor: Color = BottomSheetDefaults.ScrimColor,
     sheetShape: Shape = MaterialTheme.shapes.large,
-    sheetElevation: Dp = ModalBottomSheetDefaults.Elevation,
-    sheetBackgroundColor: Color = MaterialTheme.colors.surface,
-    sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
-    sheetGesturesEnabled: Boolean = true,
-    skipHalfExpanded: Boolean = true,
-    animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
+    tonalElevation: Dp = BottomSheetDefaults.Elevation,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(containerColor),
+    skipPartiallyExpanded: Boolean = true,
     key: String = compositionUniqueId(),
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
     content: BottomSheetNavigatorContent
@@ -59,13 +56,11 @@ public fun BottomSheetNavigator(
     var hideBottomSheet: (() -> Unit)? = null
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        skipHalfExpanded = skipHalfExpanded,
-        animationSpec = animationSpec
+        skipPartiallyExpanded = skipPartiallyExpanded
     )
 
     LaunchedEffect(sheetState, sheetState.currentValue) {
-        if (sheetState.currentValue == ModalBottomSheetValue.Hidden) {
+        if (sheetState.currentValue == SheetValue.Hidden) {
             hideBottomSheet?.invoke()
         }
     }
@@ -78,31 +73,32 @@ public fun BottomSheetNavigator(
         hideBottomSheet = bottomSheetNavigator::hide
 
         CompositionLocalProvider(LocalBottomSheetNavigator provides bottomSheetNavigator) {
-            ModalBottomSheetLayout(
-                modifier = modifier,
-                scrimColor = scrimColor,
-                sheetState = sheetState,
-                sheetShape = sheetShape,
-                sheetElevation = sheetElevation,
-                sheetBackgroundColor = sheetBackgroundColor,
-                sheetContentColor = sheetContentColor,
-                sheetGesturesEnabled = sheetGesturesEnabled,
-                sheetContent = {
-                    BottomSheetNavigatorBackHandler(bottomSheetNavigator, sheetState, hideOnBackPress)
-                    sheetContent(bottomSheetNavigator)
-                },
-                content = {
-                    content(bottomSheetNavigator)
-                }
-            )
+            content(bottomSheetNavigator)
+
+            if (sheetState.isVisible) {
+                ModalBottomSheet(
+                    onDismissRequest = onDismissRequest,
+                    modifier = modifier,
+                    sheetState = sheetState,
+                    shape = sheetShape,
+                    containerColor = containerColor,
+                    contentColor = contentColor,
+                    tonalElevation = tonalElevation,
+                    scrimColor = scrimColor,
+                    content = {
+                        BottomSheetNavigatorBackHandler(bottomSheetNavigator, sheetState, hideOnBackPress)
+                        sheetContent(bottomSheetNavigator)
+                    }
+                )
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 public class BottomSheetNavigator @InternalVoyagerApi constructor(
     private val navigator: Navigator,
-    private val sheetState: ModalBottomSheetState,
+    private val sheetState: SheetState,
     private val coroutineScope: CoroutineScope
 ) : Stack<Screen> by navigator {
 
@@ -121,7 +117,7 @@ public class BottomSheetNavigator @InternalVoyagerApi constructor(
             if (isVisible) {
                 sheetState.hide()
                 replaceAll(HiddenBottomSheetScreen)
-            } else if (sheetState.targetValue == ModalBottomSheetValue.Hidden) {
+            } else if (sheetState.targetValue == SheetValue.Hidden) {
                 // Swipe down - sheetState is already hidden here so `isVisible` is false
                 replaceAll(HiddenBottomSheetScreen)
             }
