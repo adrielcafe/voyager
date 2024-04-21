@@ -23,7 +23,7 @@ public object VoyagerHiltViewModelFactories {
     }
 
     internal class InternalViewModelFactory @Inject internal constructor(
-        @HiltViewModelMap.KeySet private val keySet: Set<String>,
+        @HiltViewModelMap.KeySet private val keySet: Map<Class<*>, Boolean>,
         private val viewModelComponentBuilder: ViewModelComponentBuilder
     ) {
         fun fromActivity(
