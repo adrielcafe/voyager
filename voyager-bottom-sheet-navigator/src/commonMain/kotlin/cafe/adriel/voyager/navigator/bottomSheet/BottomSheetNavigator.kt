@@ -37,7 +37,7 @@ public typealias BottomSheetNavigatorContent = @Composable (bottomSheetNavigator
 public val LocalBottomSheetNavigator: ProvidableCompositionLocal<BottomSheetNavigator> =
     staticCompositionLocalOf { error("BottomSheetNavigator not initialized") }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterial3Api
 @Composable
 public fun BottomSheetNavigator(
     onDismissRequest: () -> Unit = {},
