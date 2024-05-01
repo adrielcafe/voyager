@@ -33,8 +33,8 @@ theme:
 # Plugins
 plugins:
   - search
-  - minify:
-      minify_html: true
+#  - minify:
+#      minify_html: true
 
 markdown_extensions:
   - smarty
@@ -52,30 +52,37 @@ markdown_extensions:
   - pymdownx.smartsymbols
   - pymdownx.superfences
   - pymdownx.emoji
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
   - tables
   - admonition
 
 nav:
+  - 'Overview': index.md
   - 'Setup': setup.md
-  - 'Navigation': navigation.md
-  - 'Nested navigation': nested-navigation.md
-  - 'Multi-module navigation': multi-module-navigation.md
+  - 'Navigation': navigation/index.md
+  - 'Nested navigation': navigation/nested-navigation.md
+  - 'Multi-module navigation': navigation/multi-module-navigation.md
   - 'Navigation extensions':
-      - 'BottomSheet navigation': bottomsheet-navigation.md
-      - 'Tab navigation': tab-navigation.md
+      - 'BottomSheet navigation': navigation/bottomsheet-navigation.md
+      - 'Tab navigation': navigation/tab-navigation.md
   - 'ScreenModel':
-      - 'Overview': screenmodel.md
-      - 'Coroutines integration': screenmodel-coroutines.md
-      - 'RxJava integration': screenmodel-rxjava.md
-      - 'LiveData integration': screenmodel-livedata.md
-      - 'Hilt integration': screenmodel-hilt.md
-      - 'Koin integration': screenmodel-koin.md
-      - 'Kodein integration': screenmodel-kodein.md
-  - 'Android ViewModel': android-viewmodel.md
+      - 'Overview': screenmodel/index.md
+      - 'Coroutines integration': screenmodel/coroutines-integration.md
+      - 'RxJava integration': screenmodel/rxjava-integration.md
+      - 'LiveData integration': screenmodel/livedata-integration.md
+      - 'Hilt integration': screenmodel/hilt-integration.md
+      - 'Koin integration': screenmodel/koin-integration.md
+      - 'Kodein integration': screenmodel/kodein-integration.md
+  - 'Android ViewModel': android-viewmodel/index.md
+  - 'ViewModel KMP': android-viewmodel/viewmodel-kmp.md
   - 'Stack API': stack-api.md
   - 'State restoration': state-restoration.md
   - 'Transitions': transitions-api.md
   - 'Lifecycle': lifecycle.md
   - 'Back press': back-press.md
   - 'Deep links': deep-links.md
-  - 'Migration to 1.0.0': migration-1-0.md
+  - 'Migration to 1.0.0': migration-to-1.0.0.md
+  - 'Faq': faq.md
+  - 'Community Projects': community-projects.md

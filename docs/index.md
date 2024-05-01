@@ -1,10 +1,12 @@
 # Overview
 
-## [Voyager](https://en.wikipedia.org/wiki/USS_Voyager_(Star_Trek)): Compose on Warp Speed
+![](./media/assets/Sem título-1.png)
+
+### [Voyager](https://en.wikipedia.org/wiki/USS\_Voyager\_\(Star\_Trek\)): Compose on Warp Speed
 
 A multiplatform navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
-Create scalable Single-Activity apps powered by a [pragmatic API](navigation.md):
+Create scalable Single-Activity apps powered by a [pragmatic API](navigation/):
 
 ```kotlin
 class HomeScreenModel : ScreenModel {
@@ -34,29 +36,28 @@ class SingleActivity : ComponentActivity() {
 
 Turn on the Warp Drive and enjoy the voyage 🖖
 
-### Features
+### **Features**
 
-- [Supported platforms](): Android, iOS, Desktop, Web
-- [Linear navigation]()
-- [BottomSheet navigation]()
-- [Tab navigation]() like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
-- [Nested navigation]() (multiple stacks, parent navigation)
-- [ScreenModel]() (a.k.a ViewModel) integrated with [Koin](), [Kodein](), [Hilt](), [Coroutines](), [RxJava](), [LiveData]()
-- [Android ViewModel]() integration (with [Hilt support]())
-- Type-safe [multi-module navigation]()
-- State-aware [Stack API]()
-- Built-in [transitions]()
-- [State restoration]() after Activity recreation
-- [Lifecycle]() callbacks
-- [Back press]() handling
-- [Deep linking]() support
+* [Supported platforms](setup.md#platform-compatibility): Android, iOS, Desktop, Web
+* [Linear navigation](navigation/)
+* [BottomSheet navigation](navigation/bottomsheet-navigation.md)
+* [Tab navigation](navigation/tab-navigation.md) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
+* [Nested navigation](navigation/nested-navigation.md) (multiple stacks, parent navigation)
+* [ScreenModel](screenmodel/) (a.k.a ViewModel) integrated with [Koin](screenmodel/koin-integration.md), [Kodein](screenmodel/kodein-integration.md), [Hilt](screenmodel/hilt-integration.md), [Coroutines](screenmodel/coroutines-integration.md), [RxJava](screenmodel/rxjava-integration.md), [LiveData](screenmodel/livedata-integration.md)
+* [Android ViewModel](android-viewmodel/) integration (with [Hilt support](android-viewmodel/hilt-integration.md))
+* Type-safe [multi-module navigation](navigation/multi-module-navigation.md)
+* State-aware [Stack API](stack-api.md)
+* Built-in [transitions](transitions-api)
+* [State restoration](state-restoration.md) after Activity recreation
+* [Lifecycle](lifecycle.md) callbacks
+* [Back press](back-press.md) handling
+* [Deep linking](deep-links.md) support
 
 ### Roadmap
-- Navigator scoped ViewModels
-- Androidx ViewModel Multiplatform support
-- Androidx Lifecycle Multiplatform support
+
+* Wasm support
+* Navigator scoped ViewModels
 
 ### Credits
 
-### - Logo by [Icons8](https://icons8.com/icon/SUYSVQr61Q6V/uss-voyager)
-
+* Logo by [Icons8](https://icons8.com/icon/SUYSVQr61Q6V/uss-voyager)
