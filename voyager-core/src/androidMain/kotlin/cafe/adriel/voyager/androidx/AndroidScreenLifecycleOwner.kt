@@ -58,6 +58,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
     private val controller = SavedStateRegistryController.create(this)
 
     private var isCreated: Boolean by mutableStateOf(false)
+    private var isContextResetCallbackRegistered = false
 
     override val savedStateRegistry: SavedStateRegistry
         get() = controller.savedStateRegistry
@@ -140,7 +141,10 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     @Composable
     private fun getHooks(): List<ProvidedValue<*>> {
-        atomicContext.compareAndSet(null, LocalContext.current)
+        val context = LocalContext.current
+        atomicContext.compareAndSet(null, context)
+        registerContextResetCallback(context)
+
         atomicParentLifecycleOwner.compareAndSet(null, LocalLifecycleOwner.current)
 
         return remember(this) {
@@ -184,6 +188,20 @@ public class AndroidScreenLifecycleOwner private constructor() :
             return { lifecycle.removeObserver(observer) }
         } else {
             return { }
+        }
+    }
+
+    private fun registerContextResetCallback(context: Context) {
+        if (!isContextResetCallbackRegistered) {
+            val lifecycleOwner = (context as? LifecycleOwner) ?: return
+            lifecycleOwner.lifecycle.addObserver(
+                object : DefaultLifecycleObserver {
+                    override fun onDestroy(owner: LifecycleOwner) {
+                        atomicContext.set(null)
+                        isContextResetCallbackRegistered = false
+                    }
+                }
+            )
         }
     }
 
@@ -248,6 +266,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
         private val disposeEvents = arrayOf(
             Lifecycle.Event.ON_DESTROY
         )
+
         public fun get(screen: Screen): ScreenLifecycleOwner {
             return ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }
         }
