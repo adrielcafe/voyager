@@ -69,21 +69,25 @@ public fun ScreenTransition(
             val contentTransform = transition()
 
             val isPop = navigator.lastEvent == StackEvent.Pop
-            val exitTransition = if(isPop) {
-                (initialState as? ScreenTransition)?.exit()
-            } else {
-                (initialState as? ScreenTransition)?.exit()
-            }
-                ?: contentTransform.initialContentExit
 
-            val enterTransition = if(isPop) {
+            val screenEnterTransition = if(isPop) {
                 (targetState as? ScreenTransition)?.enter()
             } else {
                 (targetState as? ScreenTransition)?.enter()
             }
-                ?: contentTransform.targetContentEnter
 
-            enterTransition togetherWith exitTransition
+            val screenExitTransition = if(isPop) {
+                (initialState as? ScreenTransition)?.exit()
+            } else {
+                (initialState as? ScreenTransition)?.exit()
+            }
+
+            if(screenExitTransition != null || screenEnterTransition != null) {
+                (screenEnterTransition ?: contentTransform.targetContentEnter) togetherWith
+                        (screenExitTransition ?: contentTransform.initialContentExit)
+            } else {
+                contentTransform
+            }
         },
         modifier = modifier
     ) { screen ->
