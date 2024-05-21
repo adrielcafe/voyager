@@ -8,7 +8,7 @@ plugins {
 setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
-    namespace = "cafe.adriel.voyager.kodein"
+    namespace = "cafe.adriel.voyager.lifecycle.kmp"
 }
 
 kotlin {
