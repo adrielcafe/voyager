@@ -15,7 +15,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 @ExperimentalVoyagerApi
 @Composable
 public fun Navigator.rememberNavigatorViewModelStoreOwner(): ViewModelStoreOwner {
-    return rememberNavigatorJetpackOwner()
+    return rememberNavigatorLifecycleOwner()
 }
 
 @ExperimentalVoyagerApi

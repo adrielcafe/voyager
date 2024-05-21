@@ -1,12 +1,12 @@
-public final class cafe/adriel/voyager/jetpack/JetpackProviderKt {
+public final class cafe/adriel/voyager/jetpack/LifecycleProviderKt {
 }
 
 public final class cafe/adriel/voyager/jetpack/NavigatorKt {
 }
 
-public final class cafe/adriel/voyager/jetpack/NavigatorLifecycleJetpackOwnerKt {
+public final class cafe/adriel/voyager/jetpack/NavigatorLifecycleKMPOwnerKt {
 }
 
-public final class cafe/adriel/voyager/jetpack/VoyagerJetpackOwner$Companion {
+public final class cafe/adriel/voyager/jetpack/VoyagerLifecycleKMPOwner$Companion {
 }
 

@@ -28,6 +28,6 @@ public fun ProvideNavigatorLifecycleKMPSupport(
 @ExperimentalVoyagerApi
 public class JetpackSupportProvider : NavigatorScreenLifecycleProvider {
     override fun provide(screen: Screen): List<ScreenLifecycleContentProvider> =
-        listOf(ScreenLifecycleStore.get(screen) {ScreenLifecycleJetpackOwner() })
+        listOf(ScreenLifecycleStore.get(screen) { ScreenLifecycleKMPOwner() })
 
 }
