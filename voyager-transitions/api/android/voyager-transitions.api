@@ -47,6 +47,11 @@ public final class cafe/adriel/voyager/transitions/ScaleTransitionKt {
 	public static final fun ScaleTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class cafe/adriel/voyager/transitions/ScreenTransition$DefaultImpls {
+	public static fun enter (Lcafe/adriel/voyager/transitions/ScreenTransition;)Landroidx/compose/animation/EnterTransition;
+	public static fun exit (Lcafe/adriel/voyager/transitions/ScreenTransition;)Landroidx/compose/animation/ExitTransition;
+}
+
 public final class cafe/adriel/voyager/transitions/ScreenTransitionKt {
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
