@@ -22,6 +22,4 @@ internal actual class SavedStateViewModelPlatform actual constructor(
 
     public actual fun provideHooks(): List<ProvidedValue<*>> = emptyList()
 
-    public actual fun isChangingConfigurations(): Boolean = false
-
 }

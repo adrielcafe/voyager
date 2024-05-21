@@ -40,8 +40,6 @@ internal expect class SavedStateViewModelPlatform constructor(owner: SavedStateR
     fun initHooks()
 
     fun provideHooks(): List<ProvidedValue<*>>
-
-    fun isChangingConfigurations(): Boolean
 }
 
 @ExperimentalVoyagerApi
@@ -108,7 +106,6 @@ public class VoyagerLifecycleKMPOwner :
     }
 
     public fun onDispose() {
-        if(platformSavedState.isChangingConfigurations()) return
         viewModelStore.clear()
         disposeEvents.forEach { event ->
             lifecycle.safeHandleLifecycleEvent(event)

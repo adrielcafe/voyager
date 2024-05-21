@@ -15,16 +15,16 @@ import androidx.savedstate.SavedStateRegistryOwner
 import java.util.concurrent.atomic.AtomicReference
 
 internal actual class SavedStateViewModelPlatform actual constructor(val owner: SavedStateRegistryOwner) {
-    private val atomicContext = AtomicReference<Context>()
+    private val atomicAppContext = AtomicReference<Context>()
 
     actual fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory =
         SavedStateViewModelFactory(
-            application = atomicContext.get()?.applicationContext?.getApplication(),
+            application = atomicAppContext.get()?.getApplication(),
             owner = owner
         )
 
     actual fun providePlatform(extras: MutableCreationExtras) {
-        val application = atomicContext.get()?.applicationContext?.getApplication()
+        val application = atomicAppContext.get()?.getApplication()
         if (application != null) {
             extras.set(ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY, application)
         }
@@ -32,28 +32,15 @@ internal actual class SavedStateViewModelPlatform actual constructor(val owner: 
 
     @Composable
     actual fun initHooks() {
-        atomicContext.compareAndSet(null, LocalContext.current)
+        atomicAppContext.compareAndSet(null, LocalContext.current.applicationContext)
     }
 
     actual fun provideHooks(): List<ProvidedValue<*>> = listOf(
         LocalSavedStateRegistryOwner provides owner
     )
 
-    actual fun isChangingConfigurations(): Boolean {
-        val context = atomicContext.getAndSet(null) ?: return true
-        val activity = context.getActivity()
-        return activity != null && activity.isChangingConfigurations
-    }
-
-    private tailrec fun Context.getActivity(): Activity? = when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.getActivity()
-        else -> null
-    }
-
-    private tailrec fun Context.getApplication(): Application? = when (this) {
+    private fun Context.getApplication(): Application? = when (this) {
         is Application -> this
-        is ContextWrapper -> baseContext.getApplication()
         else -> null
     }
 }
