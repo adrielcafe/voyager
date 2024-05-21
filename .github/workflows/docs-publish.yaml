@@ -1,0 +1,38 @@
+name: Build
+on:
+  push:
+    branches: [main, mkdocs]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: macOS-latest
+    timeout-minutes: 60
+    steps:
+
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      # Documentation publishing
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.8
+
+      - name: Build mkdocs
+        run: |
+          pip3 install -r .github/workflows/mkdocs-requirements.txt
+          mkdocs build
+
+      - name: Deploy 🚀
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: site # The folder the action should deploy.
+          SINGLE_COMMIT: true

@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [main, mkdocs]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -25,35 +25,14 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-#      - name: Lint
-#        run: |
-#          ./gradlew ktlintCheck --stacktrace
-#
-#      - name: Api Check
-#        run: |
-#          ./gradlew apiCheck --stacktrace
-
-#      - name: Validate publish
-#        run: |
-#          ./gradlew -Pversion=1.0.0-SNAPSHOT publishToMavenLocal --stacktrace
-
-      # Documentation publishing
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.8
-
-      - name: Build mkdocs
+      - name: Lint
         run: |
-          pip3 install -r .github/workflows/mkdocs-requirements.txt
-          mkdocs build
+          ./gradlew ktlintCheck --stacktrace
 
-      - name: Deploy 🚀
-        if: success()
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: site # The folder the action should deploy.
-          SINGLE_COMMIT: true
+      - name: Api Check
+        run: |
+          ./gradlew apiCheck --stacktrace
+
+      - name: Validate publish
+        run: |
+          ./gradlew -Pversion=1.0.0-SNAPSHOT publishToMavenLocal --stacktrace
