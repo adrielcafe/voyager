@@ -101,6 +101,18 @@ fun Project.setupModuleForComposeMultiplatform(
                             it.target.targetName == "desktop" || it.target is KotlinAndroidTarget
                         }
                     }
+                    group("nonAndroid") {
+                        if(fullyMultiplatform) {
+                            withJs()
+                            withNative()
+                            if(enableWasm) {
+                                withWasm()
+                            }
+                        }
+                        withCompilations {
+                            it.target.targetName == "desktop"
+                        }
+                    }
                 }
             }
 

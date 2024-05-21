@@ -2,7 +2,7 @@
 plugin-android = "8.1.1"
 plugin-ktlint = "11.5.1"
 plugin-maven = "0.25.3"
-plugin-multiplatform-compose = "1.6.1"
+plugin-multiplatform-compose = "1.6.10-rc03"
 plugin-binaryCompatibilityValidator = "0.13.2"
 plugin-atomicfu = "0.23.1"
 
@@ -14,7 +14,7 @@ koin-compose = "1.1.2"
 hilt = "2.51.1"
 leakCanary = "2.9.1"
 appCompat = "1.6.1"
-lifecycle = "2.6.1"
+lifecycle = "2.8.0"
 composeCompiler = "1.5.7"
 composeActivity = "1.7.2"
 composeAnimation = "1.5.0"
@@ -24,6 +24,9 @@ composeUI = "1.5.0"
 rxjava = "3.1.5"
 
 junit = "5.10.0"
+
+androidxKmp-bundle = "1.0.0-rc03"
+androidxKmp-lifecycle = "2.8.0-rc03"
 
 multiplatformUuid = "0.8.2"
 
@@ -59,6 +62,11 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 compose-materialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "composeMaterial" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+
+androidxKmp-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "androidxKmp-bundle" }
+androidxKmp-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxKmp-lifecycle" }
+androidxKmp-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidxKmp-lifecycle" }
+androidxKmp-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxKmp-lifecycle" }
 
 multiplatformUuid = { module = "com.benasher44:uuid", version.ref = "multiplatformUuid" }
 

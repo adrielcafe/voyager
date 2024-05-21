@@ -15,7 +15,6 @@ import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
 import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
-import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
@@ -25,6 +24,7 @@ import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
 import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
+import cafe.adriel.voyager.navigator.internal.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorKey
 
