@@ -10,7 +10,6 @@ jobs:
   build:
     name: Docs Publish
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
 
       - name: Fetch Sources
