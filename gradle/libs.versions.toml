@@ -2,7 +2,7 @@
 plugin-android = "8.1.1"
 plugin-ktlint = "11.5.1"
 plugin-maven = "0.25.3"
-plugin-multiplatform-compose = "1.6.10-rc03"
+plugin-multiplatform-compose = "1.6.10"
 plugin-binaryCompatibilityValidator = "0.13.2"
 plugin-atomicfu = "0.23.1"
 
@@ -25,8 +25,8 @@ rxjava = "3.1.5"
 
 junit = "5.10.0"
 
-androidxKmp-bundle = "1.0.0-rc03"
-androidxKmp-lifecycle = "2.8.0-rc03"
+androidxKmp-bundle = "1.0.0"
+androidxKmp-lifecycle = "2.8.0"
 
 multiplatformUuid = "0.8.2"
 

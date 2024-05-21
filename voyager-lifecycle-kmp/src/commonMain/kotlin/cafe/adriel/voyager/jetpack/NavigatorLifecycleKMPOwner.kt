@@ -11,18 +11,18 @@ import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
 @InternalVoyagerApi
 @ExperimentalVoyagerApi
 @Composable
-public fun Navigator.rememberNavigatorJetpackOwner(): VoyagerJetpackOwner {
+public fun Navigator.rememberNavigatorLifecycleOwner(): VoyagerLifecycleKMPOwner {
     return remember(this) {
         NavigatorLifecycleStore.get(this) {
-            NavigatorLifecycleJetpackOwner()
+            NavigatorLifecycleKMPOwner()
         }.owner
     }
 }
 
 @InternalVoyagerApi
 @ExperimentalVoyagerApi
-public class NavigatorLifecycleJetpackOwner : NavigatorDisposable {
-    public val owner: VoyagerJetpackOwner = VoyagerJetpackOwner()
+public class NavigatorLifecycleKMPOwner : NavigatorDisposable {
+    public val owner: VoyagerLifecycleKMPOwner = VoyagerLifecycleKMPOwner()
 
     override fun onDispose(navigator: Navigator) {
         owner.onDispose()

@@ -1,7 +1,6 @@
 package cafe.adriel.voyager.jetpack
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.getValue
@@ -47,7 +46,7 @@ internal expect class SavedStateViewModelPlatform constructor(owner: SavedStateR
 
 @ExperimentalVoyagerApi
 @InternalVoyagerApi
-public class VoyagerJetpackOwner :
+public class VoyagerLifecycleKMPOwner :
     LifecycleOwner,
     ViewModelStoreOwner,
     SavedStateRegistryOwner,
@@ -74,8 +73,8 @@ public class VoyagerJetpackOwner :
     override val defaultViewModelCreationExtras: CreationExtras
         get() = MutableCreationExtras().apply {
             platformSavedState.providePlatform(this)
-            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@VoyagerJetpackOwner)
-            set(VIEW_MODEL_STORE_OWNER_KEY, this@VoyagerJetpackOwner)
+            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@VoyagerLifecycleKMPOwner)
+            set(VIEW_MODEL_STORE_OWNER_KEY, this@VoyagerLifecycleKMPOwner)
 
             /* TODO if (getArguments() != null) {
                 extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())

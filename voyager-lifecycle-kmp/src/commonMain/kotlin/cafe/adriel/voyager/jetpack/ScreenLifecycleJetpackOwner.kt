@@ -4,14 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
-import cafe.adriel.voyager.core.lifecycle.LocalNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 
 @InternalVoyagerApi
 @ExperimentalVoyagerApi
-public class ScreenLifecycleJetpackOwner : ScreenLifecycleOwner {
-    public val owner: VoyagerJetpackOwner = VoyagerJetpackOwner()
+public class ScreenLifecycleKMPOwner : ScreenLifecycleOwner {
+    public val owner: VoyagerLifecycleKMPOwner = VoyagerLifecycleKMPOwner()
 
     @Composable
     override fun ProvideBeforeScreenContent(
