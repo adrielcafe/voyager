@@ -1,4 +1,4 @@
-name: Build
+name: Docs Publish
 on:
   push:
     branches: [main, mkdocs]
@@ -8,7 +8,7 @@ on:
 jobs:
 
   build:
-    name: Build
+    name: Docs Publish
     runs-on: macOS-latest
     timeout-minutes: 60
     steps:
