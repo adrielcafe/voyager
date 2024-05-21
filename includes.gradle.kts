@@ -10,6 +10,7 @@ include(
     ":voyager-core",
     ":voyager-screenmodel",
     ":voyager-navigator",
+    ":voyager-lifecycle-kmp",
     ":voyager-tab-navigator",
     ":voyager-bottom-sheet-navigator",
     ":voyager-transitions",
