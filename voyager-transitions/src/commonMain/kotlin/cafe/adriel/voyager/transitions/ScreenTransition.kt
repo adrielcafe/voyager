@@ -14,7 +14,6 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
-
 @ExperimentalVoyagerApi
 public interface ScreenTransition {
 
@@ -70,21 +69,21 @@ public fun ScreenTransition(
 
             val isPop = navigator.lastEvent == StackEvent.Pop
 
-            val screenEnterTransition = if(isPop) {
+            val screenEnterTransition = if (isPop) {
                 (targetState as? ScreenTransition)?.enter()
             } else {
                 (targetState as? ScreenTransition)?.enter()
             }
 
-            val screenExitTransition = if(isPop) {
+            val screenExitTransition = if (isPop) {
                 (initialState as? ScreenTransition)?.exit()
             } else {
                 (initialState as? ScreenTransition)?.exit()
             }
 
-            if(screenExitTransition != null || screenEnterTransition != null) {
+            if (screenExitTransition != null || screenEnterTransition != null) {
                 (screenEnterTransition ?: contentTransform.targetContentEnter) togetherWith
-                        (screenExitTransition ?: contentTransform.initialContentExit)
+                    (screenExitTransition ?: contentTransform.initialContentExit)
             } else {
                 contentTransform
             }
