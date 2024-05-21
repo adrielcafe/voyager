@@ -6,12 +6,15 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
+import cafe.adriel.voyager.navigator.LocalTransitionFinishedEvents
 import cafe.adriel.voyager.navigator.Navigator
 
 @ExperimentalVoyagerApi
@@ -77,6 +80,7 @@ public fun ScreenTransition(
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
@@ -104,6 +108,10 @@ public fun ScreenTransition(
         },
         modifier = modifier
     ) { screen ->
+        if (this.transition.targetState == this.transition.currentState) {
+            val transitionFinishedEvents = LocalTransitionFinishedEvents.current
+            LaunchedEffect(Unit) { transitionFinishedEvents.trySend(Unit) }
+        }
         navigator.saveableState("transition", screen) {
             content(screen)
         }

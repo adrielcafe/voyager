@@ -22,6 +22,8 @@ import cafe.adriel.voyager.sample.androidLegacy.LegacyActivity
 import cafe.adriel.voyager.sample.androidViewModel.AndroidViewModelActivity
 import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationActivity
 import cafe.adriel.voyager.sample.bottomSheetNavigation.BottomSheetNavigationActivity
+import cafe.adriel.voyager.sample.disposeSample.DisposeWhenStackChangedSampleActivity
+import cafe.adriel.voyager.sample.disposeSample.DisposeWhenTransitionFinishedSampleActivity
 import cafe.adriel.voyager.sample.hiltIntegration.HiltMainActivity
 import cafe.adriel.voyager.sample.kodeinIntegration.KodeinIntegrationActivity
 import cafe.adriel.voyager.sample.koinIntegration.KoinIntegrationActivity
@@ -53,6 +55,8 @@ class SampleActivity : ComponentActivity() {
             contentPadding = PaddingValues(24.dp)
         ) {
             item {
+                StartSampleButton<DisposeWhenTransitionFinishedSampleActivity>("DisposeWhenTransitionFinished")
+                StartSampleButton<DisposeWhenStackChangedSampleActivity>("DisposeWhenStackChanged")
                 StartSampleButton<StateStackActivity>("SnapshotStateStack")
                 StartSampleButton<BasicNavigationActivity>("Basic Navigation")
                 StartSampleButton<ParcelableActivity>("Basic Navigation with Parcelable")
@@ -78,7 +82,9 @@ class SampleActivity : ComponentActivity() {
 
         Button(
             onClick = { context.startActivity(Intent(this, T::class.java)) },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         ) {
             Text(text = text)
         }

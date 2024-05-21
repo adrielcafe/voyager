@@ -23,14 +23,20 @@ import cafe.adriel.voyager.navigator.internal.ChildrenNavigationDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
+import cafe.adriel.voyager.navigator.internal.StepDisposableAfterTransitionEffect
 import cafe.adriel.voyager.navigator.internal.StepDisposableEffect
 import cafe.adriel.voyager.navigator.internal.getNavigatorScreenLifecycleProvider
 import cafe.adriel.voyager.navigator.internal.rememberNavigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorKey
+import kotlinx.coroutines.channels.Channel
 
 public typealias NavigatorContent = @Composable (navigator: Navigator) -> Unit
 
 public typealias OnBackPressed = ((currentScreen: Screen) -> Boolean)?
+
+@InternalVoyagerApi
+public val LocalTransitionFinishedEvents: ProvidableCompositionLocal<Channel<Unit>> =
+    staticCompositionLocalOf { error("No LocalTransitionFinishedEvents provided") }
 
 public val LocalNavigator: ProvidableCompositionLocal<Navigator?> =
     staticCompositionLocalOf { null }
@@ -86,11 +92,20 @@ public fun Navigator(
             NavigatorDisposableEffect(navigator)
         }
 
+        val transitionFinishedEvents = remember { Channel<Unit>() }
+
         CompositionLocalProvider(
-            LocalNavigator provides navigator
+            LocalNavigator provides navigator,
+            LocalTransitionFinishedEvents provides transitionFinishedEvents
         ) {
-            if (disposeBehavior.disposeSteps) {
-                StepDisposableEffect(navigator)
+            when (disposeBehavior.disposeStepsBehavior) {
+                DisposeStepsBehavior.DisposeWhenTransitionFinished -> StepDisposableAfterTransitionEffect(
+                    transitionFinishedEvents = transitionFinishedEvents,
+                    navigator = navigator
+                )
+
+                DisposeStepsBehavior.DisposeWhenStackChanged -> StepDisposableEffect(navigator)
+                DisposeStepsBehavior.None -> Unit
             }
 
             NavigatorBackHandler(navigator, onBackPressed)
@@ -180,10 +195,27 @@ public class Navigator @InternalVoyagerApi constructor(
     }
 }
 
+public enum class DisposeStepsBehavior {
+    DisposeWhenTransitionFinished,
+    DisposeWhenStackChanged,
+    None
+}
+
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
-    val disposeSteps: Boolean = true
-)
+    val disposeStepsBehavior: DisposeStepsBehavior
+) {
+    public constructor(
+        disposeNestedNavigators: Boolean = true,
+        disposeSteps: Boolean = true
+    ) : this(
+        disposeNestedNavigators = disposeNestedNavigators,
+        disposeStepsBehavior = when {
+            disposeSteps -> DisposeStepsBehavior.DisposeWhenStackChanged
+            else -> DisposeStepsBehavior.None
+        }
+    )
+}
 
 @InternalVoyagerApi
 @Composable

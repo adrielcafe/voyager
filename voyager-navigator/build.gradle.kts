@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.voyagerCore)
+            implementation(libs.coroutines.core)
             compileOnly(compose.runtime)
             compileOnly(compose.runtimeSaveable)
         }

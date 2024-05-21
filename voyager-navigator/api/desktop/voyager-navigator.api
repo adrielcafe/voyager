@@ -7,6 +7,15 @@ public final class cafe/adriel/voyager/navigator/ComposableSingletons$NavigatorK
 	public final fun getLambda-2$voyager_navigator ()Lkotlin/jvm/functions/Function3;
 }
 
+public final class cafe/adriel/voyager/navigator/DisposeStepsBehavior : java/lang/Enum {
+	public static final field DisposeWhenStackChanged Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
+	public static final field DisposeWhenTransitionFinished Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
+	public static final field None Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
+	public static fun values ()[Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
+}
+
 public final class cafe/adriel/voyager/navigator/Navigator : cafe/adriel/voyager/core/stack/Stack {
 	public static final field $stable I
 	public fun clearEvent ()V
@@ -41,16 +50,17 @@ public final class cafe/adriel/voyager/navigator/Navigator : cafe/adriel/voyager
 
 public final class cafe/adriel/voyager/navigator/NavigatorDisposeBehavior {
 	public static final field $stable I
-	public fun <init> ()V
+	public fun <init> (ZLcafe/adriel/voyager/navigator/DisposeStepsBehavior;)V
+	public synthetic fun <init> (ZLcafe/adriel/voyager/navigator/DisposeStepsBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (ZZ)V
 	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
-	public final fun component2 ()Z
-	public final fun copy (ZZ)Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
-	public static synthetic fun copy$default (Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;ZZILjava/lang/Object;)Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
+	public final fun component2 ()Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
+	public final fun copy (ZLcafe/adriel/voyager/navigator/DisposeStepsBehavior;)Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
+	public static synthetic fun copy$default (Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;ZLcafe/adriel/voyager/navigator/DisposeStepsBehavior;ILjava/lang/Object;)Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDisposeNestedNavigators ()Z
-	public final fun getDisposeSteps ()Z
+	public final fun getDisposeStepsBehavior ()Lcafe/adriel/voyager/navigator/DisposeStepsBehavior;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

@@ -2,13 +2,26 @@ package cafe.adriel.voyager.navigator.internal
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
+import kotlinx.coroutines.channels.Channel
 
 private val disposableEvents: Set<StackEvent> =
     setOf(StackEvent.Pop, StackEvent.Replace)
+
+private data class ScreenData(
+    val key: ScreenKey,
+    val screen: Screen
+)
 
 @Composable
 internal fun NavigatorDisposableEffect(
@@ -36,6 +49,38 @@ internal fun StepDisposableEffect(
                 }
                 navigator.clearEvent()
             }
+        }
+    }
+}
+
+@Composable
+internal fun StepDisposableAfterTransitionEffect(
+    transitionFinishedEvents: Channel<Unit>,
+    navigator: Navigator
+) {
+    val screenCandidatesToDispose = rememberSaveable(saver = screenCandidatesToDisposeSaver()) {
+        mutableStateOf(emptySet())
+    }
+
+    val currentScreens = navigator.items
+
+    DisposableEffect(currentScreens) {
+        onDispose {
+            val newScreenKeys = navigator.items.map { it.key }
+            screenCandidatesToDispose.value += currentScreens.filter { it.key !in newScreenKeys }
+                .map { ScreenData(it.key, it) }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        for (event in transitionFinishedEvents) {
+            val newScreens = navigator.items.map { it.key }
+            val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
+            if (screensToDispose.isNotEmpty()) {
+                screensToDispose.forEach { navigator.dispose(it.screen) }
+                navigator.clearEvent()
+            }
+            screenCandidatesToDispose.value = emptySet()
         }
     }
 }
@@ -79,4 +124,11 @@ internal fun disposeNavigator(navigator: Navigator) {
     }
     NavigatorLifecycleStore.remove(navigator)
     navigator.clearEvent()
+}
+
+private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<ScreenData>>, List<ScreenData>> {
+    return Saver(
+        save = { it.value.toList() },
+        restore = { mutableStateOf(it.toSet()) }
+    )
 }

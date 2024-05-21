@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".stateStack.StateStackActivity"/>
         <activity android:name=".basicNavigation.BasicNavigationActivity"/>
-        <activity android:name=".tabNavigation.TabNavigationActivity"/>
+        <activity android:name=".disposeSample.DisposeWhenTransitionFinishedSampleActivity"/>
+        <activity android:name=".disposeSample.DisposeWhenStackChangedSampleActivity"/>
         <activity android:name=".nestedNavigation.NestedNavigationActivity"/>
         <activity android:name=".parcelableScreen.ParcelableActivity"/>
         <activity android:name=".screenModel.ScreenModelActivity"/>
