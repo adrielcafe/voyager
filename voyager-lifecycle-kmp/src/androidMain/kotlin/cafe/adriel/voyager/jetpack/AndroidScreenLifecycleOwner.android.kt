@@ -1,9 +1,7 @@
 package cafe.adriel.voyager.jetpack
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.platform.LocalContext

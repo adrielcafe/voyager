@@ -14,4 +14,3 @@ public interface NavigatorScreenLifecycleProvider {
 
     public fun provide(screen: Screen): List<ScreenLifecycleContentProvider>
 }
-

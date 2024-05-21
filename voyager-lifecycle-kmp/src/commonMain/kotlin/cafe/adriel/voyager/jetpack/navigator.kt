@@ -49,5 +49,5 @@ public inline fun <reified VM : ViewModel> navigatorViewModel(
     viewModelStoreOwner = viewModelStoreOwner,
     key = key,
     factory = factory,
-    extras = extras,
+    extras = extras
 )

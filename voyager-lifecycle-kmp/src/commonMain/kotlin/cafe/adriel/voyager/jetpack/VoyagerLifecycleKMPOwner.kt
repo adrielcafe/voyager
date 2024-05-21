@@ -188,8 +188,6 @@ public class VoyagerLifecycleKMPOwner :
         }
     }
 
-
-
     private fun LifecycleRegistry.safeHandleLifecycleEvent(event: Lifecycle.Event) {
         val currentState = currentState
         if (!currentState.isAtLeast(Lifecycle.State.INITIALIZED)) return

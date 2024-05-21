@@ -29,5 +29,4 @@ public fun ProvideNavigatorLifecycleKMPSupport(
 public class JetpackSupportProvider : NavigatorScreenLifecycleProvider {
     override fun provide(screen: Screen): List<ScreenLifecycleContentProvider> =
         listOf(ScreenLifecycleStore.get(screen) { ScreenLifecycleKMPOwner() })
-
 }

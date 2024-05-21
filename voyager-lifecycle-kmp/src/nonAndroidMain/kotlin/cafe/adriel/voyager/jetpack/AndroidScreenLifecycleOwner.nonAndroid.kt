@@ -11,7 +11,6 @@ internal actual class SavedStateViewModelPlatform actual constructor(
 ) {
     public actual fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
-
         }
     }
 
@@ -21,5 +20,4 @@ internal actual class SavedStateViewModelPlatform actual constructor(
     public actual fun initHooks() {}
 
     public actual fun provideHooks(): List<ProvidedValue<*>> = emptyList()
-
 }
