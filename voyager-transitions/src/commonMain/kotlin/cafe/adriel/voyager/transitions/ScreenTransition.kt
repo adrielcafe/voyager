@@ -20,16 +20,18 @@ public interface ScreenTransition {
     /**
      * Defines the enter transition for the Screen.
      *
-     * Returns null when it should not define a transition for this screen.
+     * @param lastEvent - lastEvent in the navigation stack.
+     * @return EnterTransition or null when it should not define a transition for this screen.
      */
-    public fun enter(isPop: Boolean): EnterTransition? = null
+    public fun enter(lastEvent: StackEvent): EnterTransition? = null
 
     /**
      * Defines the exit transition for the Screen.
      *
-     * Returns null when it should not define a transition for this screen.
+     * @param lastEvent - lastEvent in the navigation stack.
+     * @return ExitTransition or null when it should not define a transition for this screen.
      */
-    public fun exit(isPop: Boolean): ExitTransition? = null
+    public fun exit(lastEvent: StackEvent): ExitTransition? = null
 }
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
@@ -55,6 +57,7 @@ public fun ScreenTransition(
     )
 }
 
+@ExperimentalVoyagerApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
@@ -65,9 +68,8 @@ public fun ScreenTransition(
     ScreenTransition(
         navigator = navigator,
         transition = {
-            val isPop = navigator.lastEvent == StackEvent.Pop
-            val enter = defaultTransition.enter(isPop) ?: EnterTransition.None
-            val exit = defaultTransition.exit(isPop) ?: ExitTransition.None
+            val enter = defaultTransition.enter(navigator.lastEvent) ?: EnterTransition.None
+            val exit = defaultTransition.exit(navigator.lastEvent) ?: ExitTransition.None
             enter togetherWith exit
         },
         modifier = modifier,
@@ -87,23 +89,18 @@ public fun ScreenTransition(
         transitionSpec = {
             val contentTransform = transition()
 
-            val isPop = navigator.lastEvent == StackEvent.Pop
-
-            val source = when (navigator.lastEvent) {
+            val sourceScreenTransition = when (navigator.lastEvent) {
                 StackEvent.Pop, StackEvent.Replace -> initialState
                 else -> targetState
-            }
+            } as? ScreenTransition
 
-            val screenEnterTransition = (source as? ScreenTransition)?.enter(isPop)
+            val screenEnterTransition = sourceScreenTransition?.enter(navigator.lastEvent)
+                ?: contentTransform.targetContentEnter
 
-            val screenExitTransition = (source as? ScreenTransition)?.exit(isPop)
+            val screenExitTransition = sourceScreenTransition?.exit(navigator.lastEvent)
+                ?: contentTransform.initialContentExit
 
-            if (screenExitTransition != null || screenEnterTransition != null) {
-                (screenEnterTransition ?: contentTransform.targetContentEnter) togetherWith
-                    (screenExitTransition ?: contentTransform.initialContentExit)
-            } else {
-                contentTransform
-            }
+            screenEnterTransition togetherWith screenExitTransition
         },
         modifier = modifier
     ) { screen ->

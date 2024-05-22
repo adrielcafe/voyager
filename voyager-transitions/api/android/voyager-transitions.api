@@ -50,12 +50,11 @@ public final class cafe/adriel/voyager/transitions/ScaleTransitionKt {
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransition$DefaultImpls {
-	public static fun enter (Lcafe/adriel/voyager/transitions/ScreenTransition;Z)Landroidx/compose/animation/EnterTransition;
-	public static fun exit (Lcafe/adriel/voyager/transitions/ScreenTransition;Z)Landroidx/compose/animation/ExitTransition;
+	public static fun enter (Lcafe/adriel/voyager/transitions/ScreenTransition;Lcafe/adriel/voyager/core/stack/StackEvent;)Landroidx/compose/animation/EnterTransition;
+	public static fun exit (Lcafe/adriel/voyager/transitions/ScreenTransition;Lcafe/adriel/voyager/core/stack/StackEvent;)Landroidx/compose/animation/ExitTransition;
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransitionKt {
-	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lcafe/adriel/voyager/transitions/ScreenTransition;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }

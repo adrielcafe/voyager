@@ -67,7 +67,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<LiveDataIntegrationActivity>("LiveData Integration")
                 StartSampleButton<HiltMainActivity>("Hilt Integration")
                 StartSampleButton<LegacyActivity>("Legacy Integration")
-                StartSampleButton<ScreenTransitionActivity>("ScreenTransitionActivity")
+                StartSampleButton<ScreenTransitionActivity>("Screen Transition")
             }
         }
     }
