@@ -23,9 +23,11 @@ public final class cafe/adriel/voyager/transitions/ComposableSingletons$ScreenTr
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$ScreenTransitionKt;
 	public static field lambda-1 Lkotlin/jvm/functions/Function4;
 	public static field lambda-2 Lkotlin/jvm/functions/Function4;
+	public static field lambda-3 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
 	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
 	public final fun getLambda-2$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda-3$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
 }
 
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$SlideTransitionKt {
@@ -48,11 +50,12 @@ public final class cafe/adriel/voyager/transitions/ScaleTransitionKt {
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransition$DefaultImpls {
-	public static fun enter (Lcafe/adriel/voyager/transitions/ScreenTransition;)Landroidx/compose/animation/EnterTransition;
-	public static fun exit (Lcafe/adriel/voyager/transitions/ScreenTransition;)Landroidx/compose/animation/ExitTransition;
+	public static fun enter (Lcafe/adriel/voyager/transitions/ScreenTransition;Z)Landroidx/compose/animation/EnterTransition;
+	public static fun exit (Lcafe/adriel/voyager/transitions/ScreenTransition;Z)Landroidx/compose/animation/ExitTransition;
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransitionKt {
+	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lcafe/adriel/voyager/transitions/ScreenTransition;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }

@@ -22,14 +22,14 @@ public interface ScreenTransition {
      *
      * Returns null when it should not define a transition for this screen.
      */
-    public fun enter(): EnterTransition? = null
+    public fun enter(isPop: Boolean): EnterTransition? = null
 
     /**
      * Defines the exit transition for the Screen.
      *
      * Returns null when it should not define a transition for this screen.
      */
-    public fun exit(): ExitTransition? = null
+    public fun exit(isPop: Boolean): ExitTransition? = null
 }
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
@@ -58,6 +58,26 @@ public fun ScreenTransition(
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
+    defaultTransition: ScreenTransition,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent = { it.Content() }
+) {
+    ScreenTransition(
+        navigator = navigator,
+        transition = {
+            val isPop = navigator.lastEvent == StackEvent.Pop
+            val enter = defaultTransition.enter(isPop) ?: EnterTransition.None
+            val exit = defaultTransition.exit(isPop) ?: ExitTransition.None
+            enter togetherWith exit
+        },
+        modifier = modifier,
+        content = content
+    )
+}
+
+@Composable
+public fun ScreenTransition(
+    navigator: Navigator,
     transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
     content: ScreenTransitionContent = { it.Content() }
@@ -69,17 +89,14 @@ public fun ScreenTransition(
 
             val isPop = navigator.lastEvent == StackEvent.Pop
 
-            val screenEnterTransition = if (isPop) {
-                (targetState as? ScreenTransition)?.enter()
-            } else {
-                (targetState as? ScreenTransition)?.enter()
+            val source = when (navigator.lastEvent) {
+                StackEvent.Pop, StackEvent.Replace -> initialState
+                else -> targetState
             }
 
-            val screenExitTransition = if (isPop) {
-                (initialState as? ScreenTransition)?.exit()
-            } else {
-                (initialState as? ScreenTransition)?.exit()
-            }
+            val screenEnterTransition = (source as? ScreenTransition)?.enter(isPop)
+
+            val screenExitTransition = (source as? ScreenTransition)?.exit(isPop)
 
             if (screenExitTransition != null || screenEnterTransition != null) {
                 (screenEnterTransition ?: contentTransform.targetContentEnter) togetherWith
