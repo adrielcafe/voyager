@@ -3,7 +3,7 @@ package cafe.adriel.voyager.kodein
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
-import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
+import cafe.adriel.voyager.core.lifecycle.CommonScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -70,8 +70,9 @@ public open class ScreenLifecycleScope private constructor(
 
 private class ScreenScopeLifecycleOwner(
     val onDispose: () -> Unit
-) : ScreenLifecycleOwner {
+) : CommonScreenLifecycleOwner() {
     override fun onDispose(screen: Screen) {
+        super.onDispose(screen)
         onDispose()
     }
 }

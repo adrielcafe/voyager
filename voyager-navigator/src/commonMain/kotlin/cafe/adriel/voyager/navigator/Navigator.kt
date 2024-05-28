@@ -2,6 +2,7 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.derivedStateOf
@@ -10,9 +11,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
+import cafe.adriel.voyager.core.lifecycle.CommonScreenLifecycleOwner
 import cafe.adriel.voyager.core.lifecycle.MultipleProvideBeforeScreenContent
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.getNavigatorScreenLifecycleProvider
@@ -147,7 +150,16 @@ public class Navigator @InternalVoyagerApi constructor(
             screenLifecycleContentProviders = composed,
             provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
             content = {
-                stateHolder.SaveableStateProvider(stateKey, content)
+                CompositionLocalProvider(
+                    LocalLifecycleOwner provides lifecycleOwner,
+                ) {
+                    stateHolder.SaveableStateProvider(stateKey) {
+                        content()
+                    }
+                    if (lifecycleOwner is CommonScreenLifecycleOwner) {
+                        lifecycleOwner.LifecycleDisposableEffect()
+                    }
+                }
             }
         )
     }
