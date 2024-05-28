@@ -44,10 +44,11 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-com
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
-lifecycle-savedState = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
 lifecycle-viewModelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 jetbrains-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+jetbrains-lifecycle-savedState = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
+jetbrains-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version = "1.0.0" }
 compose-rxjava = { module = "androidx.compose.runtime:runtime-rxjava3", version.ref = "composeRuntime" }
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "composeRuntime" }
