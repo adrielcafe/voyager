@@ -1,6 +1,5 @@
 package cafe.adriel.voyager.androidx
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
@@ -36,17 +35,17 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     override val viewModelStore: ViewModelStore = ViewModelStore()
 
-    private val atomicContext = AtomicReference<Context>()
+    private val atomicAppContext = AtomicReference<Context>()
 
     override val defaultViewModelProviderFactory: ViewModelProvider.Factory
         get() = SavedStateViewModelFactory(
-            application = atomicContext.get()?.applicationContext?.getApplication(),
+            application = atomicAppContext.get()?.getApplication(),
             owner = this
         )
 
     override val defaultViewModelCreationExtras: CreationExtras
         get() = MutableCreationExtras().apply {
-            val application = atomicContext.get()?.applicationContext?.getApplication()
+            val application = atomicAppContext.get()?.getApplication()
             if (application != null) {
                 set(AndroidViewModelFactory.APPLICATION_KEY, application)
             }
@@ -77,15 +76,12 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     override fun onDispose(screen: Screen) {
         super.onDispose(screen)
-        val context = atomicContext.getAndSet(null) ?: return
-        val activity = context.getActivity()
-        if (activity != null && activity.isChangingConfigurations) return
         viewModelStore.clear()
     }
 
     @Composable
     private fun getHooks(): List<ProvidedValue<*>> {
-        atomicContext.compareAndSet(null, LocalContext.current)
+        atomicAppContext.compareAndSet(null, LocalContext.current.applicationContext)
         atomicParentLifecycleOwner.compareAndSet(null, LocalLifecycleOwner.current)
 
         return remember(this) {
@@ -104,7 +100,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     private tailrec fun Context.getApplication(): Application? = when (this) {
         is Application -> this
-        is ContextWrapper -> baseContext.getApplication()
         else -> null
     }
 
@@ -114,4 +109,3 @@ public class AndroidScreenLifecycleOwner private constructor() :
         }
     }
 }
-
