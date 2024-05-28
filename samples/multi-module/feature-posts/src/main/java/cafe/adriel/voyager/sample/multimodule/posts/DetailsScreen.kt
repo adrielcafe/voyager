@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -44,7 +45,7 @@ data class DetailsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.pop() }
+                onClick = dropUnlessResumed { navigator.pop() }
             ) {
                 Text(
                     text = "Return",

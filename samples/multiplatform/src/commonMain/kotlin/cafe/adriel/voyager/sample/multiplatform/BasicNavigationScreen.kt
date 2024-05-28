@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
@@ -62,7 +63,9 @@ public data class BasicNavigationScreen(
             ) {
                 Button(
                     enabled = navigator.canPop,
-                    onClick = navigator::pop,
+                    onClick = dropUnlessResumed {
+                        navigator.pop()
+                    },
                     modifier = Modifier.weight(.5f)
                 ) {
                     Text(text = "Pop")
@@ -71,7 +74,9 @@ public data class BasicNavigationScreen(
                 Spacer(modifier = Modifier.weight(.1f))
 
                 Button(
-                    onClick = { navigator.push(BasicNavigationScreen(index.inc(), wrapContent)) },
+                    onClick = dropUnlessResumed {
+                        navigator.push(BasicNavigationScreen(index.inc(), wrapContent))
+                    },
                     modifier = Modifier.weight(.5f)
                 ) {
                     Text(text = "Push")
@@ -80,7 +85,9 @@ public data class BasicNavigationScreen(
                 Spacer(modifier = Modifier.weight(.1f))
 
                 Button(
-                    onClick = { navigator.replace(BasicNavigationScreen(index.inc(), wrapContent)) },
+                    onClick = dropUnlessResumed {
+                        navigator.replace(BasicNavigationScreen(index.inc(), wrapContent))
+                    },
                     modifier = Modifier.weight(.5f)
                 ) {
                     Text(text = "Replace")

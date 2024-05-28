@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -43,7 +44,7 @@ class HomeScreen : Screen {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.push(postListScreen) }
+                onClick = dropUnlessResumed { navigator.push(postListScreen) }
             ) {
                 Text(
                     text = "To Post List",
@@ -54,7 +55,7 @@ class HomeScreen : Screen {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.push(postDetailsScreen) }
+                onClick = dropUnlessResumed { navigator.push(postDetailsScreen) }
             ) {
                 Text(
                     text = "To Post Details",
