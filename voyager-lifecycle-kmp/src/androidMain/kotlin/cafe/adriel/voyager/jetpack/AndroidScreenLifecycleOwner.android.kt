@@ -34,7 +34,8 @@ internal actual class SavedStateViewModelPlatform actual constructor(val owner: 
     }
 
     actual fun provideHooks(): List<ProvidedValue<*>> = listOf(
-        LocalSavedStateRegistryOwner provides owner
+        LocalSavedStateRegistryOwner provides owner,
+        androidx.lifecycle.compose.LocalLifecycleOwner provides owner
     )
 
     private fun Context.getApplication(): Application? = when (this) {
