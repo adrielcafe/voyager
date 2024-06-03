@@ -80,9 +80,10 @@ setContent {
 
 If you want to define a Enter and Exit transition for a specific Screen, you have a lot of options to do
 starting from 1.1.0-beta01 Voyager have a new experimental API for this purpose.
+To animate the content, we use transitions of the target screen in the case of push navigation, otherwise we use transitions of the initial screen 
 
 ```kotlin
-class ExampleScaleScreen : Screen, ScreenTransition {
+class ExampleSlideScreen : Screen, ScreenTransition {
     override val key: ScreenKey
         get() = uniqueScreenKey
 
@@ -90,10 +91,85 @@ class ExampleScaleScreen : Screen, ScreenTransition {
     override fun Content() {
         ...
     }
-    
-    override fun enter(): EnterTransition? = scaleIn()
 
-    override fun exit(): ExitTransition? = scaleOut()
+    override fun enter(lastEvent: StackEvent): EnterTransition {
+        return slideIn { size ->
+            val x = if (lastEvent == StackEvent.Pop) -size.width else size.width
+            IntOffset(x = x, y = 0)
+        }
+    }
+
+    override fun exit(lastEvent: StackEvent): ExitTransition {
+        return slideOut { size ->
+            val x = if (lastEvent == StackEvent.Pop) size.width else -size.width
+            IntOffset(x = x, y = 0)
+        }
+    }
+}
+```
+
+It's convenient to use Kotlin delegates for per-Screen transitions. For example, you can create a `SlideTransition` and `FadeTransition` classes:
+
+```kotlin
+class FadeTransition : ScreenTransition {
+
+    override fun enter(lastEvent: StackEvent): EnterTransition {
+        return fadeIn(tween(500, delayMillis = 500))
+    }
+
+    override fun exit(lastEvent: StackEvent): ExitTransition {
+        return fadeOut(tween(500))
+    }
+}
+
+class SlideTransition : ScreenTransition {
+
+    override fun enter(lastEvent: StackEvent): EnterTransition {
+        return slideIn { size ->
+            val x = if (lastEvent == StackEvent.Pop) -size.width else size.width
+            IntOffset(x = x, y = 0)
+        }
+    }
+
+    override fun exit(lastEvent: StackEvent): ExitTransition {
+        return slideOut { size ->
+            val x = if (lastEvent == StackEvent.Pop) size.width else -size.width
+            IntOffset(x = x, y = 0)
+        }
+    }
+}
+```
+
+Then you can use them as delegates in your Screens:
+
+```kotlin
+class SlideScreen : Screen, ScreenTransition by SlideTransition() {
+
+    @Composable
+    override fun Content() {
+        ...
+    }
+}
+
+class FadeScreen : Screen, ScreenTransition by FadeTransition() {
+
+    @Composable
+    override fun Content() {
+        ...
+    }
+}
+```
+
+Also you can use can pass your custom `ScreenTransition` instance in `ScreenTransition` function, it will be used for default animation.
+
+```kotlin
+setContent {
+    Navigator(FadeScreen) { navigator ->
+        ScreenTransition(
+            navigator = navigator,
+            defaultTransition = SlideTransition()
+        )
+    }
 }
 ```
 

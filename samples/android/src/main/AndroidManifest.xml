@@ -24,6 +24,7 @@
         <activity android:name=".nestedNavigation.NestedNavigationActivity"/>
         <activity android:name=".parcelableScreen.ParcelableActivity"/>
         <activity android:name=".screenModel.ScreenModelActivity"/>
+        <activity android:name=".screenTransition.ScreenTransitionActivity"/>
         <activity android:name=".androidViewModel.AndroidViewModelActivity"/>
         <activity android:name=".bottomSheetNavigation.BottomSheetNavigationActivity"/>
         <activity android:name=".rxJavaIntegration.RxJavaIntegrationActivity"/>
