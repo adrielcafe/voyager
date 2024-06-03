@@ -108,6 +108,71 @@ class ExampleSlideScreen : Screen, ScreenTransition {
 }
 ```
 
+It's convenient to use Kotlin delegates for per-Screen transitions. For example, you can create a `SlideTransition` and `FadeTransition` classes:
+
+```kotlin
+class FadeTransition : ScreenTransition {
+
+    override fun enter(lastEvent: StackEvent): EnterTransition {
+        return fadeIn(tween(500, delayMillis = 500))
+    }
+
+    override fun exit(lastEvent: StackEvent): ExitTransition {
+        return fadeOut(tween(500))
+    }
+}
+
+class SlideTransition : ScreenTransition {
+
+    override fun enter(lastEvent: StackEvent): EnterTransition {
+        return slideIn { size ->
+            val x = if (lastEvent == StackEvent.Pop) -size.width else size.width
+            IntOffset(x = x, y = 0)
+        }
+    }
+
+    override fun exit(lastEvent: StackEvent): ExitTransition {
+        return slideOut { size ->
+            val x = if (lastEvent == StackEvent.Pop) size.width else -size.width
+            IntOffset(x = x, y = 0)
+        }
+    }
+}
+```
+
+Then you can use them as delegates in your Screens:
+
+```kotlin
+class SlideScreen : Screen, ScreenTransition by SlideTransition() {
+
+    @Composable
+    override fun Content() {
+        ...
+    }
+}
+
+class FadeScreen : Screen, ScreenTransition by FadeTransition() {
+
+    @Composable
+    override fun Content() {
+        ...
+    }
+}
+```
+
+Also you can use can pass your custom `ScreenTransition` instance in `ScreenTransition` function, it will be used for default animation.
+
+```kotlin
+setContent {
+    Navigator(FadeScreen) { navigator ->
+        ScreenTransition(
+            navigator = navigator,
+            defaultTransition = SlideTransition()
+        )
+    }
+}
+```
+
 The API works with any ScreenTransition API, you just need to provide one and the Per Screen transition should.
 ```kotlin
 setContent {
