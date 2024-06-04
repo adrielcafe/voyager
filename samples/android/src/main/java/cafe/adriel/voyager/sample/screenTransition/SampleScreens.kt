@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.transitions.ScreenTransition
@@ -27,6 +30,18 @@ private val colors = listOf(
     Color.Black
 )
 
+class BaseSampleScreenModel(
+    val index: Int
+) : ScreenModel {
+
+    init {
+        println("Init BaseSampleScreenModel $index")
+    }
+    override fun onDispose() {
+        println("Disposing BaseSampleScreenModel $index")
+    }
+}
+
 abstract class BaseSampleScreen(
     private val transitionType: String
 ) : Screen {
@@ -37,10 +52,16 @@ abstract class BaseSampleScreen(
 
     @Composable
     override fun Content() {
+        val model = rememberScreenModel {
+            BaseSampleScreenModel(index)
+        }
+        val color = remember {
+            colors.getOrNull(index % colors.size) ?: colors.random()
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colors[index % colors.size].copy(alpha = 0.3f))
+                .background(color.copy(alpha = 0.3f))
                 .padding(40.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

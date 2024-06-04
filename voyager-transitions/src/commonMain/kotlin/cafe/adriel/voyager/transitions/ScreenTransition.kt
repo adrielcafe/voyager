@@ -9,14 +9,18 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.internal.disposableEvents
-import cafe.adriel.voyager.transitions.internal.rememberPrevious
 
 @ExperimentalVoyagerApi
 public interface ScreenTransition {
@@ -129,9 +133,20 @@ public fun ScreenTransition(
     disposeScreenAfterTransitionEnd: Boolean = false,
     content: ScreenTransitionContent = { it.Content() }
 ) {
-    // This can be costly because is checking every single item in the list
-    // we should re evaluate how validation works, maybe validating screen keys or ===
-    val previousItems = rememberPrevious(navigator.items)
+    val screenCandidatesToDispose = rememberSaveable(saver = screenCandidatesToDisposeSaver()) {
+        mutableStateOf(emptySet())
+    }
+
+    val currentScreens = navigator.items
+
+    DisposableEffect(currentScreens) {
+        onDispose {
+            val newScreenKeys = navigator.items.map { it.key }
+            screenCandidatesToDispose.value += currentScreens.filter { it.key !in newScreenKeys }
+                .map { ScreenData(it.key, it) }
+        }
+    }
+
     AnimatedContent(
         targetState = navigator.lastItem,
         transitionSpec = {
@@ -155,15 +170,13 @@ public fun ScreenTransition(
         if (this.transition.targetState == this.transition.currentState) {
             LaunchedEffect(Unit) {
                 if (disposeScreenAfterTransitionEnd) {
-                    // if disposeSteps = true, lastEvent will be always idle
-                    // else it will keep the event and we can dispose our self.
-                    if (navigator.lastEvent in disposableEvents) {
-                        val newScreenKeys = navigator.items.map { it.key }
-                        previousItems?.filter { it.key !in newScreenKeys }?.forEach {
-                            navigator.dispose(it)
-                        }
+                    val newScreens = navigator.items.map { it.key }
+                    val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
+                    if (screensToDispose.isNotEmpty()) {
+                        screensToDispose.forEach { navigator.dispose(it.screen) }
                         navigator.clearEvent()
                     }
+                    screenCandidatesToDispose.value = emptySet()
                 }
             }
         }
@@ -172,4 +185,16 @@ public fun ScreenTransition(
             content(screen)
         }
     }
+}
+
+private data class ScreenData(
+    val key: ScreenKey,
+    val screen: Screen
+)
+
+private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<ScreenData>>, List<ScreenData>> {
+    return Saver(
+        save = { it.value.toList() },
+        restore = { mutableStateOf(it.toSet()) }
+    )
 }
