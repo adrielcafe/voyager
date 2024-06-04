@@ -40,17 +40,20 @@ public interface ScreenTransition {
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
 
+@ExperimentalVoyagerApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
     enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    disposeScreenAfterTransitionEnd: Boolean = false,
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
+        disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
         content = content,
         transition = {
             when (navigator.lastEvent) {
@@ -61,12 +64,30 @@ public fun ScreenTransition(
     )
 }
 
+@Composable
+public fun ScreenTransition(
+    navigator: Navigator,
+    enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
+    exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent = { it.Content() }
+) {
+    ScreenTransition(
+        navigator = navigator,
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        modifier = modifier,
+        content = content,
+    )
+}
+
 @ExperimentalVoyagerApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
     defaultTransition: ScreenTransition,
     modifier: Modifier = Modifier,
+    disposeScreenAfterTransitionEnd: Boolean = false,
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
@@ -77,7 +98,8 @@ public fun ScreenTransition(
             enter togetherWith exit
         },
         modifier = modifier,
-        content = content
+        disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
+        content = content,
     )
 }
 
@@ -145,6 +167,7 @@ public fun ScreenTransition(
                 }
             }
         }
+
         navigator.saveableState("transition", screen) {
             content(screen)
         }

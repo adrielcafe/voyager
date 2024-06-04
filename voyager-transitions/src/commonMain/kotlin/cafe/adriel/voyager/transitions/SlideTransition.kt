@@ -12,6 +12,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -26,9 +27,33 @@ public fun SlideTransition(
     ),
     content: ScreenTransitionContent = { it.Content() }
 ) {
+    SlideTransition(
+        navigator = navigator,
+        modifier = modifier,
+        orientation = orientation,
+        animationSpec = animationSpec,
+        disposeScreenAfterTransitionEnd = false,
+        content = content,
+    )
+}
+
+@ExperimentalVoyagerApi
+@Composable
+public fun SlideTransition(
+    navigator: Navigator,
+    modifier: Modifier = Modifier,
+    orientation: SlideOrientation = SlideOrientation.Horizontal,
+    animationSpec: FiniteAnimationSpec<IntOffset> = spring(
+        stiffness = Spring.StiffnessMediumLow,
+        visibilityThreshold = IntOffset.VisibilityThreshold
+    ),
+    disposeScreenAfterTransitionEnd: Boolean = false,
+    content: ScreenTransitionContent = { it.Content() }
+) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
+        disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
         content = content,
         transition = {
             val (initialOffset, targetOffset) = when (navigator.lastEvent) {

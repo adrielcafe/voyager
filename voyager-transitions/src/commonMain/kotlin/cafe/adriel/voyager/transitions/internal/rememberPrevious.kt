@@ -7,9 +7,7 @@ import androidx.compose.runtime.remember
 
 @Composable
 internal fun <T> rememberRef(): MutableState<T?> {
-    // for some reason it always recreated the value with vararg keys,
-    // leaving out the keys as a parameter for remember for now
-    return remember() {
+    return remember {
         object: MutableState<T?> {
             override var value: T? = null
 
@@ -27,7 +25,6 @@ internal fun <T> rememberPrevious(
 ): T? {
     val ref = rememberRef<T>()
 
-    // launched after render, so the current render will have the old value anyway
     SideEffect {
         if (shouldUpdate(ref.value, current)) {
             ref.value = current
