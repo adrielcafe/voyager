@@ -27,7 +27,7 @@ public fun ScaleTransition(
         modifier = modifier,
         animationSpec = animationSpec,
         disposeScreenAfterTransitionEnd = false,
-        content = content,
+        content = content
     )
 }
 

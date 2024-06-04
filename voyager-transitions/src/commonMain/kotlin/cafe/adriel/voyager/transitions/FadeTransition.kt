@@ -23,7 +23,7 @@ public fun FadeTransition(
         modifier = modifier,
         disposeScreenAfterTransitionEnd = false,
         animationSpec = animationSpec,
-        content = content,
+        content = content
     )
 }
 

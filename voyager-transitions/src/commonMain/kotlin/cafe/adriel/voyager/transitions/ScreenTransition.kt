@@ -77,7 +77,7 @@ public fun ScreenTransition(
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         modifier = modifier,
-        content = content,
+        content = content
     )
 }
 
@@ -99,7 +99,7 @@ public fun ScreenTransition(
         },
         modifier = modifier,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
-        content = content,
+        content = content
     )
 }
 
@@ -115,7 +115,7 @@ public fun ScreenTransition(
         transition = transition,
         modifier = modifier,
         disposeScreenAfterTransitionEnd = false,
-        content = content,
+        content = content
     )
 }
 
@@ -154,7 +154,7 @@ public fun ScreenTransition(
     ) { screen ->
         if (this.transition.targetState == this.transition.currentState) {
             LaunchedEffect(Unit) {
-                if(disposeScreenAfterTransitionEnd) {
+                if (disposeScreenAfterTransitionEnd) {
                     // if disposeSteps = true, lastEvent will be always idle
                     // else it will keep the event and we can dispose our self.
                     if (navigator.lastEvent in disposableEvents) {

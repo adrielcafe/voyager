@@ -33,7 +33,7 @@ public fun SlideTransition(
         orientation = orientation,
         animationSpec = animationSpec,
         disposeScreenAfterTransitionEnd = false,
-        content = content,
+        content = content
     )
 }
 
