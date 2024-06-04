@@ -13,7 +13,7 @@
 
     ```kotlin
     dependencies {
-        val voyagerVersion = "1.0.0"
+        val voyagerVersion = "1.1.0-beta02"
         
         // Multiplatform
         
@@ -57,7 +57,7 @@
 
     ```toml
     [versions]
-    voyager = "1.0.0"
+    voyager = "1.1.0-beta02"
     
     [libraries]
     voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
@@ -86,6 +86,7 @@
 |      voyager-transitions       | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 |          voyager-koin          | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 |         voyager-kodein         | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+|     voyager-lifecycle-kmp      | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 |          voyager-hilt          | :white_check_mark: |                    |                    |
 |         voyager-rxjava         | :white_check_mark: | :white_check_mark: |                    |
 |        voyager-livedata        | :white_check_mark: |                    |                    |

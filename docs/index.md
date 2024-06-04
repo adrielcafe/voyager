@@ -38,7 +38,7 @@ Turn on the Warp Drive and enjoy the voyage 🖖
 
 ### **Features**
 
-* [Supported platforms](setup.md#platform-compatibility): Android, iOS, Desktop, Web
+* [Supported platforms](setup.md#platform-compatibility): Android, iOS, Desktop, Web, Wasm (since 1.1.0-alpha03)
 * [Linear navigation](navigation/)
 * [BottomSheet navigation](navigation/bottomsheet-navigation.md)
 * [Tab navigation](navigation/tab-navigation.md) like [Youtube app](https://play.google.com/store/apps/details?id=com.google.android.youtube)
@@ -52,11 +52,7 @@ Turn on the Warp Drive and enjoy the voyage 🖖
 * [Lifecycle](lifecycle.md) callbacks
 * [Back press](back-press.md) handling
 * [Deep linking](deep-links.md) support
-
-### Roadmap
-
-* Wasm support
-* Navigator scoped ViewModels
+* [Lifecycle KMP support](android-viewmodel/viewmodel-kmp.md) since 1.1.0-beta01
 
 ### Credits
 

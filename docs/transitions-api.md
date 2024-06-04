@@ -13,8 +13,8 @@ setContent {
 }
 ```
 
-!!! danger
-    There is a know bug using any Transition APIs can leaky ScreenModels or ViewModels, this happens because Voyager by default
+!!! danger "Known bug"
+    There is a known bug using any Transition APIs can leaky ScreenModels or ViewModels, this happens because Voyager by default
     dispose Screens in the next Composition tick after a `pop` or `replace` is called, but the transition only finish later, so
     the ScreenModel or ViewModel is re created or cleared to early. For this purpose since Voyager `1.1.0-beta02` we have introduce
     a new API to fix this issue. For more details on the issue see [#106](https://github.com/adrielcafe/voyager/issues/106).
