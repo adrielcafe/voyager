@@ -18,7 +18,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -139,11 +138,12 @@ public fun ScreenTransition(
 
     val currentScreens = navigator.items
 
-    DisposableEffect(currentScreens) {
-        onDispose {
-            val newScreenKeys = navigator.items.map { it.key }
-            screenCandidatesToDispose.value += currentScreens.filter { it.key !in newScreenKeys }
-                .map { ScreenData(it.key, it) }
+    if (disposeScreenAfterTransitionEnd) {
+        DisposableEffect(currentScreens) {
+            onDispose {
+                val newScreenKeys = navigator.items.map { it.key }
+                screenCandidatesToDispose.value += currentScreens.filter { it.key !in newScreenKeys }
+            }
         }
     }
 
@@ -167,17 +167,15 @@ public fun ScreenTransition(
         },
         modifier = modifier
     ) { screen ->
-        if (this.transition.targetState == this.transition.currentState) {
+        if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
             LaunchedEffect(Unit) {
-                if (disposeScreenAfterTransitionEnd) {
-                    val newScreens = navigator.items.map { it.key }
-                    val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
-                    if (screensToDispose.isNotEmpty()) {
-                        screensToDispose.forEach { navigator.dispose(it.screen) }
-                        navigator.clearEvent()
-                    }
-                    screenCandidatesToDispose.value = emptySet()
+                val newScreens = navigator.items.map { it.key }
+                val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
+                if (screensToDispose.isNotEmpty()) {
+                    screensToDispose.forEach { navigator.dispose(it) }
+                    navigator.clearEvent()
                 }
+                screenCandidatesToDispose.value = emptySet()
             }
         }
 
@@ -187,12 +185,7 @@ public fun ScreenTransition(
     }
 }
 
-private data class ScreenData(
-    val key: ScreenKey,
-    val screen: Screen
-)
-
-private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<ScreenData>>, List<ScreenData>> {
+private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<Screen>>, List<Screen>> {
     return Saver(
         save = { it.value.toList() },
         restore = { mutableStateOf(it.toSet()) }
