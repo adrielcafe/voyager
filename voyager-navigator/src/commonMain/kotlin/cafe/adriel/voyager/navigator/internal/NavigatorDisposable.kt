@@ -8,8 +8,7 @@ import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
 
-@InternalVoyagerApi
-public val disposableEvents: Set<StackEvent> =
+private val disposableEvents: Set<StackEvent> =
     setOf(StackEvent.Pop, StackEvent.Replace)
 
 @Composable
