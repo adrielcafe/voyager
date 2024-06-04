@@ -1,7 +1,6 @@
 package cafe.adriel.voyager.navigator.internal
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
@@ -25,18 +24,8 @@ internal fun NavigatorDisposableEffect(
 internal fun StepDisposableEffect(
     navigator: Navigator
 ) {
-    val currentScreens = navigator.items
-
-    DisposableEffect(currentScreens) {
-        onDispose {
-            val newScreenKeys = navigator.items.map { it.key }
-            if (navigator.lastEvent in disposableEvents) {
-                currentScreens.filter { it.key !in newScreenKeys }.forEach {
-                    navigator.dispose(it)
-                }
-                navigator.clearEvent()
-            }
-        }
+    navigator.disposeOnLifecycleEnd {
+        navigator.lastEvent in disposableEvents
     }
 }
 

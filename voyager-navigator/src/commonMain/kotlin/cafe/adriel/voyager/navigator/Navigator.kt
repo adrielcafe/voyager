@@ -2,7 +2,6 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.currentCompositeKeyHash
@@ -127,38 +126,36 @@ public class Navigator @InternalVoyagerApi constructor(
     private val disposable = mutableListOf<Screen>()
 
     @Composable
-    public fun disposeOnLifecycleEnd(currentScreen: Screen, predicate: () -> Boolean) {
-        LaunchedEffect(key1 = currentScreen) {
-            if (snapshot.isNotEmpty()) {
-                val wasPopOrReplaceAll = snapshot.size > items.size
-                val indices = when {
-                    wasPopOrReplaceAll -> items.indices
-                    else -> snapshot.indices
-                }
-                var startPoint = -1
-                for (index in indices) {
-                    if (snapshot[index] != items[index]) {
-                        startPoint = index
-                        break
+    public fun disposeOnLifecycleEnd(lifecycleEndPredicate: () -> Boolean) {
+        SideEffect {
+            val didReplaceAllOrPop = snapshot.size > items.size
+            val didReplace = !didReplaceAllOrPop &&
+                    snapshot.size == items.size &&
+                    items.last() != snapshot.last()
+            when {
+                didReplace -> disposable.add(snapshot.removeLast())
+                didReplaceAllOrPop -> {
+                    while (true) {
+                        val screen = snapshot.removeLastOrNull()
+                        if (screen == null || items.last() == screen) {
+                            break
+                        }
+                        disposable.add(screen)
                     }
                 }
-                if (startPoint == -1 && wasPopOrReplaceAll) {
-                    startPoint = items.size
-                }
-                if (startPoint > -1) {
-                    disposable.addAll(snapshot.subList(startPoint, snapshot.size))
-                }
             }
-            snapshot.clear()
-            snapshot.addAll(items)
-        }
 
-        SideEffect {
-            if (predicate()) {
+            if (snapshot.size != items.size) {
+                snapshot.clear()
+                snapshot.addAll(items)
+            }
+
+            if (lifecycleEndPredicate()) {
                 while (true) {
                     val screen = disposable.removeFirstOrNull() ?: break
                     dispose(screen)
                 }
+                clearEvent()
             }
         }
     }

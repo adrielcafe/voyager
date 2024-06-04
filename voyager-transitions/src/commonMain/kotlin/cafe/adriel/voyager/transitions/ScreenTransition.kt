@@ -110,8 +110,7 @@ public fun ScreenTransition(
             content(screen)
         }
         navigator.disposeOnLifecycleEnd(
-            currentScreen = screen,
-            predicate = { this.transition.targetState == this.transition.currentState }
+            lifecycleEndPredicate = { this.transition.targetState == this.transition.currentState }
         )
     }
 }

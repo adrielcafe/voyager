@@ -35,10 +35,10 @@ class BaseSampleScreenModel(
 ) : ScreenModel {
 
     init {
-        println("Init BaseSampleScreenModel $index")
+        println("Init BaseSampleScreenModel $index | hash: ${hashCode()}")
     }
     override fun onDispose() {
-        println("Disposing BaseSampleScreenModel $index")
+        println("Disposing BaseSampleScreenModel $index | hash: ${hashCode()}")
     }
 }
 
