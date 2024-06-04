@@ -2,7 +2,9 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -120,6 +122,46 @@ public class Navigator @InternalVoyagerApi constructor(
     private val stateKeys = ThreadSafeSet<String>()
 
     internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
+
+    private val snapshot = mutableListOf<Screen>()
+    private val disposable = mutableListOf<Screen>()
+
+    @Composable
+    public fun disposeOnLifecycleEnd(currentScreen: Screen, predicate: () -> Boolean) {
+        LaunchedEffect(key1 = currentScreen) {
+            if (snapshot.isNotEmpty()) {
+                val wasPopOrReplaceAll = snapshot.size > items.size
+                val indices = when {
+                    wasPopOrReplaceAll -> items.indices
+                    else -> snapshot.indices
+                }
+                var startPoint = -1
+                for (index in indices) {
+                    if (snapshot[index] != items[index]) {
+                        startPoint = index
+                        break
+                    }
+                }
+                if (startPoint == -1 && wasPopOrReplaceAll) {
+                    startPoint = items.size
+                }
+                if (startPoint > -1) {
+                    disposable.addAll(snapshot.subList(startPoint, snapshot.size))
+                }
+            }
+            snapshot.clear()
+            snapshot.addAll(items)
+        }
+
+        SideEffect {
+            if (predicate()) {
+                while (true) {
+                    val screen = disposable.removeFirstOrNull() ?: break
+                    dispose(screen)
+                }
+            }
+        }
+    }
 
     @Composable
     public fun saveableState(

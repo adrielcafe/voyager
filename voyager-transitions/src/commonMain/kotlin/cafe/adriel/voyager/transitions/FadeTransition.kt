@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.navigator.Navigator
 
 @Composable
@@ -18,28 +17,9 @@ public fun FadeTransition(
     animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
     content: ScreenTransitionContent = { it.Content() }
 ) {
-    FadeTransition(
-        navigator = navigator,
-        modifier = modifier,
-        disposeScreenAfterTransitionEnd = false,
-        animationSpec = animationSpec,
-        content = content
-    )
-}
-
-@ExperimentalVoyagerApi
-@Composable
-public fun FadeTransition(
-    navigator: Navigator,
-    modifier: Modifier = Modifier,
-    animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
-    disposeScreenAfterTransitionEnd: Boolean = false,
-    content: ScreenTransitionContent = { it.Content() }
-) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
-        disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
         content = content,
         transition = { fadeIn(animationSpec = animationSpec) togetherWith fadeOut(animationSpec = animationSpec) }
     )

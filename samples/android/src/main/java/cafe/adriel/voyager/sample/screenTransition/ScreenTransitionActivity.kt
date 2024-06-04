@@ -41,7 +41,6 @@ class ScreenTransitionActivity : ComponentActivity() {
                 ScreenTransition(
                     navigator = navigator,
                     defaultTransition = SlideTransition(),
-                    disposeScreenAfterTransitionEnd = true
                 )
 
                 Column(
