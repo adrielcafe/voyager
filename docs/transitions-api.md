@@ -13,7 +13,7 @@ setContent {
 }
 ```
 
-!!! error
+!!! danger
     There is a know bug using any Transition APIs can leaky ScreenModels or ViewModels, this happens because Voyager by default
     dispose Screens in the next Composition tick after a `pop` or `replace` is called, but the transition only finish later, so
     the ScreenModel or ViewModel is re created or cleared to early. For this purpose since Voyager `1.1.0-beta02` we have introduce
@@ -35,11 +35,10 @@ setContent {
 !!! warning
     Have encounter `Screen was used multiple times` crash? Provide a `uniqueScreenKey` for your Screens
 
-    ```kotlin hl_lines="3 4"
+    ```kotlin hl_lines="3 3"
     class ScreenFoo : Screen {
         
-        override val key: ScreenKey
-            get() = uniqueScreenKey
+        override val key: ScreenKey = uniqueScreenKey
     
         @Composable
         override fun Content() {
