@@ -7,7 +7,7 @@ import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +15,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
@@ -39,6 +40,14 @@ public interface ScreenTransition {
      * @return ExitTransition or null when it should not define a transition for this screen.
      */
     public fun exit(lastEvent: StackEvent): ExitTransition? = null
+
+    /**
+     * Defines the z-index for the Screen.
+     *
+     * @param lastEvent - lastEvent in the navigation stack.
+     * @return Float value for the z-index.
+     */
+    public fun zIndex(lastEvent: StackEvent): Float = 0f
 }
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
@@ -67,29 +76,13 @@ public fun ScreenTransition(
     )
 }
 
-@Composable
-public fun ScreenTransition(
-    navigator: Navigator,
-    enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
-    exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
-    modifier: Modifier = Modifier,
-    content: ScreenTransitionContent = { it.Content() }
-) {
-    ScreenTransition(
-        navigator = navigator,
-        enterTransition = enterTransition,
-        exitTransition = exitTransition,
-        modifier = modifier,
-        content = content
-    )
-}
-
 @ExperimentalVoyagerApi
 @Composable
 public fun ScreenTransition(
     navigator: Navigator,
     defaultTransition: ScreenTransition,
     modifier: Modifier = Modifier,
+    contentZIndex: Float = 0f,
     disposeScreenAfterTransitionEnd: Boolean = false,
     content: ScreenTransitionContent = { it.Content() }
 ) {
@@ -98,26 +91,14 @@ public fun ScreenTransition(
         transition = {
             val enter = defaultTransition.enter(navigator.lastEvent) ?: EnterTransition.None
             val exit = defaultTransition.exit(navigator.lastEvent) ?: ExitTransition.None
-            enter togetherWith exit
+            ContentTransform(
+                targetContentEnter = enter,
+                initialContentExit = exit,
+                targetContentZIndex = contentZIndex,
+            )
         },
         modifier = modifier,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
-        content = content
-    )
-}
-
-@Composable
-public fun ScreenTransition(
-    navigator: Navigator,
-    transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
-    modifier: Modifier = Modifier,
-    content: ScreenTransitionContent = { it.Content() }
-) {
-    ScreenTransition(
-        navigator = navigator,
-        transition = transition,
-        modifier = modifier,
-        disposeScreenAfterTransitionEnd = false,
         content = content
     )
 }
@@ -129,7 +110,9 @@ public fun ScreenTransition(
     navigator: Navigator,
     transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     val screenCandidatesToDispose = rememberSaveable(saver = screenCandidatesToDisposeSaver()) {
@@ -147,8 +130,9 @@ public fun ScreenTransition(
         }
     }
 
-    AnimatedContent(
-        targetState = navigator.lastItem,
+    val contentTransition = updateTransition(targetState = navigator.lastItem, label = "screen_transition")
+    contentTransition.AnimatedContent(
+        modifier,
         transitionSpec = {
             val contentTransform = transition()
 
@@ -163,26 +147,36 @@ public fun ScreenTransition(
             val screenExitTransition = sourceScreenTransition?.exit(navigator.lastEvent)
                 ?: contentTransform.initialContentExit
 
-            screenEnterTransition togetherWith screenExitTransition
+            val screenContentZIndex = sourceScreenTransition?.zIndex(navigator.lastEvent)
+                ?: contentTransform.targetContentZIndex
+
+            ContentTransform(
+                targetContentEnter = screenEnterTransition,
+                initialContentExit = screenExitTransition,
+                targetContentZIndex = screenContentZIndex,
+                sizeTransform = contentTransform.sizeTransform,
+            )
         },
-        modifier = modifier
-    ) { screen ->
-        if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
-            LaunchedEffect(Unit) {
-                val newScreens = navigator.items.map { it.key }
-                val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
-                if (screensToDispose.isNotEmpty()) {
-                    screensToDispose.forEach { navigator.dispose(it) }
-                    navigator.clearEvent()
+        contentAlignment = contentAlignment,
+        contentKey = contentKey,
+        content = { screen ->
+            if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
+                LaunchedEffect(Unit) {
+                    val newScreens = navigator.items.map { it.key }
+                    val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
+                    if (screensToDispose.isNotEmpty()) {
+                        screensToDispose.forEach { navigator.dispose(it) }
+                        navigator.clearEvent()
+                    }
+                    screenCandidatesToDispose.value = emptySet()
                 }
-                screenCandidatesToDispose.value = emptySet()
+            }
+
+            navigator.saveableState("transition", screen) {
+                content(screen)
             }
         }
-
-        navigator.saveableState("transition", screen) {
-            content(screen)
-        }
-    }
+    )
 }
 
 private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<Screen>>, List<Screen>> {
