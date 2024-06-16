@@ -74,13 +74,13 @@ abstract class BaseSampleScreen(
                 text = "Screen $index",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = contentColor,
+                color = contentColor
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = transitionType,
                 fontSize = 18.sp,
-                color = contentColor,
+                color = contentColor
             )
         }
     }
@@ -99,5 +99,5 @@ data class FadeAnimationSampleScreen(
 ) : BaseSampleScreen("Fade transition"), ScreenTransition by FadeTransition()
 
 data class SlideInVerticallyAnimationSampleScreen(
-    override val index: Int,
+    override val index: Int
 ) : BaseSampleScreen("slide in vertically transition"), ScreenTransition by SlideInVerticallyTransition(index)
