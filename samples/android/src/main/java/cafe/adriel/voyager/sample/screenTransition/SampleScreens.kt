@@ -58,10 +58,14 @@ abstract class BaseSampleScreen(
         val color = remember {
             colors.getOrNull(index % colors.size) ?: colors.random()
         }
+        val contentColor = remember {
+            color.average()
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color.copy(alpha = 0.3f))
+                .background(color)
                 .padding(40.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -69,15 +73,21 @@ abstract class BaseSampleScreen(
             Text(
                 text = "Screen $index",
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = contentColor,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = transitionType,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                color = contentColor,
             )
         }
     }
+}
+
+private fun Color.average(): Color {
+    return Color((255 - red * 255) / 255, (255 - green * 255) / 255, (255 - blue * 255) / 255, alpha)
 }
 
 data class NoCustomAnimationSampleScreen(
@@ -87,3 +97,7 @@ data class NoCustomAnimationSampleScreen(
 data class FadeAnimationSampleScreen(
     override val index: Int
 ) : BaseSampleScreen("Fade transition"), ScreenTransition by FadeTransition()
+
+data class SlideInVerticallyAnimationSampleScreen(
+    override val index: Int,
+) : BaseSampleScreen("slide in vertically transition"), ScreenTransition by SlideInVerticallyTransition(index)
