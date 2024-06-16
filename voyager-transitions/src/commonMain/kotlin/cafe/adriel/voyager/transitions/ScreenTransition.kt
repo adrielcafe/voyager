@@ -94,7 +94,7 @@ public fun ScreenTransition(
             ContentTransform(
                 targetContentEnter = enter,
                 initialContentExit = exit,
-                targetContentZIndex = contentZIndex,
+                targetContentZIndex = contentZIndex
             )
         },
         modifier = modifier,
@@ -154,7 +154,7 @@ public fun ScreenTransition(
                 targetContentEnter = screenEnterTransition,
                 initialContentExit = screenExitTransition,
                 targetContentZIndex = screenContentZIndex,
-                sizeTransform = contentTransform.sizeTransform,
+                sizeTransform = contentTransform.sizeTransform
             )
         },
         contentAlignment = contentAlignment,
