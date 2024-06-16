@@ -59,13 +59,17 @@ public fun ScreenTransition(
     enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
+        contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
+        contentKey = contentKey,
         content = content,
         transition = {
             when (navigator.lastEvent) {
@@ -83,7 +87,9 @@ public fun ScreenTransition(
     defaultTransition: ScreenTransition,
     modifier: Modifier = Modifier,
     contentZIndex: Float = 0f,
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
@@ -98,7 +104,9 @@ public fun ScreenTransition(
             )
         },
         modifier = modifier,
+        contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
+        contentKey = contentKey,
         content = content
     )
 }

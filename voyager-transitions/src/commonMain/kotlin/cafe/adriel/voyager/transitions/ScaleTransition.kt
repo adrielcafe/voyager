@@ -7,8 +7,10 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 
@@ -37,13 +39,17 @@ public fun ScaleTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
+        contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
+        contentKey = contentKey,
         content = content,
         transition = {
             val (initialScale, targetScale) = when (navigator.lastEvent) {
