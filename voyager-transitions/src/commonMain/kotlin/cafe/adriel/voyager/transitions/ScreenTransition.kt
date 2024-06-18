@@ -167,7 +167,7 @@ public fun ScreenTransition(
                 screenEnterTransition,
                 screenExitTransition,
                 contentTransform.targetContentZIndex,
-                contentTransform.sizeTransform,
+                contentTransform.sizeTransform
             )
         },
         modifier = modifier
