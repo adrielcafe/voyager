@@ -163,7 +163,12 @@ public fun ScreenTransition(
             val screenExitTransition = sourceScreenTransition?.exit(navigator.lastEvent)
                 ?: contentTransform.initialContentExit
 
-            screenEnterTransition togetherWith screenExitTransition
+            ContentTransform(
+                screenEnterTransition,
+                screenExitTransition,
+                contentTransform.targetContentZIndex,
+                contentTransform.sizeTransform
+            )
         },
         modifier = modifier
     ) { screen ->
