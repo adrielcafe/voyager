@@ -46,7 +46,7 @@ public interface ScreenTransition {
      * @param lastEvent - lastEvent in the navigation stack.
      * @return Float value for the z-index.
      */
-    public fun zIndex(lastEvent: StackEvent): Float = 0f
+    public fun zIndex(lastEvent: StackEvent): Float? = null
 }
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
