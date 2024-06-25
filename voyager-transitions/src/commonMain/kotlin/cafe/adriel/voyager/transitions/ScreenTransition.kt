@@ -7,7 +7,6 @@ import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -175,9 +174,8 @@ public fun ScreenTransition(
         }
     }
 
-    val contentTransition = updateTransition(targetState = navigator.lastItem, label = "screen_transition")
-    contentTransition.AnimatedContent(
-        modifier,
+    AnimatedContent(
+        targetState = navigator.lastItem,
         transitionSpec = {
             val contentTransform = transition()
 
@@ -204,24 +202,24 @@ public fun ScreenTransition(
         },
         contentAlignment = contentAlignment,
         contentKey = contentKey,
-        content = { screen ->
-            if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
-                LaunchedEffect(Unit) {
-                    val newScreens = navigator.items.map { it.key }
-                    val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
-                    if (screensToDispose.isNotEmpty()) {
-                        screensToDispose.forEach { navigator.dispose(it) }
-                        navigator.clearEvent()
-                    }
-                    screenCandidatesToDispose.value = emptySet()
+        modifier = modifier
+    ) { screen ->
+        if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
+            LaunchedEffect(Unit) {
+                val newScreens = navigator.items.map { it.key }
+                val screensToDispose = screenCandidatesToDispose.value.filterNot { it.key in newScreens }
+                if (screensToDispose.isNotEmpty()) {
+                    screensToDispose.forEach { navigator.dispose(it) }
+                    navigator.clearEvent()
                 }
-            }
-
-            navigator.saveableState("transition", screen) {
-                content(screen)
+                screenCandidatesToDispose.value = emptySet()
             }
         }
-    )
+
+        navigator.saveableState("transition", screen) {
+            content(screen)
+        }
+    }
 }
 
 private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<Screen>>, List<Screen>> {
