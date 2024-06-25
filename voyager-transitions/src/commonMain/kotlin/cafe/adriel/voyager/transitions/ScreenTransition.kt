@@ -80,6 +80,27 @@ public fun ScreenTransition(
     )
 }
 
+@Composable
+public fun ScreenTransition(
+    navigator: Navigator,
+    enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
+    exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent = { it.Content() }
+) {
+    ScreenTransition(
+        navigator = navigator,
+        transition = {
+            when (navigator.lastEvent) {
+                StackEvent.Pop -> exitTransition()
+                else -> enterTransition()
+            }
+        },
+        modifier = modifier,
+        content = content
+    )
+}
+
 @ExperimentalVoyagerApi
 @Composable
 public fun ScreenTransition(
@@ -107,6 +128,22 @@ public fun ScreenTransition(
         contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
         contentKey = contentKey,
+        content = content
+    )
+}
+
+@Composable
+public fun ScreenTransition(
+    navigator: Navigator,
+    transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
+    modifier: Modifier = Modifier,
+    content: ScreenTransitionContent = { it.Content() }
+) {
+    ScreenTransition(
+        navigator = navigator,
+        transition = transition,
+        modifier = modifier,
+        disposeScreenAfterTransitionEnd = false,
         content = content
     )
 }
