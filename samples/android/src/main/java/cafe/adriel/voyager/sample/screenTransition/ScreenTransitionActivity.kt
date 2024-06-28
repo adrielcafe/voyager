@@ -63,6 +63,19 @@ class ScreenTransitionActivity : ComponentActivity() {
                         }
 
                         Button(
+                            onClick = { navigator.push(SlideInVerticallyAnimationSampleScreen(navigator.items.size)) },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(text = "SlideInVertically")
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                    ) {
+                        Button(
                             onClick = { navigator.push(NoCustomAnimationSampleScreen(navigator.items.size)) },
                             modifier = Modifier.weight(1f)
                         ) {

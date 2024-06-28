@@ -62,6 +62,7 @@ public final class cafe/adriel/voyager/transitions/ScaleTransitionKt {
 public final class cafe/adriel/voyager/transitions/ScreenTransition$DefaultImpls {
 	public static fun enter (Lcafe/adriel/voyager/transitions/ScreenTransition;Lcafe/adriel/voyager/core/stack/StackEvent;)Landroidx/compose/animation/EnterTransition;
 	public static fun exit (Lcafe/adriel/voyager/transitions/ScreenTransition;Lcafe/adriel/voyager/core/stack/StackEvent;)Landroidx/compose/animation/ExitTransition;
+	public static fun zIndex (Lcafe/adriel/voyager/transitions/ScreenTransition;Lcafe/adriel/voyager/core/stack/StackEvent;)Ljava/lang/Float;
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransitionKt {

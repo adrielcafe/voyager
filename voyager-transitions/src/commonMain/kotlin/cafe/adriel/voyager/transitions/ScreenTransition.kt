@@ -7,7 +7,6 @@ import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +14,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
@@ -39,6 +39,14 @@ public interface ScreenTransition {
      * @return ExitTransition or null when it should not define a transition for this screen.
      */
     public fun exit(lastEvent: StackEvent): ExitTransition? = null
+
+    /**
+     * Defines the z-index for the Screen.
+     *
+     * @param lastEvent - lastEvent in the navigation stack.
+     * @return Float value for the z-index.
+     */
+    public fun zIndex(lastEvent: StackEvent): Float? = null
 }
 
 public typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
@@ -50,13 +58,17 @@ public fun ScreenTransition(
     enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
         navigator = navigator,
         modifier = modifier,
+        contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
+        contentKey = contentKey,
         content = content,
         transition = {
             when (navigator.lastEvent) {
@@ -77,8 +89,12 @@ public fun ScreenTransition(
 ) {
     ScreenTransition(
         navigator = navigator,
-        enterTransition = enterTransition,
-        exitTransition = exitTransition,
+        transition = {
+            when (navigator.lastEvent) {
+                StackEvent.Pop -> exitTransition()
+                else -> enterTransition()
+            }
+        },
         modifier = modifier,
         content = content
     )
@@ -90,7 +106,10 @@ public fun ScreenTransition(
     navigator: Navigator,
     defaultTransition: ScreenTransition,
     modifier: Modifier = Modifier,
+    contentZIndex: Float = 0f,
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     ScreenTransition(
@@ -98,10 +117,16 @@ public fun ScreenTransition(
         transition = {
             val enter = defaultTransition.enter(navigator.lastEvent) ?: EnterTransition.None
             val exit = defaultTransition.exit(navigator.lastEvent) ?: ExitTransition.None
-            enter togetherWith exit
+            ContentTransform(
+                targetContentEnter = enter,
+                initialContentExit = exit,
+                targetContentZIndex = contentZIndex
+            )
         },
         modifier = modifier,
+        contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
+        contentKey = contentKey,
         content = content
     )
 }
@@ -129,7 +154,9 @@ public fun ScreenTransition(
     navigator: Navigator,
     transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
+    contentKey: (Screen) -> Any = { it.key },
     content: ScreenTransitionContent = { it.Content() }
 ) {
     val screenCandidatesToDispose = rememberSaveable(saver = screenCandidatesToDisposeSaver()) {
@@ -163,13 +190,18 @@ public fun ScreenTransition(
             val screenExitTransition = sourceScreenTransition?.exit(navigator.lastEvent)
                 ?: contentTransform.initialContentExit
 
+            val screenContentZIndex = sourceScreenTransition?.zIndex(navigator.lastEvent)
+                ?: contentTransform.targetContentZIndex
+
             ContentTransform(
-                screenEnterTransition,
-                screenExitTransition,
-                contentTransform.targetContentZIndex,
-                contentTransform.sizeTransform
+                targetContentEnter = screenEnterTransition,
+                initialContentExit = screenExitTransition,
+                targetContentZIndex = screenContentZIndex,
+                sizeTransform = contentTransform.sizeTransform
             )
         },
+        contentAlignment = contentAlignment,
+        contentKey = contentKey,
         modifier = modifier
     ) { screen ->
         if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
