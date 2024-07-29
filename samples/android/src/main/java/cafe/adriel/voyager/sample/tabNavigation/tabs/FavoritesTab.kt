@@ -16,7 +16,7 @@ object FavoritesTab : Tab {
             val icon = rememberVectorPainter(Icons.Default.Favorite)
 
             return remember {
-                TabOptions(
+                TabOptionsModel(
                     index = 1u,
                     title = "Favorites",
                     icon = icon
