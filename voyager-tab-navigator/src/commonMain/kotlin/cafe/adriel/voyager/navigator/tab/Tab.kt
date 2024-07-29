@@ -14,11 +14,11 @@ public fun CurrentTab() {
     }
 }
 
-public data class TabOptions(
-    val index: UShort,
-    val title: String,
-    val icon: Painter? = null
-)
+public interface TabOptions {
+    public val index: UShort
+    public val title: String
+    public val icon: Painter?
+}
 
 public interface Tab : Screen {
 
