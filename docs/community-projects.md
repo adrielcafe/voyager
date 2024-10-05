@@ -2,6 +2,7 @@
 
 ## Open source libraries with Voyager extensions
 
+- [Voyant](https://github.com/kashif-e/voyant): An extension library for voyager and Navigation Compose to use native iOS navigation from compose mutltiplatform
 - [Kotlin Routing](https://github.com/programadorthi/kotlin-routing): An extensible and multiplatform routing system powered by Ktor
 - [Rinku](https://github.com/theolm/Rinku): Deep Link Handling for Kotlin Multiplatform
 
