@@ -56,7 +56,7 @@ public fun TabDisposable(navigator: TabNavigator, tabs: List<Tab>) {
 }
 
 public class TabNavigator internal constructor(
-    internal val navigator: Navigator
+    public val navigator: Navigator
 ) {
 
     public var current: Tab
