@@ -2,7 +2,8 @@
 
 ** Experimental API
 
-Inside a `Screen`, you can call `LifecycleEffectOnce` to execute a block of code the first time the Screen appears:
+Inside a `Screen`, you can call `LifecycleEffectOnce` to execute a block of code the first time the Screen appears,
+and optionally define a `onDispose` callback for when the Screen is leaving/removed from the Stack:
 
 ```kotlin
 class PostListScreen : Screen {
@@ -11,6 +12,9 @@ class PostListScreen : Screen {
     override fun Content() {
         LifecycleEffectOnce {
             screenModel.initSomething()
+            onDispose {
+                // Do something when the screen is leaving/removed from the Stack
+            }
         }
 
         // ...
