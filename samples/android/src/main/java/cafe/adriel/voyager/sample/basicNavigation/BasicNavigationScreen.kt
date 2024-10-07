@@ -39,6 +39,9 @@ data class BasicNavigationScreen(
         )
         LifecycleEffectOnce {
             Log.d("Navigator", "On screen first appear #$index")
+            onDispose {
+                Log.d("Navigator", "On screen dispose")
+            }
         }
 
         val navigator = LocalNavigator.currentOrThrow
