@@ -1,0 +1,13 @@
+{
+  "name": "voyager-samples-shared-wasm-js",
+  "version": "0.0.0-unspecified",
+  "main": "voyager-samples-shared-wasm-js.js",
+  "types": "voyager-samples-shared-wasm-js.d.ts",
+  "devDependencies": {},
+  "dependencies": {
+    "format-util": "^1.0.5"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

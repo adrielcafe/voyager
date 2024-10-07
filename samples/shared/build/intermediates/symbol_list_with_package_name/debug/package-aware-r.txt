@@ -1,0 +1,1 @@
+cafe.adriel.voyager.sample.shared

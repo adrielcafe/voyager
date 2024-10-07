@@ -24,4 +24,9 @@
 ./gradlew :samples:multiplatform:assembleDebug
 ```
 
+### Running Wasm demo
+```shell
+./gradlew :samples:multiplatform:wasmJsBrowserDevelopmentRun
+```
+
 If you want to run Android sample in the emulator, you can open the project and run the application configuration `samples.multiplatform` on Android Studio.

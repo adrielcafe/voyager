@@ -3,7 +3,7 @@ package cafe.adriel.voyager.sample.screenModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.sample.shared.screenModel.ScreenModelSample
 
 class ScreenModelActivity : ComponentActivity() {
 
@@ -11,7 +11,7 @@ class ScreenModelActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Navigator(ListScreen())
+            ScreenModelSample()
         }
     }
 }

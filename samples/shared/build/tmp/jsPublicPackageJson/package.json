@@ -1,0 +1,13 @@
+{
+  "name": "voyager-samples-shared",
+  "version": "0.0.0-unspecified",
+  "main": "voyager-samples-shared.js",
+  "types": "voyager-samples-shared.d.ts",
+  "devDependencies": {},
+  "dependencies": {
+    "format-util": "^1.0.5"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

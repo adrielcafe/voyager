@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compose App</title>
+    <script type="application/javascript" src="skiko.js"></script>
+    <script type="application/javascript" src="composeApp.js"></script>
+</head>
+<body>
+<div id="basicNavigationSample"></div>
+<div id="bottomSheetNavigationSample"></div>
+<div id="lifecycleViewModelSample"></div>
+<div id="nestedNavigationSample"></div>
+<div id="screenModelSample"></div>
+<script type="module">
+    import exports from "./composeApp.mjs";
+
+    exports.basicNavigationSample("basicNavigationSample")
+    exports.bottomSheetNavigationSample("bottomSheetNavigationSample")
+    exports.lifecycleViewModelSample("lifecycleViewModelSample")
+    exports.nestedNavigationSample("nestedNavigationSample")
+    exports.screenModelSample("screenModelSample")
+</script>
+</body>
+</html>

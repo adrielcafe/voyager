@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=WASM
+compiler_version=1.9.21
+depends=voyager.samples\:shared kotlin org.jetbrains.compose.ui\:ui org.jetbrains.compose.ui\:ui-text org.jetbrains.compose.ui\:ui-graphics org.jetbrains.compose.ui\:ui-unit org.jetbrains.compose.runtime\:runtime-saveable org.jetbrains.compose.ui\:ui-geometry org.jetbrains.compose.ui\:ui-util org.jetbrains.skiko\:skiko org.jetbrains.compose.runtime\:runtime
+ir_signature_versions=1,2
+jsOutputName=composeApp
+metadata_version=1.4.1
+serializedIrFileFingerprints=ff6v7piq2qgf.tg7stn0ba6y2
+serializedKlibFingerprint=9dqjbdl9dqjl.1npwfie04e53e
+unique_name=voyager.samples\:mkdocs

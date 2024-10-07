@@ -1,10 +1,9 @@
 package cafe.adriel.voyager.sample.basicNavigation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.sample.shared.basicNavigation.BasicNavigationSample
 
 class BasicNavigationActivity : ComponentActivity() {
 
@@ -12,13 +11,7 @@ class BasicNavigationActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Navigator(
-                screen = BasicNavigationScreen(index = 0),
-                onBackPressed = { currentScreen ->
-                    Log.d("Navigator", "Pop screen #${(currentScreen as BasicNavigationScreen).index}")
-                    true
-                }
-            )
+            BasicNavigationSample()
         }
     }
 }

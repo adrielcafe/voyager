@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import cafe.adriel.voyager.sample.shared.bottomSheetNavigation.BottomSheetNavigationSample
 
 class BottomSheetNavigationActivity : ComponentActivity() {
 
@@ -14,9 +13,7 @@ class BottomSheetNavigationActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            BottomSheetNavigator {
-                Navigator(BackScreen())
-            }
+            BottomSheetNavigationSample()
         }
     }
 }

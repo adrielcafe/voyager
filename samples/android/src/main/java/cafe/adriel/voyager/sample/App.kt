@@ -3,10 +3,10 @@ package cafe.adriel.voyager.sample
 import android.app.Application
 import cafe.adriel.voyager.kodein.ScreenLifecycleScope
 import cafe.adriel.voyager.sample.androidViewModel.AndroidDetailsViewModel
-import cafe.adriel.voyager.sample.androidViewModel.AndroidListViewModel
 import cafe.adriel.voyager.sample.kodeinIntegration.KodeinScopedDependencySample
 import cafe.adriel.voyager.sample.kodeinIntegration.KodeinScreenModel
 import cafe.adriel.voyager.sample.koinIntegration.KoinScreenModel
+import cafe.adriel.voyager.sample.shared.lifecycleViewModel.AndroidListViewModel
 import dagger.hilt.android.HiltAndroidApp
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -41,7 +41,7 @@ class App : Application(), DIAware {
                     factoryOf(::KoinScreenModel)
 
                     viewModel {
-                        AndroidListViewModel(handle = get())
+                        AndroidListViewModel()
                     }
                     viewModel { parameters ->
                         AndroidDetailsViewModel(index = parameters.get())

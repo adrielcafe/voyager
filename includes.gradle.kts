@@ -1,6 +1,8 @@
 include(
     ":samples:android",
     ":samples:multiplatform",
+    ":samples:shared",
+    ":samples:mkdocs",
 
     ":samples:multi-module:app",
     ":samples:multi-module:navigation",

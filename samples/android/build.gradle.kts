@@ -33,6 +33,8 @@ dependencies {
     implementation(projects.voyagerRxjava)
     implementation(projects.voyagerLivedata)
 
+    implementation(projects.samples.shared)
+
     implementation(libs.kodein)
     implementation(libs.koin)
     implementation(libs.appCompat)
