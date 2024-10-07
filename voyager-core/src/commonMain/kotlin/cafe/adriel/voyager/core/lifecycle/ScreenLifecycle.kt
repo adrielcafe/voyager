@@ -26,7 +26,7 @@ public fun Screen.LifecycleEffect(
 @ExperimentalVoyagerApi
 public data class LifecycleEffectOnceScope(
     val uniqueKey: String,
-    val registerOrderIndex: Int,
+    val registerOrderIndex: Int
 ) {
     internal var onDisposed: (() -> Unit)? = null
 
