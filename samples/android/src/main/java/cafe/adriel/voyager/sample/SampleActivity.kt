@@ -33,6 +33,7 @@ import cafe.adriel.voyager.sample.screenModel.ScreenModelActivity
 import cafe.adriel.voyager.sample.screenTransition.ScreenTransitionActivity
 import cafe.adriel.voyager.sample.stateStack.StateStackActivity
 import cafe.adriel.voyager.sample.tabNavigation.TabNavigationActivity
+import cafe.adriel.voyager.sample.transition.TransitionActivity
 
 class SampleActivity : ComponentActivity() {
 
@@ -59,6 +60,7 @@ class SampleActivity : ComponentActivity() {
                 StartSampleButton<TabNavigationActivity>("Tab Navigation")
                 StartSampleButton<BottomSheetNavigationActivity>("BottomSheet Navigation")
                 StartSampleButton<NestedNavigationActivity>("Nested Navigation")
+                StartSampleButton<TransitionActivity>("Transition")
                 StartSampleButton<AndroidViewModelActivity>("Android ViewModel")
                 StartSampleButton<ScreenModelActivity>("ScreenModel")
                 StartSampleButton<KoinIntegrationActivity>("Koin Integration")
