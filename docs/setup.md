@@ -32,10 +32,10 @@
         // Transitions
         implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
         
-        // Android
-        
         // Koin integration
         implementation("cafe.adriel.voyager:voyager-koin:$voyagerVersion")
+        
+        // Android
         
         // Hilt integration
         implementation("cafe.adriel.voyager:voyager-hilt:$voyagerVersion")
