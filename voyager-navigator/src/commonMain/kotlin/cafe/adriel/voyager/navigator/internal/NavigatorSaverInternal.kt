@@ -11,8 +11,8 @@ import cafe.adriel.voyager.navigator.LocalNavigatorSaver
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 
-internal val LocalNavigatorStateHolder: ProvidableCompositionLocal<SaveableStateHolder> =
-    staticCompositionLocalOf { error("LocalNavigatorStateHolder not initialized") }
+internal val LocalNavigatorStateHolder: ProvidableCompositionLocal<SaveableStateHolder?> =
+    staticCompositionLocalOf { null }
 
 @Composable
 internal fun rememberNavigator(
@@ -21,7 +21,7 @@ internal fun rememberNavigator(
     disposeBehavior: NavigatorDisposeBehavior,
     parent: Navigator?
 ): Navigator {
-    val stateHolder = LocalNavigatorStateHolder.current
+    val stateHolder = LocalNavigatorStateHolder.current ?: error("LocalNavigatorStateHolder not initialized")
     val navigatorSaver = LocalNavigatorSaver.current
     val saver = remember(navigatorSaver, stateHolder, parent, disposeBehavior) {
         navigatorSaver.saver(screens, key, stateHolder, disposeBehavior, parent)
