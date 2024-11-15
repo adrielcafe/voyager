@@ -2,6 +2,7 @@ package cafe.adriel.voyager.sample.multiplatform
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.SlideTransition
 
 @Composable
 public fun SampleApplication() {
@@ -11,5 +12,7 @@ public fun SampleApplication() {
             println("Navigator: Pop screen #${(currentScreen as BasicNavigationScreen).index}")
             true
         }
-    )
+    ) { navigator ->
+        SlideTransition(navigator)
+    }
 }
