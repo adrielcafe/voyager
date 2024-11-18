@@ -7,6 +7,17 @@ Voyager provides a specialized navigator for tabs : the `TabNavigator`.
 
 The `Tab` interface, like the `Screen`, has a `Content()` composable function, but also requires a `TabOptions`.&#x20;
 
+!!! warning
+    You need to create a `data class` implementing the `TabOptions` interface.
+
+```kotlin
+data class TabOptionsModel(
+    override val index: UShort,
+    override val title: String,
+    override val icon: Painter?
+) : TabOptions
+```
+
 ```kotlin
 object HomeTab : Tab {
 
@@ -17,7 +28,7 @@ object HomeTab : Tab {
             val icon = rememberVectorPainter(Icons.Default.Home)
 
             return remember {
-                TabOptions(
+                TabOptionsModel(
                     index = 0u,
                     title = title,
                     icon = icon
