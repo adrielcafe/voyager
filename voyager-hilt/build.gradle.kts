@@ -9,9 +9,6 @@ setupModuleForAndroidxCompose()
 
 android {
     namespace = "cafe.adriel.voyager.hilt"
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
 }
 
 kapt {

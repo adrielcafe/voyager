@@ -11,9 +11,6 @@ setupModuleForComposeMultiplatform(
 
 android {
     namespace = "cafe.adriel.voyager.koin"
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
 }
 
 kotlin {
