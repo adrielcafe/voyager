@@ -37,8 +37,8 @@ object HomeTab : Tab {
 
 The `TabNavigator` unlike the `Navigator`:
 
-* Don't handle [back presses](../back-press.md), because the tabs are siblings
-* Don't implements the [Stack API](../stack-api.md), just provides a `current` property
+* Doesn't handle [back presses](../back-press.md), because the tabs are siblings
+* Doesn't implement the [Stack API](../stack-api.md), just provides a `current` property
 
 You can use it with a [Scaffold](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#Scaffold\(androidx.compose.ui.Modifier,androidx.compose.material.ScaffoldState,kotlin.Function0,kotlin.Function0,kotlin.Function1,kotlin.Function0,androidx.compose.material.FabPosition,kotlin.Boolean,kotlin.Function1,kotlin.Boolean,androidx.compose.ui.graphics.Shape,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,kotlin.Function1\)) to easily create the UI for your tabs.
 
@@ -100,7 +100,7 @@ setContent {
 }
 ```
 
-But now, the `HomeTab` will have it's own `Navigator`.
+But now, the `HomeTab` will have its own `Navigator`.
 
 ```kotlin
 object HomeTab : Screen {
