@@ -35,7 +35,6 @@ dependencies {
 
     implementation(libs.kodein)
     implementation(libs.koin)
-    implementation(libs.appCompat)
     implementation(libs.lifecycle.viewModelKtx)
     implementation(libs.lifecycle.viewModelCompose)
     implementation(libs.compose.rxjava)

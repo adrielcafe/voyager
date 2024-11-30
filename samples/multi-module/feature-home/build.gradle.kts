@@ -16,7 +16,6 @@ dependencies {
 
     implementation(projects.samples.multiModule.navigation)
 
-    implementation(libs.appCompat)
     implementation(libs.compose.activity)
     implementation(libs.compose.material)
 }

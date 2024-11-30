@@ -20,7 +20,6 @@ dependencies {
     implementation(projects.samples.multiModule.featureHome)
     implementation(projects.samples.multiModule.featurePosts)
 
-    implementation(libs.appCompat)
     implementation(libs.compose.compiler)
     implementation(libs.compose.runtime)
     implementation(libs.compose.activity)

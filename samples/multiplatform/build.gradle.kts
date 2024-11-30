@@ -76,7 +76,6 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(libs.appCompat)
             implementation(libs.compose.activity)
         }
 
