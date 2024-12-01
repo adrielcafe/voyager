@@ -15,12 +15,10 @@ lifecycle = "2.8.7"
 activityCompose = "1.9.3"
 rxjava = "3.1.10"
 
-junit = "5.11.3"
-
 androidxKmp-bundle = "1.0.1"
 androidxKmp-lifecycle = "2.8.4"
 
-multiplatformUuid = "0.8.4"
+junit = "5.11.3"
 
 [libraries]
 # Plugin artifacts
@@ -46,8 +44,6 @@ androidxKmp-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", 
 androidxKmp-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxKmp-lifecycle" }
 androidxKmp-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidxKmp-lifecycle" }
 androidxKmp-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxKmp-lifecycle" }
-
-multiplatformUuid = { module = "com.benasher44:uuid", version.ref = "multiplatformUuid" }
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }

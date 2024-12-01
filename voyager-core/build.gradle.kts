@@ -30,8 +30,5 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewModelKtx)
             implementation(libs.androidx.lifecycle.viewModelCompose)
         }
-        commonWebMain.dependencies {
-            implementation(libs.multiplatformUuid)
-        }
     }
 }
