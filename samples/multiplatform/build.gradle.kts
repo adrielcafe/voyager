@@ -1,41 +1,33 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi
+import extensions.capitalize
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.desktop.application.tasks.AbstractNativeMacApplicationPackageTask
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("multiplatform")
-    id("com.android.application")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose.multiplatform)
+    id("samples-module")
 }
-
-kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-            }
-        }
-        binaries.executable()
-    }
-}
-
-setupModuleForComposeMultiplatform(
-    fullyMultiplatform = true,
-    withKotlinExplicitMode = false
-)
 
 android {
     namespace = "cafe.adriel.voyager.sample.multiplatform"
+    defaultConfig {
+        applicationId = "cafe.adriel.voyager.sample.multiplatform"
+    }
 }
 
 kotlin {
-    val macOsConfiguation: KotlinNativeTarget.() -> Unit = {
-        binaries {
+    applyDefaultHierarchyTemplate()
+
+    listOf(
+        macosX64(),
+        macosArm64()
+    ).forEach { macosTarget ->
+        macosTarget.binaries {
             executable {
                 entryPoint = "main"
                 freeCompilerArgs += listOf(
@@ -47,8 +39,7 @@ kotlin {
             }
         }
     }
-    macosX64(macOsConfiguation)
-    macosArm64(macOsConfiguation)
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -60,6 +51,28 @@ kotlin {
         }
     }
 
+    androidTarget {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+        }
+    }
+    jvm("desktop") {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+        }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
+
     js(IR) {
         browser()
         binaries.executable()
@@ -67,56 +80,50 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.material)
-            implementation(compose.runtime)
-
             implementation(projects.voyagerCore)
             implementation(projects.voyagerNavigator)
+
+            implementation(compose.runtime)
+            implementation(compose.ui)
+            implementation(compose.material)
             implementation(libs.coroutines.core)
         }
 
         androidMain.dependencies {
-            implementation(libs.compose.activity)
+            implementation(libs.androidx.activity.compose)
         }
 
-        val desktopMain by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
+    }
+}
+
+compose {
+    desktop {
+        application {
+            mainClass = "cafe.adriel.voyager.sample.multiplatform.AppKt"
+            nativeDistributions {
+                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+                packageName = "jvm"
+                packageVersion = "1.0.0"
+            }
+        }
+        nativeApplication {
+            targets(kotlin.targets.getByName("macosX64"))
+            distributions {
+                targetFormats(TargetFormat.Dmg)
+                packageName = "MultiplatformSample"
+                packageVersion = "1.0.0"
             }
         }
     }
 }
 
-android {
-    defaultConfig {
-        applicationId = "cafe.adriel.voyager.sample.multiplatform"
-    }
-}
-
-compose.desktop {
-    application {
-        mainClass = "cafe.adriel.voyager.sample.multiplatform.AppKt"
-        nativeDistributions {
-            targetFormats(Dmg, Msi, Deb)
-            packageName = "jvm"
-            packageVersion = "1.0.0"
-        }
-    }
-}
-
-compose.desktop.nativeApplication {
-    targets(kotlin.targets.getByName("macosX64"))
-    distributions {
-        targetFormats(Dmg)
-        packageName = "MultiplatformSample"
-        packageVersion = "1.0.0"
-    }
-}
-
 afterEvaluate {
     val baseTask = "createDistributableNative"
-    listOf("debug", "release").forEach {
-        val createAppTaskName = baseTask + it.capitalize() + "macosX64".capitalize()
+    listOf("debug", "release").forEach { buildType ->
+        val createAppTaskName = baseTask + buildType.capitalize() + "macosX64".capitalize()
 
         val createAppTask = tasks.findByName(createAppTaskName) as? AbstractNativeMacApplicationPackageTask?
             ?: return@forEach
@@ -124,7 +131,7 @@ afterEvaluate {
         val destinationDir = createAppTask.destinationDir.get().asFile
         val packageName = createAppTask.packageName.get()
 
-        tasks.create("runNative" + it.capitalize()) {
+        tasks.create("runNative" + buildType.capitalize()) {
             group = createAppTask.group
             dependsOn(createAppTaskName)
             doLast {
@@ -132,8 +139,4 @@ afterEvaluate {
             }
         }
     }
-}
-
-compose.experimental {
-    web.application {}
 }

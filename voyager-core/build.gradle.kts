@@ -1,18 +1,14 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("com.vanniktech.maven.publish")
-    id("kotlinx-atomicfu")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.atomicfu)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.compose.multiplatform)
+    id("voyager-kmp-module")
 }
-
-setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.core"
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
 }
 
 kotlin {
@@ -27,17 +23,15 @@ kotlin {
             runtimeOnly(libs.junit.engine)
         }
         androidMain.dependencies {
-            implementation(libs.compose.activity)
+            implementation(libs.androidx.activity.compose)
 
-            implementation(libs.lifecycle.runtime)
-            implementation(libs.lifecycle.savedState)
-            implementation(libs.lifecycle.viewModelKtx)
-            implementation(libs.lifecycle.viewModelCompose)
+            implementation(libs.androidx.lifecycle.runtime)
+            implementation(libs.androidx.lifecycle.savedState)
+            implementation(libs.androidx.lifecycle.viewModelKtx)
+            implementation(libs.androidx.lifecycle.viewModelCompose)
         }
-        val commonWebMain by getting {
-            dependencies {
-                implementation(libs.multiplatformUuid)
-            }
+        commonWebMain.dependencies {
+            implementation(libs.multiplatformUuid)
         }
     }
 }

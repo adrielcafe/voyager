@@ -1,11 +1,9 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    id("samples-module")
 }
-
-setupModuleForAndroidxCompose(
-    withKotlinExplicitMode = false
-)
 
 android {
     namespace = "cafe.adriel.voyager.sample.multimodule"
@@ -20,10 +18,9 @@ dependencies {
     implementation(projects.samples.multiModule.featureHome)
     implementation(projects.samples.multiModule.featurePosts)
 
-    implementation(libs.compose.compiler)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.material)
+    implementation(libs.androidx.activity.compose)
+    implementation(samples.compose.runtime)
+    implementation(samples.compose.material)
 
-    debugImplementation(libs.leakCanary)
+    debugImplementation(samples.leakCanary)
 }

@@ -1,11 +1,10 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.kapt)
+    id("voyager-android-module")
 }
-
-setupModuleForAndroidxCompose()
 
 android {
     namespace = "cafe.adriel.voyager.hilt"
@@ -19,12 +18,10 @@ dependencies {
     api(projects.voyagerScreenmodel)
     api(projects.voyagerNavigator)
 
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.ui)
-    implementation(libs.lifecycle.savedState)
-    implementation(libs.lifecycle.viewModelKtx)
+    implementation(libs.androidx.lifecycle.savedState)
+    implementation(libs.androidx.lifecycle.viewModelKtx)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.hilt.android)
-    implementation(libs.lifecycle.viewModelCompose)
     kapt(libs.hilt.compiler)
 
     testRuntimeOnly(libs.junit.engine)

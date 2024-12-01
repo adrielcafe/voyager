@@ -1,10 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    id("voyager-desktop-module")
 }
-
-setupModuleForComposeMultiplatform()
 
 android {
     namespace = "cafe.adriel.voyager.rxjava"

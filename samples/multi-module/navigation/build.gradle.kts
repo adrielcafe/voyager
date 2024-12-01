@@ -1,11 +1,9 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    id("samples-module")
 }
-
-setupModuleForAndroidxCompose(
-    withKotlinExplicitMode = false
-)
 
 android {
     namespace = "cafe.adriel.voyager.sample.multimodule.navigation"
@@ -13,7 +11,5 @@ android {
 
 dependencies {
     implementation(projects.voyagerCore)
-
-    implementation(libs.compose.compiler)
-    implementation(libs.compose.runtime)
+    implementation(samples.compose.runtime)
 }

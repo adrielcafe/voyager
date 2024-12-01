@@ -1,11 +1,10 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.compose.multiplatform)
+    id("voyager-kmp-module")
 }
-
-setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.transitions"
@@ -18,7 +17,6 @@ kotlin {
             api(projects.voyagerNavigator)
             compileOnly(compose.animation)
         }
-
         jvmTest.dependencies {
             implementation(libs.junit.api)
             runtimeOnly(libs.junit.engine)
