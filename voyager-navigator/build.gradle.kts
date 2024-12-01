@@ -14,8 +14,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.voyagerCore)
-            compileOnly(compose.runtime)
-            compileOnly(compose.runtimeSaveable)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
         }
         jvmTest.dependencies {
             implementation(libs.junit.api)

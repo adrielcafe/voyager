@@ -17,8 +17,8 @@ kotlin {
             api(projects.voyagerScreenmodel)
             api(projects.voyagerNavigator)
 
-            compileOnly(compose.runtime)
-            compileOnly(compose.runtimeSaveable)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
 
             implementation(libs.coroutines.core)
         }

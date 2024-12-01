@@ -16,9 +16,9 @@ kotlin {
             api(projects.voyagerCore)
             api(projects.voyagerScreenmodel)
             api(projects.voyagerNavigator)
-            compileOnly(compose.runtime)
-            compileOnly(compose.runtimeSaveable)
             compileOnly(libs.kodein)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
         }
         jvmTest.dependencies {
             implementation(libs.junit.api)

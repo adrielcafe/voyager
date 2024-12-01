@@ -15,7 +15,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.voyagerCore)
             api(projects.voyagerNavigator)
-            compileOnly(compose.animation)
+            implementation(compose.animation)
         }
         jvmTest.dependencies {
             implementation(libs.junit.api)

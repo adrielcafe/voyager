@@ -14,8 +14,8 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            compileOnly(compose.runtime)
-            compileOnly(compose.runtimeSaveable)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
             implementation(libs.coroutines.core)
         }
         jvmTest.dependencies {

@@ -15,8 +15,8 @@ kotlin {
         commonMain.dependencies {
             api(projects.voyagerCore)
             api(projects.voyagerNavigator)
-            compileOnly(compose.runtime)
-            compileOnly(compose.runtimeSaveable)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
             implementation(libs.coroutines.core)
         }
         jvmTest.dependencies {
