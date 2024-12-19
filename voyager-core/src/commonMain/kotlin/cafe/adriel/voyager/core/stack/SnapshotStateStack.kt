@@ -9,6 +9,7 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 
@@ -111,15 +112,19 @@ public class SnapshotStateStack<Item>(
     }
 
     public override infix fun replaceAll(item: Item) {
-        stateStack.clear()
-        stateStack += item
-        lastEvent = StackEvent.Replace
+        Snapshot.withMutableSnapshot {
+            stateStack.clear()
+            stateStack += item
+            lastEvent = StackEvent.Replace
+        }
     }
 
     public override infix fun replaceAll(items: List<Item>) {
-        stateStack.clear()
-        stateStack += items
-        lastEvent = StackEvent.Replace
+        Snapshot.withMutableSnapshot {
+            stateStack.clear()
+            stateStack += items
+            lastEvent = StackEvent.Replace
+        }
     }
 
     public override fun pop(): Boolean =
