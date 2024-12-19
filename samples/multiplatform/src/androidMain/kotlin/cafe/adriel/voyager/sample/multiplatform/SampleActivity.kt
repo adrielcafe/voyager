@@ -1,10 +1,10 @@
 package cafe.adriel.voyager.sample.multiplatform
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 
-public class SampleActivity : AppCompatActivity() {
+public class SampleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
