@@ -82,18 +82,15 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.voyagerCore)
             implementation(projects.voyagerNavigator)
-
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.material)
             implementation(libs.coroutines.core)
         }
-
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
         }
-
-        jvmMain.dependencies {
+        getByName("desktopMain").dependencies {
             implementation(compose.desktop.currentOs)
         }
     }

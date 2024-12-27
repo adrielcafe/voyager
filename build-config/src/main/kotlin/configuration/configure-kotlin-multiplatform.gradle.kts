@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 kotlinMultiplatform {
     applyDefaultHierarchyTemplate {
         common {
-            group("jvm") {
+            group("commonJvm") {
                 withCompilations {
                     it.target.targetName == "desktop" || it.target is KotlinAndroidTarget
                 }

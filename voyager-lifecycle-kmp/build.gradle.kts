@@ -22,10 +22,6 @@ kotlin {
             implementation(libs.androidxKmp.lifecycle.runtimeCompose)
             implementation(libs.androidxKmp.core.bundle)
         }
-        jvmTest.dependencies {
-            runtimeOnly(libs.junit.engine)
-            implementation(libs.junit.api)
-        }
         androidMain.dependencies {
             implementation(libs.androidx.lifecycle.savedState)
             implementation(compose.ui)

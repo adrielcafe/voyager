@@ -10,14 +10,10 @@ android {
 
 kotlin {
     sourceSets {
-        jvmMain.dependencies {
+        commonJvmMain.dependencies {
             api(projects.voyagerCore)
             api(projects.voyagerScreenmodel)
             compileOnly(libs.rxjava)
-        }
-        jvmTest.dependencies {
-            implementation(libs.junit.api)
-            runtimeOnly(libs.junit.engine)
         }
     }
 }

@@ -18,9 +18,5 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
         }
-        jvmTest.dependencies {
-            implementation(libs.junit.api)
-            runtimeOnly(libs.junit.engine)
-        }
     }
 }

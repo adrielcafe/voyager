@@ -19,9 +19,5 @@ kotlin {
             implementation(compose.runtimeSaveable)
             implementation(libs.coroutines.core)
         }
-        jvmTest.dependencies {
-            implementation(libs.junit.api)
-            runtimeOnly(libs.junit.engine)
-        }
     }
 }

@@ -18,10 +18,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.material)
         }
-        jvmTest.dependencies {
-            implementation(libs.junit.api)
-            runtimeOnly(libs.junit.engine)
-        }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
         }

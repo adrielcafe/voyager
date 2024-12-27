@@ -18,13 +18,12 @@ kotlin {
             implementation(compose.runtimeSaveable)
             implementation(libs.coroutines.core)
         }
-        jvmTest.dependencies {
+        commonJvmTest.dependencies {
             implementation(libs.junit.api)
             runtimeOnly(libs.junit.engine)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
-
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.lifecycle.savedState)
             implementation(libs.androidx.lifecycle.viewModelKtx)

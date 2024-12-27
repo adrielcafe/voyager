@@ -17,10 +17,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
         }
-        jvmTest.dependencies {
-            implementation(libs.junit.api)
-            runtimeOnly(libs.junit.engine)
-        }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
         }
