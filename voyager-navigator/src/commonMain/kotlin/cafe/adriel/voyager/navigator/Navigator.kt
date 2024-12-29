@@ -18,6 +18,7 @@ import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
+import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.core.stack.toMutableStateStack
 import cafe.adriel.voyager.navigator.internal.ChildrenNavigationDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
@@ -190,3 +191,8 @@ public data class NavigatorDisposeBehavior(
 public fun compositionUniqueId(): String = currentCompositeKeyHash.toString(MaxSupportedRadix)
 
 private val MaxSupportedRadix = 36
+
+public fun Navigator?.isPushLastEvent(): Boolean = this?.lastEvent == StackEvent.Push
+public fun Navigator?.isPopLastEvent(): Boolean = this?.lastEvent == StackEvent.Pop
+public fun Navigator?.isReplaceLastEvent(): Boolean = this?.lastEvent == StackEvent.Replace
+public fun Navigator?.isIdleLastEvent(): Boolean = this?.lastEvent == StackEvent.Idle
