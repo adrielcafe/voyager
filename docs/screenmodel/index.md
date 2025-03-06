@@ -20,7 +20,7 @@ class HomeScreenModel : ScreenModel {
 ```
 
 !!! info
-    `ScreenModel` is integrated with [Coroutines](coroutines-integration.md), [RxJava](rxjava-integration.md), [LiveData](livedata-integration.md), [Koin](koin-integration.md), [Kodein](kodein-integration.md) and [Hit](hilt-integration.md)!
+    `ScreenModel` is integrated with [Coroutines](coroutines-integration.md), [RxJava](rxjava-integration.md), [LiveData](livedata-integration.md), [Koin](koin-integration.md), [Kodein](kodein-integration.md) and [Hilt](hilt-integration.md)!
 
 By design, it's only possible to create a `ScreenModel` instance inside a `Screen`. Call `rememberScreenModel` and provide a factory lambda.
 
