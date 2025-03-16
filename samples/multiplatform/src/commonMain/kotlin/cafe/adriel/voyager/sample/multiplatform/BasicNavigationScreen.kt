@@ -13,10 +13,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
@@ -32,10 +32,12 @@ public data class BasicNavigationScreen(
 
     @Composable
     override fun Content() {
-        LifecycleEffect(
-            onStarted = { println("Navigator: Start screen #$index") },
-            onDisposed = { println("Navigator: Dispose screen #$index") }
-        )
+        DisposableEffect(key) {
+            println("Navigator: Start screen #$index")
+            onDispose  {
+                println("Navigator: Dispose screen #$index")
+            }
+        }
 
         val navigator = LocalNavigator.currentOrThrow
 

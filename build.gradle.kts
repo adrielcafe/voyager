@@ -1,44 +1,34 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-        maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev" )
-    }
-
-    dependencies {
-        classpath(libs.plugin.hilt)
-        classpath(libs.plugin.ktlint)
-        classpath(libs.plugin.maven)
-        classpath(libs.plugin.multiplatform.compose)
-        classpath(libs.plugin.atomicfu)
-    }
-}
+import org.gradle.api.internal.catalog.DelegatingProjectDependency
 
 plugins {
+    alias(libs.plugins.android.gradle) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.kotlin.atomicfu) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.mavenPublish) apply false
     alias(libs.plugins.binaryCompatibilityValidator)
 }
 
-subprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
-
-    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-        version.set("0.47.1")
-        disabledRules.set(setOf("filename"))
+apiValidation {
+    with(ignoredProjects) {
+        add(projects.samples.android)
+        add(projects.samples.multiplatform)
+        add(projects.samples.multiModule.app)
+        add(projects.samples.multiModule.featureHome)
+        add(projects.samples.multiModule.featurePosts)
+        add(projects.samples.multiModule.navigation)
+    }
+    with(nonPublicMarkers) {
+        add("cafe.adriel.voyager.core.annotation.InternalVoyagerApi")
     }
 }
 
-apiValidation {
-    ignoredProjects.addAll(listOf(
-        /*samples*/"android",
-        /*samples*/"multiplatform",
-        /*samples/multi-modulo*/"app",
-        /*samples/multi-modulo*/"feature-home",
-        /*samples/multi-modulo*/"feature-posts",
-        /*samples/multi-modulo*/"navigation",
-    ))
-    nonPublicMarkers.addAll(listOf(
-        "cafe.adriel.voyager.core.annotation.InternalVoyagerApi",
-        "cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi"
-    ))
-}
+fun MutableSet<String>.add(dependency: DelegatingProjectDependency) = add(dependency.name)
