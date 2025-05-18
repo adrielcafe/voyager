@@ -1,24 +1,24 @@
 [versions]
-agp = "8.7.2"
-kotlin = "2.1.0"
-mavenPublish = "0.30.0"
-composeMultiplatform = "1.7.1"
-binaryCompatibilityValidator = "0.16.3"
-atomicfu = "0.26.1"
+agp = "8.10.0"
+kotlin = "2.1.21"
+mavenPublish = "0.32.0"
+composeMultiplatform = "1.8.0"
+binaryCompatibilityValidator = "0.17.0"
+atomicfu = "0.27.0"
 
-ktlint = "12.1.2"
-coroutines = "1.9.0"
+ktlint = "12.2.0"
+coroutines = "1.10.2"
 kodein = "7.21.2"
-koin-compose = "4.0.0"
-hilt = "2.52"
-lifecycle = "2.8.7"
-activityCompose = "1.9.3"
+koin-compose = "4.0.4"
+hilt = "2.56.2"
+lifecycle = "2.9.0"
+activityCompose = "1.10.1"
 rxjava = "3.1.10"
 
 androidxKmp-bundle = "1.0.1"
 androidxKmp-lifecycle = "2.8.4"
 
-junit = "5.11.3"
+junit = "5.12.2"
 
 [libraries]
 # Plugin artifacts

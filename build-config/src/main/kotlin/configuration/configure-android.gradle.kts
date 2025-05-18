@@ -4,12 +4,12 @@ import extensions.isAndroidLibraryModule
 import extensions.isMultiplatformModule
 
 configure<BaseExtension> {
-    compileSdkVersion(34)
+    compileSdkVersion(36)
     defaultConfig {
         minSdk = 21
 
         if (isAndroidApplicationModule()) {
-            targetSdk = 34
+            targetSdk = 36
             versionCode = 1
             versionName = "1.0"
         }

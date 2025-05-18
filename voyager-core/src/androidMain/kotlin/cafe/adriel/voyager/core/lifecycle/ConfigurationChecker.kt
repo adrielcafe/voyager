@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -15,6 +16,7 @@ private tailrec fun Context.getActivity(): Activity? = when (this) {
 }
 
 @Composable
+@NonRestartableComposable
 internal actual fun getConfigurationChecker(): ConfigurationChecker {
     val context = LocalContext.current
     return remember(context) { ConfigurationChecker(context.getActivity()) }

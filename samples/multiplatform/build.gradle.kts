@@ -64,7 +64,7 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "composeApp"
+        outputModuleName = "composeApp"
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
@@ -128,7 +128,7 @@ afterEvaluate {
         val destinationDir = createAppTask.destinationDir.get().asFile
         val packageName = createAppTask.packageName.get()
 
-        tasks.create("runNative" + buildType.capitalize()) {
+        tasks.register<Task>(name = "runNative${buildType.capitalize()}") {
             group = createAppTask.group
             dependsOn(createAppTaskName)
             doLast {

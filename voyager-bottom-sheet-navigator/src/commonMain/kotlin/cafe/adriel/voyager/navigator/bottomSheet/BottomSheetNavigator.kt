@@ -9,7 +9,6 @@ import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.SwipeableDefaults
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -51,7 +50,7 @@ public fun BottomSheetNavigator(
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
     sheetGesturesEnabled: Boolean = true,
     skipHalfExpanded: Boolean = true,
-    animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
+    animationSpec: AnimationSpec<Float> = ModalBottomSheetDefaults.AnimationSpec,
     key: String = compositionUniqueId(),
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
     content: BottomSheetNavigatorContent
