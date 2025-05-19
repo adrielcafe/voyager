@@ -34,7 +34,7 @@ public data class BasicNavigationScreen(
     override fun Content() {
         DisposableEffect(key) {
             println("Navigator: Start screen #$index")
-            onDispose  {
+            onDispose {
                 println("Navigator: Dispose screen #$index")
             }
         }
