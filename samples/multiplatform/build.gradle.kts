@@ -82,6 +82,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.voyagerCore)
             implementation(projects.voyagerNavigator)
+            implementation(projects.voyagerTransitions)
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.material)
