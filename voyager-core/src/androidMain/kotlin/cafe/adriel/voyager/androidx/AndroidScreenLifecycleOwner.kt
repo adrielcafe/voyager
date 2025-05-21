@@ -136,7 +136,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
     @Composable
     private fun getHooks(): List<ProvidedValue<*>> {
         atomicAppContext.compareAndSet(null, LocalContext.current.applicationContext)
-        atomicParentLifecycleOwner.compareAndSet(null, LocalLifecycleOwner.current) // deprecated
+        atomicParentLifecycleOwner.compareAndSet(null, LocalLifecycleOwner.current)
 
         return remember(this) {
             listOf(
