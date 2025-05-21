@@ -1,3 +1,6 @@
+# Dropbox focus plugin
+*.focus
+
 # https://github.com/github/gitignore/blob/main/Android.gitignore
 # Gradle files
 .gradle/
