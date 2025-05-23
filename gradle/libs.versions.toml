@@ -2,11 +2,11 @@
 agp = "8.10.0"
 kotlin = "2.1.21"
 mavenPublish = "0.32.0"
-composeMultiplatform = "1.8.0"
+composeMultiplatform = "1.8.1"
 binaryCompatibilityValidator = "0.17.0"
 atomicfu = "0.27.0"
 ktlint = "0.47.1"
-ktlintPlugin = "12.2.0"
+ktlintPlugin = "12.3.0"
 
 coroutines = "1.10.2"
 kodein = "7.21.2"
@@ -17,7 +17,7 @@ activityCompose = "1.10.1"
 rxjava = "3.1.10"
 
 androidxKmp-bundle = "1.0.1"
-androidxKmp-lifecycle = "2.8.4"
+androidxKmp-lifecycle = "2.9.0"
 
 junit = "5.12.2"
 
