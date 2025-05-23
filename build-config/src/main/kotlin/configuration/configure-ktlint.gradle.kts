@@ -3,6 +3,8 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 plugins.apply("org.jlleitschuh.gradle.ktlint")
 
 configure<KtlintExtension> {
-    version.set("0.47.1")
-    disabledRules.set(setOf("filename"))
+    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+    version = libs.findVersion("ktlint").get().toString()
+    disabledRules = setOf("filename")
 }
