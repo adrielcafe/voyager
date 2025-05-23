@@ -11,5 +11,5 @@ android {
 
 dependencies {
     implementation(projects.voyagerCore)
-    implementation(samples.compose.runtime)
+    implementation(samplesCatalog.compose.runtime)
 }

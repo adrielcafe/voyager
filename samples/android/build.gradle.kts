@@ -37,11 +37,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModelKtx)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.activity.compose)
-    implementation(samples.koin)
-    implementation(samples.compose.rxjava)
-    implementation(samples.compose.livedata)
-    implementation(samples.compose.material)
-    implementation(samples.compose.materialIcons)
+    implementation(samplesCatalog.koin)
+    implementation(samplesCatalog.compose.rxjava)
+    implementation(samplesCatalog.compose.livedata)
+    implementation(samplesCatalog.compose.material)
+    implementation(samplesCatalog.compose.materialIcons)
 
-    debugImplementation(samples.leakCanary)
+    debugImplementation(samplesCatalog.leakCanary)
 }

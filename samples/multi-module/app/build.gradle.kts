@@ -19,8 +19,8 @@ dependencies {
     implementation(projects.samples.multiModule.featurePosts)
 
     implementation(libs.androidx.activity.compose)
-    implementation(samples.compose.runtime)
-    implementation(samples.compose.material)
+    implementation(samplesCatalog.compose.runtime)
+    implementation(samplesCatalog.compose.material)
 
-    debugImplementation(samples.leakCanary)
+    debugImplementation(samplesCatalog.leakCanary)
 }

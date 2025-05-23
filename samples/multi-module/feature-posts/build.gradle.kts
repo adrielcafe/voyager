@@ -16,5 +16,5 @@ dependencies {
     implementation(projects.samples.multiModule.navigation)
 
     implementation(libs.androidx.activity.compose)
-    implementation(samples.compose.material)
+    implementation(samplesCatalog.compose.material)
 }

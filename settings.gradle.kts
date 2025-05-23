@@ -30,7 +30,7 @@ dependencyResolutionManagement {
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     versionCatalogs {
-        create("samples") {
+        create("samplesCatalog") {
             from(files("./gradle/samples.versions.toml"))
         }
     }
