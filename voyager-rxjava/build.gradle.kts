@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
-    id("voyager-desktop-module")
+    id("voyager-jvm-module")
 }
 
 android {
