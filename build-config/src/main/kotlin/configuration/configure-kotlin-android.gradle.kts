@@ -3,6 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 kotlinAndroid {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_1_8
+        jvmTarget = JvmTarget.JVM_11
     }
 }
