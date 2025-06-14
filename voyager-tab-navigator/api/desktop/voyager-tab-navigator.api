@@ -1,8 +1,7 @@
 public final class cafe/adriel/voyager/navigator/tab/ComposableSingletons$TabNavigatorKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/navigator/tab/ComposableSingletons$TabNavigatorKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function3;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_tab_navigator ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-2078919426$voyager_tab_navigator ()Lkotlin/jvm/functions/Function3;
 }
 
 public abstract interface class cafe/adriel/voyager/navigator/tab/Tab : cafe/adriel/voyager/core/screen/Screen {

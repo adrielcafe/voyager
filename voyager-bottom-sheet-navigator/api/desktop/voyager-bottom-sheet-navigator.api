@@ -35,8 +35,7 @@ public final class cafe/adriel/voyager/navigator/bottomSheet/BottomSheetNavigato
 
 public final class cafe/adriel/voyager/navigator/bottomSheet/ComposableSingletons$BottomSheetNavigatorKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/navigator/bottomSheet/ComposableSingletons$BottomSheetNavigatorKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function3;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_bottom_sheet_navigator ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1074989692$voyager_bottom_sheet_navigator ()Lkotlin/jvm/functions/Function3;
 }
 

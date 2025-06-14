@@ -1,3 +1,23 @@
+public final class cafe/adriel/voyager/kodein/ScreenContext {
+	public static final field $stable I
+	public fun <init> (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getScreen ()Lcafe/adriel/voyager/core/screen/Screen;
+	public fun hashCode ()I
+}
+
+public class cafe/adriel/voyager/kodein/ScreenLifecycleScope : org/kodein/di/bindings/Scope {
+	public static final field $stable I
+	public static final field multiItem Lcafe/adriel/voyager/kodein/ScreenLifecycleScope$multiItem;
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getRegistry (Lcafe/adriel/voyager/kodein/ScreenContext;)Lorg/kodein/di/bindings/ScopeRegistry;
+	public synthetic fun getRegistry (Ljava/lang/Object;)Lorg/kodein/di/bindings/ScopeRegistry;
+}
+
+public final class cafe/adriel/voyager/kodein/ScreenLifecycleScope$multiItem : cafe/adriel/voyager/kodein/ScreenLifecycleScope {
+}
+
 public final class cafe/adriel/voyager/kodein/ScreenLifecycleScopeKt {
+	public static final fun rememberScreenContext (Landroidx/compose/runtime/Composer;I)Lcafe/adriel/voyager/kodein/ScreenContext;
 }
 

@@ -21,9 +21,6 @@ public abstract interface annotation class cafe/adriel/voyager/core/annotation/E
 public abstract interface annotation class cafe/adriel/voyager/core/annotation/InternalVoyagerApi : java/lang/annotation/Annotation {
 }
 
-public final class cafe/adriel/voyager/core/concurrent/PlatformDispatcher_androidKt {
-}
-
 public final class cafe/adriel/voyager/core/concurrent/ThreadSafeList : java/util/List, kotlin/jvm/internal/markers/KMutableList {
 	public static final field $stable I
 	public fun <init> ()V
@@ -104,7 +101,19 @@ public final class cafe/adriel/voyager/core/lifecycle/DisposableEffectKt {
 public abstract interface class cafe/adriel/voyager/core/lifecycle/JavaSerializable : java/io/Serializable {
 }
 
-public final class cafe/adriel/voyager/core/lifecycle/MultipleScreenLifecycleOwnerUtilKt {
+public final class cafe/adriel/voyager/core/lifecycle/LifecycleEffectOnceScope {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun copy (Ljava/lang/String;I)Lcafe/adriel/voyager/core/lifecycle/LifecycleEffectOnceScope;
+	public static synthetic fun copy$default (Lcafe/adriel/voyager/core/lifecycle/LifecycleEffectOnceScope;Ljava/lang/String;IILjava/lang/Object;)Lcafe/adriel/voyager/core/lifecycle/LifecycleEffectOnceScope;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRegisterOrderIndex ()I
+	public final fun getUniqueKey ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun onDispose (Lkotlin/jvm/functions/Function0;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class cafe/adriel/voyager/core/lifecycle/NavigatorScreenLifecycleKt {
@@ -133,6 +142,7 @@ public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProv
 
 public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleKt {
 	public static final fun LifecycleEffect (Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun LifecycleEffectOnce (Lcafe/adriel/voyager/core/screen/Screen;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)V
 	public static final fun rememberScreenLifecycleOwner (Lcafe/adriel/voyager/core/screen/Screen;Landroidx/compose/runtime/Composer;I)Lcafe/adriel/voyager/core/lifecycle/ScreenLifecycleOwner;
 }
 
