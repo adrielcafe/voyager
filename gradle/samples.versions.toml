@@ -1,7 +1,7 @@
 [versions]
 leakCanary = "2.14"
 koin = "4.1.0"
-compose = "1.8.2"
+compose = "1.8.3"
 composeMaterialIcons = "1.7.8"
 
 [libraries]

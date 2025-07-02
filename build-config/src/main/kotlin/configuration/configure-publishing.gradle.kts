@@ -1,5 +1,4 @@
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost
 import extensions.isMultiplatformModule
 import extensions.kotlinMultiplatform
 
@@ -16,7 +15,7 @@ if (isMultiplatformModule()) {
 group = "cafe.adriel.voyager"
 
 configure<MavenPublishBaseExtension> {
-    publishToMavenCentral(host = SonatypeHost.S01, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
 
     pom {
