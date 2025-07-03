@@ -108,7 +108,7 @@ public abstract interface class cafe/adriel/voyager/core/lifecycle/NavigatorScre
 }
 
 public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenDisposable {
-	public abstract fun onDispose (Lcafe/adriel/voyager/core/screen/Screen;)V
+	public fun onDispose (Lcafe/adriel/voyager/core/screen/Screen;)V
 }
 
 public final class cafe/adriel/voyager/core/lifecycle/ScreenDisposable$DefaultImpls {
@@ -116,7 +116,7 @@ public final class cafe/adriel/voyager/core/lifecycle/ScreenDisposable$DefaultIm
 }
 
 public abstract interface class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProvider {
-	public abstract fun ProvideBeforeScreenContent (Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public fun ProvideBeforeScreenContent (Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class cafe/adriel/voyager/core/lifecycle/ScreenLifecycleContentProvider$DefaultImpls {
@@ -169,7 +169,7 @@ public final class cafe/adriel/voyager/core/registry/ScreenRegistry {
 
 public abstract interface class cafe/adriel/voyager/core/screen/Screen : java/io/Serializable {
 	public abstract fun Content (Landroidx/compose/runtime/Composer;I)V
-	public abstract fun getKey ()Ljava/lang/String;
+	public fun getKey ()Ljava/lang/String;
 }
 
 public final class cafe/adriel/voyager/core/screen/Screen$DefaultImpls {
