@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
-import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.sample.ListContent
 
 class KoinScreen : Screen {
@@ -13,7 +13,7 @@ class KoinScreen : Screen {
 
     @Composable
     override fun Content() {
-        val screenModel = getScreenModel<KoinScreenModel>()
+        val screenModel = koinScreenModel<KoinScreenModel>()
 
         ListContent(screenModel.items)
     }

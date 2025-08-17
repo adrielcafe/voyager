@@ -15,14 +15,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -36,14 +37,17 @@ data class SampleParcelableScreen(
     val wrapContent: Boolean = false
 ) : Screen, Parcelable {
 
+    @IgnoredOnParcel
     override val key = uniqueScreenKey
 
     @Composable
     override fun Content() {
-        LifecycleEffect(
-            onStarted = { Log.d("Navigator", "Start screen #${parcelable.index}") },
-            onDisposed = { Log.d("Navigator", "Dispose screen #${parcelable.index}") }
-        )
+        DisposableEffect(Unit) {
+            Log.d("Navigator", "Start screen #${parcelable.index}")
+            onDispose {
+                Log.d("Navigator", "Dispose screen #${parcelable.index}")
+            }
+        }
 
         val navigator = LocalNavigator.currentOrThrow
 

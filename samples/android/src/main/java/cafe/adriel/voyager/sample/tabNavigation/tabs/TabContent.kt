@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -24,10 +24,12 @@ import cafe.adriel.voyager.transitions.SlideTransition
 fun Tab.TabContent() {
     val tabTitle = options.title
 
-    LifecycleEffect(
-        onStarted = { Log.d("Navigator", "Start tab $tabTitle") },
-        onDisposed = { Log.d("Navigator", "Dispose tab $tabTitle") }
-    )
+    DisposableEffect(Unit) {
+        Log.d("Navigator", "Start tab $tabTitle")
+        onDispose {
+            Log.d("Navigator", "Dispose tab $tabTitle")
+        }
+    }
 
     Navigator(BasicNavigationScreen(index = 0)) { navigator ->
         SlideTransition(navigator) { screen ->

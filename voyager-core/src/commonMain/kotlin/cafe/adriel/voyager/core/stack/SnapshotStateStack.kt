@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import cafe.adriel.voyager.core.internal.removeLastElement
 
 public fun <Item> List<Item>.toMutableStateStack(
     minSize: Int = 0
@@ -129,7 +130,7 @@ public class SnapshotStateStack<Item>(
 
     public override fun pop(): Boolean =
         if (canPop) {
-            stateStack.removeLast()
+            stateStack.removeLastElement()
             lastEvent = StackEvent.Pop
             true
         } else {
@@ -151,7 +152,7 @@ public class SnapshotStateStack<Item>(
         }
 
         while (canPop && shouldPop()) {
-            stateStack.removeLast()
+            stateStack.removeLastElement()
         }
 
         lastEvent = StackEvent.Pop

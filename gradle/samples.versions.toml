@@ -1,0 +1,14 @@
+[versions]
+leakCanary = "2.14"
+koin = "4.1.0"
+compose = "1.8.3"
+composeMaterialIcons = "1.7.8"
+
+[libraries]
+leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
+koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+compose-rxjava = { module = "androidx.compose.runtime:runtime-rxjava3", version.ref = "compose" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-materialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "composeMaterialIcons" }

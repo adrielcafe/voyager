@@ -8,8 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.core.bundle.Bundle
 import androidx.lifecycle.AtomicReference
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.HasDefaultViewModelProviderFactory
@@ -21,13 +19,16 @@ import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.enableSavedStateHandles
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.savedstate.SavedState
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
+import androidx.savedstate.savedState
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 
@@ -84,7 +85,7 @@ public class VoyagerLifecycleKMPOwner :
         enableSavedStateHandles()
     }
 
-    private fun onCreate(savedState: Bundle?) {
+    private fun onCreate(savedState: SavedState?) {
         check(!isCreated) { "onCreate already called" }
         isCreated = true
         controller.performRestore(savedState)
@@ -112,7 +113,7 @@ public class VoyagerLifecycleKMPOwner :
         }
     }
 
-    private fun performSave(outState: Bundle) {
+    private fun performSave(outState: SavedState) {
         controller.performSave(outState)
     }
 
@@ -133,7 +134,7 @@ public class VoyagerLifecycleKMPOwner :
     /**
      * Returns a unregister callback
      */
-    private fun registerLifecycleListener(outState: Bundle): () -> Unit {
+    private fun registerLifecycleListener(outState: SavedState): () -> Unit {
         val lifecycleOwner = atomicParentLifecycleOwner.get()
         if (lifecycleOwner != null) {
             val observer = object : DefaultLifecycleObserver {
@@ -167,7 +168,7 @@ public class VoyagerLifecycleKMPOwner :
 
     @Composable
     internal fun LifecycleDisposableEffect() {
-        val savedState = rememberSaveable { Bundle() }
+        val savedState = rememberSaveable { savedState() }
         if (!isCreated) {
             onCreate(savedState) // do this in the UI thread to force it to be called before anything else
         }

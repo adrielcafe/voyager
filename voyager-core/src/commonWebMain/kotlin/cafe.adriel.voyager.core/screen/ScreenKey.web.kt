@@ -1,5 +1,7 @@
 package cafe.adriel.voyager.core.screen
 
-import com.benasher44.uuid.uuid4
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-internal actual fun randomUuid(): String = uuid4().toString()
+@OptIn(ExperimentalUuidApi::class)
+internal actual fun randomUuid(): String = Uuid.random().toString()

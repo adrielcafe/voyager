@@ -1,14 +1,12 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("kotlin-parcelize")
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt)
+    id("samples-module")
 }
-
-setupModuleForAndroidxCompose(
-    withKotlinExplicitMode = false
-)
 
 android {
     namespace = "cafe.adriel.voyager.sample"
@@ -33,21 +31,17 @@ dependencies {
     implementation(projects.voyagerRxjava)
     implementation(projects.voyagerLivedata)
 
-    implementation(libs.kodein)
-    implementation(libs.koin)
-    implementation(libs.appCompat)
-    implementation(libs.lifecycle.viewModelKtx)
-    implementation(libs.lifecycle.viewModelCompose)
-    implementation(libs.compose.rxjava)
-    implementation(libs.compose.compiler)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.runtimeLiveData)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.material)
-    implementation(libs.compose.materialIcons)
-    implementation(libs.compose.animation)
-    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    implementation(libs.kodein)
+    implementation(libs.androidx.lifecycle.viewModelKtx)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
+    implementation(libs.androidx.activity.compose)
+    implementation(samplesCatalog.koin)
+    implementation(samplesCatalog.compose.rxjava)
+    implementation(samplesCatalog.compose.livedata)
+    implementation(samplesCatalog.compose.material)
+    implementation(samplesCatalog.compose.materialIcons)
 
-    debugImplementation(libs.leakCanary)
+    debugImplementation(samplesCatalog.leakCanary)
 }

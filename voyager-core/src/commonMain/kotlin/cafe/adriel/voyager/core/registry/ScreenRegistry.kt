@@ -19,6 +19,7 @@ public object ScreenRegistry {
     }
 
     public inline fun <reified T : ScreenProvider> register(noinline factory: (T) -> Screen) {
+        @Suppress("UNCHECKED_CAST")
         factories[T::class] = factory as ScreenFactory
     }
 

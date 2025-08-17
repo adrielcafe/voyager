@@ -1,5 +1,5 @@
 public abstract interface class cafe/adriel/voyager/core/model/ScreenModel {
-	public abstract fun onDispose ()V
+	public fun onDispose ()V
 }
 
 public final class cafe/adriel/voyager/core/model/ScreenModel$DefaultImpls {

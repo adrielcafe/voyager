@@ -31,8 +31,8 @@ public final class cafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories {
 }
 
 public final class cafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories_InternalViewModelFactory_Factory : dagger/internal/Factory {
-	public fun <init> (Ljavax/inject/Provider;Ljavax/inject/Provider;)V
-	public static fun create (Ljavax/inject/Provider;Ljavax/inject/Provider;)Lcafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories_InternalViewModelFactory_Factory;
+	public fun <init> (Ldagger/internal/Provider;Ldagger/internal/Provider;)V
+	public static fun create (Ldagger/internal/Provider;Ldagger/internal/Provider;)Lcafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories_InternalViewModelFactory_Factory;
 	public fun get ()Lcafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories$InternalViewModelFactory;
 	public synthetic fun get ()Ljava/lang/Object;
 	public static fun newInstance (Ljava/util/Map;Ldagger/hilt/android/internal/builders/ViewModelComponentBuilder;)Lcafe/adriel/voyager/hilt/VoyagerHiltViewModelFactories$InternalViewModelFactory;

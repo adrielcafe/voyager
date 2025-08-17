@@ -1,66 +1,44 @@
 [versions]
-plugin-android = "8.1.1"
-plugin-ktlint = "11.5.1"
-plugin-maven = "0.25.3"
-plugin-multiplatform-compose = "1.6.10"
-plugin-binaryCompatibilityValidator = "0.13.2"
-plugin-atomicfu = "0.23.1"
+agp = "8.11.0"
+kotlin = "2.2.0"
+mavenPublish = "0.33.0"
+composeMultiplatform = "1.8.2"
+binaryCompatibilityValidator = "0.18.0"
+atomicfu = "0.29.0"
+ktlint = "0.47.1"
+ktlintPlugin = "12.3.0"
 
-coroutines = "1.8.0-RC2"
-kotlin = "1.9.21"
+coroutines = "1.10.2"
 kodein = "7.21.2"
-koin = "4.0.0"
-koin-compose = "4.0.0"
-hilt = "2.51.1"
-leakCanary = "2.14"
-appCompat = "1.6.1"
-lifecycle = "2.8.0"
-composeCompiler = "1.5.7"
-composeActivity = "1.7.2"
-composeAnimation = "1.5.0"
-composeMaterial = "1.5.0"
-composeRuntime = "1.5.0"
-composeUI = "1.5.0"
-rxjava = "3.1.5"
+koin-compose = "4.1.0"
+hilt = "2.56.2"
+lifecycle = "2.9.1"
+activityCompose = "1.10.1"
+rxjava = "3.1.10"
 
-junit = "5.10.0"
+androidxKmp-bundle = "1.0.1"
+androidxKmp-lifecycle = "2.9.1"
 
-androidxKmp-bundle = "1.0.0"
-androidxKmp-lifecycle = "2.8.0"
-
-multiplatformUuid = "0.8.2"
+junit = "5.13.2"
 
 [libraries]
-plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "plugin-ktlint" }
-plugin-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "plugin-maven" }
-plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "plugin-multiplatform-compose" }
-plugin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "plugin-atomicfu" }
-
-leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
+# Plugin artifacts
+pluginartifact-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+pluginartifact-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+pluginartifact-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintPlugin" }
+pluginartifact-mavenPublish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
+# Libraries
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
-koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
-lifecycle-savedState = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
-lifecycle-viewModelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-compose-rxjava = { module = "androidx.compose.runtime:runtime-rxjava3", version.ref = "composeRuntime" }
-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "composeRuntime" }
-compose-runtimeSaveable = { module = "androidx.compose.runtime:runtime-saveable", version.ref = "composeRuntime" }
-compose-runtimeLiveData = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "composeRuntime" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "composeUI" }
-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "composeAnimation" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "composeMaterial" }
-compose-materialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "composeMaterial" }
-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-savedState = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
+androidx-lifecycle-viewModelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
 androidxKmp-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "androidxKmp-bundle" }
@@ -68,10 +46,21 @@ androidxKmp-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecy
 androidxKmp-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidxKmp-lifecycle" }
 androidxKmp-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxKmp-lifecycle" }
 
-multiplatformUuid = { module = "com.benasher44:uuid", version.ref = "multiplatformUuid" }
-
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 
 [plugins]
-binaryCompatibilityValidator =  { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "plugin-binaryCompatibilityValidator" }
+android-gradle = { id = "com.android.tools.build", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }

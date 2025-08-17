@@ -1,10 +1,8 @@
 public final class cafe/adriel/voyager/navigator/ComposableSingletons$NavigatorKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/navigator/ComposableSingletons$NavigatorKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function3;
-	public static field lambda-2 Lkotlin/jvm/functions/Function3;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_navigator ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda-2$voyager_navigator ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-1241741756$voyager_navigator ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-55482506$voyager_navigator ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class cafe/adriel/voyager/navigator/Navigator : cafe/adriel/voyager/core/stack/Stack {
@@ -63,12 +61,13 @@ public final class cafe/adriel/voyager/navigator/NavigatorKt {
 	public static final fun getLocalNavigator ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
+public abstract interface class cafe/adriel/voyager/navigator/NavigatorSaver {
+	public abstract fun saver (Ljava/util/List;Ljava/lang/String;Landroidx/compose/runtime/saveable/SaveableStateHolder;Lcafe/adriel/voyager/navigator/NavigatorDisposeBehavior;Lcafe/adriel/voyager/navigator/Navigator;)Landroidx/compose/runtime/saveable/Saver;
+}
+
 public final class cafe/adriel/voyager/navigator/NavigatorSaverKt {
 	public static final fun defaultNavigatorSaver ()Lcafe/adriel/voyager/navigator/NavigatorSaver;
 	public static final fun getLocalNavigatorSaver ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-}
-
-public final class cafe/adriel/voyager/navigator/internal/ActualsKt {
 }
 
 public abstract interface class cafe/adriel/voyager/navigator/lifecycle/NavigatorDisposable {

@@ -1,10 +1,9 @@
 public final class cafe/adriel/voyager/jetpack/LifecycleProviderKt {
+	public static final fun ProvideNavigatorLifecycleKMPSupport (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class cafe/adriel/voyager/jetpack/NavigatorKt {
-}
-
-public final class cafe/adriel/voyager/jetpack/NavigatorLifecycleKMPOwnerKt {
+	public static final fun rememberNavigatorViewModelStoreOwner (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/runtime/Composer;I)Landroidx/lifecycle/ViewModelStoreOwner;
 }
 
 public final class cafe/adriel/voyager/jetpack/VoyagerLifecycleKMPOwner$Companion {

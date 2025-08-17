@@ -3,6 +3,8 @@ package cafe.adriel.voyager.core.lifecycle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
+import cafe.adriel.voyager.core.internal.removeFirstElement
+import cafe.adriel.voyager.core.internal.removeFirstElementOrNull
 
 @InternalVoyagerApi
 @Composable
@@ -14,10 +16,10 @@ public fun MultipleProvideBeforeScreenContent(
     if (screenLifecycleContentProviders.isNotEmpty()) {
         val copy = screenLifecycleContentProviders.toMutableList()
         RecursiveProvideBeforeScreenContent(
-            screenLifecycleContentProvider = copy.removeFirst(),
+            screenLifecycleContentProvider = copy.removeFirstElement(),
             provideSaveableState = provideSaveableState,
             content = content,
-            nextOrNull = { copy.removeFirstOrNull() }
+            nextOrNull = { copy.removeFirstElementOrNull() }
         )
     } else {
         content()

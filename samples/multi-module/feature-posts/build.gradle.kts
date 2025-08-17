@@ -1,11 +1,9 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    id("samples-module")
 }
-
-setupModuleForAndroidxCompose(
-    withKotlinExplicitMode = false
-)
 
 android {
     namespace = "cafe.adriel.voyager.sample.multimodule.posts"
@@ -17,7 +15,6 @@ dependencies {
 
     implementation(projects.samples.multiModule.navigation)
 
-    implementation(libs.appCompat)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.material)
+    implementation(libs.androidx.activity.compose)
+    implementation(samplesCatalog.compose.material)
 }

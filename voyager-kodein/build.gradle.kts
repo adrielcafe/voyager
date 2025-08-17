@@ -1,11 +1,10 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.compose.multiplatform)
+    id("voyager-kmp-module")
 }
-
-setupModuleForComposeMultiplatform(fullyMultiplatform = true)
 
 android {
     namespace = "cafe.adriel.voyager.kodein"
@@ -17,14 +16,9 @@ kotlin {
             api(projects.voyagerCore)
             api(projects.voyagerScreenmodel)
             api(projects.voyagerNavigator)
-            compileOnly(compose.runtime)
-            compileOnly(compose.runtimeSaveable)
-            compileOnly(libs.kodein)
-        }
-
-        jvmTest.dependencies {
-            implementation(libs.junit.api)
-            runtimeOnly(libs.junit.engine)
+            implementation(libs.kodein)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
         }
     }
 }

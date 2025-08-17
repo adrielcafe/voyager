@@ -1,50 +1,38 @@
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$CrossfadeTransitionKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$CrossfadeTransitionKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function3;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-2068245393$voyager_transitions_release ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$FadeTransitionKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$FadeTransitionKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function4;
-	public static field lambda-2 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-2$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$-1124577812$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$504519340$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
 }
 
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$ScaleTransitionKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$ScaleTransitionKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function4;
-	public static field lambda-2 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-2$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$-582426584$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$1000583656$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
 }
 
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$ScreenTransitionKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$ScreenTransitionKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function4;
-	public static field lambda-2 Lkotlin/jvm/functions/Function4;
-	public static field lambda-3 Lkotlin/jvm/functions/Function4;
-	public static field lambda-4 Lkotlin/jvm/functions/Function4;
-	public static field lambda-5 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-2$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-3$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-4$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-5$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$-1808532221$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$-2017608773$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$1154955918$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$704009211$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$718548174$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
 }
 
 public final class cafe/adriel/voyager/transitions/ComposableSingletons$SlideTransitionKt {
 	public static final field INSTANCE Lcafe/adriel/voyager/transitions/ComposableSingletons$SlideTransitionKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function4;
-	public static field lambda-2 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
-	public final fun getLambda-1$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
-	public final fun getLambda-2$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$-785332847$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$864984913$voyager_transitions_release ()Lkotlin/jvm/functions/Function4;
 }
 
 public final class cafe/adriel/voyager/transitions/CrossfadeTransitionKt {
@@ -52,11 +40,19 @@ public final class cafe/adriel/voyager/transitions/CrossfadeTransitionKt {
 }
 
 public final class cafe/adriel/voyager/transitions/FadeTransitionKt {
+	public static final fun FadeTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/ui/Alignment;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun FadeTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class cafe/adriel/voyager/transitions/ScaleTransitionKt {
+	public static final fun ScaleTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/ui/Alignment;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScaleTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public abstract interface class cafe/adriel/voyager/transitions/ScreenTransition {
+	public fun enter (Lcafe/adriel/voyager/core/stack/StackEvent;)Landroidx/compose/animation/EnterTransition;
+	public fun exit (Lcafe/adriel/voyager/core/stack/StackEvent;)Landroidx/compose/animation/ExitTransition;
+	public fun zIndex (Lcafe/adriel/voyager/core/stack/StackEvent;)Ljava/lang/Float;
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransition$DefaultImpls {
@@ -66,7 +62,10 @@ public final class cafe/adriel/voyager/transitions/ScreenTransition$DefaultImpls
 }
 
 public final class cafe/adriel/voyager/transitions/ScreenTransitionKt {
+	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lcafe/adriel/voyager/transitions/ScreenTransition;Landroidx/compose/ui/Modifier;FLandroidx/compose/ui/Alignment;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ScreenTransition (Lcafe/adriel/voyager/navigator/Navigator;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }
 
@@ -79,6 +78,7 @@ public final class cafe/adriel/voyager/transitions/SlideOrientation : java/lang/
 }
 
 public final class cafe/adriel/voyager/transitions/SlideTransitionKt {
+	public static final fun SlideTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Lcafe/adriel/voyager/transitions/SlideOrientation;Landroidx/compose/animation/core/FiniteAnimationSpec;Landroidx/compose/ui/Alignment;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 	public static final fun SlideTransition (Lcafe/adriel/voyager/navigator/Navigator;Landroidx/compose/ui/Modifier;Lcafe/adriel/voyager/transitions/SlideOrientation;Landroidx/compose/animation/core/FiniteAnimationSpec;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
 }
 

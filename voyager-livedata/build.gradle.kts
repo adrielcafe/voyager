@@ -1,23 +1,18 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    id("voyager-android-module")
 }
-
-setupModuleForAndroidxCompose()
 
 android {
     namespace = "cafe.adriel.voyager.livedata"
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
 }
 
 dependencies {
     api(projects.voyagerCore)
     api(projects.voyagerScreenmodel)
 
-    implementation(libs.compose.runtimeLiveData)
+    implementation(libs.androidx.lifecycle.livedata)
 
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.junit.api)

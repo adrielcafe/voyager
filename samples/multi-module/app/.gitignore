@@ -1,3 +1,2 @@
-/build
-/debug
-/release
+debug/
+release/
