@@ -17,7 +17,8 @@ public fun CurrentTab() {
 public data class TabOptions(
     val index: UShort,
     val title: String,
-    val icon: Painter? = null
+    val icon: Painter? = null,
+    val activeIcon: Painter? = null
 )
 
 public interface Tab : Screen {

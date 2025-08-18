@@ -15,12 +15,14 @@ object HomeTab : Tab {
         get() {
             val title = stringResource(R.string.home_tab)
             val icon = rememberVectorPainter(Icons.Default.Home)
+            val activeIcon = rememberVectorPainter(Icons.Outlined.FavoriteBorder)
 
             return remember {
                 TabOptions(
                     index = 0u,
                     title = title,
-                    icon = icon
+                    icon = icon,
+                    activeIcon = activeIcon
                 )
             }
         }
