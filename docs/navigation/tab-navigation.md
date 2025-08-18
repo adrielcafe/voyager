@@ -46,8 +46,10 @@ You can use it with a [Scaffold](https://developer.android.com/reference/kotlin/
 setContent {
     TabNavigator(HomeTab) {
         Scaffold(
-            content = { 
-                CurrentTab() 
+            content = { padding ->
+                Box(modifier = Modifier.padding(padding)) {
+                    CurrentTab()
+                }
             },
             bottomBar = {
                 BottomNavigation {
@@ -74,7 +76,7 @@ private fun RowScope.TabNavigationItem(tab: Tab) {
     BottomNavigationItem(
         selected = tabNavigator.current == tab,
         onClick = { tabNavigator.current = tab },
-        icon = { Icon(painter = tab.icon, contentDescription = tab.title) }
+        icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
     )
 }
 ```
