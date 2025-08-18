@@ -29,20 +29,9 @@ public final class cafe/adriel/voyager/navigator/tab/TabNavigatorKt {
 	public static final fun getLocalTabNavigator ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
-public final class cafe/adriel/voyager/navigator/tab/TabOptions {
-	public static final field $stable I
-	public synthetic fun <init> (SLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (SLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-Mh2AYeg ()S
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Landroidx/compose/ui/graphics/painter/Painter;
-	public final fun copy-_TFR7lA (SLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;)Lcafe/adriel/voyager/navigator/tab/TabOptions;
-	public static synthetic fun copy-_TFR7lA$default (Lcafe/adriel/voyager/navigator/tab/TabOptions;SLjava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;ILjava/lang/Object;)Lcafe/adriel/voyager/navigator/tab/TabOptions;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIcon ()Landroidx/compose/ui/graphics/painter/Painter;
-	public final fun getIndex-Mh2AYeg ()S
-	public final fun getTitle ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+public abstract interface class cafe/adriel/voyager/navigator/tab/TabOptions {
+	public abstract fun getIcon ()Landroidx/compose/ui/graphics/painter/Painter;
+	public abstract fun getIndex-Mh2AYeg ()S
+	public abstract fun getTitle ()Ljava/lang/String;
 }
 
