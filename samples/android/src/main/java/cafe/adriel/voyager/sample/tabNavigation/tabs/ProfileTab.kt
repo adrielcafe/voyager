@@ -2,6 +2,7 @@ package cafe.adriel.voyager.sample.tabNavigation.tabs
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -14,12 +15,14 @@ object ProfileTab : Tab {
         @Composable
         get() {
             val icon = rememberVectorPainter(Icons.Default.Person)
+            val activeIcon = rememberVectorPainter(Icons.Outlined.Person)
 
             return remember {
                 TabOptions(
                     index = 2u,
                     title = "Profile",
-                    icon = icon
+                    icon = icon,
+                    activeIcon = activeIcon
                 )
             }
         }
