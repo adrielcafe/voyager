@@ -16,7 +16,7 @@ object HomeTab : Tab {
             val icon = rememberVectorPainter(Icons.Default.Home)
 
             return remember {
-                TabOptions(
+                TabOptionsModel(
                     index = 0u,
                     title = "Home",
                     icon = icon
