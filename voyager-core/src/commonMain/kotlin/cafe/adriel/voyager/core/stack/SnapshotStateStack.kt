@@ -112,6 +112,16 @@ public class SnapshotStateStack<Item>(
         lastEvent = StackEvent.Replace
     }
 
+    override fun replace(items: List<Item>) {
+        if (stateStack.isEmpty()) {
+            push(items)
+        } else {
+            stateStack.removeLastElement()
+            stateStack += items
+        }
+        lastEvent = StackEvent.Replace
+    }
+
     public override infix fun replaceAll(item: Item) {
         Snapshot.withMutableSnapshot {
             stateStack.clear()
