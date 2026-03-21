@@ -28,7 +28,7 @@ internal fun rememberNavigator(
             navigatorSaver.saver(screens, key, stateHolder, disposeBehavior, parent)
         }
 
-    return rememberSaveable(saver = saver, key = key) {
+    return rememberSaveable(saver = saver) {
         Navigator(screens, key, stateHolder, disposeBehavior, parent)
     }
 }

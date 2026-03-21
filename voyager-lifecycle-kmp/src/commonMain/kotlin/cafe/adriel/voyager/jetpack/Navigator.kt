@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package cafe.adriel.voyager.jetpack
 
 import androidx.compose.runtime.Composable

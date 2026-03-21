@@ -3,7 +3,7 @@ package cafe.adriel.voyager.sample.screenModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.currentCompositeKeyHash
+import androidx.compose.runtime.currentCompositeKeyHashCode
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -31,7 +31,7 @@ data class DetailsScreen(
             is DetailsScreenModel.State.Result -> DetailsContent(screenModel, result.item, navigator::pop)
         }
 
-        LaunchedEffect(currentCompositeKeyHash) {
+        LaunchedEffect(currentCompositeKeyHashCode) {
             screenModel.getItem(index)
         }
     }

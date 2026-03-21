@@ -3,13 +3,14 @@ package cafe.adriel.voyager.navigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.currentCompositeKeyHash
+import androidx.compose.runtime.currentCompositeKeyHashCode
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.toString
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
@@ -190,6 +191,6 @@ public data class NavigatorDisposeBehavior(
 
 @InternalVoyagerApi
 @Composable
-public fun compositionUniqueId(): String = currentCompositeKeyHash.toString(MaxSupportedRadix)
+public fun compositionUniqueId(): String = currentCompositeKeyHashCode.toString(MaxSupportedRadix)
 
 private val MaxSupportedRadix = 36

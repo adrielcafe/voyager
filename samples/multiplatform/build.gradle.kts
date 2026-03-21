@@ -17,6 +17,7 @@ android {
     namespace = "cafe.adriel.voyager.sample.multiplatform"
     defaultConfig {
         applicationId = "cafe.adriel.voyager.sample.multiplatform"
+        minSdk = 23
     }
 }
 
