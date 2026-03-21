@@ -13,7 +13,6 @@ import javax.inject.Provider
 @EntryPoint
 @InstallIn(ActivityComponent::class)
 public interface ScreenModelEntryPoint {
-
     /**
      * Provide all custom factories declared using multibinding
      */

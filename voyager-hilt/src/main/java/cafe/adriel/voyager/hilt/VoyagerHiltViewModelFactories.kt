@@ -12,26 +12,25 @@ import dagger.hilt.android.internal.lifecycle.HiltViewModelMap
 import javax.inject.Inject
 
 public object VoyagerHiltViewModelFactories {
-
     public fun getVoyagerFactory(
         activity: ComponentActivity,
-        delegateFactory: ViewModelProvider.Factory
+        delegateFactory: ViewModelProvider.Factory,
     ): ViewModelProvider.Factory {
         return EntryPoints.get(activity, ViewModelFactoryEntryPoint::class.java)
             .internalViewModelFactory()
             .fromActivity(delegateFactory)
     }
 
-    internal class InternalViewModelFactory @Inject internal constructor(
-        @HiltViewModelMap.KeySet private val keySet: Map<Class<*>, Boolean>,
-        private val viewModelComponentBuilder: ViewModelComponentBuilder
-    ) {
-        fun fromActivity(
-            delegateFactory: ViewModelProvider.Factory
-        ): ViewModelProvider.Factory {
-            return HiltViewModelFactory(keySet, delegateFactory, viewModelComponentBuilder)
+    internal class InternalViewModelFactory
+        @Inject
+        internal constructor(
+            @HiltViewModelMap.KeySet private val keySet: Map<Class<*>, Boolean>,
+            private val viewModelComponentBuilder: ViewModelComponentBuilder,
+        ) {
+            fun fromActivity(delegateFactory: ViewModelProvider.Factory): ViewModelProvider.Factory {
+                return HiltViewModelFactory(keySet, delegateFactory, viewModelComponentBuilder)
+            }
         }
-    }
 
     @EntryPoint
     @InstallIn(ActivityComponent::class)
