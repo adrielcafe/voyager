@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:filename")
-
 package cafe.adriel.voyager.jetpack
 
 import android.app.Application

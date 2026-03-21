@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:filename")
-
 package cafe.adriel.voyager.navigator.internal
 
 import cafe.adriel.voyager.core.lifecycle.NavigatorScreenLifecycleProvider
