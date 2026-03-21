@@ -23,7 +23,7 @@ public fun rememberScreenContext(): ScreenContext {
 
 @ExperimentalVoyagerApi
 public class ScreenContext(
-    public val screen: Screen
+    public val screen: Screen,
 ) {
     internal var disposeCallback: () -> Unit = {}
 
@@ -35,17 +35,15 @@ public class ScreenContext(
 
     override fun hashCode(): Int = screen.key.hashCode()
 
-    override fun equals(other: Any?): Boolean =
-        (other as? Screen?)?.key == screen.key
+    override fun equals(other: Any?): Boolean = (other as? Screen?)?.key == screen.key
 }
 
 @ExperimentalVoyagerApi
 public open class ScreenLifecycleScope private constructor(
-    private val newRegistry: () -> ScopeRegistry
+    private val newRegistry: () -> ScopeRegistry,
 ) : Scope<ScreenContext> {
-
     @ExperimentalVoyagerApi
-    public companion object multiItem : ScreenLifecycleScope(::StandardScopeRegistry)
+    public companion object MultiItem : ScreenLifecycleScope(::StandardScopeRegistry)
 
     private val map = HashMap<ScreenContext, ScopeRegistry>()
 
@@ -63,13 +61,13 @@ public open class ScreenLifecycleScope private constructor(
                 }
                 context.onRegistryScope()
                 registry
-            }
+            },
         )
     }
 }
 
 private class ScreenScopeLifecycleOwner(
-    val onDispose: () -> Unit
+    val onDispose: () -> Unit,
 ) : ScreenLifecycleOwner {
     override fun onDispose(screen: Screen) {
         onDispose()
