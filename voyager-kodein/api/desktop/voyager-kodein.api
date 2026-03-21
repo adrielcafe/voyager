@@ -8,13 +8,13 @@ public final class cafe/adriel/voyager/kodein/ScreenContext {
 
 public class cafe/adriel/voyager/kodein/ScreenLifecycleScope : org/kodein/di/bindings/Scope {
 	public static final field $stable I
-	public static final field multiItem Lcafe/adriel/voyager/kodein/ScreenLifecycleScope$multiItem;
+	public static final field MultiItem Lcafe/adriel/voyager/kodein/ScreenLifecycleScope$MultiItem;
 	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getRegistry (Lcafe/adriel/voyager/kodein/ScreenContext;)Lorg/kodein/di/bindings/ScopeRegistry;
 	public synthetic fun getRegistry (Ljava/lang/Object;)Lorg/kodein/di/bindings/ScopeRegistry;
 }
 
-public final class cafe/adriel/voyager/kodein/ScreenLifecycleScope$multiItem : cafe/adriel/voyager/kodein/ScreenLifecycleScope {
+public final class cafe/adriel/voyager/kodein/ScreenLifecycleScope$MultiItem : cafe/adriel/voyager/kodein/ScreenLifecycleScope {
 }
 
 public final class cafe/adriel/voyager/kodein/ScreenLifecycleScopeKt {

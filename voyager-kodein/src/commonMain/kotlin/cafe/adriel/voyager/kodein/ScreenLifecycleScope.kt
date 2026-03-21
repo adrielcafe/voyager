@@ -8,6 +8,7 @@ import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.atomicfu.locks.SynchronizedObject
 import org.kodein.di.bindings.Scope
 import org.kodein.di.bindings.ScopeRegistry
 import org.kodein.di.bindings.StandardScopeRegistry
@@ -45,11 +46,12 @@ public open class ScreenLifecycleScope private constructor(
     @ExperimentalVoyagerApi
     public companion object MultiItem : ScreenLifecycleScope(::StandardScopeRegistry)
 
+    private val lock = SynchronizedObject()
     private val map = HashMap<ScreenContext, ScopeRegistry>()
 
     override fun getRegistry(context: ScreenContext): ScopeRegistry {
         return synchronizedIfNull(
-            lock = map,
+            lock = lock,
             predicate = { map[context] },
             ifNotNull = { it },
             ifNull = {
