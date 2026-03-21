@@ -17,11 +17,10 @@ public fun CurrentTab() {
 public data class TabOptions(
     val index: UShort,
     val title: String,
-    val icon: Painter? = null
+    val icon: Painter? = null,
 )
 
 public interface Tab : Screen {
-
     public val options: TabOptions
         @Composable get
 }
