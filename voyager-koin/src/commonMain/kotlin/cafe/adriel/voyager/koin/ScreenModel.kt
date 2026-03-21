@@ -19,7 +19,7 @@ import org.koin.core.scope.Scope
 public inline fun <reified T : ScreenModel> Screen.koinScreenModel(
     qualifier: Qualifier? = null,
     scope: Scope = currentKoinScope(),
-    noinline parameters: ParametersDefinition? = null
+    noinline parameters: ParametersDefinition? = null,
 ): T {
     val currentParameters by rememberUpdatedState(parameters)
     val tag = remember(qualifier, scope) { qualifier?.value }
@@ -34,7 +34,7 @@ public inline fun <reified T : ScreenModel> Screen.koinScreenModel(
 public inline fun <reified T : ScreenModel> Navigator.koinNavigatorScreenModel(
     qualifier: Qualifier? = null,
     scope: Scope = currentKoinScope(),
-    noinline parameters: ParametersDefinition? = null
+    noinline parameters: ParametersDefinition? = null,
 ): T {
     val currentParameters by rememberUpdatedState(parameters)
     val tag = remember(qualifier, scope) { qualifier?.value }
@@ -47,20 +47,20 @@ public inline fun <reified T : ScreenModel> Navigator.koinNavigatorScreenModel(
 
 @Deprecated(
     message = "use koinScreenModel() instead. Will be removed on 1.1.0",
-    replaceWith = ReplaceWith("koinScreenModel")
+    replaceWith = ReplaceWith("koinScreenModel"),
 )
 @Composable
 public inline fun <reified T : ScreenModel> Screen.getScreenModel(
     qualifier: Qualifier? = null,
-    noinline parameters: ParametersDefinition? = null
+    noinline parameters: ParametersDefinition? = null,
 ): T = koinScreenModel<T>(qualifier = qualifier, parameters = parameters)
 
 @Deprecated(
     message = "use koinNavigatorScreenModel() instead. Will be removed on 1.1.0",
-    replaceWith = ReplaceWith("koinNavigatorScreenModel")
+    replaceWith = ReplaceWith("koinNavigatorScreenModel"),
 )
 @Composable
 public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
     qualifier: Qualifier? = null,
-    noinline parameters: ParametersDefinition? = null
+    noinline parameters: ParametersDefinition? = null,
 ): T = koinNavigatorScreenModel(qualifier = qualifier, parameters = parameters)
