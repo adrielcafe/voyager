@@ -14,52 +14,45 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import cafe.adriel.voyager.core.internal.removeLastElement
 
-public fun <Item> List<Item>.toMutableStateStack(
-    minSize: Int = 0
-): SnapshotStateStack<Item> =
+public fun <Item> List<Item>.toMutableStateStack(minSize: Int = 0): SnapshotStateStack<Item> =
     SnapshotStateStack(this, minSize)
 
 public fun <Item> mutableStateStackOf(
     vararg items: Item,
-    minSize: Int = 0
-): SnapshotStateStack<Item> =
-    SnapshotStateStack(*items, minSize = minSize)
+    minSize: Int = 0,
+): SnapshotStateStack<Item> = SnapshotStateStack(*items, minSize = minSize)
 
 @Composable
 public fun <Item : Any> rememberStateStack(
     vararg items: Item,
-    minSize: Int = 0
-): SnapshotStateStack<Item> =
-    rememberStateStack(items.toList(), minSize)
+    minSize: Int = 0,
+): SnapshotStateStack<Item> = rememberStateStack(items.toList(), minSize)
 
 @Composable
 public fun <Item : Any> rememberStateStack(
     items: List<Item>,
-    minSize: Int = 0
+    minSize: Int = 0,
 ): SnapshotStateStack<Item> =
     rememberSaveable(saver = stackSaver(minSize)) {
         SnapshotStateStack(items, minSize)
     }
 
-private fun <Item : Any> stackSaver(
-    minSize: Int
-): Saver<SnapshotStateStack<Item>, Any> =
+private fun <Item : Any> stackSaver(minSize: Int): Saver<SnapshotStateStack<Item>, Any> =
     listSaver(
         save = { stack -> stack.items },
-        restore = { items -> SnapshotStateStack(items, minSize) }
+        restore = { items -> SnapshotStateStack(items, minSize) },
     )
 
 public class SnapshotStateStack<Item>(
     items: List<Item>,
-    minSize: Int = 0
+    minSize: Int = 0,
 ) : Stack<Item> {
-
     public constructor(
         vararg items: Item,
-        minSize: Int = 0
+        minSize: Int = 0,
     ) : this(
         items = items.toList(),
-        minSize = minSize
+        minSize = minSize,
     )
 
     init {

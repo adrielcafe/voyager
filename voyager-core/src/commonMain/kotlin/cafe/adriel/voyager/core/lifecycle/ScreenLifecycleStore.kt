@@ -7,7 +7,6 @@ import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
 public object ScreenLifecycleStore {
-
     private val owners = ThreadSafeMap<ScreenKey, ScreenLifecycleOwner>()
     private val newOwners = ThreadSafeMap<ScreenKey, ThreadSafeMap<KType, ScreenDisposable>>()
 
@@ -18,7 +17,7 @@ public object ScreenLifecycleStore {
      */
     public inline fun <reified T : ScreenDisposable> get(
         screen: Screen,
-        noinline factory: (ScreenKey) -> T
+        noinline factory: (ScreenKey) -> T,
     ): T {
         return get(screen, typeOf<T>(), factory) as T
     }
@@ -31,11 +30,11 @@ public object ScreenLifecycleStore {
     @Deprecated(
         message = "Use `get` instead. Will be removed in 1.1.0.",
         replaceWith = ReplaceWith("ScreenLifecycleStore.get<T>(screen, factory)"),
-        level = DeprecationLevel.HIDDEN
+        level = DeprecationLevel.HIDDEN,
     )
     public inline fun <reified T : ScreenDisposable> register(
         screen: Screen,
-        noinline factory: (ScreenKey) -> T
+        noinline factory: (ScreenKey) -> T,
     ): T {
         return get(screen, factory)
     }
@@ -44,7 +43,7 @@ public object ScreenLifecycleStore {
     internal fun <T : ScreenDisposable> get(
         screen: Screen,
         screenDisposeListenerType: KType,
-        factory: (ScreenKey) -> T
+        factory: (ScreenKey) -> T,
     ): ScreenDisposable {
         return newOwners.getOrPut(screen.key) {
             ThreadSafeMap<KType, ScreenDisposable>().apply {

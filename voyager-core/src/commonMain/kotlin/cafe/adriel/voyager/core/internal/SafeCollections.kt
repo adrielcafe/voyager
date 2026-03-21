@@ -7,8 +7,7 @@ package cafe.adriel.voyager.core.internal
 internal fun <T> MutableList<T>.removeFirstElement(): T =
     if (isEmpty()) throw NoSuchElementException("List is empty.") else removeAt(0)
 
-internal fun <T> MutableList<T>.removeFirstElementOrNull(): T? =
-    if (isEmpty()) null else removeAt(0)
+internal fun <T> MutableList<T>.removeFirstElementOrNull(): T? = if (isEmpty()) null else removeAt(0)
 
 internal fun <T> MutableList<T>.removeLastElement(): T =
     if (isEmpty()) throw NoSuchElementException("List is empty.") else removeAt(lastIndex)

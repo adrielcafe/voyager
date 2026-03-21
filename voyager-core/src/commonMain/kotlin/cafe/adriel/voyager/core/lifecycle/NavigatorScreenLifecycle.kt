@@ -11,6 +11,5 @@ public val LocalNavigatorScreenLifecycleProvider: ProvidableCompositionLocal<Nav
  * Can provides a list of ScreenLifecycleOwner for each Screen in the Navigator stack.
  */
 public interface NavigatorScreenLifecycleProvider {
-
     public fun provide(screen: Screen): List<ScreenLifecycleContentProvider>
 }

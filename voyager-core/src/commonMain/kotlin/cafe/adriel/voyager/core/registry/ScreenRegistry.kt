@@ -10,7 +10,6 @@ private typealias ProviderKey = KClass<out ScreenProvider>
 private typealias ScreenFactory = (ScreenProvider) -> Screen
 
 public object ScreenRegistry {
-
     @PublishedApi
     internal val factories: ThreadSafeMap<ProviderKey, ScreenFactory> = ThreadSafeMap()
 
@@ -24,8 +23,9 @@ public object ScreenRegistry {
     }
 
     public fun get(provider: ScreenProvider): Screen {
-        val factory = factories[provider::class]
-            ?: error("ScreenProvider not registered: ${provider::class.multiplatformName}")
+        val factory =
+            factories[provider::class]
+                ?: error("ScreenProvider not registered: ${provider::class.multiplatformName}")
         return factory(provider)
     }
 }

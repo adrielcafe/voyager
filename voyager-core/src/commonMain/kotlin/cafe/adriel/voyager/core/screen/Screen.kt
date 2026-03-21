@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.platform.multiplatformName
 
 public expect interface Screen {
-
     public open val key: ScreenKey
 
     @Composable
