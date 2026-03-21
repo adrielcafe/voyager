@@ -15,16 +15,15 @@ kotlin {
         commonMain.dependencies {
             api(projects.voyagerCore)
             api(projects.voyagerNavigator)
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
+            implementation(libs.androidxKmp.runtime)
+            implementation(libs.androidxKmp.runtime.saveable)
             implementation(libs.androidxKmp.lifecycle.viewmodelCompose)
             implementation(libs.androidxKmp.lifecycle.viewmodel)
             implementation(libs.androidxKmp.lifecycle.runtimeCompose)
-            implementation(libs.androidxKmp.core.bundle)
         }
         androidMain.dependencies {
             implementation(libs.androidx.lifecycle.savedState)
-            implementation(compose.ui)
+            implementation(libs.androidxKmp.ui)
         }
     }
 }

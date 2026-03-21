@@ -83,9 +83,9 @@ kotlin {
             implementation(projects.voyagerCore)
             implementation(projects.voyagerNavigator)
             implementation(projects.voyagerTransitions)
-            implementation(compose.runtime)
-            implementation(compose.ui)
-            implementation(compose.material)
+            implementation(libs.androidxKmp.runtime)
+            implementation(libs.androidxKmp.ui)
+            implementation(libs.androidxKmp.material)
             implementation(libs.coroutines.core)
         }
         androidMain.dependencies {

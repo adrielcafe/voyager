@@ -14,8 +14,8 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
+            implementation(libs.androidxKmp.runtime)
+            implementation(libs.androidxKmp.runtime.saveable)
             implementation(libs.coroutines.core)
         }
         commonJvmTest.dependencies {

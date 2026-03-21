@@ -15,7 +15,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.voyagerCore)
             api(projects.voyagerNavigator)
-            implementation(compose.animation)
+            implementation(libs.androidxKmp.animation)
         }
     }
 }
