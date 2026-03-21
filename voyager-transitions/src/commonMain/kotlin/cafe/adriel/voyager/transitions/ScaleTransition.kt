@@ -22,14 +22,14 @@ public fun ScaleTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScaleTransition(
         navigator = navigator,
         modifier = modifier,
         animationSpec = animationSpec,
         disposeScreenAfterTransitionEnd = false,
-        content = content
+        content = content,
     )
 }
 
@@ -42,7 +42,7 @@ public fun ScaleTransition(
     contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
     contentKey: (Screen) -> Any = { it.key },
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
@@ -52,13 +52,14 @@ public fun ScaleTransition(
         contentKey = contentKey,
         content = content,
         transition = {
-            val (initialScale, targetScale) = when (navigator.lastEvent) {
-                StackEvent.Pop -> ExitScales
-                else -> EnterScales
-            }
+            val (initialScale, targetScale) =
+                when (navigator.lastEvent) {
+                    StackEvent.Pop -> ExitScales
+                    else -> EnterScales
+                }
 
             scaleIn(initialScale = initialScale, animationSpec = animationSpec) togetherWith
                 scaleOut(targetScale = targetScale, animationSpec = animationSpec)
-        }
+        },
     )
 }

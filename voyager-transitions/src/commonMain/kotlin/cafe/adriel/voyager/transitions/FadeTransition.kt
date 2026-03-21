@@ -18,14 +18,14 @@ public fun FadeTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     animationSpec: FiniteAnimationSpec<Float> = spring(stiffness = Spring.StiffnessMediumLow),
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     FadeTransition(
         navigator = navigator,
         modifier = modifier,
         disposeScreenAfterTransitionEnd = false,
         animationSpec = animationSpec,
-        content = content
+        content = content,
     )
 }
 
@@ -38,7 +38,7 @@ public fun FadeTransition(
     contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
     contentKey: (Screen) -> Any = { it.key },
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
@@ -47,6 +47,6 @@ public fun FadeTransition(
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
         contentKey = contentKey,
         content = content,
-        transition = { fadeIn(animationSpec = animationSpec) togetherWith fadeOut(animationSpec = animationSpec) }
+        transition = { fadeIn(animationSpec = animationSpec) togetherWith fadeOut(animationSpec = animationSpec) },
     )
 }

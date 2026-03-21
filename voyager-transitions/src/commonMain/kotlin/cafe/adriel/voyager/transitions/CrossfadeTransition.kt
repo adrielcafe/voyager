@@ -14,13 +14,13 @@ public fun CrossfadeTransition(
     animationSpec: FiniteAnimationSpec<Float> = tween(),
     label: String = "Crossfade",
     modifier: Modifier = Modifier,
-    content: @Composable (Screen) -> Unit = { it.Content() }
+    content: @Composable (Screen) -> Unit = { it.Content() },
 ) {
     Crossfade(
         targetState = navigator.lastItem,
         animationSpec = animationSpec,
         modifier = modifier,
-        label = label
+        label = label,
     ) { screen ->
         navigator.saveableState("transition", screen) {
             content(screen)

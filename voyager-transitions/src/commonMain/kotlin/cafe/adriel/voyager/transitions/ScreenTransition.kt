@@ -23,7 +23,6 @@ import cafe.adriel.voyager.navigator.Navigator
 
 @ExperimentalVoyagerApi
 public interface ScreenTransition {
-
     /**
      * Defines the enter transition for the Screen.
      *
@@ -61,7 +60,7 @@ public fun ScreenTransition(
     contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
     contentKey: (Screen) -> Any = { it.key },
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
@@ -75,7 +74,7 @@ public fun ScreenTransition(
                 StackEvent.Pop -> exitTransition()
                 else -> enterTransition()
             }
-        }
+        },
     )
 }
 
@@ -85,7 +84,7 @@ public fun ScreenTransition(
     enterTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     exitTransition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
@@ -96,7 +95,7 @@ public fun ScreenTransition(
             }
         },
         modifier = modifier,
-        content = content
+        content = content,
     )
 }
 
@@ -110,7 +109,7 @@ public fun ScreenTransition(
     contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
     contentKey: (Screen) -> Any = { it.key },
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
@@ -120,14 +119,14 @@ public fun ScreenTransition(
             ContentTransform(
                 targetContentEnter = enter,
                 initialContentExit = exit,
-                targetContentZIndex = contentZIndex
+                targetContentZIndex = contentZIndex,
             )
         },
         modifier = modifier,
         contentAlignment = contentAlignment,
         disposeScreenAfterTransitionEnd = disposeScreenAfterTransitionEnd,
         contentKey = contentKey,
-        content = content
+        content = content,
     )
 }
 
@@ -136,14 +135,14 @@ public fun ScreenTransition(
     navigator: Navigator,
     transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
         transition = transition,
         modifier = modifier,
         disposeScreenAfterTransitionEnd = false,
-        content = content
+        content = content,
     )
 }
 
@@ -157,11 +156,12 @@ public fun ScreenTransition(
     contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
     contentKey: (Screen) -> Any = { it.key },
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
-    val screenCandidatesToDispose = rememberSaveable(saver = screenCandidatesToDisposeSaver()) {
-        mutableStateOf(emptySet())
-    }
+    val screenCandidatesToDispose =
+        rememberSaveable(saver = screenCandidatesToDisposeSaver()) {
+            mutableStateOf(emptySet())
+        }
 
     val currentScreens = navigator.items
 
@@ -179,30 +179,34 @@ public fun ScreenTransition(
         transitionSpec = {
             val contentTransform = transition()
 
-            val sourceScreenTransition = when (navigator.lastEvent) {
-                StackEvent.Pop, StackEvent.Replace -> initialState
-                else -> targetState
-            } as? ScreenTransition
+            val sourceScreenTransition =
+                when (navigator.lastEvent) {
+                    StackEvent.Pop, StackEvent.Replace -> initialState
+                    else -> targetState
+                } as? ScreenTransition
 
-            val screenEnterTransition = sourceScreenTransition?.enter(navigator.lastEvent)
-                ?: contentTransform.targetContentEnter
+            val screenEnterTransition =
+                sourceScreenTransition?.enter(navigator.lastEvent)
+                    ?: contentTransform.targetContentEnter
 
-            val screenExitTransition = sourceScreenTransition?.exit(navigator.lastEvent)
-                ?: contentTransform.initialContentExit
+            val screenExitTransition =
+                sourceScreenTransition?.exit(navigator.lastEvent)
+                    ?: contentTransform.initialContentExit
 
-            val screenContentZIndex = sourceScreenTransition?.zIndex(navigator.lastEvent)
-                ?: contentTransform.targetContentZIndex
+            val screenContentZIndex =
+                sourceScreenTransition?.zIndex(navigator.lastEvent)
+                    ?: contentTransform.targetContentZIndex
 
             ContentTransform(
                 targetContentEnter = screenEnterTransition,
                 initialContentExit = screenExitTransition,
                 targetContentZIndex = screenContentZIndex,
-                sizeTransform = contentTransform.sizeTransform
+                sizeTransform = contentTransform.sizeTransform,
             )
         },
         contentAlignment = contentAlignment,
         contentKey = contentKey,
-        modifier = modifier
+        modifier = modifier,
     ) { screen ->
         if (this.transition.targetState == this.transition.currentState && disposeScreenAfterTransitionEnd) {
             LaunchedEffect(Unit) {
@@ -225,6 +229,6 @@ public fun ScreenTransition(
 private fun screenCandidatesToDisposeSaver(): Saver<MutableState<Set<Screen>>, List<Screen>> {
     return Saver(
         save = { it.value.toList() },
-        restore = { mutableStateOf(it.toSet()) }
+        restore = { mutableStateOf(it.toSet()) },
     )
 }
