@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package cafe.adriel.voyager.jetpack
 
 import androidx.compose.runtime.Composable
@@ -7,7 +9,7 @@ import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.savedstate.SavedStateRegistryOwner
 
 internal actual class SavedStateViewModelPlatform actual constructor(
-    owner: SavedStateRegistryOwner
+    owner: SavedStateRegistryOwner,
 ) {
     public actual fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {

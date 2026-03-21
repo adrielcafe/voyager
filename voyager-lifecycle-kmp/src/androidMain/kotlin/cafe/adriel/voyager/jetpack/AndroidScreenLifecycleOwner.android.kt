@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package cafe.adriel.voyager.jetpack
 
 import android.app.Application
@@ -18,7 +20,7 @@ internal actual class SavedStateViewModelPlatform actual constructor(val owner: 
     actual fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory =
         SavedStateViewModelFactory(
             application = atomicAppContext.get()?.getApplication(),
-            owner = owner
+            owner = owner,
         )
 
     actual fun providePlatform(extras: MutableCreationExtras) {
@@ -33,13 +35,15 @@ internal actual class SavedStateViewModelPlatform actual constructor(val owner: 
         atomicAppContext.compareAndSet(null, LocalContext.current.applicationContext)
     }
 
-    actual fun provideHooks(): List<ProvidedValue<*>> = listOf(
-        LocalSavedStateRegistryOwner provides owner,
-        androidx.lifecycle.compose.LocalLifecycleOwner provides owner
-    )
+    actual fun provideHooks(): List<ProvidedValue<*>> =
+        listOf(
+            LocalSavedStateRegistryOwner provides owner,
+            androidx.lifecycle.compose.LocalLifecycleOwner provides owner,
+        )
 
-    private fun Context.getApplication(): Application? = when (this) {
-        is Application -> this
-        else -> null
-    }
+    private fun Context.getApplication(): Application? =
+        when (this) {
+            is Application -> this
+            else -> null
+        }
 }

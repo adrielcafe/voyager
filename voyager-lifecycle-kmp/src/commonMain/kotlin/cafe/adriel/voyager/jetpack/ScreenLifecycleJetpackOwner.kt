@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package cafe.adriel.voyager.jetpack
 
 import androidx.compose.runtime.Composable
@@ -15,7 +17,7 @@ public class ScreenLifecycleKMPOwner : ScreenLifecycleOwner {
     @Composable
     override fun ProvideBeforeScreenContent(
         provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
-        content: @Composable () -> Unit
+        content: @Composable () -> Unit,
     ) {
         provideSaveableState("lifecycle") {
             owner.LifecycleDisposableEffect()

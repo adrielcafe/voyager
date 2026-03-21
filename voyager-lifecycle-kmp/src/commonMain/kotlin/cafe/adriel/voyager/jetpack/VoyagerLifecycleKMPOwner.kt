@@ -50,7 +50,6 @@ public class VoyagerLifecycleKMPOwner :
     ViewModelStoreOwner,
     SavedStateRegistryOwner,
     HasDefaultViewModelProviderFactory {
-
     override val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
 
     override val viewModelStore: ViewModelStore = ViewModelStore()
@@ -70,15 +69,16 @@ public class VoyagerLifecycleKMPOwner :
         get() = platformSavedState.getDefaultViewModelProviderFactory()
 
     override val defaultViewModelCreationExtras: CreationExtras
-        get() = MutableCreationExtras().apply {
-            platformSavedState.providePlatform(this)
-            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@VoyagerLifecycleKMPOwner)
-            set(VIEW_MODEL_STORE_OWNER_KEY, this@VoyagerLifecycleKMPOwner)
+        get() =
+            MutableCreationExtras().apply {
+                platformSavedState.providePlatform(this)
+                set(SAVED_STATE_REGISTRY_OWNER_KEY, this@VoyagerLifecycleKMPOwner)
+                set(VIEW_MODEL_STORE_OWNER_KEY, this@VoyagerLifecycleKMPOwner)
 
             /* TODO if (getArguments() != null) {
                 extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
             }*/
-        }
+            }
 
     init {
         controller.performAttach()
@@ -126,7 +126,7 @@ public class VoyagerLifecycleKMPOwner :
             listOf(
                 LocalLifecycleOwner provides this,
                 LocalViewModelStoreOwner provides this,
-                *platformSavedState.provideHooks().toTypedArray()
+                *platformSavedState.provideHooks().toTypedArray(),
             )
         }
     }
@@ -137,26 +137,27 @@ public class VoyagerLifecycleKMPOwner :
     private fun registerLifecycleListener(outState: SavedState): () -> Unit {
         val lifecycleOwner = atomicParentLifecycleOwner.get()
         if (lifecycleOwner != null) {
-            val observer = object : DefaultLifecycleObserver {
-                override fun onPause(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-                }
+            val observer =
+                object : DefaultLifecycleObserver {
+                    override fun onPause(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+                    }
 
-                override fun onResume(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-                }
+                    override fun onResume(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+                    }
 
-                override fun onStart(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_START)
-                }
+                    override fun onStart(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_START)
+                    }
 
-                override fun onStop(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_STOP)
+                    override fun onStop(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_STOP)
 
-                    // when the Application goes to background, perform save
-                    performSave(outState)
+                        // when the Application goes to background, perform save
+                        performSave(outState)
+                    }
                 }
-            }
             val lifecycle = lifecycleOwner.lifecycle
             lifecycle.addObserver(observer)
 
@@ -197,23 +198,26 @@ public class VoyagerLifecycleKMPOwner :
     }
 
     public companion object {
+        private val initEvents =
+            arrayOf(
+                Lifecycle.Event.ON_CREATE,
+            )
 
-        private val initEvents = arrayOf(
-            Lifecycle.Event.ON_CREATE
-        )
+        private val startEvents =
+            arrayOf(
+                Lifecycle.Event.ON_START,
+                Lifecycle.Event.ON_RESUME,
+            )
 
-        private val startEvents = arrayOf(
-            Lifecycle.Event.ON_START,
-            Lifecycle.Event.ON_RESUME
-        )
+        private val stopEvents =
+            arrayOf(
+                Lifecycle.Event.ON_PAUSE,
+                Lifecycle.Event.ON_STOP,
+            )
 
-        private val stopEvents = arrayOf(
-            Lifecycle.Event.ON_PAUSE,
-            Lifecycle.Event.ON_STOP
-        )
-
-        private val disposeEvents = arrayOf(
-            Lifecycle.Event.ON_DESTROY
-        )
+        private val disposeEvents =
+            arrayOf(
+                Lifecycle.Event.ON_DESTROY,
+            )
     }
 }
