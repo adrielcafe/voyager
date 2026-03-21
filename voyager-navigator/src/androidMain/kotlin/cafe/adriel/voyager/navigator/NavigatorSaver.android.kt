@@ -22,13 +22,13 @@ public fun parcelableNavigatorSaver(): NavigatorSaver<Any> =
 
                     throw VoyagerNavigatorSaverException(
                         "Unable to save instance state for Screens: $screensNotParcelable. " +
-                            "Implement android.os.Parcelable on your Screen."
+                            "Implement android.os.Parcelable on your Screen.",
                     )
                 }
 
                 screenAsParcelables
             },
-            restore = { items -> Navigator(items as List<Screen>, key, stateHolder, disposeBehavior, parent) }
+            restore = { items -> Navigator(items as List<Screen>, key, stateHolder, disposeBehavior, parent) },
         )
     }
 

@@ -18,7 +18,7 @@ public fun interface NavigatorSaver<Saveable : Any> {
         key: String,
         stateHolder: SaveableStateHolder,
         disposeBehavior: NavigatorDisposeBehavior,
-        parent: Navigator?
+        parent: Navigator?,
     ): Saver<Navigator, Saveable>
 }
 
@@ -37,6 +37,6 @@ public fun defaultNavigatorSaver(): NavigatorSaver<Any> =
     NavigatorSaver { _, key, stateHolder, disposeBehavior, parent ->
         listSaver(
             save = { navigator -> navigator.items },
-            restore = { items -> Navigator(items, key, stateHolder, disposeBehavior, parent) }
+            restore = { items -> Navigator(items, key, stateHolder, disposeBehavior, parent) },
         )
     }

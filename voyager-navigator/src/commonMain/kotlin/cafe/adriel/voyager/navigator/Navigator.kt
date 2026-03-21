@@ -55,14 +55,14 @@ public fun Navigator(
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     key: String = compositionUniqueId(),
-    content: NavigatorContent = { CurrentScreen() }
+    content: NavigatorContent = { CurrentScreen() },
 ) {
     Navigator(
         screens = listOf(screen),
         disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
         key = key,
-        content = content
+        content = content,
     )
 }
 
@@ -72,13 +72,13 @@ public fun Navigator(
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     key: String = compositionUniqueId(),
-    content: NavigatorContent = { CurrentScreen() }
+    content: NavigatorContent = { CurrentScreen() },
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
     require(key.isNotEmpty()) { "Navigator key can't be empty" }
 
     CompositionLocalProvider(
-        LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
+        LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder(),
     ) {
         val navigator = rememberNavigator(screens, key, disposeBehavior, LocalNavigator.current)
 
@@ -87,7 +87,7 @@ public fun Navigator(
         }
 
         CompositionLocalProvider(
-            LocalNavigator provides navigator
+            LocalNavigator provides navigator,
         ) {
             if (disposeBehavior.disposeSteps) {
                 StepDisposableEffect(navigator)
@@ -102,87 +102,90 @@ public fun Navigator(
     }
 }
 
-public class Navigator @InternalVoyagerApi constructor(
-    screens: List<Screen>,
-    @InternalVoyagerApi public val key: String,
-    private val stateHolder: SaveableStateHolder,
-    public val disposeBehavior: NavigatorDisposeBehavior,
-    public val parent: Navigator? = null
-) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
+public class Navigator
+    @InternalVoyagerApi
+    constructor(
+        screens: List<Screen>,
+        @InternalVoyagerApi public val key: String,
+        private val stateHolder: SaveableStateHolder,
+        public val disposeBehavior: NavigatorDisposeBehavior,
+        public val parent: Navigator? = null,
+    ) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
+        public val level: Int =
+            parent?.level?.inc() ?: 0
 
-    public val level: Int =
-        parent?.level?.inc() ?: 0
+        public val lastItem: Screen by derivedStateOf {
+            lastItemOrNull ?: error("Navigator has no screen")
+        }
 
-    public val lastItem: Screen by derivedStateOf {
-        lastItemOrNull ?: error("Navigator has no screen")
-    }
+        private val stateKeys = ThreadSafeSet<String>()
 
-    private val stateKeys = ThreadSafeSet<String>()
-
-    internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
-
-    @Composable
-    public fun saveableState(
-        key: String,
-        screen: Screen = lastItem,
-        content: @Composable () -> Unit
-    ) {
-        val stateKey = "${screen.key}:$key"
-        stateKeys += stateKey
+        internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
 
         @Composable
-        fun provideSaveableState(suffixKey: String, content: @Composable () -> Unit) {
-            val providedStateKey = "$stateKey:$suffixKey"
-            stateKeys += providedStateKey
-            stateHolder.SaveableStateProvider(providedStateKey, content)
-        }
+        public fun saveableState(
+            key: String,
+            screen: Screen = lastItem,
+            content: @Composable () -> Unit,
+        ) {
+            val stateKey = "${screen.key}:$key"
+            stateKeys += stateKey
 
-        val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-        val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleProvider(screen)
-
-        val composed = remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
-            listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
-        }
-        MultipleProvideBeforeScreenContent(
-            screenLifecycleContentProviders = composed,
-            provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
-            content = {
-                stateHolder.SaveableStateProvider(stateKey, content)
+            @Composable
+            fun provideSaveableState(
+                suffixKey: String,
+                content: @Composable () -> Unit,
+            ) {
+                val providedStateKey = "$stateKey:$suffixKey"
+                stateKeys += providedStateKey
+                stateHolder.SaveableStateProvider(providedStateKey, content)
             }
-        )
-    }
 
-    public fun popUntilRoot() {
-        popUntilRoot(this)
-    }
+            val lifecycleOwner = rememberScreenLifecycleOwner(screen)
+            val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleProvider(screen)
 
-    private tailrec fun popUntilRoot(navigator: Navigator) {
-        navigator.popAll()
+            val composed =
+                remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
+                    listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
+                }
+            MultipleProvideBeforeScreenContent(
+                screenLifecycleContentProviders = composed,
+                provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
+                content = {
+                    stateHolder.SaveableStateProvider(stateKey, content)
+                },
+            )
+        }
 
-        if (navigator.parent != null) {
-            popUntilRoot(navigator.parent)
+        public fun popUntilRoot() {
+            popUntilRoot(this)
+        }
+
+        private tailrec fun popUntilRoot(navigator: Navigator) {
+            navigator.popAll()
+
+            if (navigator.parent != null) {
+                popUntilRoot(navigator.parent)
+            }
+        }
+
+        @InternalVoyagerApi
+        public fun dispose(screen: Screen) {
+            ScreenLifecycleStore.remove(screen)
+            stateKeys
+                .toSet() // Copy
+                .asSequence()
+                .filter { it.startsWith(screen.key) }
+                .forEach { key ->
+                    stateHolder.removeState(key)
+                    stateKeys -= key
+                }
         }
     }
-
-    @InternalVoyagerApi
-    public fun dispose(
-        screen: Screen
-    ) {
-        ScreenLifecycleStore.remove(screen)
-        stateKeys
-            .toSet() // Copy
-            .asSequence()
-            .filter { it.startsWith(screen.key) }
-            .forEach { key ->
-                stateHolder.removeState(key)
-                stateKeys -= key
-            }
-    }
-}
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
-    val disposeSteps: Boolean = true
+    val disposeSteps: Boolean = true,
 )
 
 @InternalVoyagerApi

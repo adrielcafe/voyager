@@ -8,7 +8,6 @@ import kotlin.reflect.typeOf
 public typealias NavigatorKey = String
 
 public object NavigatorLifecycleStore {
-
     private val owners = ThreadSafeMap<NavigatorKey, ThreadSafeMap<KType, NavigatorDisposable>>()
 
     /**
@@ -17,7 +16,7 @@ public object NavigatorLifecycleStore {
      */
     public inline fun <reified T : NavigatorDisposable> get(
         navigator: Navigator,
-        noinline factory: (NavigatorKey) -> T
+        noinline factory: (NavigatorKey) -> T,
     ): T {
         return get(navigator, typeOf<T>(), factory) as T
     }
@@ -26,7 +25,7 @@ public object NavigatorLifecycleStore {
     internal fun <T : NavigatorDisposable> get(
         navigator: Navigator,
         screenDisposeListenerType: KType,
-        factory: (NavigatorKey) -> T
+        factory: (NavigatorKey) -> T,
     ): NavigatorDisposable {
         return owners.getOrPut(navigator.key) {
             ThreadSafeMap<KType, NavigatorDisposable>().apply {
