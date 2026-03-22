@@ -13,10 +13,7 @@ import cafe.adriel.voyager.core.screen.randomUuid
     message = "This API is a wrap on top on DisposableEffect, will be removed in 1.1.0, replace with DisposableEffect",
 )
 @Composable
-public fun Screen.LifecycleEffect(
-    onStarted: () -> Unit = {},
-    onDisposed: () -> Unit = {},
-) {
+public fun Screen.LifecycleEffect(onStarted: () -> Unit = {}, onDisposed: () -> Unit = {}) {
     DisposableEffect(key) {
         onStarted()
         onDispose(onDisposed)
@@ -55,13 +52,12 @@ public fun Screen.LifecycleEffectOnce(onFirstAppear: LifecycleEffectOnceScope.()
 }
 
 @Composable
-public fun rememberScreenLifecycleOwner(screen: Screen): ScreenLifecycleOwner =
-    remember(screen.key) {
-        when (screen) {
-            is ScreenLifecycleProvider -> screen.getLifecycleOwner()
-            else -> DefaultScreenLifecycleOwner
-        }
+public fun rememberScreenLifecycleOwner(screen: Screen): ScreenLifecycleOwner = remember(screen.key) {
+    when (screen) {
+        is ScreenLifecycleProvider -> screen.getLifecycleOwner()
+        else -> DefaultScreenLifecycleOwner
     }
+}
 
 public interface ScreenLifecycleProvider {
     public fun getLifecycleOwner(): ScreenLifecycleOwner

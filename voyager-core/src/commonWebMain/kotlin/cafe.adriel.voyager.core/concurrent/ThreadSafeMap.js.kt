@@ -40,10 +40,7 @@ public actual class ThreadSafeMap<K, V>(
         synchronized(syncObject) { delegate.clear() }
     }
 
-    actual override fun put(
-        key: K,
-        value: V,
-    ): V? {
+    actual override fun put(key: K, value: V): V? {
         return synchronized(syncObject) { delegate.put(key, value) }
     }
 

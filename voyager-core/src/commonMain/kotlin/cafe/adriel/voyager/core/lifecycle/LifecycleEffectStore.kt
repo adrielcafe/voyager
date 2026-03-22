@@ -8,10 +8,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 internal object LifecycleEffectStore : ScreenDisposable {
     private val executedLifecycles = ThreadSafeMap<ScreenKey, ThreadSafeSet<LifecycleEffectOnceScope>>()
 
-    fun store(
-        screen: Screen,
-        effectKey: String,
-    ): LifecycleEffectOnceScope {
+    fun store(screen: Screen, effectKey: String): LifecycleEffectOnceScope {
         val set = executedLifecycles.getOrPut(screen.key) { ThreadSafeSet() }
         val scope = LifecycleEffectOnceScope(uniqueKey = effectKey, set.size + 1)
         set.add(scope)
@@ -19,10 +16,8 @@ internal object LifecycleEffectStore : ScreenDisposable {
         return scope
     }
 
-    fun hasExecuted(
-        screen: Screen,
-        effectKey: String,
-    ): Boolean = executedLifecycles.get(screen.key)?.any { it.uniqueKey == effectKey } == true
+    fun hasExecuted(screen: Screen, effectKey: String): Boolean =
+        executedLifecycles.get(screen.key)?.any { it.uniqueKey == effectKey } == true
 
     override fun onDispose(screen: Screen) {
         val scopes = executedLifecycles.remove(screen.key)

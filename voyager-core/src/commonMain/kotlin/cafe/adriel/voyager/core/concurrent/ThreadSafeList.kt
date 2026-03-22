@@ -3,17 +3,11 @@ package cafe.adriel.voyager.core.concurrent
 public expect class ThreadSafeList<T>() : MutableList<T> {
     override fun add(element: T): Boolean
 
-    override fun add(
-        index: Int,
-        element: T,
-    )
+    override fun add(index: Int, element: T)
 
     override fun addAll(elements: Collection<T>): Boolean
 
-    override fun addAll(
-        index: Int,
-        elements: Collection<T>,
-    ): Boolean
+    override fun addAll(index: Int, elements: Collection<T>): Boolean
 
     override fun clear()
 
@@ -29,15 +23,9 @@ public expect class ThreadSafeList<T>() : MutableList<T> {
 
     override fun retainAll(elements: Collection<T>): Boolean
 
-    override fun set(
-        index: Int,
-        element: T,
-    ): T
+    override fun set(index: Int, element: T): T
 
-    override fun subList(
-        fromIndex: Int,
-        toIndex: Int,
-    ): MutableList<T>
+    override fun subList(fromIndex: Int, toIndex: Int): MutableList<T>
 
     override fun contains(element: T): Boolean
 

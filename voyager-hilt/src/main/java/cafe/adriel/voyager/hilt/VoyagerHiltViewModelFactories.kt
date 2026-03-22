@@ -22,15 +22,15 @@ public object VoyagerHiltViewModelFactories {
     }
 
     internal class InternalViewModelFactory
-        @Inject
-        internal constructor(
-            @HiltViewModelMap.KeySet private val keySet: Map<Class<*>, Boolean>,
-            private val viewModelComponentBuilder: ViewModelComponentBuilder,
-        ) {
-            fun fromActivity(delegateFactory: ViewModelProvider.Factory): ViewModelProvider.Factory {
-                return HiltViewModelFactory(keySet, delegateFactory, viewModelComponentBuilder)
-            }
+    @Inject
+    internal constructor(
+        @HiltViewModelMap.KeySet private val keySet: Map<Class<*>, Boolean>,
+        private val viewModelComponentBuilder: ViewModelComponentBuilder,
+    ) {
+        fun fromActivity(delegateFactory: ViewModelProvider.Factory): ViewModelProvider.Factory {
+            return HiltViewModelFactory(keySet, delegateFactory, viewModelComponentBuilder)
         }
+    }
 
     @EntryPoint
     @InstallIn(ActivityComponent::class)

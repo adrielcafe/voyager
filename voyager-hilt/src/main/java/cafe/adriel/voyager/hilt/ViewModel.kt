@@ -46,8 +46,8 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
             VoyagerHiltViewModelFactories.getVoyagerFactory(
                 activity = context.componentActivity,
                 delegateFactory =
-                    viewModelProviderFactory
-                        ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory,
+                viewModelProviderFactory
+                    ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory,
             )
         val provider =
             ViewModelProvider(
@@ -99,8 +99,8 @@ public inline fun <reified VM : ViewModel, F> Screen.getViewModel(
             VoyagerHiltViewModelFactories.getVoyagerFactory(
                 activity = context.componentActivity,
                 delegateFactory =
-                    viewModelProviderFactory
-                        ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory,
+                viewModelProviderFactory
+                    ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory,
             )
 
         val provider =

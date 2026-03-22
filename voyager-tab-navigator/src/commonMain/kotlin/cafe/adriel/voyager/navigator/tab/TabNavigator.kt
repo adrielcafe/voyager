@@ -26,10 +26,10 @@ public fun TabNavigator(
     Navigator(
         screen = tab,
         disposeBehavior =
-            NavigatorDisposeBehavior(
-                disposeNestedNavigators = disposeNestedNavigators,
-                disposeSteps = false,
-            ),
+        NavigatorDisposeBehavior(
+            disposeNestedNavigators = disposeNestedNavigators,
+            disposeSteps = false,
+        ),
         onBackPressed = null,
         key = key,
     ) { navigator ->
@@ -47,10 +47,7 @@ public fun TabNavigator(
 }
 
 @Composable
-public fun TabDisposable(
-    navigator: TabNavigator,
-    tabs: List<Tab>,
-) {
+public fun TabDisposable(navigator: TabNavigator, tabs: List<Tab>) {
     DisposableEffectIgnoringConfiguration(Unit) {
         onDispose {
             tabs.forEach {
@@ -68,11 +65,7 @@ public class TabNavigator internal constructor(
         set(tab) = navigator.replaceAll(tab)
 
     @Composable
-    public fun saveableState(
-        key: String,
-        tab: Tab = current,
-        content: @Composable () -> Unit,
-    ) {
+    public fun saveableState(key: String, tab: Tab = current, content: @Composable () -> Unit) {
         navigator.saveableState(key, tab, content = content)
     }
 }

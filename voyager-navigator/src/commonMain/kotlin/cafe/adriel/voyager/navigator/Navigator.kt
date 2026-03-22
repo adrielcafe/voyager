@@ -103,86 +103,77 @@ public fun Navigator(
     }
 }
 
-public class Navigator
-    @InternalVoyagerApi
-    constructor(
-        screens: List<Screen>,
-        @InternalVoyagerApi public val key: String,
-        private val stateHolder: SaveableStateHolder,
-        public val disposeBehavior: NavigatorDisposeBehavior,
-        public val parent: Navigator? = null,
-    ) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
-        public val level: Int =
-            parent?.level?.inc() ?: 0
+public class Navigator @InternalVoyagerApi constructor(
+    screens: List<Screen>,
+    @InternalVoyagerApi public val key: String,
+    private val stateHolder: SaveableStateHolder,
+    public val disposeBehavior: NavigatorDisposeBehavior,
+    public val parent: Navigator? = null,
+) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
+    public val level: Int =
+        parent?.level?.inc() ?: 0
 
-        public val lastItem: Screen by derivedStateOf {
-            lastItemOrNull ?: error("Navigator has no screen")
-        }
+    public val lastItem: Screen by derivedStateOf {
+        lastItemOrNull ?: error("Navigator has no screen")
+    }
 
-        private val stateKeys = ThreadSafeSet<String>()
+    private val stateKeys = ThreadSafeSet<String>()
 
-        internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
+    internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
+
+    @Composable
+    public fun saveableState(key: String, screen: Screen = lastItem, content: @Composable () -> Unit) {
+        val stateKey = "${screen.key}:$key"
+        stateKeys += stateKey
 
         @Composable
-        public fun saveableState(
-            key: String,
-            screen: Screen = lastItem,
-            content: @Composable () -> Unit,
-        ) {
-            val stateKey = "${screen.key}:$key"
-            stateKeys += stateKey
+        fun provideSaveableState(suffixKey: String, content: @Composable () -> Unit) {
+            val providedStateKey = "$stateKey:$suffixKey"
+            stateKeys += providedStateKey
+            stateHolder.SaveableStateProvider(providedStateKey, content)
+        }
 
-            @Composable
-            fun provideSaveableState(
-                suffixKey: String,
-                content: @Composable () -> Unit,
-            ) {
-                val providedStateKey = "$stateKey:$suffixKey"
-                stateKeys += providedStateKey
-                stateHolder.SaveableStateProvider(providedStateKey, content)
+        val lifecycleOwner = rememberScreenLifecycleOwner(screen)
+        val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleProvider(screen)
+
+        val composed =
+            remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
+                listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
             }
+        MultipleProvideBeforeScreenContent(
+            screenLifecycleContentProviders = composed,
+            provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
+            content = {
+                stateHolder.SaveableStateProvider(stateKey, content)
+            },
+        )
+    }
 
-            val lifecycleOwner = rememberScreenLifecycleOwner(screen)
-            val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleProvider(screen)
+    public fun popUntilRoot() {
+        popUntilRoot(this)
+    }
 
-            val composed =
-                remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
-                    listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
-                }
-            MultipleProvideBeforeScreenContent(
-                screenLifecycleContentProviders = composed,
-                provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
-                content = {
-                    stateHolder.SaveableStateProvider(stateKey, content)
-                },
-            )
-        }
+    private tailrec fun popUntilRoot(navigator: Navigator) {
+        navigator.popAll()
 
-        public fun popUntilRoot() {
-            popUntilRoot(this)
-        }
-
-        private tailrec fun popUntilRoot(navigator: Navigator) {
-            navigator.popAll()
-
-            if (navigator.parent != null) {
-                popUntilRoot(navigator.parent)
-            }
-        }
-
-        @InternalVoyagerApi
-        public fun dispose(screen: Screen) {
-            ScreenLifecycleStore.remove(screen)
-            stateKeys
-                .toSet() // Copy
-                .asSequence()
-                .filter { it.startsWith(screen.key) }
-                .forEach { key ->
-                    stateHolder.removeState(key)
-                    stateKeys -= key
-                }
+        if (navigator.parent != null) {
+            popUntilRoot(navigator.parent)
         }
     }
+
+    @InternalVoyagerApi
+    public fun dispose(screen: Screen) {
+        ScreenLifecycleStore.remove(screen)
+        stateKeys
+            .toSet() // Copy
+            .asSequence()
+            .filter { it.startsWith(screen.key) }
+            .forEach { key ->
+                stateHolder.removeState(key)
+                stateKeys -= key
+            }
+    }
+}
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
@@ -191,6 +182,6 @@ public data class NavigatorDisposeBehavior(
 
 @InternalVoyagerApi
 @Composable
-public fun compositionUniqueId(): String = currentCompositeKeyHashCode.toString(MaxSupportedRadix)
+public fun compositionUniqueId(): String = currentCompositeKeyHashCode.toString(MAX_SUPPORTED_RADIX)
 
-private val MaxSupportedRadix = 36
+private const val MAX_SUPPORTED_RADIX = 36

@@ -26,34 +26,26 @@ public object ScreenModelStore : ScreenDisposable {
     internal val lastScreenModelKey: MutableStateFlow<ScreenModelKey?> = MutableStateFlow(null)
 
     @PublishedApi
-    internal inline fun <reified T : ScreenModel> getKey(
-        screen: Screen,
-        tag: String?,
-    ): ScreenModelKey = getKey<T>(screen.key, tag)
+    internal inline fun <reified T : ScreenModel> getKey(screen: Screen, tag: String?): ScreenModelKey =
+        getKey<T>(screen.key, tag)
 
     // Public: used in Navigator Scoped ScreenModels
     @InternalVoyagerApi
-    public inline fun <reified T : ScreenModel> getKey(
-        holderKey: String,
-        tag: String?,
-    ): ScreenModelKey = "$holderKey:${T::class.multiplatformName}:${tag ?: "default"}"
+    public inline fun <reified T : ScreenModel> getKey(holderKey: String, tag: String?): ScreenModelKey =
+        "$holderKey:${T::class.multiplatformName}:${tag ?: "default"}"
 
     @PublishedApi
-    internal fun getDependencyKey(
-        screenModel: ScreenModel,
-        name: String,
-    ): DependencyKey =
-        screenModels
-            .firstNotNullOfOrNull {
-                if (it.value == screenModel) {
-                    it.key
-                } else {
-                    null
-                }
+    internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey = screenModels
+        .firstNotNullOfOrNull {
+            if (it.value == screenModel) {
+                it.key
+            } else {
+                null
             }
-            ?: lastScreenModelKey.value
-                ?.let { "$it:$name" }
-            ?: "standalone:$name"
+        }
+        ?: lastScreenModelKey.value
+            ?.let { "$it:$name" }
+        ?: "standalone:$name"
 
     @PublishedApi
     internal inline fun <reified T : ScreenModel> getOrPut(
@@ -109,10 +101,7 @@ public object ScreenModelStore : ScreenDisposable {
         }
     }
 
-    private fun Map<String, *>.onEachHolder(
-        holderKey: String,
-        block: (String) -> Unit,
-    ) = toMap() // copy
+    private fun Map<String, *>.onEachHolder(holderKey: String, block: (String) -> Unit) = toMap() // copy
         .asSequence()
         .filter { it.key.startsWith(holderKey) }
         .map { it.key }

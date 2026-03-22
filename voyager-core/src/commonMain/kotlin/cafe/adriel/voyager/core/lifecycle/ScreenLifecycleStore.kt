@@ -15,10 +15,7 @@ public object ScreenLifecycleStore {
      * [factory] that will be called `onDispose` on the [screen] leaves
      * the Navigation stack.
      */
-    public inline fun <reified T : ScreenDisposable> get(
-        screen: Screen,
-        noinline factory: (ScreenKey) -> T,
-    ): T {
+    public inline fun <reified T : ScreenDisposable> get(screen: Screen, noinline factory: (ScreenKey) -> T): T {
         return get(screen, typeOf<T>(), factory) as T
     }
 
@@ -32,10 +29,7 @@ public object ScreenLifecycleStore {
         replaceWith = ReplaceWith("ScreenLifecycleStore.get<T>(screen, factory)"),
         level = DeprecationLevel.HIDDEN,
     )
-    public inline fun <reified T : ScreenDisposable> register(
-        screen: Screen,
-        noinline factory: (ScreenKey) -> T,
-    ): T {
+    public inline fun <reified T : ScreenDisposable> register(screen: Screen, noinline factory: (ScreenKey) -> T): T {
         return get(screen, factory)
     }
 

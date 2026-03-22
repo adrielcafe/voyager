@@ -48,10 +48,9 @@ public inline fun <reified VM : ViewModel> navigatorViewModel(
         } else {
             CreationExtras.Empty
         },
-): VM =
-    viewModel(
-        viewModelStoreOwner = viewModelStoreOwner,
-        key = key,
-        factory = factory,
-        extras = extras,
-    )
+): VM = viewModel(
+    viewModelStoreOwner = viewModelStoreOwner,
+    key = key,
+    factory = factory,
+    extras = extras,
+)

@@ -3,10 +3,7 @@ package cafe.adriel.voyager.core.concurrent
 public expect class ThreadSafeMap<K, V>() : MutableMap<K, V> {
     override fun clear()
 
-    override fun put(
-        key: K,
-        value: V,
-    ): V?
+    override fun put(key: K, value: V): V?
 
     override fun putAll(from: Map<out K, V>)
 

@@ -17,31 +17,23 @@ import cafe.adriel.voyager.core.internal.removeLastElement
 public fun <Item> List<Item>.toMutableStateStack(minSize: Int = 0): SnapshotStateStack<Item> =
     SnapshotStateStack(this, minSize)
 
-public fun <Item> mutableStateStackOf(
-    vararg items: Item,
-    minSize: Int = 0,
-): SnapshotStateStack<Item> = SnapshotStateStack(*items, minSize = minSize)
+public fun <Item> mutableStateStackOf(vararg items: Item, minSize: Int = 0): SnapshotStateStack<Item> =
+    SnapshotStateStack(*items, minSize = minSize)
 
 @Composable
-public fun <Item : Any> rememberStateStack(
-    vararg items: Item,
-    minSize: Int = 0,
-): SnapshotStateStack<Item> = rememberStateStack(items.toList(), minSize)
+public fun <Item : Any> rememberStateStack(vararg items: Item, minSize: Int = 0): SnapshotStateStack<Item> =
+    rememberStateStack(items.toList(), minSize)
 
 @Composable
-public fun <Item : Any> rememberStateStack(
-    items: List<Item>,
-    minSize: Int = 0,
-): SnapshotStateStack<Item> =
+public fun <Item : Any> rememberStateStack(items: List<Item>, minSize: Int = 0): SnapshotStateStack<Item> =
     rememberSaveable(saver = stackSaver(minSize)) {
         SnapshotStateStack(items, minSize)
     }
 
-private fun <Item : Any> stackSaver(minSize: Int): Saver<SnapshotStateStack<Item>, Any> =
-    listSaver(
-        save = { stack -> stack.items },
-        restore = { items -> SnapshotStateStack(items, minSize) },
-    )
+private fun <Item : Any> stackSaver(minSize: Int): Saver<SnapshotStateStack<Item>, Any> = listSaver(
+    save = { stack -> stack.items },
+    restore = { items -> SnapshotStateStack(items, minSize) },
+)
 
 public class SnapshotStateStack<Item>(
     items: List<Item>,
@@ -121,14 +113,13 @@ public class SnapshotStateStack<Item>(
         }
     }
 
-    public override fun pop(): Boolean =
-        if (canPop) {
-            stateStack.removeLastElement()
-            lastEvent = StackEvent.Pop
-            true
-        } else {
-            false
-        }
+    public override fun pop(): Boolean = if (canPop) {
+        stateStack.removeLastElement()
+        lastEvent = StackEvent.Pop
+        true
+    } else {
+        false
+    }
 
     public override fun popAll() {
         popUntil { false }

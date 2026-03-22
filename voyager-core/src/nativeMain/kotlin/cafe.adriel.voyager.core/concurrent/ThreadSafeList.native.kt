@@ -22,17 +22,11 @@ public actual class ThreadSafeList<T> internal constructor(
         return synchronized(syncObject) { delegate.lastIndexOf(element) }
     }
 
-    actual override fun add(
-        index: Int,
-        element: T,
-    ) {
+    actual override fun add(index: Int, element: T) {
         return synchronized(syncObject) { delegate.add(index, element) }
     }
 
-    actual override fun addAll(
-        index: Int,
-        elements: Collection<T>,
-    ): Boolean {
+    actual override fun addAll(index: Int, elements: Collection<T>): Boolean {
         return synchronized(syncObject) { delegate.addAll(index, elements) }
     }
 
@@ -48,17 +42,11 @@ public actual class ThreadSafeList<T> internal constructor(
         return synchronized(syncObject) { delegate.removeAt(index) }
     }
 
-    actual override fun set(
-        index: Int,
-        element: T,
-    ): T {
+    actual override fun set(index: Int, element: T): T {
         return synchronized(syncObject) { delegate.set(index, element) }
     }
 
-    actual override fun subList(
-        fromIndex: Int,
-        toIndex: Int,
-    ): MutableList<T> {
+    actual override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> {
         return synchronized(syncObject) { ThreadSafeList(syncObject, delegate.subList(fromIndex, toIndex)) }
     }
 }

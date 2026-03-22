@@ -15,11 +15,10 @@ import java.util.concurrent.atomic.AtomicReference
 internal actual class SavedStateViewModelPlatform actual constructor(val owner: SavedStateRegistryOwner) {
     private val atomicAppContext = AtomicReference<Context>()
 
-    actual fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory =
-        SavedStateViewModelFactory(
-            application = atomicAppContext.get()?.getApplication(),
-            owner = owner,
-        )
+    actual fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory = SavedStateViewModelFactory(
+        application = atomicAppContext.get()?.getApplication(),
+        owner = owner,
+    )
 
     actual fun providePlatform(extras: MutableCreationExtras) {
         val application = atomicAppContext.get()?.getApplication()
@@ -33,15 +32,13 @@ internal actual class SavedStateViewModelPlatform actual constructor(val owner: 
         atomicAppContext.compareAndSet(null, LocalContext.current.applicationContext)
     }
 
-    actual fun provideHooks(): List<ProvidedValue<*>> =
-        listOf(
-            LocalSavedStateRegistryOwner provides owner,
-            androidx.lifecycle.compose.LocalLifecycleOwner provides owner,
-        )
+    actual fun provideHooks(): List<ProvidedValue<*>> = listOf(
+        LocalSavedStateRegistryOwner provides owner,
+        androidx.lifecycle.compose.LocalLifecycleOwner provides owner,
+    )
 
-    private fun Context.getApplication(): Application? =
-        when (this) {
-            is Application -> this
-            else -> null
-        }
+    private fun Context.getApplication(): Application? = when (this) {
+        is Application -> this
+        else -> null
+    }
 }

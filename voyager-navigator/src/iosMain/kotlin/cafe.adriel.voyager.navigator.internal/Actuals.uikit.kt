@@ -5,7 +5,4 @@ import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 
 @InternalVoyagerApi
 @Composable
-public actual fun BackHandler(
-    enabled: Boolean,
-    onBack: () -> Unit,
-): Unit = Unit
+public actual fun BackHandler(enabled: Boolean, onBack: () -> Unit): Unit = Unit

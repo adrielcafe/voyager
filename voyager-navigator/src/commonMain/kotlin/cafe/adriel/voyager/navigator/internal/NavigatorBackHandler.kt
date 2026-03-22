@@ -7,16 +7,10 @@ import cafe.adriel.voyager.navigator.OnBackPressed
 
 @InternalVoyagerApi
 @Composable
-public expect fun BackHandler(
-    enabled: Boolean,
-    onBack: () -> Unit,
-)
+public expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
 
 @Composable
-internal fun NavigatorBackHandler(
-    navigator: Navigator,
-    onBackPressed: OnBackPressed,
-) {
+internal fun NavigatorBackHandler(navigator: Navigator, onBackPressed: OnBackPressed) {
     if (onBackPressed != null) {
         BackHandler(
             enabled = navigator.canPop || navigator.parent?.canPop ?: false,
