@@ -22,6 +22,6 @@ abstract class HiltModule {
     @IntoMap
     @ScreenModelFactoryKey(HiltDetailsScreenModel.Factory::class)
     abstract fun bindHiltDetailsScreenModelFactory(
-        hiltDetailsScreenModelFactory: HiltDetailsScreenModel.Factory
+        hiltDetailsScreenModelFactory: HiltDetailsScreenModel.Factory,
     ): ScreenModelFactory
 }

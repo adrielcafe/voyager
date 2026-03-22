@@ -11,7 +11,7 @@ public fun SampleApplication() {
         onBackPressed = { currentScreen ->
             println("Navigator: Pop screen #${(currentScreen as BasicNavigationScreen).index}")
             true
-        }
+        },
     ) { navigator ->
         SlideTransition(navigator)
     }

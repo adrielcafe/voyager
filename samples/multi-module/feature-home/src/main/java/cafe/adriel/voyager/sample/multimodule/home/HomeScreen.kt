@@ -33,32 +33,32 @@ class HomeScreen : Screen {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Text(
                 text = "Home",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.push(postListScreen) }
+                onClick = { navigator.push(postListScreen) },
             ) {
                 Text(
                     text = "To Post List",
-                    style = MaterialTheme.typography.button
+                    style = MaterialTheme.typography.button,
                 )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.push(postDetailsScreen) }
+                onClick = { navigator.push(postDetailsScreen) },
             ) {
                 Text(
                     text = "To Post Details",
-                    style = MaterialTheme.typography.button
+                    style = MaterialTheme.typography.button,
                 )
             }
         }

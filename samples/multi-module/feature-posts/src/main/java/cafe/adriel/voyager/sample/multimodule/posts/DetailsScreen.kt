@@ -17,7 +17,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 
 data class DetailsScreen(
-    val id: String
+    val id: String,
 ) : Screen {
 
     @Composable
@@ -27,28 +27,28 @@ data class DetailsScreen(
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Text(
                 text = "Post Details",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "ID: $id",
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.pop() }
+                onClick = { navigator.pop() },
             ) {
                 Text(
                     text = "Return",
-                    style = MaterialTheme.typography.button
+                    style = MaterialTheme.typography.button,
                 )
             }
         }

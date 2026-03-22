@@ -52,7 +52,7 @@ class StateStackActivity : ComponentActivity() {
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
                 reverseLayout = true,
-                modifier = Modifier.weight(.8f)
+                modifier = Modifier.weight(.8f),
             ) {
                 itemsIndexed(stateStack.items) { index, item ->
                     ListItem(
@@ -60,7 +60,7 @@ class StateStackActivity : ComponentActivity() {
                         item = item,
                         isLast = stateStack.lastItemOrNull == item,
                         isSelected = selectedItem == item,
-                        onSelected = selectItem
+                        onSelected = selectItem,
                     )
                 }
                 if (stateStack.isEmpty) {
@@ -71,13 +71,13 @@ class StateStackActivity : ComponentActivity() {
                             color = Color.DarkGray,
                             fontWeight = FontWeight.Normal,
                             fontFamily = FontFamily.Monospace,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
                 }
             }
             Row(
-                modifier = Modifier.weight(.1f)
+                modifier = Modifier.weight(.1f),
             ) {
                 ActionButton(text = "Pop", enabled = stateStack.canPop) {
                     if (stateStack.lastItemOrNull == selectedItem) {
@@ -98,7 +98,7 @@ class StateStackActivity : ComponentActivity() {
                 }
             }
             Row(
-                modifier = Modifier.weight(.1f)
+                modifier = Modifier.weight(.1f),
             ) {
                 ActionButton(text = "Replace") {
                     stateStack.replace(randomValue)
@@ -116,7 +116,7 @@ class StateStackActivity : ComponentActivity() {
         item: String,
         isLast: Boolean,
         isSelected: Boolean,
-        onSelected: (String) -> Unit
+        onSelected: (String) -> Unit,
     ) {
         val formattedIndex = index.toString().padStart(3, ' ')
         Text(
@@ -124,22 +124,18 @@ class StateStackActivity : ComponentActivity() {
             color = if (isSelected) Color.Red else Color.Black,
             fontWeight = if (isLast) FontWeight.Bold else FontWeight.Normal,
             fontFamily = FontFamily.Monospace,
-            modifier = Modifier.clickable { onSelected(item) }
+            modifier = Modifier.clickable { onSelected(item) },
         )
     }
 
     @Composable
-    private fun RowScope.ActionButton(
-        text: String,
-        enabled: Boolean = true,
-        onClick: () -> Unit
-    ) {
+    private fun RowScope.ActionButton(text: String, enabled: Boolean = true, onClick: () -> Unit) {
         Button(
             onClick = onClick,
             enabled = enabled,
             modifier = Modifier
                 .weight(.1f)
-                .padding(8.dp)
+                .padding(8.dp),
         ) {
             Text(text = text)
         }

@@ -25,21 +25,21 @@ class ListScreen : Screen {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Text(
                 text = "Post List",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { navigator.pop() }
+                onClick = { navigator.pop() },
             ) {
                 Text(
                     text = "Return",
-                    style = MaterialTheme.typography.button
+                    style = MaterialTheme.typography.button,
                 )
             }
         }

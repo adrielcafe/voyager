@@ -26,7 +26,7 @@ kotlin {
 
     listOf(
         macosX64(),
-        macosArm64()
+        macosArm64(),
     ).forEach { macosTarget ->
         macosTarget.binaries {
             executable {
@@ -35,7 +35,7 @@ kotlin {
                     "-linker-option",
                     "-framework",
                     "-linker-option",
-                    "Metal"
+                    "Metal",
                 )
             }
         }
@@ -44,7 +44,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"

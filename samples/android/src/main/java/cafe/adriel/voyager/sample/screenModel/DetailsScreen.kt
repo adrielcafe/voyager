@@ -15,7 +15,7 @@ import cafe.adriel.voyager.sample.DetailsContent
 import cafe.adriel.voyager.sample.LoadingContent
 
 data class DetailsScreen(
-    val index: Int
+    val index: Int,
 ) : Screen {
 
     override val key: ScreenKey = uniqueScreenKey

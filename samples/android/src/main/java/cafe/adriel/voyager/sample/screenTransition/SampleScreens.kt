@@ -27,11 +27,11 @@ private val colors = listOf(
     Color.Yellow,
     Color.Green,
     Color.Blue,
-    Color.Black
+    Color.Black,
 )
 
 class BaseSampleScreenModel(
-    val index: Int
+    val index: Int,
 ) : ScreenModel {
 
     init {
@@ -43,7 +43,7 @@ class BaseSampleScreenModel(
 }
 
 abstract class BaseSampleScreen(
-    private val transitionType: String
+    private val transitionType: String,
 ) : Screen {
 
     abstract val index: Int
@@ -68,19 +68,19 @@ abstract class BaseSampleScreen(
                 .background(color)
                 .padding(40.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "Screen $index",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = contentColor
+                color = contentColor,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = transitionType,
                 fontSize = 18.sp,
-                color = contentColor
+                color = contentColor,
             )
         }
     }
@@ -91,13 +91,13 @@ private fun Color.average(): Color {
 }
 
 data class NoCustomAnimationSampleScreen(
-    override val index: Int
+    override val index: Int,
 ) : BaseSampleScreen("Default transition")
 
 data class FadeAnimationSampleScreen(
-    override val index: Int
+    override val index: Int,
 ) : BaseSampleScreen("Fade transition"), ScreenTransition by FadeTransition()
 
 data class SlideInVerticallyAnimationSampleScreen(
-    override val index: Int
+    override val index: Int,
 ) : BaseSampleScreen("slide in vertically transition"), ScreenTransition by SlideInVerticallyTransition(index)

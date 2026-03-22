@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HiltListViewModel @Inject constructor(
-    private val handle: SavedStateHandle
+    private val handle: SavedStateHandle,
 ) : ViewModel() {
 
     init {

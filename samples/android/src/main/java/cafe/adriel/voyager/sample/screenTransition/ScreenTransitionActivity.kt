@@ -35,36 +35,36 @@ class ScreenTransitionActivity : ComponentActivity() {
     fun Content() {
         Navigator(
             screen = NoCustomAnimationSampleScreen(0),
-            disposeBehavior = NavigatorDisposeBehavior(disposeSteps = false)
+            disposeBehavior = NavigatorDisposeBehavior(disposeSteps = false),
         ) { navigator ->
             Box(modifier = Modifier.fillMaxSize()) {
                 ScreenTransition(
                     navigator = navigator,
                     defaultTransition = SlideTransition(),
-                    disposeScreenAfterTransitionEnd = true
+                    disposeScreenAfterTransitionEnd = true,
                 )
 
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
                     ) {
                         Button(
                             onClick = { navigator.push(FadeAnimationSampleScreen(navigator.items.size)) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             Text(text = "Fade")
                         }
 
                         Button(
                             onClick = { navigator.push(SlideInVerticallyAnimationSampleScreen(navigator.items.size)) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             Text(text = "SlideInVertically")
                         }
@@ -73,18 +73,18 @@ class ScreenTransitionActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
                     ) {
                         Button(
                             onClick = { navigator.push(NoCustomAnimationSampleScreen(navigator.items.size)) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             Text(text = "Default")
                         }
 
                         Button(
                             onClick = { navigator.pop() },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             Text(text = "Pop")
                         }
@@ -93,18 +93,18 @@ class ScreenTransitionActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
                     ) {
                         Button(
                             onClick = { navigator.replace(NoCustomAnimationSampleScreen(Random.nextInt())) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             Text(text = "Replace")
                         }
 
                         Button(
                             onClick = { navigator.replaceAll(NoCustomAnimationSampleScreen(Random.nextInt())) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             Text(text = "ReplaceAll")
                         }

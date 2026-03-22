@@ -43,7 +43,7 @@ class NestedNavigationActivity : ComponentActivity() {
                     CurrentScreen()
                     Button(
                         onClick = { navigator.popUntilRoot() },
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier.padding(bottom = 16.dp),
                     ) {
                         Text(text = "Pop Until Root")
                     }
@@ -53,22 +53,19 @@ class NestedNavigationActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun NestedNavigation(
-        backgroundColor: Color,
-        content: NavigatorContent = { CurrentScreen() }
-    ) {
+    private fun NestedNavigation(backgroundColor: Color, content: NavigatorContent = { CurrentScreen() }) {
         Navigator(
-            screen = BasicNavigationScreen(index = 0, wrapContent = true)
+            screen = BasicNavigationScreen(index = 0, wrapContent = true),
         ) { navigator ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .padding(16.dp)
-                    .background(backgroundColor)
+                    .background(backgroundColor),
             ) {
                 Text(
                     text = "Level #${navigator.level}",
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(8.dp),
                 )
                 content(navigator)
             }

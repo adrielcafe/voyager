@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 @HiltViewModel(assistedFactory = HiltDetailsViewModel.Factory::class)
 class HiltDetailsViewModel @AssistedInject constructor(
-    @Assisted val index: Int
+    @Assisted val index: Int,
 ) : ViewModel() {
 
     @AssistedFactory

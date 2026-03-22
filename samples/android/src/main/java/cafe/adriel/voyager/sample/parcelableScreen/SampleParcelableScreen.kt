@@ -28,13 +28,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ParcelableContent(
-    val index: Int
+    val index: Int,
 ) : Parcelable
 
 @Parcelize
 data class SampleParcelableScreen(
     val parcelable: ParcelableContent,
-    val wrapContent: Boolean = false
+    val wrapContent: Boolean = false,
 ) : Screen, Parcelable {
 
     @IgnoredOnParcel
@@ -60,22 +60,22 @@ data class SampleParcelableScreen(
                 } else {
                     fillMaxSize()
                 }
-            }
+            },
         ) {
             Text(
                 text = "Screen #${parcelable.index}",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Row(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             ) {
                 Button(
                     enabled = navigator.canPop,
                     onClick = navigator::pop,
-                    modifier = Modifier.weight(.5f)
+                    modifier = Modifier.weight(.5f),
                 ) {
                     Text(text = "Pop")
                 }
@@ -85,10 +85,10 @@ data class SampleParcelableScreen(
                 Button(
                     onClick = {
                         navigator.push(
-                            SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent)
+                            SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent),
                         )
                     },
-                    modifier = Modifier.weight(.5f)
+                    modifier = Modifier.weight(.5f),
                 ) {
                     Text(text = "Push")
                 }
@@ -98,17 +98,17 @@ data class SampleParcelableScreen(
                 Button(
                     onClick = {
                         navigator.replace(
-                            SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent)
+                            SampleParcelableScreen(parcelable.copy(index = parcelable.index.inc()), wrapContent),
                         )
                     },
-                    modifier = Modifier.weight(.5f)
+                    modifier = Modifier.weight(.5f),
                 ) {
                     Text(text = "Replace")
                 }
             }
 
             LazyColumn(
-                modifier = Modifier.height(100.dp)
+                modifier = Modifier.height(100.dp),
             ) {
                 items(100) {
                     Text("Item #$it")

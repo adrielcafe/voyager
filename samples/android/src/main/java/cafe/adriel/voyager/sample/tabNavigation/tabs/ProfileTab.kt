@@ -19,7 +19,7 @@ object ProfileTab : Tab {
                 TabOptions(
                     index = 2u,
                     title = "Profile",
-                    icon = icon
+                    icon = icon,
                 )
             }
         }

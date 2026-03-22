@@ -11,7 +11,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 data class AndroidDetailsScreen(
-    val index: Int
+    val index: Int,
 ) : Screen {
     override val key: ScreenKey = uniqueScreenKey
 
