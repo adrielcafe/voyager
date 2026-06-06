@@ -4,9 +4,10 @@ import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 
 public actual class ThreadSafeSet<T>(
-    private val delegate: MutableSet<T>
+    private val delegate: MutableSet<T>,
 ) : MutableSet<T> {
     public actual constructor() : this(delegate = mutableSetOf())
+
     private val syncObject = SynchronizedObject()
 
     actual override val size: Int

@@ -5,9 +5,8 @@ import kotlinx.atomicfu.locks.synchronized
 
 public open class ThreadSafeMutableCollection<T>internal constructor(
     private val syncObject: SynchronizedObject,
-    private val delegate: MutableCollection<T>
+    private val delegate: MutableCollection<T>,
 ) : MutableCollection<T> {
-
     override val size: Int
         get() = synchronized(syncObject) { delegate.size }
 

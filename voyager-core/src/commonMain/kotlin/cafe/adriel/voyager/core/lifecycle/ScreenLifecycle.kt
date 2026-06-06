@@ -10,13 +10,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.randomUuid
 
 @Deprecated(
-    message = "This API is a wrap on top on DisposableEffect, will be removed in 1.1.0, replace with DisposableEffect"
+    message = "This API is a wrap on top on DisposableEffect, will be removed in 1.1.0, replace with DisposableEffect",
 )
 @Composable
-public fun Screen.LifecycleEffect(
-    onStarted: () -> Unit = {},
-    onDisposed: () -> Unit = {}
-) {
+public fun Screen.LifecycleEffect(onStarted: () -> Unit = {}, onDisposed: () -> Unit = {}) {
     DisposableEffect(key) {
         onStarted()
         onDispose(onDisposed)
@@ -26,7 +23,7 @@ public fun Screen.LifecycleEffect(
 @ExperimentalVoyagerApi
 public data class LifecycleEffectOnceScope(
     val uniqueKey: String,
-    val registerOrderIndex: Int
+    val registerOrderIndex: Int,
 ) {
     internal var onDisposed: (() -> Unit)? = null
 
@@ -41,9 +38,10 @@ public data class LifecycleEffectOnceScope(
 public fun Screen.LifecycleEffectOnce(onFirstAppear: LifecycleEffectOnceScope.() -> Unit) {
     val uniqueCompositionKey = rememberSaveable { randomUuid() }
 
-    val lifecycleEffectStore = remember {
-        ScreenLifecycleStore.get(this) { LifecycleEffectStore }
-    }
+    val lifecycleEffectStore =
+        remember {
+            ScreenLifecycleStore.get(this) { LifecycleEffectStore }
+        }
 
     LaunchedEffect(Unit) {
         if (lifecycleEffectStore.hasExecuted(this@LifecycleEffectOnce, uniqueCompositionKey).not()) {
@@ -54,17 +52,13 @@ public fun Screen.LifecycleEffectOnce(onFirstAppear: LifecycleEffectOnceScope.()
 }
 
 @Composable
-public fun rememberScreenLifecycleOwner(
-    screen: Screen
-): ScreenLifecycleOwner =
-    remember(screen.key) {
-        when (screen) {
-            is ScreenLifecycleProvider -> screen.getLifecycleOwner()
-            else -> DefaultScreenLifecycleOwner
-        }
+public fun rememberScreenLifecycleOwner(screen: Screen): ScreenLifecycleOwner = remember(screen.key) {
+    when (screen) {
+        is ScreenLifecycleProvider -> screen.getLifecycleOwner()
+        else -> DefaultScreenLifecycleOwner
     }
+}
 
 public interface ScreenLifecycleProvider {
-
     public fun getLifecycleOwner(): ScreenLifecycleOwner
 }

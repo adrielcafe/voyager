@@ -19,10 +19,10 @@ class BackScreen : Screen {
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Button(
-                onClick = { bottomSheetNavigator.show(BasicNavigationScreen(index = 0, wrapContent = true)) }
+                onClick = { bottomSheetNavigator.show(BasicNavigationScreen(index = 0, wrapContent = true)) },
             ) {
                 Text(text = "Show BottomSheet")
             }

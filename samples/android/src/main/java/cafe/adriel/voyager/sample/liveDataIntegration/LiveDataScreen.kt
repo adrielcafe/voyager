@@ -2,7 +2,7 @@ package cafe.adriel.voyager.sample.liveDataIntegration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.currentCompositeKeyHash
+import androidx.compose.runtime.currentCompositeKeyHashCode
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -27,7 +27,7 @@ class LiveDataScreen : Screen {
             else -> Unit
         }
 
-        LaunchedEffect(currentCompositeKeyHash) {
+        LaunchedEffect(currentCompositeKeyHashCode) {
             screenModel.getItems()
         }
     }

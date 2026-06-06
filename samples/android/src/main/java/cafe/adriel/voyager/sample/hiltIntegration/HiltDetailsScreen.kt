@@ -10,7 +10,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.sample.DetailsContent
 
 data class HiltDetailsScreen(
-    val index: Int
+    val index: Int,
 ) : Screen {
     override val key: ScreenKey = uniqueScreenKey
 

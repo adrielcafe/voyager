@@ -15,8 +15,9 @@ internal expect class DefaultNavigatorScreenLifecycleProvider() : NavigatorScree
 
 @Composable
 internal fun getNavigatorScreenLifecycleProvider(screen: Screen): List<ScreenLifecycleContentProvider> {
-    val navigatorScreenLifecycleProvider = LocalNavigatorScreenLifecycleProvider.current
-        ?: defaultNavigatorScreenLifecycleProvider
+    val navigatorScreenLifecycleProvider =
+        LocalNavigatorScreenLifecycleProvider.current
+            ?: defaultNavigatorScreenLifecycleProvider
 
     return remember(screen.key) {
         navigatorScreenLifecycleProvider.provide(screen)

@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DetailsScreenModel(
-    val index: Int
+    val index: Int,
 ) : StateScreenModel<DetailsScreenModel.State>(State.Loading) {
 
     sealed class State {

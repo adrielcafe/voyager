@@ -2,7 +2,7 @@ package cafe.adriel.voyager.sample.rxJavaIntegration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.currentCompositeKeyHash
+import androidx.compose.runtime.currentCompositeKeyHashCode
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -26,7 +26,7 @@ class RxJavaScreen : Screen {
             is RxJavaScreenModel.State.Result -> ListContent(result.items)
         }
 
-        LaunchedEffect(currentCompositeKeyHash) {
+        LaunchedEffect(currentCompositeKeyHashCode) {
             screenModel.getItems()
         }
     }

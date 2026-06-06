@@ -3,7 +3,9 @@ package cafe.adriel.voyager.sample.tabNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -11,6 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -37,18 +40,20 @@ class TabNavigationActivity : ComponentActivity() {
             tabDisposable = {
                 TabDisposable(
                     navigator = it,
-                    tabs = listOf(HomeTab, FavoritesTab, ProfileTab)
+                    tabs = listOf(HomeTab, FavoritesTab, ProfileTab),
                 )
-            }
+            },
         ) { tabNavigator ->
             Scaffold(
                 topBar = {
                     TopAppBar(
-                        title = { Text(text = tabNavigator.current.options.title) }
+                        title = { Text(text = tabNavigator.current.options.title) },
                     )
                 },
-                content = {
-                    CurrentTab()
+                content = { padding ->
+                    Box(modifier = Modifier.padding(padding)) {
+                        CurrentTab()
+                    }
                 },
                 bottomBar = {
                     BottomNavigation {
@@ -56,7 +61,7 @@ class TabNavigationActivity : ComponentActivity() {
                         TabNavigationItem(FavoritesTab)
                         TabNavigationItem(ProfileTab)
                     }
-                }
+                },
             )
         }
     }
@@ -68,7 +73,7 @@ class TabNavigationActivity : ComponentActivity() {
         BottomNavigationItem(
             selected = tabNavigator.current.key == tab.key,
             onClick = { tabNavigator.current = tab },
-            icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
+            icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) },
         )
     }
 }

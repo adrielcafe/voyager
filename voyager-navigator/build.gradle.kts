@@ -14,8 +14,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.voyagerCore)
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
+            implementation(libs.androidxKmp.runtime)
+            implementation(libs.androidxKmp.runtime.saveable)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)

@@ -45,7 +45,6 @@ public class AndroidScreenLifecycleOwner private constructor() :
     ViewModelStoreOwner,
     SavedStateRegistryOwner,
     HasDefaultViewModelProviderFactory {
-
     override val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
 
     override val viewModelStore: ViewModelStore = ViewModelStore()
@@ -61,24 +60,26 @@ public class AndroidScreenLifecycleOwner private constructor() :
         get() = controller.savedStateRegistry
 
     override val defaultViewModelProviderFactory: ViewModelProvider.Factory
-        get() = SavedStateViewModelFactory(
-            application = atomicAppContext.get()?.getApplication(),
-            owner = this
-        )
+        get() =
+            SavedStateViewModelFactory(
+                application = atomicAppContext.get()?.getApplication(),
+                owner = this,
+            )
 
     override val defaultViewModelCreationExtras: CreationExtras
-        get() = MutableCreationExtras().apply {
-            val application = atomicAppContext.get()?.getApplication()
-            if (application != null) {
-                set(AndroidViewModelFactory.APPLICATION_KEY, application)
-            }
-            set(SAVED_STATE_REGISTRY_OWNER_KEY, this@AndroidScreenLifecycleOwner)
-            set(VIEW_MODEL_STORE_OWNER_KEY, this@AndroidScreenLifecycleOwner)
+        get() =
+            MutableCreationExtras().apply {
+                val application = atomicAppContext.get()?.getApplication()
+                if (application != null) {
+                    set(AndroidViewModelFactory.APPLICATION_KEY, application)
+                }
+                set(SAVED_STATE_REGISTRY_OWNER_KEY, this@AndroidScreenLifecycleOwner)
+                set(VIEW_MODEL_STORE_OWNER_KEY, this@AndroidScreenLifecycleOwner)
 
             /* TODO if (getArguments() != null) {
                 extras.set<Bundle>(DEFAULT_ARGS_KEY, getArguments())
             }*/
-        }
+            }
 
     init {
         controller.performAttach()
@@ -109,7 +110,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
     @Composable
     override fun ProvideBeforeScreenContent(
         provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
-        content: @Composable () -> Unit
+        content: @Composable () -> Unit,
     ) {
         provideSaveableState("lifecycle") {
             LifecycleDisposableEffect()
@@ -142,7 +143,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
             listOf(
                 LocalLifecycleOwner provides this,
                 LocalViewModelStoreOwner provides this,
-                LocalSavedStateRegistryOwner provides this
+                LocalSavedStateRegistryOwner provides this,
             )
         }
     }
@@ -153,26 +154,27 @@ public class AndroidScreenLifecycleOwner private constructor() :
     private fun registerLifecycleListener(outState: Bundle): () -> Unit {
         val lifecycleOwner = atomicParentLifecycleOwner.get()
         if (lifecycleOwner != null) {
-            val observer = object : DefaultLifecycleObserver {
-                override fun onPause(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-                }
+            val observer =
+                object : DefaultLifecycleObserver {
+                    override fun onPause(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+                    }
 
-                override fun onResume(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-                }
+                    override fun onResume(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+                    }
 
-                override fun onStart(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_START)
-                }
+                    override fun onStart(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_START)
+                    }
 
-                override fun onStop(owner: LifecycleOwner) {
-                    lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_STOP)
+                    override fun onStop(owner: LifecycleOwner) {
+                        lifecycle.safeHandleLifecycleEvent(Lifecycle.Event.ON_STOP)
 
-                    // when the Application goes to background, perform save
-                    performSave(outState)
+                        // when the Application goes to background, perform save
+                        performSave(outState)
+                    }
                 }
-            }
             val lifecycle = lifecycleOwner.lifecycle
             lifecycle.addObserver(observer)
 
@@ -218,24 +220,27 @@ public class AndroidScreenLifecycleOwner private constructor() :
     }
 
     public companion object {
+        private val initEvents =
+            arrayOf(
+                Lifecycle.Event.ON_CREATE,
+            )
 
-        private val initEvents = arrayOf(
-            Lifecycle.Event.ON_CREATE
-        )
+        private val startEvents =
+            arrayOf(
+                Lifecycle.Event.ON_START,
+                Lifecycle.Event.ON_RESUME,
+            )
 
-        private val startEvents = arrayOf(
-            Lifecycle.Event.ON_START,
-            Lifecycle.Event.ON_RESUME
-        )
+        private val stopEvents =
+            arrayOf(
+                Lifecycle.Event.ON_PAUSE,
+                Lifecycle.Event.ON_STOP,
+            )
 
-        private val stopEvents = arrayOf(
-            Lifecycle.Event.ON_PAUSE,
-            Lifecycle.Event.ON_STOP
-        )
-
-        private val disposeEvents = arrayOf(
-            Lifecycle.Event.ON_DESTROY
-        )
+        private val disposeEvents =
+            arrayOf(
+                Lifecycle.Event.ON_DESTROY,
+            )
 
         public fun get(screen: Screen): ScreenLifecycleOwner {
             return ScreenLifecycleStore.get(screen) { AndroidScreenLifecycleOwner() }

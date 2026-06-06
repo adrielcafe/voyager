@@ -17,6 +17,7 @@ android {
     namespace = "cafe.adriel.voyager.sample.multiplatform"
     defaultConfig {
         applicationId = "cafe.adriel.voyager.sample.multiplatform"
+        minSdk = 23
     }
 }
 
@@ -25,7 +26,7 @@ kotlin {
 
     listOf(
         macosX64(),
-        macosArm64()
+        macosArm64(),
     ).forEach { macosTarget ->
         macosTarget.binaries {
             executable {
@@ -34,7 +35,7 @@ kotlin {
                     "-linker-option",
                     "-framework",
                     "-linker-option",
-                    "Metal"
+                    "Metal",
                 )
             }
         }
@@ -43,7 +44,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -83,9 +84,9 @@ kotlin {
             implementation(projects.voyagerCore)
             implementation(projects.voyagerNavigator)
             implementation(projects.voyagerTransitions)
-            implementation(compose.runtime)
-            implementation(compose.ui)
-            implementation(compose.material)
+            implementation(libs.androidxKmp.runtime)
+            implementation(libs.androidxKmp.ui)
+            implementation(libs.androidxKmp.material)
             implementation(libs.coroutines.core)
         }
         androidMain.dependencies {

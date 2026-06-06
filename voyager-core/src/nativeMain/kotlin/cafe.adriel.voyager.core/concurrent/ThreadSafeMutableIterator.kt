@@ -5,7 +5,7 @@ import kotlinx.atomicfu.locks.synchronized
 
 internal open class ThreadSafeMutableIterator<E>(
     private val syncObject: SynchronizedObject,
-    private val delegate: MutableIterator<E>
+    private val delegate: MutableIterator<E>,
 ) : MutableIterator<E> {
     override fun hasNext(): Boolean = synchronized(syncObject) { delegate.hasNext() }
 
@@ -18,10 +18,9 @@ internal open class ThreadSafeMutableIterator<E>(
 
 internal class ThreadSafeMutableListIterator<E>(
     private val syncObject: SynchronizedObject,
-    private val delegate: MutableListIterator<E>
+    private val delegate: MutableListIterator<E>,
 ) : ThreadSafeMutableIterator<E>(syncObject, delegate),
     MutableListIterator<E> {
-
     override fun hasPrevious(): Boolean = synchronized(syncObject) { delegate.hasPrevious() }
 
     override fun nextIndex(): Int = synchronized(syncObject) { delegate.nextIndex() }

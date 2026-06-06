@@ -30,25 +30,25 @@ class LegacyScreenOne : Screen {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Text(
                 text = model.text,
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = model.toString().substringAfterLast('.'),
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body2,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
                 onClick = { navigator.push(LegacyScreenTwo()) },
-                content = { Text(text = "Go to Two") }
+                content = { Text(text = "Go to Two") },
             )
         }
     }

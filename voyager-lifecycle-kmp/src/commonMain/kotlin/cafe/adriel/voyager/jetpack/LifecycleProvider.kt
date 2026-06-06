@@ -13,12 +13,10 @@ import cafe.adriel.voyager.core.screen.Screen
 
 @ExperimentalVoyagerApi
 @Composable
-public fun ProvideNavigatorLifecycleKMPSupport(
-    content: @Composable () -> Unit
-) {
+public fun ProvideNavigatorLifecycleKMPSupport(content: @Composable () -> Unit) {
     val provider = remember { JetpackSupportProvider() }
     CompositionLocalProvider(
-        LocalNavigatorScreenLifecycleProvider provides provider
+        LocalNavigatorScreenLifecycleProvider provides provider,
     ) {
         content()
     }

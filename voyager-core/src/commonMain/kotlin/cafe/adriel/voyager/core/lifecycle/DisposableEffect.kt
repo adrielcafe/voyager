@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 @NonRestartableComposable
 public fun DisposableEffectIgnoringConfiguration(
     key1: Any?,
-    effect: DisposableEffectScope.() -> DisposableEffectResult
+    effect: DisposableEffectScope.() -> DisposableEffectResult,
 ) {
     val configurationChecker = getConfigurationChecker()
     remember(configurationChecker, key1) { DisposableEffectIgnoringConfigurationImpl(configurationChecker, effect) }
@@ -22,7 +22,7 @@ public fun DisposableEffectIgnoringConfiguration(
 public fun DisposableEffectIgnoringConfiguration(
     key1: Any?,
     key2: Any?,
-    effect: DisposableEffectScope.() -> DisposableEffectResult
+    effect: DisposableEffectScope.() -> DisposableEffectResult,
 ) {
     val configurationChecker = getConfigurationChecker()
     remember(configurationChecker, key1, key2) {
@@ -36,7 +36,7 @@ public fun DisposableEffectIgnoringConfiguration(
     key1: Any?,
     key2: Any?,
     key3: Any?,
-    effect: DisposableEffectScope.() -> DisposableEffectResult
+    effect: DisposableEffectScope.() -> DisposableEffectResult,
 ) {
     val configurationChecker = getConfigurationChecker()
     remember(configurationChecker, key1, key2, key3) {
@@ -49,7 +49,7 @@ public fun DisposableEffectIgnoringConfiguration(
 @Suppress("ArrayReturn")
 public fun DisposableEffectIgnoringConfiguration(
     vararg keys: Any?,
-    effect: DisposableEffectScope.() -> DisposableEffectResult
+    effect: DisposableEffectScope.() -> DisposableEffectResult,
 ) {
     val configurationChecker = getConfigurationChecker()
     remember(configurationChecker, *keys) { DisposableEffectIgnoringConfigurationImpl(configurationChecker, effect) }
@@ -59,7 +59,7 @@ private val InternalDisposableEffectScope = DisposableEffectScope()
 
 private class DisposableEffectIgnoringConfigurationImpl(
     private val configurationChecker: ConfigurationChecker,
-    private val effect: DisposableEffectScope.() -> DisposableEffectResult
+    private val effect: DisposableEffectScope.() -> DisposableEffectResult,
 ) : RememberObserver {
     private var onDispose: DisposableEffectResult? = null
 

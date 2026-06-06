@@ -16,7 +16,6 @@ private typealias DependencyOnDispose = (Any) -> Unit
 private typealias Dependency = Pair<DependencyInstance, DependencyOnDispose>
 
 public object ScreenModelStore : ScreenDisposable {
-
     @PublishedApi
     internal val screenModels: MutableMap<ScreenModelKey, ScreenModel> = ThreadSafeMap()
 
@@ -36,24 +35,23 @@ public object ScreenModelStore : ScreenDisposable {
         "$holderKey:${T::class.multiplatformName}:${tag ?: "default"}"
 
     @PublishedApi
-    internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey =
-        screenModels
-            .firstNotNullOfOrNull {
-                if (it.value == screenModel) {
-                    it.key
-                } else {
-                    null
-                }
+    internal fun getDependencyKey(screenModel: ScreenModel, name: String): DependencyKey = screenModels
+        .firstNotNullOfOrNull {
+            if (it.value == screenModel) {
+                it.key
+            } else {
+                null
             }
-            ?: lastScreenModelKey.value
-                ?.let { "$it:$name" }
-            ?: "standalone:$name"
+        }
+        ?: lastScreenModelKey.value
+            ?.let { "$it:$name" }
+        ?: "standalone:$name"
 
     @PublishedApi
     internal inline fun <reified T : ScreenModel> getOrPut(
         screen: Screen,
         tag: String?,
-        factory: @DisallowComposableCalls () -> T
+        factory: @DisallowComposableCalls () -> T,
     ): T = getOrPut(screen.key, tag, factory)
 
     // Public: used in Navigator Scoped ScreenModels
@@ -61,7 +59,7 @@ public object ScreenModelStore : ScreenDisposable {
     public inline fun <reified T : ScreenModel> getOrPut(
         holderKey: String,
         tag: String?,
-        factory: @DisallowComposableCalls () -> T
+        factory: @DisallowComposableCalls () -> T,
     ): T {
         val key = getKey<T>(holderKey, tag)
         lastScreenModelKey.value = key
@@ -72,7 +70,7 @@ public object ScreenModelStore : ScreenDisposable {
         screenModel: ScreenModel,
         name: String,
         noinline onDispose: @DisallowComposableCalls (T) -> Unit = {},
-        noinline factory: @DisallowComposableCalls (DependencyKey) -> T
+        noinline factory: @DisallowComposableCalls (DependencyKey) -> T,
     ): T {
         val key = getDependencyKey(screenModel, name)
 
@@ -103,10 +101,9 @@ public object ScreenModelStore : ScreenDisposable {
         }
     }
 
-    private fun Map<String, *>.onEachHolder(holderKey: String, block: (String) -> Unit) =
-        toMap() // copy
-            .asSequence()
-            .filter { it.key.startsWith(holderKey) }
-            .map { it.key }
-            .forEach(block)
+    private fun Map<String, *>.onEachHolder(holderKey: String, block: (String) -> Unit) = toMap() // copy
+        .asSequence()
+        .filter { it.key.startsWith(holderKey) }
+        .map { it.key }
+        .forEach(block)
 }

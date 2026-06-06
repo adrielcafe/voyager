@@ -25,30 +25,36 @@ import dagger.hilt.android.lifecycle.withCreationCallback
  */
 @Composable
 public inline fun <reified T : ViewModel> Screen.getViewModel(
-    viewModelProviderFactory: ViewModelProvider.Factory? = null
+    viewModelProviderFactory: ViewModelProvider.Factory? = null,
 ): T {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
-    }
+    val viewModelStoreOwner =
+        checkNotNull(LocalViewModelStoreOwner.current) {
+            "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+        }
     return remember(key1 = T::class) {
-        val hasDefaultViewModelProviderFactory = requireNotNull(lifecycleOwner as? HasDefaultViewModelProviderFactory) {
-            "$lifecycleOwner is not a androidx.lifecycle.HasDefaultViewModelProviderFactory"
-        }
-        val viewModelStore = requireNotNull(viewModelStoreOwner?.viewModelStore) {
-            "$viewModelStoreOwner is null or have a null viewModelStore"
-        }
-        val factory = VoyagerHiltViewModelFactories.getVoyagerFactory(
-            activity = context.componentActivity,
-            delegateFactory = viewModelProviderFactory
-                ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory
-        )
-        val provider = ViewModelProvider(
-            store = viewModelStore,
-            factory = factory,
-            defaultCreationExtras = hasDefaultViewModelProviderFactory.defaultViewModelCreationExtras
-        )
+        val hasDefaultViewModelProviderFactory =
+            requireNotNull(lifecycleOwner as? HasDefaultViewModelProviderFactory) {
+                "$lifecycleOwner is not a androidx.lifecycle.HasDefaultViewModelProviderFactory"
+            }
+        val viewModelStore =
+            requireNotNull(viewModelStoreOwner?.viewModelStore) {
+                "$viewModelStoreOwner is null or have a null viewModelStore"
+            }
+        val factory =
+            VoyagerHiltViewModelFactories.getVoyagerFactory(
+                activity = context.componentActivity,
+                delegateFactory =
+                viewModelProviderFactory
+                    ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory,
+            )
+        val provider =
+            ViewModelProvider(
+                store = viewModelStore,
+                factory = factory,
+                defaultCreationExtras = hasDefaultViewModelProviderFactory.defaultViewModelCreationExtras,
+            )
         provider[T::class.java]
     }
 }
@@ -67,35 +73,42 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
 @ExperimentalVoyagerApi
 public inline fun <reified VM : ViewModel, F> Screen.getViewModel(
     viewModelProviderFactory: ViewModelProvider.Factory? = null,
-    noinline viewModelFactory: (F) -> VM
+    noinline viewModelFactory: (F) -> VM,
 ): VM {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
-    }
+    val viewModelStoreOwner =
+        checkNotNull(LocalViewModelStoreOwner.current) {
+            "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+        }
     return remember(key1 = VM::class) {
-        val hasDefaultViewModelProviderFactory = requireNotNull(lifecycleOwner as? HasDefaultViewModelProviderFactory) {
-            "$lifecycleOwner is not a androidx.lifecycle.HasDefaultViewModelProviderFactory"
-        }
-        val viewModelStore = requireNotNull(viewModelStoreOwner?.viewModelStore) {
-            "$viewModelStoreOwner is null or have a null viewModelStore"
-        }
+        val hasDefaultViewModelProviderFactory =
+            requireNotNull(lifecycleOwner as? HasDefaultViewModelProviderFactory) {
+                "$lifecycleOwner is not a androidx.lifecycle.HasDefaultViewModelProviderFactory"
+            }
+        val viewModelStore =
+            requireNotNull(viewModelStoreOwner?.viewModelStore) {
+                "$viewModelStoreOwner is null or have a null viewModelStore"
+            }
 
-        val creationExtras = hasDefaultViewModelProviderFactory.defaultViewModelCreationExtras
-            .withCreationCallback(viewModelFactory)
+        val creationExtras =
+            hasDefaultViewModelProviderFactory.defaultViewModelCreationExtras
+                .withCreationCallback(viewModelFactory)
 
-        val factory = VoyagerHiltViewModelFactories.getVoyagerFactory(
-            activity = context.componentActivity,
-            delegateFactory = viewModelProviderFactory
-                ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory
-        )
+        val factory =
+            VoyagerHiltViewModelFactories.getVoyagerFactory(
+                activity = context.componentActivity,
+                delegateFactory =
+                viewModelProviderFactory
+                    ?: hasDefaultViewModelProviderFactory.defaultViewModelProviderFactory,
+            )
 
-        val provider = ViewModelProvider(
-            store = viewModelStore,
-            factory = factory,
-            defaultCreationExtras = creationExtras
-        )
+        val provider =
+            ViewModelProvider(
+                store = viewModelStore,
+                factory = factory,
+                defaultCreationExtras = creationExtras,
+            )
 
         provider[VM::class.java]
     }

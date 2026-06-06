@@ -45,7 +45,7 @@ fun Tab.TabContent() {
 @Composable
 private fun InnerTabNavigation() {
     Row(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(16.dp),
     ) {
         TabNavigationButton(HomeTab)
 
@@ -60,15 +60,13 @@ private fun InnerTabNavigation() {
 }
 
 @Composable
-private fun RowScope.TabNavigationButton(
-    tab: Tab
-) {
+private fun RowScope.TabNavigationButton(tab: Tab) {
     val tabNavigator = LocalTabNavigator.current
 
     Button(
         enabled = tabNavigator.current.key != tab.key,
         onClick = { tabNavigator.current = tab },
-        modifier = Modifier.weight(1f)
+        modifier = Modifier.weight(1f),
     ) {
         Text(text = tab.options.title)
     }

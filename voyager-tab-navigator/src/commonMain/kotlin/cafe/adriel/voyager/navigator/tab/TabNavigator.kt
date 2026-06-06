@@ -21,20 +21,22 @@ public fun TabNavigator(
     disposeNestedNavigators: Boolean = false,
     tabDisposable: (@Composable (TabNavigator) -> Unit)? = null,
     key: String = compositionUniqueId(),
-    content: TabNavigatorContent = { CurrentTab() }
+    content: TabNavigatorContent = { CurrentTab() },
 ) {
     Navigator(
         screen = tab,
-        disposeBehavior = NavigatorDisposeBehavior(
+        disposeBehavior =
+        NavigatorDisposeBehavior(
             disposeNestedNavigators = disposeNestedNavigators,
-            disposeSteps = false
+            disposeSteps = false,
         ),
         onBackPressed = null,
-        key = key
+        key = key,
     ) { navigator ->
-        val tabNavigator = remember(navigator) {
-            TabNavigator(navigator)
-        }
+        val tabNavigator =
+            remember(navigator) {
+                TabNavigator(navigator)
+            }
 
         tabDisposable?.invoke(tabNavigator)
 
@@ -56,19 +58,14 @@ public fun TabDisposable(navigator: TabNavigator, tabs: List<Tab>) {
 }
 
 public class TabNavigator internal constructor(
-    internal val navigator: Navigator
+    internal val navigator: Navigator,
 ) {
-
     public var current: Tab
         get() = navigator.lastItem as Tab
         set(tab) = navigator.replaceAll(tab)
 
     @Composable
-    public fun saveableState(
-        key: String,
-        tab: Tab = current,
-        content: @Composable () -> Unit
-    ) {
+    public fun saveableState(key: String, tab: Tab = current, content: @Composable () -> Unit) {
         navigator.saveableState(key, tab, content = content)
     }
 }

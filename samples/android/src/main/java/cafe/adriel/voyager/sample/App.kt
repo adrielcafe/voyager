@@ -46,7 +46,7 @@ class App : Application(), DIAware {
                     viewModel { parameters ->
                         AndroidDetailsViewModel(index = parameters.get())
                     }
-                }
+                },
             )
         }
     }

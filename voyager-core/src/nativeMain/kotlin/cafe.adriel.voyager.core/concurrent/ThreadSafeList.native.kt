@@ -5,7 +5,7 @@ import kotlinx.atomicfu.locks.synchronized
 
 public actual class ThreadSafeList<T> internal constructor(
     private val syncObject: SynchronizedObject,
-    private val delegate: MutableList<T>
+    private val delegate: MutableList<T>,
 ) : MutableList<T>, ThreadSafeMutableCollection<T>(syncObject, delegate) {
     public actual constructor() : this(delegate = mutableListOf())
     public constructor(delegate: MutableList<T>) : this(SynchronizedObject(), delegate)

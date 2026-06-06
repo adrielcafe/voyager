@@ -26,7 +26,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 
 data class BasicNavigationScreen(
     val index: Int,
-    val wrapContent: Boolean = false
+    val wrapContent: Boolean = false,
 ) : Screen {
 
     override val key = uniqueScreenKey
@@ -57,22 +57,22 @@ data class BasicNavigationScreen(
                 } else {
                     fillMaxSize()
                 }
-            }
+            },
         ) {
             Text(
                 text = "Screen #$index",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.h5,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Row(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             ) {
                 Button(
                     enabled = navigator.canPop,
                     onClick = navigator::pop,
-                    modifier = Modifier.weight(.5f)
+                    modifier = Modifier.weight(.5f),
                 ) {
                     Text(text = "Pop")
                 }
@@ -81,7 +81,7 @@ data class BasicNavigationScreen(
 
                 Button(
                     onClick = { navigator.push(BasicNavigationScreen(index.inc(), wrapContent)) },
-                    modifier = Modifier.weight(.5f)
+                    modifier = Modifier.weight(.5f),
                 ) {
                     Text(text = "Push")
                 }
@@ -90,14 +90,14 @@ data class BasicNavigationScreen(
 
                 Button(
                     onClick = { navigator.replace(BasicNavigationScreen(index.inc(), wrapContent)) },
-                    modifier = Modifier.weight(.5f)
+                    modifier = Modifier.weight(.5f),
                 ) {
                     Text(text = "Replace")
                 }
             }
 
             LazyColumn(
-                modifier = Modifier.height(100.dp)
+                modifier = Modifier.height(100.dp),
             ) {
                 items(100) {
                     Text("Item #$it")

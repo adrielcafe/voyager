@@ -23,11 +23,12 @@ public fun SlideTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     orientation: SlideOrientation = SlideOrientation.Horizontal,
-    animationSpec: FiniteAnimationSpec<IntOffset> = spring(
-        stiffness = Spring.StiffnessMediumLow,
-        visibilityThreshold = IntOffset.VisibilityThreshold
-    ),
-    content: ScreenTransitionContent = { it.Content() }
+    animationSpec: FiniteAnimationSpec<IntOffset> =
+        spring(
+            stiffness = Spring.StiffnessMediumLow,
+            visibilityThreshold = IntOffset.VisibilityThreshold,
+        ),
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     SlideTransition(
         navigator = navigator,
@@ -35,7 +36,7 @@ public fun SlideTransition(
         orientation = orientation,
         animationSpec = animationSpec,
         disposeScreenAfterTransitionEnd = false,
-        content = content
+        content = content,
     )
 }
 
@@ -45,14 +46,15 @@ public fun SlideTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     orientation: SlideOrientation = SlideOrientation.Horizontal,
-    animationSpec: FiniteAnimationSpec<IntOffset> = spring(
-        stiffness = Spring.StiffnessMediumLow,
-        visibilityThreshold = IntOffset.VisibilityThreshold
-    ),
+    animationSpec: FiniteAnimationSpec<IntOffset> =
+        spring(
+            stiffness = Spring.StiffnessMediumLow,
+            visibilityThreshold = IntOffset.VisibilityThreshold,
+        ),
     contentAlignment: Alignment = Alignment.TopStart,
     disposeScreenAfterTransitionEnd: Boolean = false,
     contentKey: (Screen) -> Any = { it.key },
-    content: ScreenTransitionContent = { it.Content() }
+    content: ScreenTransitionContent = { it.Content() },
 ) {
     ScreenTransition(
         navigator = navigator,
@@ -62,10 +64,11 @@ public fun SlideTransition(
         contentKey = contentKey,
         content = content,
         transition = {
-            val (initialOffset, targetOffset) = when (navigator.lastEvent) {
-                StackEvent.Pop -> ({ size: Int -> -size }) to ({ size: Int -> size })
-                else -> ({ size: Int -> size }) to ({ size: Int -> -size })
-            }
+            val (initialOffset, targetOffset) =
+                when (navigator.lastEvent) {
+                    StackEvent.Pop -> ({ size: Int -> -size }) to ({ size: Int -> size })
+                    else -> ({ size: Int -> size }) to ({ size: Int -> -size })
+                }
 
             when (orientation) {
                 SlideOrientation.Horizontal ->
@@ -75,11 +78,11 @@ public fun SlideTransition(
                     slideInVertically(animationSpec, initialOffset) togetherWith
                         slideOutVertically(animationSpec, targetOffset)
             }
-        }
+        },
     )
 }
 
 public enum class SlideOrientation {
     Horizontal,
-    Vertical
+    Vertical,
 }

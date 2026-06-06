@@ -13,7 +13,7 @@ internal expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
 internal fun BottomSheetNavigatorBackHandler(
     navigator: BottomSheetNavigator,
     sheetState: ModalBottomSheetState,
-    hideOnBackPress: Boolean
+    hideOnBackPress: Boolean,
 ) {
     BackHandler(enabled = sheetState.isVisible) {
         if (navigator.pop().not() && hideOnBackPress) {

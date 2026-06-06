@@ -16,20 +16,20 @@ import dagger.hilt.android.EntryPointAccessors
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
-public inline fun <reified T : ScreenModel> Screen.getScreenModel(
-    tag: String? = null
-): T {
+public inline fun <reified T : ScreenModel> Screen.getScreenModel(tag: String? = null): T {
     val context = LocalContext.current
     return rememberScreenModel(tag) {
-        val screenModels = EntryPointAccessors
-            .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
-            .screenModels()
-        val model = screenModels[T::class.java]?.get()
-            ?: error(
-                "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                    "declaration to your ScreenModel using @IntoMap and " +
-                    "@ScreenModelKey(${T::class.qualifiedName}::class)"
-            )
+        val screenModels =
+            EntryPointAccessors
+                .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
+                .screenModels()
+        val model =
+            screenModels[T::class.java]?.get()
+                ?: error(
+                    "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
+                        "declaration to your ScreenModel using @IntoMap and " +
+                        "@ScreenModelKey(${T::class.qualifiedName}::class)",
+                )
         model as T
     }
 }
@@ -43,19 +43,21 @@ public inline fun <reified T : ScreenModel> Screen.getScreenModel(
 @Composable
 public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Screen.getScreenModel(
     tag: String? = null,
-    noinline factory: (F) -> T
+    noinline factory: (F) -> T,
 ): T {
     val context = LocalContext.current
     return rememberScreenModel(tag) {
-        val screenFactories = EntryPointAccessors
-            .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
-            .screenModelFactories()
-        val screenFactory = screenFactories[F::class.java]?.get()
-            ?: error(
-                "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                    "declaration to your ScreenModelFactory using @IntoMap and " +
-                    "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
-            )
+        val screenFactories =
+            EntryPointAccessors
+                .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
+                .screenModelFactories()
+        val screenFactory =
+            screenFactories[F::class.java]?.get()
+                ?: error(
+                    "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
+                        "declaration to your ScreenModelFactory using @IntoMap and " +
+                        "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)",
+                )
         factory.invoke(screenFactory as F)
     }
 }
@@ -66,20 +68,20 @@ public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Scre
  * @return A new instance of [ScreenModel] or the same instance remembered by the composition
  */
 @Composable
-public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
-    tag: String? = null
-): T {
+public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(tag: String? = null): T {
     val context = LocalContext.current
     return rememberNavigatorScreenModel(tag) {
-        val screenModels = EntryPointAccessors
-            .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
-            .screenModels()
-        val model = screenModels[T::class.java]?.get()
-            ?: error(
-                "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                    "declaration to your ScreenModel using @IntoMap and " +
-                    "@ScreenModelKey(${T::class.qualifiedName}::class)"
-            )
+        val screenModels =
+            EntryPointAccessors
+                .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
+                .screenModels()
+        val model =
+            screenModels[T::class.java]?.get()
+                ?: error(
+                    "${T::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
+                        "declaration to your ScreenModel using @IntoMap and " +
+                        "@ScreenModelKey(${T::class.qualifiedName}::class)",
+                )
         model as T
     }
 }
@@ -94,19 +96,21 @@ public inline fun <reified T : ScreenModel> Navigator.getNavigatorScreenModel(
 @Composable
 public inline fun <reified T : ScreenModel, reified F : ScreenModelFactory> Navigator.getNavigatorScreenModel(
     tag: String? = null,
-    noinline factory: (F) -> T
+    noinline factory: (F) -> T,
 ): T {
     val context = LocalContext.current
     return rememberNavigatorScreenModel(tag) {
-        val screenFactories = EntryPointAccessors
-            .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
-            .screenModelFactories()
-        val screenFactory = screenFactories[F::class.java]?.get()
-            ?: error(
-                "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
-                    "declaration to your ScreenModelFactory using @IntoMap and " +
-                    "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)"
-            )
+        val screenFactories =
+            EntryPointAccessors
+                .fromActivity(context.componentActivity, ScreenModelEntryPoint::class.java)
+                .screenModelFactories()
+        val screenFactory =
+            screenFactories[F::class.java]?.get()
+                ?: error(
+                    "${F::class.java} not found in hilt graph.\nPlease, check if you have a Multibinding " +
+                        "declaration to your ScreenModelFactory using @IntoMap and " +
+                        "@ScreenModelFactoryKey(${F::class.qualifiedName}::class)",
+                )
         factory.invoke(screenFactory as F)
     }
 }

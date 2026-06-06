@@ -17,8 +17,8 @@ kotlin {
             api(projects.voyagerScreenmodel)
             api(projects.voyagerNavigator)
 
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
+            implementation(libs.androidxKmp.runtime)
+            implementation(libs.androidxKmp.runtime.saveable)
 
             implementation(libs.coroutines.core)
         }

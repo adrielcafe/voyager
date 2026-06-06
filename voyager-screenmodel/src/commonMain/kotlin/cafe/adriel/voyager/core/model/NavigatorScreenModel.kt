@@ -11,7 +11,7 @@ import cafe.adriel.voyager.navigator.lifecycle.NavigatorLifecycleStore
 @Composable
 public inline fun <reified T : ScreenModel> Navigator.rememberNavigatorScreenModel(
     tag: String? = null,
-    crossinline factory: @DisallowComposableCalls () -> T
+    crossinline factory: @DisallowComposableCalls () -> T,
 ): T {
     // register the navigator lifecycle listener if is not already registered
     remember(this) {

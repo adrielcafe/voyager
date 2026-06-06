@@ -15,7 +15,7 @@ public interface ScreenLifecycleContentProvider {
     @Composable
     public fun ProvideBeforeScreenContent(
         provideSaveableState: @Composable (suffixKey: String, content: @Composable () -> Unit) -> Unit,
-        content: @Composable () -> Unit
+        content: @Composable () -> Unit,
     ): Unit = content()
 }
 

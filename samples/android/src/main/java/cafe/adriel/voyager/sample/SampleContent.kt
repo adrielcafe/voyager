@@ -28,7 +28,7 @@ val sampleItems: List<String>
 fun LoadingContent() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         CircularProgressIndicator()
     }
@@ -41,7 +41,7 @@ fun ListContent(items: List<String>, onClick: ((Int) -> Unit)? = null) {
         itemsIndexed(items) { index, item ->
             ListItem(
                 text = { Text(text = item) },
-                modifier = if (onClick == null) Modifier else Modifier.clickable { onClick(index) }
+                modifier = if (onClick == null) Modifier else Modifier.clickable { onClick(index) },
             )
         }
     }
@@ -52,25 +52,25 @@ fun DetailsContent(instance: Any, item: String, onClick: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = item,
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.h5,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = instance.toString().substringAfterLast('.'),
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = onClick,
-            content = { Text(text = "Back") }
+            content = { Text(text = "Back") },
         )
     }
 }

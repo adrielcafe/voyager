@@ -53,14 +53,14 @@ public fun BottomSheetNavigator(
     animationSpec: AnimationSpec<Float> = ModalBottomSheetDefaults.AnimationSpec,
     key: String = compositionUniqueId(),
     sheetContent: BottomSheetNavigatorContent = { CurrentScreen() },
-    content: BottomSheetNavigatorContent
+    content: BottomSheetNavigatorContent,
 ) {
     var hideBottomSheet: (() -> Unit)? = null
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = skipHalfExpanded,
-        animationSpec = animationSpec
+        animationSpec = animationSpec,
     )
 
     LaunchedEffect(sheetState, sheetState.currentValue) {
@@ -92,7 +92,7 @@ public fun BottomSheetNavigator(
                 },
                 content = {
                     content(bottomSheetNavigator)
-                }
+                },
             )
         }
     }
@@ -102,9 +102,8 @@ public fun BottomSheetNavigator(
 public class BottomSheetNavigator @InternalVoyagerApi constructor(
     private val navigator: Navigator,
     private val sheetState: ModalBottomSheetState,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
 ) : Stack<Screen> by navigator {
-
     public val isVisible: Boolean
         get() = sheetState.isVisible
 
@@ -128,16 +127,12 @@ public class BottomSheetNavigator @InternalVoyagerApi constructor(
     }
 
     @Composable
-    public fun saveableState(
-        key: String,
-        content: @Composable () -> Unit
-    ) {
+    public fun saveableState(key: String, content: @Composable () -> Unit) {
         navigator.saveableState(key, content = content)
     }
 }
 
 private object HiddenBottomSheetScreen : Screen {
-
     @Composable
     override fun Content() {
         Spacer(modifier = Modifier.height(1.dp))

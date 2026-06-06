@@ -19,15 +19,16 @@ internal fun rememberNavigator(
     screens: List<Screen>,
     key: String,
     disposeBehavior: NavigatorDisposeBehavior,
-    parent: Navigator?
+    parent: Navigator?,
 ): Navigator {
     val stateHolder = LocalNavigatorStateHolder.current
     val navigatorSaver = LocalNavigatorSaver.current
-    val saver = remember(navigatorSaver, stateHolder, parent, disposeBehavior) {
-        navigatorSaver.saver(screens, key, stateHolder, disposeBehavior, parent)
-    }
+    val saver =
+        remember(navigatorSaver, stateHolder, parent, disposeBehavior, key) {
+            navigatorSaver.saver(screens, key, stateHolder, disposeBehavior, parent)
+        }
 
-    return rememberSaveable(saver = saver, key = key) {
+    return rememberSaveable(saver = saver) {
         Navigator(screens, key, stateHolder, disposeBehavior, parent)
     }
 }

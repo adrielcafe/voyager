@@ -50,7 +50,7 @@ class SampleActivity : ComponentActivity() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(24.dp)
+            contentPadding = PaddingValues(24.dp),
         ) {
             item {
                 StartSampleButton<StateStackActivity>("SnapshotStateStack")
@@ -78,7 +78,7 @@ class SampleActivity : ComponentActivity() {
 
         Button(
             onClick = { context.startActivity(Intent(this, T::class.java)) },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         ) {
             Text(text = text)
         }

@@ -4,9 +4,10 @@ import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 
 public actual class ThreadSafeMap<K, V>(
-    private val delegate: MutableMap<K, V>
+    private val delegate: MutableMap<K, V>,
 ) : MutableMap<K, V> {
     public actual constructor() : this(delegate = mutableMapOf())
+
     private val syncObject = SynchronizedObject()
 
     actual override val size: Int

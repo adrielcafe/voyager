@@ -1,23 +1,22 @@
 [versions]
-agp = "8.11.0"
-kotlin = "2.2.0"
+agp = "8.12.2"
+kotlin = "2.2.21"
 mavenPublish = "0.33.0"
-composeMultiplatform = "1.8.2"
-binaryCompatibilityValidator = "0.18.0"
+composeMultiplatform = "1.10.3"
+binaryCompatibilityValidator = "0.18.1"
 atomicfu = "0.29.0"
-ktlint = "0.47.1"
-ktlintPlugin = "12.3.0"
+ktlint = "1.0.1"
+ktlintPlugin = "13.0.0"
 
 coroutines = "1.10.2"
-kodein = "7.21.2"
-koin-compose = "4.1.0"
+kodein = "7.29.0"
+koin-compose = "4.1.1"
 hilt = "2.56.2"
-lifecycle = "2.9.1"
-activityCompose = "1.10.1"
-rxjava = "3.1.10"
+lifecycle = "2.10.0"
+activityCompose = "1.12.0"
+rxjava = "3.1.12"
 
-androidxKmp-bundle = "1.0.1"
-androidxKmp-lifecycle = "2.9.1"
+androidxKmp-lifecycle = "2.10.0"
 
 junit = "5.13.2"
 
@@ -41,10 +40,14 @@ androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
-androidxKmp-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "androidxKmp-bundle" }
+androidxKmp-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "composeMultiplatform" }
 androidxKmp-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxKmp-lifecycle" }
 androidxKmp-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidxKmp-lifecycle" }
 androidxKmp-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxKmp-lifecycle" }
+androidxKmp-material = { module = "org.jetbrains.compose.material:material", version.ref = "composeMultiplatform" }
+androidxKmp-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
+androidxKmp-runtime-saveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "composeMultiplatform" }
+androidxKmp-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }

@@ -15,33 +15,33 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 public val ScreenModel.screenModelScope: CoroutineScope
-    get() = ScreenModelStore.getOrPutDependency(
-        screenModel = this,
-        name = "ScreenModelCoroutineScope",
-        factory = { key -> CoroutineScope(SupervisorJob() + PlatformMainDispatcher + CoroutineName(key)) },
-        onDispose = { scope -> scope.cancel() }
-    )
+    get() =
+        ScreenModelStore.getOrPutDependency(
+            screenModel = this,
+            name = "ScreenModelCoroutineScope",
+            factory = { key -> CoroutineScope(SupervisorJob() + PlatformMainDispatcher + CoroutineName(key)) },
+            onDispose = { scope -> scope.cancel() },
+        )
 
 @Composable
 public inline fun <reified T : ScreenModel> Screen.rememberScreenModel(
     tag: String? = null,
-    crossinline factory: @DisallowComposableCalls () -> T
+    crossinline factory: @DisallowComposableCalls () -> T,
 ): T {
-    val screenModelStore = remember(this) {
-        ScreenLifecycleStore.get(this) { ScreenModelStore }
-    }
+    val screenModelStore =
+        remember(this) {
+            ScreenLifecycleStore.get(this) { ScreenModelStore }
+        }
     return remember(screenModelStore.getKey<T>(this, tag)) {
         screenModelStore.getOrPut(this, tag, factory)
     }
 }
 
 public interface ScreenModel {
-
     public fun onDispose() {}
 }
 
 public abstract class StateScreenModel<S>(initialState: S) : ScreenModel {
-
     protected val mutableState: MutableStateFlow<S> = MutableStateFlow(initialState)
     public val state: StateFlow<S> = mutableState.asStateFlow()
 }

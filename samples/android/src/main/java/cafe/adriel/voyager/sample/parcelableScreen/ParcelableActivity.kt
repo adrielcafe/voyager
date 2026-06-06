@@ -17,7 +17,7 @@ class ParcelableActivity : ComponentActivity() {
                 onBackPressed = { currentScreen ->
                     Log.d("Navigator", "Pop screen #${(currentScreen as SampleParcelableScreen).parcelable.index}")
                     true
-                }
+                },
             )
         }
     }

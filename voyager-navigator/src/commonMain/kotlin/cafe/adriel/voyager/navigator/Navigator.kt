@@ -3,13 +3,14 @@ package cafe.adriel.voyager.navigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.currentCompositeKeyHash
+import androidx.compose.runtime.currentCompositeKeyHashCode
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.toString
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
@@ -55,14 +56,14 @@ public fun Navigator(
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     key: String = compositionUniqueId(),
-    content: NavigatorContent = { CurrentScreen() }
+    content: NavigatorContent = { CurrentScreen() },
 ) {
     Navigator(
         screens = listOf(screen),
         disposeBehavior = disposeBehavior,
         onBackPressed = onBackPressed,
         key = key,
-        content = content
+        content = content,
     )
 }
 
@@ -72,13 +73,13 @@ public fun Navigator(
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
     onBackPressed: OnBackPressed = { true },
     key: String = compositionUniqueId(),
-    content: NavigatorContent = { CurrentScreen() }
+    content: NavigatorContent = { CurrentScreen() },
 ) {
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
     require(key.isNotEmpty()) { "Navigator key can't be empty" }
 
     CompositionLocalProvider(
-        LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
+        LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder(),
     ) {
         val navigator = rememberNavigator(screens, key, disposeBehavior, LocalNavigator.current)
 
@@ -87,7 +88,7 @@ public fun Navigator(
         }
 
         CompositionLocalProvider(
-            LocalNavigator provides navigator
+            LocalNavigator provides navigator,
         ) {
             if (disposeBehavior.disposeSteps) {
                 StepDisposableEffect(navigator)
@@ -107,9 +108,8 @@ public class Navigator @InternalVoyagerApi constructor(
     @InternalVoyagerApi public val key: String,
     private val stateHolder: SaveableStateHolder,
     public val disposeBehavior: NavigatorDisposeBehavior,
-    public val parent: Navigator? = null
+    public val parent: Navigator? = null,
 ) : Stack<Screen> by screens.toMutableStateStack(minSize = 1) {
-
     public val level: Int =
         parent?.level?.inc() ?: 0
 
@@ -122,11 +122,7 @@ public class Navigator @InternalVoyagerApi constructor(
     internal val children = ThreadSafeMap<NavigatorKey, Navigator>()
 
     @Composable
-    public fun saveableState(
-        key: String,
-        screen: Screen = lastItem,
-        content: @Composable () -> Unit
-    ) {
+    public fun saveableState(key: String, screen: Screen = lastItem, content: @Composable () -> Unit) {
         val stateKey = "${screen.key}:$key"
         stateKeys += stateKey
 
@@ -140,15 +136,16 @@ public class Navigator @InternalVoyagerApi constructor(
         val lifecycleOwner = rememberScreenLifecycleOwner(screen)
         val navigatorScreenLifecycleOwners = getNavigatorScreenLifecycleProvider(screen)
 
-        val composed = remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
-            listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
-        }
+        val composed =
+            remember(lifecycleOwner, navigatorScreenLifecycleOwners) {
+                listOf(lifecycleOwner) + navigatorScreenLifecycleOwners
+            }
         MultipleProvideBeforeScreenContent(
             screenLifecycleContentProviders = composed,
             provideSaveableState = { suffix, content -> provideSaveableState(suffix, content) },
             content = {
                 stateHolder.SaveableStateProvider(stateKey, content)
-            }
+            },
         )
     }
 
@@ -165,9 +162,7 @@ public class Navigator @InternalVoyagerApi constructor(
     }
 
     @InternalVoyagerApi
-    public fun dispose(
-        screen: Screen
-    ) {
+    public fun dispose(screen: Screen) {
         ScreenLifecycleStore.remove(screen)
         stateKeys
             .toSet() // Copy
@@ -182,11 +177,11 @@ public class Navigator @InternalVoyagerApi constructor(
 
 public data class NavigatorDisposeBehavior(
     val disposeNestedNavigators: Boolean = true,
-    val disposeSteps: Boolean = true
+    val disposeSteps: Boolean = true,
 )
 
 @InternalVoyagerApi
 @Composable
-public fun compositionUniqueId(): String = currentCompositeKeyHash.toString(MaxSupportedRadix)
+public fun compositionUniqueId(): String = currentCompositeKeyHashCode.toString(MAX_SUPPORTED_RADIX)
 
-private val MaxSupportedRadix = 36
+private const val MAX_SUPPORTED_RADIX = 36

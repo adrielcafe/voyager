@@ -11,9 +11,7 @@ private val disposableEvents: Set<StackEvent> =
     setOf(StackEvent.Pop, StackEvent.Replace)
 
 @Composable
-internal fun NavigatorDisposableEffect(
-    navigator: Navigator
-) {
+internal fun NavigatorDisposableEffect(navigator: Navigator) {
     DisposableEffectIgnoringConfiguration(navigator) {
         onDispose {
             disposeNavigator(navigator)
@@ -22,9 +20,7 @@ internal fun NavigatorDisposableEffect(
 }
 
 @Composable
-internal fun StepDisposableEffect(
-    navigator: Navigator
-) {
+internal fun StepDisposableEffect(navigator: Navigator) {
     val currentScreens = navigator.items
 
     DisposableEffect(currentScreens) {
@@ -41,9 +37,7 @@ internal fun StepDisposableEffect(
 }
 
 @Composable
-internal fun ChildrenNavigationDisposableEffect(
-    navigator: Navigator
-) {
+internal fun ChildrenNavigationDisposableEffect(navigator: Navigator) {
     // disposing children navigators
     DisposableEffectIgnoringConfiguration(navigator) {
         onDispose {

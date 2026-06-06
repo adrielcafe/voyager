@@ -21,33 +21,36 @@ public fun Navigator.rememberNavigatorViewModelStoreOwner(): ViewModelStoreOwner
 @ExperimentalVoyagerApi
 @Composable
 public inline fun <reified VM : ViewModel> navigatorViewModel(
-    viewModelStoreOwner: ViewModelStoreOwner = LocalNavigator.currentOrThrow
-        .rememberNavigatorViewModelStoreOwner(),
+    viewModelStoreOwner: ViewModelStoreOwner =
+        LocalNavigator.currentOrThrow
+            .rememberNavigatorViewModelStoreOwner(),
     key: String? = null,
-    noinline initializer: CreationExtras.() -> VM
+    noinline initializer: CreationExtras.() -> VM,
 ): VM {
     return viewModel(
         viewModelStoreOwner = viewModelStoreOwner,
         key = key,
-        initializer = initializer
+        initializer = initializer,
     )
 }
 
 @ExperimentalVoyagerApi
 @Composable
 public inline fun <reified VM : ViewModel> navigatorViewModel(
-    viewModelStoreOwner: ViewModelStoreOwner = LocalNavigator.currentOrThrow
-        .rememberNavigatorViewModelStoreOwner(),
+    viewModelStoreOwner: ViewModelStoreOwner =
+        LocalNavigator.currentOrThrow
+            .rememberNavigatorViewModelStoreOwner(),
     key: String? = null,
     factory: ViewModelProvider.Factory? = null,
-    extras: CreationExtras = if (viewModelStoreOwner is HasDefaultViewModelProviderFactory) {
-        viewModelStoreOwner.defaultViewModelCreationExtras
-    } else {
-        CreationExtras.Empty
-    }
+    extras: CreationExtras =
+        if (viewModelStoreOwner is HasDefaultViewModelProviderFactory) {
+            viewModelStoreOwner.defaultViewModelCreationExtras
+        } else {
+            CreationExtras.Empty
+        },
 ): VM = viewModel(
     viewModelStoreOwner = viewModelStoreOwner,
     key = key,
     factory = factory,
-    extras = extras
+    extras = extras,
 )

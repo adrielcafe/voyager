@@ -8,6 +8,7 @@ import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.atomicfu.locks.SynchronizedObject
 import org.kodein.di.bindings.Scope
 import org.kodein.di.bindings.ScopeRegistry
 import org.kodein.di.bindings.StandardScopeRegistry
@@ -23,7 +24,7 @@ public fun rememberScreenContext(): ScreenContext {
 
 @ExperimentalVoyagerApi
 public class ScreenContext(
-    public val screen: Screen
+    public val screen: Screen,
 ) {
     internal var disposeCallback: () -> Unit = {}
 
@@ -35,23 +36,22 @@ public class ScreenContext(
 
     override fun hashCode(): Int = screen.key.hashCode()
 
-    override fun equals(other: Any?): Boolean =
-        (other as? Screen?)?.key == screen.key
+    override fun equals(other: Any?): Boolean = (other as? Screen?)?.key == screen.key
 }
 
 @ExperimentalVoyagerApi
 public open class ScreenLifecycleScope private constructor(
-    private val newRegistry: () -> ScopeRegistry
+    private val newRegistry: () -> ScopeRegistry,
 ) : Scope<ScreenContext> {
-
     @ExperimentalVoyagerApi
-    public companion object multiItem : ScreenLifecycleScope(::StandardScopeRegistry)
+    public companion object MultiItem : ScreenLifecycleScope(::StandardScopeRegistry)
 
+    private val lock = SynchronizedObject()
     private val map = HashMap<ScreenContext, ScopeRegistry>()
 
     override fun getRegistry(context: ScreenContext): ScopeRegistry {
         return synchronizedIfNull(
-            lock = map,
+            lock = lock,
             predicate = { map[context] },
             ifNotNull = { it },
             ifNull = {
@@ -63,13 +63,13 @@ public open class ScreenLifecycleScope private constructor(
                 }
                 context.onRegistryScope()
                 registry
-            }
+            },
         )
     }
 }
 
 private class ScreenScopeLifecycleOwner(
-    val onDispose: () -> Unit
+    val onDispose: () -> Unit,
 ) : ScreenLifecycleOwner {
     override fun onDispose(screen: Screen) {
         onDispose()
