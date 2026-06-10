@@ -21,7 +21,7 @@ class HomeScreen : Screen {
 
     @Composable
     override fun Content() {
-        val screenModel = getViewModel<HomeScreenModel>()
+        val viewModel = getViewModel<HomeViewModel>()
         // ...
     }
 }
@@ -29,7 +29,35 @@ class HomeScreen : Screen {
 
 ### @AssistedInject
 
-Currently there's no Assisted Injection support for Hilt ViewModels ([issue](https://github.com/google/dagger/issues/2287)).
+Add `@HiltViewModel` with the `assistedFactory` parameter, and `@AssistedInject` annotations to your `ViewModel`.
+
+```kotlin
+@HiltViewModel(assistedFactory = HomeViewModel.Factory::class)
+class HomeViewModel @AssistedInject constructor(
+    @Assisted val itemId: Long
+): ViewModel() {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(itemId: Long): HomeViewModel
+    }
+}
+```
+
+Call `getViewModel()` with the `viewModelFactory` parameter to pass the assisted parameter and get a new instance.
+
+```kotlin
+class HomeScreen(private val itemId: Long) : Screen {
+
+    @Composable
+    override fun Content() {
+        val viewModel = getViewModel<HomeViewModel> { vm: HomeViewModel.Factory ->
+            vm.create(itemId)
+        }
+        // ...
+    }
+}
+```
 
 ### Sample
 
