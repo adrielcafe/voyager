@@ -28,6 +28,8 @@ public interface Stack<Item> {
 
     public infix fun replace(item: Item)
 
+    public infix fun replace(items: List<Item>)
+
     public infix fun replaceAll(item: Item)
 
     public infix fun replaceAll(items: List<Item>)

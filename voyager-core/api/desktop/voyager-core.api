@@ -202,6 +202,7 @@ public final class cafe/adriel/voyager/core/stack/SnapshotStateStack : cafe/adri
 	public fun push (Ljava/lang/Object;)V
 	public fun push (Ljava/util/List;)V
 	public fun replace (Ljava/lang/Object;)V
+	public fun replace (Ljava/util/List;)V
 	public fun replaceAll (Ljava/lang/Object;)V
 	public fun replaceAll (Ljava/util/List;)V
 }
@@ -231,6 +232,7 @@ public abstract interface class cafe/adriel/voyager/core/stack/Stack {
 	public abstract fun push (Ljava/lang/Object;)V
 	public abstract fun push (Ljava/util/List;)V
 	public abstract fun replace (Ljava/lang/Object;)V
+	public abstract fun replace (Ljava/util/List;)V
 	public abstract fun replaceAll (Ljava/lang/Object;)V
 	public abstract fun replaceAll (Ljava/util/List;)V
 }
